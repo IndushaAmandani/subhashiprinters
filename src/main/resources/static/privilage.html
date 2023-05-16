@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BIT Project 2022 : Privilage Management</title>
+
+  <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+
+  <script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="resources/fontawesome/css/all.css">
+
+  <script src="resources/jquery/jquery.js"></script>
+
+  <link rel="stylesheet" href="resources/datatable/css/datatables.min.css">
+
+  <script src="resources/datatable/js/datatables.min.js"></script>
+
+  <script src="resources/script/common.js"></script>
+
+  <script src="p"> </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">BIT PROJECT</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/dashboard">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Administration
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/employee">Employee</a></li>
+            <li><a class="dropdown-item" href="/user">User</a></li>
+            <li><a class="dropdown-item" href="/privilage">Privilage</a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success rounded-circle">
+          <a href="#" onclick="logoutMC()">
+            <i class="fas fa-power-off fa-2x"></i>
+          </a>
+
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-10">
+      <div class="card">
+        <div class="card-header bg-info text-center">
+          <h2>Privilage Management</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="row mt-2">
+            <div class="col-3 text-start">
+              <button class="btn bg-primary fw-bold"> Print Table </button>
+            </div>
+            <div class="col-6"></div>
+
+            <div class="col-3 text-end">
+              <button class="btn bg-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalEmployeeForm"> Add New Employee </button>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-12">
+
+              <table class="table table-hover table-bordered" id="tablePrivilage">
+                <thead class="table-dark">
+                <tr>
+                  <th> # </th>
+                  <th> Callingname (Number) </th>
+                  <th> Fullname </th>
+                  <th> NIC </th>
+                  <th> Mobile </th>
+                  <th> Email </th>
+                  <th> Status </th>
+                  <th> Modify </th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>
+
+
+</body>
+</html>

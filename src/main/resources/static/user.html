@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BIT PROJECT 2022 : User Management </title>
+
+    <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
+
+    <script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="resources/fontawesome/css/all.css">
+
+    <script src="resources/jquery/jquery.js"></script>
+
+    <link rel="stylesheet" href="resources/datatable/css/datatables.min.css">
+
+    <script src="resources/datatable/js/datatables.min.js"></script>
+
+    <script src="resources/script/common.js"></script>
+
+    <script src="user.js"></script>
+
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">BIT PROJECT</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/dashboard">Home</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Administration
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/employee">Employee</a></li>
+                        <li><a class="dropdown-item" href="/user">User</a></li>
+                        <li><a class="dropdown-item" href="/privilage">Privilage</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="container-fluid m-3">
+        <div class="card">
+
+            <div class="card-header text-center" style="background-color: #66e4ff">
+                <i class="fas fa-user fa-2x"></i> <h2> User Management </h2>
+            </div>
+
+            <div class="card-body" style="background-color: #20c997">
+
+                <div class="row mt-2">  </div>
+
+                <div class="row mt-2">
+
+                    <div class="col-5">
+
+                        <form onsubmit="return false">
+                            <!-- Required mark -->
+                            <div class="row mt-2">
+                                <span class="fw-bold"> Required <span class="text-danger">*</span></span>
+                            </div>
+
+                            <!-- Employee -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Employee :
+                                            <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <select id="selectEmployee" class="form-select" required
+                                    onchange="selectValidator(selectEmployee,'','user','employee_id','olduser'); selectEmployeeCH()"></select>
+                                </div>
+                            </div>
+
+                            <!-- User Name -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> User Name :
+                                    <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <input type="text" id="textUserName" placeholder="Enter Username" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Password :
+                                    <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <input type="password" id="textPassword" placeholder="Enter Password" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Re-Type Password -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Re-Type Password :
+                                    <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <input type="password" id="textReTypePassword" placeholder="Enter Re-Type Password" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Email :
+                                    <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <input type="email" id="textEmail" placeholder="Enter Email" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Description : </label>
+                                <div class="col-8">
+                                    <textarea id="textDescription" placeholder="Enter Description" class="form-control" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Roles -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Roles : </label>
+                                <div class="col-8">
+                                </div>
+
+                                <div class="col-4"></div>
+                                <div class="col-8" id="divRoles">
+
+                                </div>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="row mt-2">
+                                <label class="form-label fw-bold col-4"> Status :
+                                    <span class="text-danger"> * </span></label>
+                                <div class="col-8">
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="chkUserStatus" required checked>
+                                        <label class="form-check-label fw-bold" id="lblUserStatus"> User Account is Active</label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Buttons -->
+                            <div class="row mt-2">
+                                <div class="col-12 text-end">
+                                    <button class="btn btn-info fw-bold" style="width: 25%; border-radius: 25px"
+                                    onclick="refreshForm()"> Clear </button>
+                                    <button class="btn btn-warning fw-bold ms-2 me-2" style="width: 25%; border-radius: 25px"> Update </button>
+                                    <button class="btn btn-success fw-bold" style="width: 25%; border-radius: 25px"
+                                    onclick="buttonSubmitMC()"> Submit </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div class="col-7">
+
+                        <table class="table table-bordered table-striped table-hover" id="tableUser">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th> # </th>
+                                    <th> Employee </th>
+                                    <th> Username </th>
+                                    <th> Roles </th>
+                                    <th> Email </th>
+                                    <th> Status </th>
+                                    <th> Modify </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer" id="err">
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
