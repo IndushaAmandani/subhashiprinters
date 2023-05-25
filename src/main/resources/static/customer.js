@@ -377,7 +377,7 @@ const rowDelete = (ob,rowno) => {
     let deleteMsg = "Are you sure to delete following customer..? \n"
                 
                     + "\n Customer Name : " + ob.customer_name 
-                    + "\n Customer number : " + ob.number;
+                    + "\n Customer number : " + ob.mobile;
                     
 
     let deleteUserResponce = window.confirm(deleteMsg);
@@ -401,7 +401,7 @@ const rowDelete = (ob,rowno) => {
         if(deleteServerResponce == "0"){
 
             alert("Delete Successfull..!");
-            refreshTable();
+            refreshCustomerTable();
         }else {
             window.alert("You have following error \n" + deleteServerResponce);
         }

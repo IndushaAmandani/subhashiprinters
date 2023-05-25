@@ -4,6 +4,7 @@ import lk.subhashiprinters.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -25,7 +26,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findAll();
 
 
-    // query for get employee whithout having user account
+    // query for get employee list  whithout having user account
+    //select e from Employee ---> gives objects so use constructor                                                      u.employee_id ---> employee object 
     @Query(value = "select new Employee(e.id, e.calling_name, e.number, e.email) from Employee e where e.id not in(select u.employee_id.id from User u where u.employee_id is NOT NUll)")
-    List<Employee> getEmployeeByWithoutUserAccount();
+    List<Employee> getEmployeeListWithoutUserAccount();
+    
 }

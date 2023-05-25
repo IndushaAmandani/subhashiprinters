@@ -38,10 +38,10 @@ public class EmployeeController {
         return employeeui;
     }
 
-
+     //request mapping for get employee without user account
     @GetMapping(value = "/listwithoutuseraccount" , produces = "application/json")
     public List<Employee> employeeListWithoutUser(){
-        return employeeDao.getEmployeeByWithoutUserAccount();
+        return employeeDao.getEmployeeListWithoutUserAccount();
     }
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]

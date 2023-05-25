@@ -25,6 +25,10 @@ public class CustomerStatus {
     @Column(name = "name")
     private String name;
 
+    public CustomerStatus getReferenceById(int i) {
+        return null;
+    }
+
 
     
     

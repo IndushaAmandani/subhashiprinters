@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import lk.subhashiprinters.entity.Customer;
+
 import lk.subhashiprinters.entity.Material;
 import lk.subhashiprinters.repository.MaterialCategoryRepository;
 import lk.subhashiprinters.repository.MaterialStatusRepository;

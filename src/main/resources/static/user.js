@@ -100,8 +100,8 @@ const  refreshForm = () => {
     }
 
     // fill data into employee select element
-    employeeswithoutUserAccount = getServiceRequest("/employee/listwithoutuseraccount")
-    fillSelectFeild(selectEmployee,"Select Employee..." , employeeswithoutUserAccount , "calling_name","")
+    employeesListwithoutUserAccount = getServiceRequest("/employee/listwithoutuseraccount")
+    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","")
 
     // emplty text feild
     textUserName.value = "";
@@ -115,7 +115,7 @@ const  refreshForm = () => {
     lblUserStatus.innerText = "User Account is Active";
 
 
-
+    
 }
 
 function buttonSubmitMC() {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import lk.subhashiprinters.entity.Customer;
+import lk.subhashiprinters.entity.CustomerStatus;
 import lk.subhashiprinters.repository.CustomerRepository;
+import lk.subhashiprinters.repository.CustomerStatusRepository;
 import lk.subhashiprinters.repository.CustomerTypeRepository;
 import lk.subhashiprinters.repository.UserRepository;
 
@@ -34,6 +37,9 @@ public class CustomerController {
     
     @Autowired//link required repository 
     private CustomerTypeRepository customerTypeDao;
+
+    @Autowired
+    private CustomerStatusRepository customerStatusDao;
 /*-----------------------------------------------
     
     define findall data services
@@ -134,11 +140,33 @@ public class CustomerController {
 
     @DeleteMapping
 public String deleteCustomer(@RequestBody Customer customer){
-    System.out.println(customer.getCustomer_name());
-    System.out.println(customer.getMobile());
-    return "0";
+    
+   Customer insCustomer  =  customerDao.getReferenceById(customer.getId());
+   if(insCustomer != null){
+
+    try{
+        //now() is a  static type so have to call with class 
+        insCustomer.setDelete_date(LocalDateTime.now());
+        //getting the whole instance by getReference
+        insCustomer.setCustomerstatus_id(customerStatusDao.getReferenceById(2));
+        customerDao.save(insCustomer);
+        return "0";
+    }catch(Exception ex){
+        return "";
+
+    }
+
+   }else{
+        return "Delete Not Complete :   Customer doesn't exist" ;
+   }
+   
 }
 
+    @PutMapping
+    public String updateCustomer(@RequestBody Customer customer){
+       // customerDao.getReferenceById(customer.getId());
+        return "0";
+    }
 
 }
 
