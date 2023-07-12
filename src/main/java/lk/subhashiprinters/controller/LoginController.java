@@ -21,17 +21,13 @@ public class LoginController {
     @Autowired
     private UserRepository userDao;
 
-
-
     @Autowired
     private PrivilageController privilageController;
 
 
-    @GetMapping(value = {"/login","/error"})
+    @GetMapping(value = "/login")
     public ModelAndView loginUI(){
 
-
-        
         ModelAndView loginui = new ModelAndView();
         loginui.setViewName("login.html");
 

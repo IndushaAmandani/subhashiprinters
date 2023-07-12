@@ -1,13 +1,9 @@
 package lk.subhashiprinters.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,16 +14,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ProductSize {
+public class ProductSize implements Serializable {
     @Id //primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)//as it's auto incremeted
-    
+
     @Column(name = "id")
-    private Integer id ;
+    private Integer id;
     @Column(name = "name")
-    private String name ;
-     @Column(name = "width")
-      private BigDecimal width; 
-     @Column(name = "height")
-     private  BigDecimal height;
+    private String name;
+    @Column(name = "width")
+    private BigDecimal width;
+    @Column(name = "height")
+    private BigDecimal height;
+
+    @ManyToOne
+    @JoinColumn(name = "product_category_id", referencedColumnName = "id")
+    private ProductCategory product_category_id;
+
+
+    //constructor function
+    public ProductSize(Integer id,String name) {
+    this.id= id;
+    this.name = name;
+
+    }
 }

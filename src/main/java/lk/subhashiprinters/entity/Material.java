@@ -17,9 +17,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "material")
-@Data
+@Entity// convert class into persistenet entity
+@Table(name = "material") // Mapping table name
+@Data// for create setter and getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Material {
@@ -58,7 +58,7 @@ private User update_user_id;
 
 @ManyToOne
 @JoinColumn(name ="material_category_id",referencedColumnName = "id")
-private MaterialCategory material_catedory_id;
+private MaterialCategory material_category_id;
 
 @ManyToOne
 @JoinColumn(name ="material_status_id",referencedColumnName = "id" )
@@ -66,16 +66,22 @@ private MaterialStatus material_status_id ;
 
 @ManyToOne
 @JoinColumn(name ="materal_unit_type_id",referencedColumnName = "id")
-private MaterialUnitType materal_unit_type_id ; 
+private MaterialUnitType materal_unit_type_id ;
 
 
+    public  Material(Integer id,String name,String code,BigDecimal measuring_count) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.measuring_count = measuring_count;
+    }
 
-public  Material(Integer id,String name,String code,BigDecimal measuring_count, MaterialCategory material_catedory_id,MaterialStatus material_status_id,MaterialUnitType materal_unit_type_id){
+public  Material(Integer id, String name, String code, BigDecimal measuring_count, MaterialCategory material_category_id, MaterialUnitType materal_unit_type_id, MaterialStatus material_status_id){
     this.id = id;
-    this.code = code;
     this.name = name;
+    this.code = code;
     this.measuring_count = measuring_count;
-    this.material_catedory_id = material_catedory_id;
+    this.material_category_id = material_category_id;
     this.materal_unit_type_id = materal_unit_type_id;
     this.material_status_id = material_status_id;
 

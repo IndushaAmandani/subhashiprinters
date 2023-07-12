@@ -2,6 +2,7 @@ package lk.subhashiprinters.repository;
 
 import java.util.List;
 
+import lk.subhashiprinters.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,6 +24,16 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
     
         @Query(value = "SELECT lpad(max(c.customercode)+1,5,'0') FROM subhashiprinters.customer as c;" ,nativeQuery = true)
         String nextCustomerNumber();
-    
+
+        @Query("select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1")
+       List<Customer> listAll();
+
+        @Query(value = "select new Customer(count(c.id)) from Customer c  where  c.customerstatus_id.id=1")
+    Customer activeCustomerCount();
+
+    //get mapping service for get customer by given Query param id [ /employee/getbyid?id=1]
+        @Query(value = "select c from Customer c where c.id=?1")
+        Customer getReferenceById(Integer id);
+
 }
  

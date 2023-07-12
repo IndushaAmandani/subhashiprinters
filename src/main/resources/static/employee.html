@@ -243,7 +243,7 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th> # </th>
-                                    <th> Callingname (Number) </th>
+                                    <th> Callingname </th>
                                     <th> Fullname </th>
                                     <th> NIC </th>
                                     <th> Mobile </th>
@@ -321,7 +321,10 @@
                                     style="color: red;">*</span></label>
                             <input type="text" id="txtFullname" class="form-control" required
                                    onkeyup="textFeildValidtor(txtFullname,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','employee','fullname','oldemployee')"
-                                   placeholder="Enter Fullname">
+                                   placeholder="Enter Fullname" required data-bs-toggle="tooltip" data-bs-placement="bottom">
+                            <div class="valid-tooltip">
+                                Looks good!
+                            </div>
                         </div>
                     </div>
 

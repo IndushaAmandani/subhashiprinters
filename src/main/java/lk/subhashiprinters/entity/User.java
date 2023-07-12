@@ -59,7 +59,7 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-
+//Repository query
   public User(Integer id, String username, Employee employee_id, String email, Boolean status){
       this.id = id;
       this.username = username;
@@ -68,4 +68,5 @@ public class User {
       this.status = status;
   }
 
+  
 }

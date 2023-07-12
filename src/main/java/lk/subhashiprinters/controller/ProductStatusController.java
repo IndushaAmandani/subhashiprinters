@@ -16,11 +16,12 @@ import lk.subhashiprinters.repository.ProductStatusRepository;
 public class ProductStatusController {
     
     @Autowired //connecting to repo [interface]
-    private ProductStatusRepository productStatusDao;
+    private ProductStatusRepository productStatusDao;//as this is interface no constructor so ,have to make instance by somehow we use autowired
 
     //List returning list of status from repo
-    @GetMapping(value = "list",produces= "application/json")
+    @GetMapping(value = "/list",produces= "application/json")
     public List<ProductStatus> productStatusList(){
         return productStatusDao.findAll();
     }
+
 }

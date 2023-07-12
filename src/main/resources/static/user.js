@@ -49,11 +49,24 @@ function getUserStatus(ob){
     return userstatus;
 }
 
-function selectEmployeeCH() {
+//Check this out
+// function selectEmployeeCH() {
+//     if(JSON.parse(selectEmployee.value).email == null){
+//         textEmail.value = disabled;
+//     }else{
+//     getElementById("textEmail").placeholder = "Auto genereated";
+//     user.email = JSON.parse(selectEmployee.value).email;
+//     textEmail.style.borderbottom= "2px solid green";
+//     }
+    
+    
+// }
+
+function selectEmployeeCH(){
 
     textEmail.value = JSON.parse(selectEmployee.value).email;
-    user.email = textEmail.value;
-    textEmail.style.border = "2px solid green";
+    textEmail.style.borderbottom= "2px solid green";
+    textFeildValidtor(textEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','user','email','olduser');
 }
 
 const  refreshForm = () => {
@@ -88,10 +101,19 @@ const  refreshForm = () => {
 
         }
 
+        // divroles = document.createElement('div');
+        //  inputCheckbox = document.createElement('input');
+        // inputLabel = document.createElement('label'); 
+        // divRoles.appendchild(divroles);
+        // divRoles.appendchild(inputCheckbox);
+        // divRoles.appendchild(inputLabel);
+        // inputLabel.innerHTML = "Manager" ;
+
         let chkLabel = document.createElement('label');
         chkLabel.innerText = roleList[index]['name'];
         chkLabel.classList.add("form-check-label");
-        chkLabel.classList.add("fw-bold");
+        chkLabel.classList.add("font-weight-bold");
+        //margin start
         chkLabel.classList.add("ms-2");
 
         rolediv.appendChild(checkBox);
@@ -103,7 +125,7 @@ const  refreshForm = () => {
     employeesListwithoutUserAccount = getServiceRequest("/employee/listwithoutuseraccount")
     fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","")
 
-    // emplty text feild
+    // empty text feild
     textUserName.value = "";
     textPassword.value = "";
     textReTypePassword.value = "";
@@ -113,25 +135,92 @@ const  refreshForm = () => {
     user.status = true;
     chkUserStatus.checked = true;
     lblUserStatus.innerText = "User Account is Active";
-
-
-    
+ 
 }
 
 function buttonSubmitMC() {
-    console.log(user)
+    console.log("Add user")
+    //need to check form errors
+    let errors = checkErrors();
+
+    if(errors == ""){
+        let submitConfirmMsg = "Are you sure to add following ... " +
+            "\n User Name : " + user.username ;
+        let userResponce = window.confirm(submitConfirmMsg);
+   
+    
+    //getting resonce
+    if(userResponce){
+        let postServieResponce ;
+        $.ajax("/user", {
+            async : false,
+            type : "POST", // method delete
+            data: JSON.stringify(user) , // object
+            contentType:"application/json",
+            success: function (susResdata , susStatus , ajresob) {
+                postServieResponce = susResdata;
+            },
+            error: function (errRsOb , errStatus, errorMsg) {
+                postServieResponce = errorMsg;
+            }
+        });
+
+        if(postServieResponce == "0"){
+
+            alert("Add Successfull..!");
+            refreshTable();
+            refreshForm();
+            $('#modalUserForm').modal('hide');
+        }else {
+            window.alert("You have following error \n" + postServieResponce);
+        }
+
+
+    }
+
+    
+}else {
+
+    alert("Form have following errors \n" + errors);
+}
 }
 
-const formRefill = (ob) => {
-    user = getServiceRequest("user/getbyid/" + ob.id);
+const formRefill = (ob,rowno) => {
+
+ //   user = getServiceRequest("user/getbyid/" + ob.id);
+ employee = new Object();
+ olduser = new Object();
+
+ $.ajax('user/getbyid/'+ob.id,{
+     async: false,
+     dataType:'json',
+     //responce obj -xhr
+     success: function (data,status, xhr){
+         user = data;
+     },
+     error: function (rxhrdata,errorstatus,errorMessge){
+        user = {};
+     }
+ })
+
+ $.ajax('user/getbyid?id='+ob.id,{
+     async: false,
+     dataType:'json',
+     success: function (data,status, xhr){
+        olduser = data;
+     },
+     error: function (rxhrdata,errorstatus,errorMessge){
+        olduser  = {};
+     }
+ })
 }
 
 function checkUpdate(){
     let updates = "";
 
     if(user != null && olduser != null){
-        updates = updates + "User name is Changed..\n";
-}
+        updates = updates + "User name is Changed..\n" + olduser.name;
+    }
     if(user.roles.length != olduser.roles.length){
         updates = updates + "User roles are Changed..\n";
     }else{
@@ -150,5 +239,130 @@ function checkUpdate(){
         }
     }
 }
-const deleteRow = () => {}
+const deleteRow = (ob) => {
+
+    let deleteMsg = "Are you sure to delete following User..? \n"
+                    + "Employee number : " + ob.employee_id.number
+                    + "\n User name : " + ob.username;
+
+    let deleteUserResponce = window.confirm(deleteMsg);
+
+    if(deleteUserResponce){
+        let deleteServerResponce;
+
+        $.ajax("/user", {
+            async : false,
+            type : "DELETE", // method delete
+            data: JSON.stringify(ob) , // object
+            contentType:"application/json",
+            success: function (susResdata , susStatus , ajresob) {
+                deleteServerResponce = susResdata;
+            },
+            error: function (errRsOb , errStatus, errorMsg) {
+                deleteServerResponce = errorMsg;
+            }
+        });
+
+        if(deleteServerResponce == "0"){
+            alert("Delete Successfull..!");
+            refreshTable();
+        }else {
+            window.alert("You have following error \n" + deleteServerResponce);
+        }
+    }
+}
 const viewRow = () => {}
+
+const checkErrors = () => {
+
+    let errors = "";
+
+    if(user.employee_id == null){
+        errors = errors + "Employee not selected.. \n";
+    }
+
+    if(user.username == null){
+        errors = errors + "User name is not entered.. \n";
+    }
+    
+    if(user.password == null){
+        errors = errors + "User password is not entered.. \n";
+    }
+
+    if(textReTypePassword.value == ""){
+        errors = errors + "Password Re-type is not entered.. \n";
+    }
+    
+    if(textReTypePassword.value != textPassword.value){
+        errors = errors + "Password Re-type not Matched.. \n";
+    }
+    if(user.email == null){  
+        errors = errors + "User email is not entered.. \n";
+    }
+    if(user.status == null){
+        errors = errors + "Status not selected.. \n";
+    }
+
+    return errors;
+}
+
+function textReTypePasswordValidator(){
+
+    if(textReTypePassword.value == textPassword.value){
+        textReTypePassword.style.borderBottom = "2px solid green";
+    }else{
+        textReTypePassword.style.borderBottom = "2px solid red";
+    }
+}
+
+function buttonUpdateMC() {
+    //
+    let errors = chechErrors();
+    if (errors == "") {
+        //
+        let updates = checkUpdate();
+        if (updates == "") {
+
+            window.alert("Nothing updated...! \n ");
+        } else {
+
+            let updateResponce = window.confirm("Are you sure to update following User..? \n" + updates);
+
+            if (updateResponce) {
+                let putResponce ;
+
+                $.ajax("/user", {
+                    async : false,
+                    type : "PUT", // method delete
+                    data: JSON.stringify(user) , // object
+                    contentType:"application/json",
+                    success: function (susResdata , susStatus , ajresob) {
+                        putResponce = susResdata;
+                    },
+                    error: function (errRsOb , errStatus, errorMsg) {
+                        putResponce = errorMsg;
+                    }
+                });
+
+
+                if (putResponce == "0") {
+                    window.alert("Update Successfully...!");
+                    refreshTable();
+                    refreshForm();
+                    $('#modalUserForm').modal("hide");
+
+
+                } else {
+                    //
+                    window.alert("Fail to update ...! \n " + putResponce);
+                }
+
+            }
+        }
+    } else {
+
+        window.alert("You have following error in your form...! \n " + errors);
+    }
+
+}
+

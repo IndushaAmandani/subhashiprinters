@@ -13,6 +13,11 @@ function loadUI() {
 
 //called refreshEmployeeForm function -- >
     refreshEmployeeForm();
+
+    dteDOB.addEventListener("change",checkDoB())
+
+
+
 }
 
 //define refresh table function
@@ -37,10 +42,10 @@ const refreshTable = () =>{
     // creat display property data type list
     let displayDatatypeList = ['text', 'text','text','text','text','object'];
     //called filldataintotable function for fill data
-    fillDataIntoTable(tableEmployee,employees,displayPropertyList,displayDatatypeList,
-        formRefill , rowDelete , rowView,true,lggeduserprivilage);
+    fillDataIntoTable(tableEmployee,employees,displayPropertyList,displayDatatypeList,formRefill , rowDelete , rowView,true,lggeduserprivilage);
     // need to add jquerty table
     $('#tableEmployee').dataTable();
+
 }
 
 
@@ -107,6 +112,17 @@ const refreshEmployeeForm = () => {
     txtCallingname.value = "";
     txtNIC.value = "";
     dteDOB.value = "";
+
+    let currentdate = new Date();
+    let mindate = new Date();
+    let maxDate = new Date();
+
+    maxDate.setFullYear(maxDate.getFullYear()-18);
+    dteDOB.max = getCurrentDate2("date",maxDate);
+
+    mindate.setFullYear(mindate.getFullYear()-60);
+    dteDOB.min = getCurrentDate2("date",mindate);
+
     txtMobile.value = "";
     txtDescription.value = "";
     txtAddress.value = "";  
@@ -116,6 +132,9 @@ const refreshEmployeeForm = () => {
     lblRadioFemale.style.color = "black";  
     radioMale.checked = false;
     radioFemale.checked = false;
+    
+
+
     dteAssigndate.value = getCurrentDate();
 
 
@@ -456,4 +475,36 @@ const rowDelete = (ob) => {
     }
 }
 
+
+function checkDoB(){
+    console.log(dteDOB.value);
+
+    let datepattern = new RegExp("^[0-9]{4}[-][0-9]{2}[0-2]{2}$");
+
+
+    if(datepattern.test(dteDOB.value)){
+        let empDob = new Date(dteDOB.value);
+        let currentdate = new Date();
+
+        let dobTime = empDob.getTime();
+        let currentTime = currentdate.getTime();
+        let dobGapTime ;
+        
+        //after 1970
+        if(empDob.getFullYear()>1970)
+        dobGapTime = currentTime - dobTime;
+        else
+        //calculation before 1970
+        dobGapTime = currentTime +(-1 * dobTime);
+
+        if((18*365*24*60*1000)< dobGapTime  && dobGapTime < (60*365*24*60*60*1000)){
+            dteDOB.style.borderBottom = "2px solid green";
+        }else{
+            dteDOB.style.borderBottom = "2px solid red";
+        }
+
+    }else{
+        dteDOB.style.borderBottom = "2px solid red"
+    }
+}
 

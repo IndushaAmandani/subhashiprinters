@@ -22,18 +22,19 @@ import lombok.NoArgsConstructor;
 
 public class Customer {
 
-  @Id
+  @Id //mapping to the id as primary key
   @GeneratedValue(strategy = GenerationType.IDENTITY) // As Id is autoincremented
-
+  //mapping to the column
   @Column(name = "id")
   private Integer id;
 
+  //mapping to the column
   @Column(name = "customercode")
   private String customer_code;
-
+  //mapping to the column
   @Column(name = "customer_name")
   private String customer_name;
-
+  //mapping to the column
   @Column(name = "mobile")
   private String mobile;
 
@@ -103,6 +104,14 @@ public char[] getName() {
 }
 
 
+//Constructor for corder/cusotmer/list
+  public Customer(Integer id,String customer_name){
+    this.id = id;
+    this.customer_name = customer_name;
+  }
 
 
+  public Customer(Long count){
+    this.id = Integer.valueOf(count.toString());
+  }
 }

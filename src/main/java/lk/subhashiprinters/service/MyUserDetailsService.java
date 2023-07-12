@@ -30,8 +30,8 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User logeduser = userDao.findUserByUsername(username);
-        System.out.println(username);
-        System.out.println(logeduser);
+//        System.out.println(username);
+//        System.out.println(logeduser);
         if( logeduser != null){
             Set<GrantedAuthority> userGranteset = new HashSet<>();
             for (Role role : logeduser.getRoles()){

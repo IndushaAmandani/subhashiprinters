@@ -1,8 +1,8 @@
-
+//privilage- slect,insrt,updt,updt,deltt
 function getServiceRequest(url) {
 
     let responceDate;
-
+//jQuery.ajax()
     $.ajax(url,{
         async: false,
         dataType:'json',
@@ -18,6 +18,27 @@ function getServiceRequest(url) {
 
     return responceDate;
 }
+
+function getHTTPServiceRequest(url , method , data) {
+
+    let responceDate;
+
+    $.ajax(url, {
+        async : false,
+        type : method, // method delete
+        data: JSON.stringify(data) , // object
+        contentType:"application/json",
+        success: function (susResdata , susStatus , ajresob) {
+            responceDate = susResdata;
+        },
+        error: function (errRsOb , errStatus, errorMsg) {
+            responceDate = errorMsg;
+        }
+    });
+
+    return responceDate;
+}
+
 
 
 //create function for remve style
@@ -63,7 +84,7 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
         
  }
 
- //
+ // comman validatior for radio buttons
  const redioFeildValidator = (feildid,pattern,object,property,lblid1,lblid2) => {
      let ob = window[object];
      if (feildid.checked) {
@@ -155,12 +176,15 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
  //function use to fill data into select element -- ok
  const fillSelectFeild = (feildid, displayMessage, dataList,displayProperty, selectedValue, visibility=false) => {
     feildid.innerHTML = "" ;
-    optionPlaceholder = document.createElement('option');
-    optionPlaceholder.value = "";
-    optionPlaceholder.selected = true;
-    optionPlaceholder.disabled = true;
-    optionPlaceholder.innerText = displayMessage;
-    feildid.appendChild(optionPlaceholder);
+    if(displayMessage.value != ""){
+        optionPlaceholder = document.createElement('option');
+        optionPlaceholder.value = "";
+        optionPlaceholder.selected = true;
+        optionPlaceholder.disabled = true;
+        optionPlaceholder.innerText = displayMessage;
+        feildid.appendChild(optionPlaceholder);
+    }
+
 
     for(index in dataList){
         optionValues = document.createElement('option');
@@ -180,7 +204,8 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
         feildid.disabled = false;
 }
 
-const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,displayProperty2, visibility=false) => {
+const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,displayProperty2, selectedValue, visibility=false) => {
+    feildid.innerHTML = "";
     optionPlaceholder = document.createElement('option');
     optionPlaceholder.value = "";
     optionPlaceholder.selected = true;
@@ -193,7 +218,12 @@ const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,disp
         optionValues.value = JSON.stringify(dataList[index]);
       //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
         optionValues.innerText =  dataList[index][displayProperty] + " --> "+ dataList[index][displayProperty2];
+        if(dataList[index][displayProperty] == selectedValue){
+            optionValues.selected = true;
+            feildid.style.borderBottom = "2px solid green";
+        }
         feildid.appendChild(optionValues);
+
     }
 
 
@@ -388,9 +418,31 @@ const getDataFromObject = (ob , path) => {
 const getCurrentDate = () => {
     let nowDate = new Date();
  // retrive 0 to 11   
-    let month = nowDate.getMonth() + 1;
+    let month = nowDate.getMonth() + 1;//return 0 jan-11
 //retrive 1-31
-    let date = nowDate.getDate();
+    let date = nowDate.getDate();//return 1-31
+//year 
+    let year = nowDate.getFullYear();
+
+    if(month < 10){
+        month = "0"+ month;
+    }
+    if(date < 10){
+        date = "0" + date;
+    }
+
+
+    return year + "-" + month + "-" + date ;
+}
+
+
+//Get current date ;showing only
+const getCurrentDate2 = (format,givendate) => {
+    let nowDate = new Date(givendate);
+ // retrive 0 to 11   
+    let month = nowDate.getMonth() + 1;//return 0 jan-11
+//retrive 1-31
+    let date = nowDate.getDate();//return 1-31
 //year 
     let year = nowDate.getFullYear();
 

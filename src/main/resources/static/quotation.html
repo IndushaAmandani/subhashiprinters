@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+
+    <title> Subhashi Printers - Quotation Management</title>
+    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
+    <link
+            href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
+            rel="stylesheet">
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
+
+    <link rel="stylesheet" type="text/css" href="resources/fontawesome/css/all.css">
+    <!-- END VENDOR CSS-->
+
+    <link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/cryptocoins/cryptocoins.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/pages/transactions.css">
+
+    <!-- BEGIN MODERN CSS-->
+    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css">
+    <!-- END MODERN CSS-->
+
+    <link rel="stylesheet" type="text/css" href="app-assets/assets/css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="resources/datatable/css/datatables.min.css">
+    <!-- END Custom CSS-->
+</head>
+
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+<!-- fixed-top-->
+<nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color">
+    <div class="navbar-wrapper">
+        <div class="navbar-header d-md-none">
+            <ul class="nav navbar-nav flex-row">
+                <li class="nav-item mobile-menu d-md-none mr-auto"><a
+                        class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
+                        class="ft-menu font-large-1"></i></a></li>
+                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
+                        class="brand-logo d-none d-md-block" alt="CryptoDash admin logo"
+                        src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
+                                                                            alt="CryptoDash admin logo sm"
+                                                                            src="../../../app-assets/images/logo/logo-sm.png"></a>
+                </li>
+                <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
+                                                  data-target="#navbar-mobile"><i class="la la-ellipsis-v"> </i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-container">
+            <div class="collapse navbar-collapse" id="navbar-mobile">
+                <ul class="nav navbar-nav mr-auto float-left">
+                    <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
+                                                              href="#"><i class="ft-menu"> </i></a></li>
+
+                </ul>
+                <ul class="nav navbar-nav mr-auto float-right">
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
+                            <h2> Subhashi Printers</h2>
+                        </a></li>
+
+                </ul>
+                <ul class="nav navbar-nav  float-right">
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
+                            <i class="fas fa-bell"> </i></a>
+                    </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
+                            <i class="fa-solid fa-gear"> </i></a>
+                    </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
+                            <i class="fas fa-power-off"> </i></a>
+                    </li>
+
+
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!--Side bar-->
+<div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
+    <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
+                                      href="index.html">
+        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
+        <p class="m-1 text-white" id="hUsername"></p>
+        <p class="m-1  text-white" id="spnRole"></p>
+    </a>
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class=" nav-item"><a href="/dashboard"><i class="icon-grid"></i><span
+                    class="menu-title" data-i18n="">Dashboard</span></a>
+            </li>
+            <li class=" nav-item"><a href="wallet.html"><i class="icon-wallet"></i><span class="menu-title"
+                                                                                         data-i18n="">Administration</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="account-profile.html">Employee</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">User</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Privilage </a></li>
+                </ul>
+            </li>
+            <li class=" nav-item"><a href="buy-ico.html"><i class="icon-layers"></i><span class="menu-title"
+                                                                                          data-i18n="">Print Order</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="account-profile.html">Customer</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Product</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Print Order </a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Customer Payement </a></li>
+                </ul>
+            </li>
+            <li class=" nav-item"><a href="faq.html">
+                <i class="icon-support"></i><span class="menu-title"
+                                                  data-i18n="">Pruduction</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="account-profile.html">Product Analysis</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Production Order</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Production </a></li>
+                </ul>
+            </li>
+            <li class=" nav-item active">
+                <a href="transactions.html"><i class="icon-shuffle"></i><span class="menu-title"
+                                                                              data-i18n="">Purchase</span></a>
+                <ul class="menu-content">
+                    <li class="active"><a class="menu-item" href="account-profile.html">Supplier</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Quotation Request</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Quotation </a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Purchase Order </a></li>
+                    <li><a class="menu-item" href="account-login-history.html">GRN </a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Supplier Payement </a></li>
+                </ul>
+            </li>
+
+            <li class=" nav-item"><a href="#"><i class="icon-user-following"></i><span class="menu-title"
+                                                                                       data-i18n="">Report</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="account-profile.html">Report 1</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Report 2</a></li>
+                    <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block"> Quotation Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Purchase
+                            </li>
+                            <li class="breadcrumb-item active"> Quotation
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+                <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white"
+                                                         data-toggle="modal" data-target="#modalQuotationForm">Add new
+                    Quotation</a></div>
+            </div>
+        </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableQuotation">
+                                                <thead class="table-dark" style="background-color: #0f68e5">
+                                                <tr>
+                                                    <th> #</th>
+                                                    <th> Quotation No</th>
+                                                    <th> Suppler Name</th>
+                                                    <th> Quotaton Request no</th>
+                                                    <th> Received Date</th>
+                                                    <th> Valid Date</th>
+                                                    <th> Status</th>
+                                                    <th> Modify</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<footer class="footer footer-static footer-transparent">
+    <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span
+            class="float-md-left d-block d-md-inline-block">Copyright &copy;
+        <script>
+          document.write(new Date().getFullYear())
+        </script> <a class="text-bold-800 grey darken-2" href="https://themeselection.com/"
+                     target="_blank">ThemeSelection </a>, All rights reserved.
+      </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i
+            class="ft-heart pink"></i></span></p>
+</footer>
+
+
+<div class="modal" tabindex="-1" id="modalQuotationForm">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> Edit Quotation</h2>
+            </div>
+            <div class="modal-body">
+                <!--  Quotation form -->
+                <form onsubmit="return false">
+
+                    <!--- Required (Star mark)  -->
+                    <div class="row text-end p-1">
+                            <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
+                            </span>
+                    </div>
+
+                    <!--- PO No  -->
+                    <div class="row mt-1">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <div class=" row">
+                                <label for="txtQNo" class="font-weight-bold col-4 col-form-label">Quotation No :
+                                    <span style="color: red;"></span>
+                                </label>
+                                <div class="col-8">
+                                    <input type="text" readonly id="txtQNo" class="form-control" disabled
+                                           value="Quotaton number is auto generated">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2"></div>
+                    </div>
+
+                    <!--- Supplier / Required date  -->
+                    <div class="row mt-1">
+                        <div class="col-7 ">
+                            <div class="row">
+                                <label for="cmbSupplier" class="form-label font-weight-bold col-4">Supplier : <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-8">
+                                    <select id="cmbSupplier" class="form-control" required
+                                            onchange="selectValidator(cmbSupplier,'','quotation','supplier_id','oldQuotation'); getRQ();"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 ">
+                            <div class="row">
+                                <label for="dteReceivedDate" class="form-label font-weight-bold col-6">Received Date :
+                                    <span
+                                            style="color: red;">*</span></label>
+                                <div class="col-6">
+                                    <input type="date" id="dteReceivedDate" class="form-control" required
+                                           onchange="dateFeildValidator(dteReceivedDate,'','quotation','recieve_date','oldQuotation');  ">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--- Quotation / Status  -->
+                    <div class="row mt-1">
+                        <div class="col-7 ">
+                            <div class=" row">
+                                <label for="cmbQRequest" class="form-label font-weight-bold col-5">Quotation Request: <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-7">
+                                    <select id="cmbQRequest" class="form-control" required
+                                            onchange="selectValidator(cmbQRequest,'','quotation','quatation_request_id','oldQuotation');getMaterialByQR();"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 ">
+                            <div class=" row">
+                                <label for="dteValidDate" class="form-label font-weight-bold col-5">Valid Date : <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-7">
+                                    <input type="date" id="dteValidDate" class="form-control" required
+                                           onchange="dateFeildValidator(dteValidDate,'','quotation','valid_period','oldQuotation'); ">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--- Inner form / table -->
+
+                    <div class="card p-1 m-2">
+                        <div class="row ">
+                            <div class="col-5">
+
+                                <!--- Po Material -->
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <label for="cmbMaterial" class="form-label-sm font-weight-bold">
+                                            Material : <span style="color: red;">*</span>
+                                        </label>
+                                        <select id="cmbMaterial" class="form-control form-control-sm"
+                                                onchange="selectValidator(cmbMaterial,'','quotationHasIMatrial','material_id','oldQuotationHasIMatrial'); "
+                                        ></select>
+                                    </div>
+                                </div>
+
+                                <!--- Po Unit pricet -->
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <label for="txtUnitPrice" class="form-label font-weight-bold">
+                                            Unit Price (Rs. ) : <span style="color: red;">*</span>
+                                        </label>
+                                        <input type="text" id="txtUnitPrice" class="form-control form-control-sm"
+                                               onkeyup="textFeildValidtor(txtUnitPrice,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9}))$','quotationHasIMatrial','purchase_price','oldQuotationHasIMatrial'); getValidPurchasePrice();"
+                                               placeholder="Enter Total Amount">
+
+                                    </div>
+                                </div>
+
+                                <!--- Buttons -->
+                                <div class="row mt-1">
+                                    <div class="col text-end">
+                                        <button type="reset" style="width: 25%; border-radius: 50px;"
+                                                class="btn bg-info btn-sm font-weight-bold"> Clear
+                                        </button>
+                                        <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                id="buttonInnerUpdate"
+                                                class="btn bg-warning font-weight-bold btn-sm"
+                                                onclick="buttonInnerUpdateMC()"> Update
+                                        </button>
+                                        <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                id="buttonInnerAdd"
+                                                class="btn bg-success font-weight-bold btn-sm"
+                                                onclick="buttonInnerAddMC()"> Add
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!--- Po Total amount -->
+                                <div class="row mt-2">
+                                    <label for="cmbQStatus" class="form-label font-weight-bold col-5">Status : <span
+                                            style="color: red;">*</span></label>
+                                    <div class="col-7">
+                                        <select id="cmbQStatus" class="form-control" required
+                                                onchange="selectValidator(cmbQStatus,'','quotation','quatation_status_id','oldQuotation')"></select>
+                                    </div>
+                                </div>
+
+                                <!--- Po note -->
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <label for="txtNote" class="form-label font-weight-bold">
+                                            Note :
+                                        </label>
+                                        <textarea id="txtNote" class="form-control"
+                                                  onkeyup="textFeildValidtor(txtNote,'^.*$','quotation','note','oldQuotation')"
+                                                  placeholder="Enter Note"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-7">
+                                <table class="table table-hover table-bordered" id="tableQMaterial">
+                                    <thead class="table-dark" style="background-color: #0f68e5">
+                                    <tr>
+                                        <th> #</th>
+                                        <th> Material Name</th>
+                                        <th> Unit Price</th>
+                                        <th> Modify</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--- Buttons -->
+                    <div class="row mt-2">
+                        <div class="col text-end">
+                            <button type="reset" style="width: 23%; border-radius: 50px;"
+                                    class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
+                            </button>
+                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
+                            </button>
+                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                                    class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
+<script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+<script src="resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+<script src="resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+<script src="resources/script/common.js" type="text/javascript"></script>
+<script src="resources/script/dashboard.js" type="text/javascript"></script>
+<script src="quotation.js" type="text/javascript"></script>
+
+</body>
+
+</html>

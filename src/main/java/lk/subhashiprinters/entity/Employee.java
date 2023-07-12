@@ -88,7 +88,7 @@ public class Employee {
       this.employeestatus_id = employeestatus_id;
     }
 
-    //
+        //repository 
     public Employee( Integer id, String calling_name, String number, String email){
         this.id = id;
         this.calling_name = calling_name;

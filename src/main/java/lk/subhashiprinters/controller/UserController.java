@@ -1,3 +1,4 @@
+//privilage- slect,insrt,updt,updt,deltt
 package lk.subhashiprinters.controller;
 
 
@@ -42,12 +43,20 @@ public class UserController {
         User loggedUser = userDao.findUserByUsername(auth.getName());
         HashMap<String,Boolean> userPrvi = privilageController.getPrivilageByUserModule(auth.getName(), "User");
 
-        if(loggedUser != null && userPrvi.get("sel")){
+        if(loggedUser != null && userPrvi.get("slect")){
             //return userDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
             return userDao.findAll();
         }else {
             return null;
         }
+    }
+
+    //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
+    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
+    public User getUserbyid(
+            @PathVariable("id") Integer id
+    ){
+        return userDao.getReferenceById(id);
     }
 
 
@@ -59,7 +68,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
 
-        if(loggrgUser !=null && userPriv.get("ins")){
+        if(loggrgUser !=null && userPriv.get("insrt")){
 
             //need to check duplicate
             //need to check duplicate
@@ -97,8 +106,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
-
-        if(loggrgUser !=null && userPriv.get("upd")){
+        //privilage- slect,insrt,updt,updt,deltt
+        if(loggrgUser !=null && userPriv.get("updt")){
 
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());
@@ -133,7 +142,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
 
-        if(loggrgUser !=null && userPriv.get("del")){
+        if(loggrgUser !=null && userPriv.get("deltt")){
 
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());
@@ -157,3 +166,32 @@ public class UserController {
 
     }
 }
+
+//    @DeleteMapping
+//    public String deleteEmployee(@RequestBody Employee employee){
+//        //need to check privilage
+//
+//        //check employee exsit
+//        Employee extEmp = employeeDao.getReferenceById(employee.getId());
+//
+//        if(extEmp != null){
+//            try {
+//
+//                //set auto insert values
+//                extEmp.setDelete_date_time(LocalDateTime.now());
+//                extEmp.setEmployeestatus_id(employeeStatusDao.getReferenceById(3));
+//
+//                employeeDao.save(extEmp);
+//
+//                //need to update avaible depenence
+//
+//                return "0";
+//
+//            }catch (Exception ex){
+//                return "Delete Not Completd : " + ex.getMessage();
+//            }
+//        }else {
+//            return "Delete Not Completed : Emplyoyee Not Avalable";
+//        }
+//
+//    }

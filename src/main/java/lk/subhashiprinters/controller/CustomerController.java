@@ -6,14 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import lk.subhashiprinters.entity.Customer;
@@ -74,27 +67,24 @@ public class CustomerController {
 
     }
 
-    // @GetMapping(value = "/listwithoutuseraccount", produces = "application/json")
-    // public List<Customer> customerListWithoutUser(){
-    //     return customerDao.getCustomerByWithoutUserAccount();
-    // }
+    @GetMapping(value = "/list",produces = "application/json")
+    public List<Customer> getCustomerList(){return customerDao.listAll();}
+
+    //dashboard [active customer count]
+     @GetMapping(value = "/getActiveCustomerCount()", produces = "application/json")
+     public Customer getbyActiveCustomer(){
+         return customerDao.activeCustomerCount();
+     }
 
 
-//    //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
-//    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
-//    public Customer getEmployeeByPVId(
-//            @PathVariable("id") Integer id
-//    ){
-//        return customerDao.getReferenceById(id);
-//    }
+    //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
+    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
+    public Customer getReferenceById(@PathVariable("id") Integer id){return customerDao.getReferenceById(id);}
 
-//get mapping service for get customer by given Query param id [ /employee/getbyid?id=1]
-       @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")
-       public Customer getEmployeeByQPId(
-               @RequestParam("id") Integer id
-       ){
-           return customerDao.getReferenceById(id);
-       }
+
+
+
+
 
 
           //create post mapping function for add empoyee [/employee - POST]
@@ -103,8 +93,8 @@ public class CustomerController {
         //need to Check privilege for logged user
 
         
-         //need to check duplicate columns values
-        //check nic exist or not
+     //need to check duplicate columns values
+    //check nic exist or not
         Customer extCustByMobile = customerDao.getByMobile(customer.getMobile());
         if(extCustByMobile != null){
             return "Customer insert not completed : Mobile aready Exist";

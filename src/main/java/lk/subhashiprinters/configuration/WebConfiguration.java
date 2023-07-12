@@ -23,12 +23,15 @@ public class WebConfiguration {
                 antMatchers("/login").permitAll().
                 antMatchers("/createadmin").permitAll().
                 antMatchers("/error").permitAll().
-                antMatchers("/dashboard","/userprivilage/bymodule").hasAnyAuthority("ADMIN","MANAGER","CASHIER","STOCK-MANAGER","AS-MANAGER").
+                antMatchers("/dashboard","/userprivilage/bymodule").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/employee/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/user/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/privilage/**").hasAnyAuthority("ADMIN","MANAGER").
+                antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER").
+                antMatchers("/material/**","/dailyProduct/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
+                antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","CASHIER").
                 anyRequest().authenticated().and()
-                .csrf().disable().
+                .csrf().disable(). //prevent cross-reference access
                 formLogin().
                     loginPage("/login"). // login page URL
                     failureUrl("/login?error=usernamepassorderror").

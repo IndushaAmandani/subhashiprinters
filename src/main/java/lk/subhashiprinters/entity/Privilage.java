@@ -1,3 +1,4 @@
+//privilage- slect,insrt,updt,updt,deltt
 package lk.subhashiprinters.entity;
 
 import lombok.AllArgsConstructor;
@@ -18,27 +19,27 @@ public class Privilage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
    private Integer id;
+   //privilage- slect,insrt,updt,updt,deltt
+    @Column(name = "slect")
+   private Boolean slect;
 
-    @Column(name = "sel")
-   private Boolean sel;
+   @Column(name = "insrt")
+   private Boolean insrt;
 
-   @Column(name = "ins")
-   private Boolean ins;
+   @Column(name = "updt")
+   private Boolean updt;
 
-   @Column(name = "upd")
-   private Boolean upd;
-
-   @Column(name = "del")
-   private Boolean del;
+   @Column(name = "deltt")
+   private Boolean deltt;
 
    @Column(name = "added_datetime")
    private LocalDateTime added_datetime;
 
-   @Column(name = "last_update_datetime")
-   private LocalDateTime  last_update_datetime;
+   @Column(name = "last_update_time")
+   private LocalDateTime  last_update_time;
 
-   @Column(name = "delete_datetime")
-   private LocalDateTime  delete_datetime;
+   @Column(name = "delete_date_time")
+   private LocalDateTime  delete_date_time;
 
 
    @ManyToOne(optional = false)
@@ -56,4 +57,7 @@ public class Privilage {
    @ManyToOne
    @JoinColumn(name = "update_user_id",referencedColumnName = "id")
    private  User  update_user_id;
+
+
+
 }

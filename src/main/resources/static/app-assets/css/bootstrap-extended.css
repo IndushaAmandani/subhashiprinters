@@ -479,6 +479,32 @@ select.form-control {
     background-position: right center;
     text-decoration: none; }
 
+.btn-gradient-primary-add {
+  border-radius: 2rem;
+  font-size: 1rem;
+  color: #FFFFFF;
+  padding: 1rem 3rem;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  outline: none !important;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  -moz-transition: 0.5s;
+  transition: 0.5s;
+  background-image: -webkit-gradient(linear, left top, right top, from(#1d79a1), color-stop(51%, #152650), to(#2087b4));
+  background-image: -webkit-linear-gradient(left, #1d79a1 0%, #152650 51%, #2087b4 100%);
+  background-image: -moz-linear-gradient(left, #1d79a1 0%, #152650 51%, #2087b4 100%);
+  background-image: -o-linear-gradient(left, #1d79a1 0%, #152650 51%, #2087b4 100%);
+  background-image: linear-gradient(to right, #1d79a1 0%, #152650 51%, #2087b4 100%);
+  background-position: left center;
+  -webkit-background-size: 200% auto;
+  background-size: 200% auto;
+  border: 0;
+  -webkit-box-shadow: 0px 0px 16px 0 rgba(41, 188, 253, 0.5);
+  box-shadow: 0px 0px 16px 0 rgba(41, 188, 253, 0.5); }
+.btn-gradient-primary-add:hover {
+  background-position: right center;
+  text-decoration: none; }
 .btn-gradient-secondary {
   border-radius: 2rem;
   font-size: 1rem;
@@ -491,11 +517,12 @@ select.form-control {
   -o-transition: 0.5s;
   -moz-transition: 0.5s;
   transition: 0.5s;
-  background-image: -webkit-gradient(linear, left top, right top, from(#ff4137), color-stop(51%, #fdc800), to(#ff4137));
-  background-image: -webkit-linear-gradient(left, #ff4137 0%, #fdc800 51%, #ff4137 100%);
-  background-image: -moz-linear-gradient(left, #ff4137 0%, #fdc800 51%, #ff4137 100%);
-  background-image: -o-linear-gradient(left, #ff4137 0%, #fdc800 51%, #ff4137 100%);
-  background-image: linear-gradient(to right, #ff4137 0%, #fdc800 51%, #ff4137 100%);
+  /*background-color: #0f68e5;*/
+  background-image: -webkit-gradient(linear, left top, right top, from(#913834), color-stop(51%, #ceae2a), to(#de524a));
+  background-image: -webkit-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);
+  background-image: -moz-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);
+  background-image: -o-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);
+  background-image: linear-gradient(to right, #913834 0%, #ceae2a 51%, #de524a 100%);
   background-position: left center;
   -webkit-background-size: 200% auto;
   background-size: 200% auto;
