@@ -344,7 +344,7 @@ function deleteItemRow(ob) {
 
 function viewItemRow(rowob,rowind) {
 
-    let printItem = getServeiceRequst("/item/getbyid/"+rowob.id);
+    let printItem = getServiceRequest("/item/getbyid/"+rowob.id);
 
     tdItemCode.innerText = printItem.itemcode;
 

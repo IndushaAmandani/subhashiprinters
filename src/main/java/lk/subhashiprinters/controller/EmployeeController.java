@@ -79,12 +79,12 @@ public class EmployeeController {
         // check nic exist or not
         Employee extEmpByNic = employeeDao.getByNic(employee.getNic());
         if(extEmpByNic != null){
-            return "Employee insert not completed : Nic aready Exist";
+            return "Employee insert not completed : Nic already Exist";
         }
         // check email exist or not
         Employee extEmpByEmail = employeeDao.findEmployeeByEmail(employee.getEmail());
         if(extEmpByEmail != null){
-            return "Employee insert not completed : email aready Exist";
+            return "Employee insert not completed : email already Exist";
         }
 
         try {
@@ -115,12 +115,12 @@ public class EmployeeController {
         // check nic exist or not
         Employee extEmpByNic = employeeDao.getByNic(employee.getNic());
         if(extEmpByNic != null && employee.getId() != extEmpByNic.getId()){
-            return "Employee update not completed : Nic aready Exist";
+            return "Employee update not completed : Nic already Exist";
         }
         // check email exist or not
         Employee extEmpByEmail = employeeDao.findEmployeeByEmail(employee.getEmail());
         if(extEmpByEmail != null && employee.getId() != extEmpByEmail.getId()){
-            return "Employee update not completed : email aready Exist";
+            return "Employee update not completed : email already Exist";
         }
         try {
             //set auto inser value

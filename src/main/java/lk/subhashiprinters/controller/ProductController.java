@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import lk.subhashiprinters.entity.*;
+import lk.subhashiprinters.repository.ProductStatusRepository;
+import lk.subhashiprinters.repository.ProductionStatusRepository;
 import lk.subhashiprinters.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +42,9 @@ public class ProductController {
 
     @Autowired
     private UserRepository userDao;
-   
 
+    @Autowired
+    private ProductStatusRepository productStatusDao;
        // @Autowired 
    // private ProductRepository productDao;
        //create get mapping for get emplpyee ui ---> [ /employee]
@@ -114,5 +118,39 @@ public class ProductController {
     }
 
 
+    @DeleteMapping
+    @Transactional
+    public String deletePorder(@RequestBody Product product) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User logeduser = userDao.findUserByUsername(authentication.getName());
+        HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(authentication.getName(), "Product");
+        if (userPrive != null && userPrive.get("del")) {
 
+            Product extproduct = productDao.getReferenceById(product.getId());
+
+            if(extproduct == null){
+                return "Quotation Delete Not completed : Purchase order doesn't exsites..!";
+            }
+            try {
+
+                extproduct.setDeleted_date_(LocalDateTime.now());
+                extproduct.setDeleted_user_id(logeduser);
+                extproduct.setProduct_status_id(productStatusDao.getReferenceById(2));
+
+                productDao.save(extproduct);
+
+                return "0";
+            } catch (Exception ex) {
+                return "Product Delete Not Complete : " + ex.getMessage();
+            }
+
+        } else {
+            return "Product Delete Not completed : You don't have permissing";
+        }
+
+
+    }
 }
+
+
+

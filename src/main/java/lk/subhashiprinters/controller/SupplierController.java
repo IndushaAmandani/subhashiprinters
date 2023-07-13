@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController //
 @RequestMapping(value = "/supplier") //Class level mapping
-public class SupplierController {
+public class  SupplierController {
 
     @Autowired // for create instance
     private SupplierRepository supplierDao;

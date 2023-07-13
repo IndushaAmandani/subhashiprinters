@@ -219,6 +219,9 @@ const buttonInnerAddMC = () => {
 
 
 }
+
+
+
 const innerFormReFill = (innerob, rowind) => {
     innerRowNo = rowind;
     customerOrderHasProduct = JSON.parse(JSON.stringify(innerob));
@@ -243,6 +246,25 @@ const innerFormReFill = (innerob, rowind) => {
     buttonInnerAdd.disabled = true;
 }
 const innerRowDelete = (innerob, rowind) => {
+
+    let deleteMsg = "Are you sure to delete following Product..?" +
+        "\n Product Name : " + innerob.number +
+        + "\n Valid Period : " + ob.valid_period;
+
+    let deleteUserResponce = window.confirm(deleteMsg);
+
+    if (deleteUserResponce) {
+        let serverResponce = getHTTPServiceRequest("/" +
+            "", "DELETE", ob);
+
+        if (serverResponce == "0") {
+            alert("Delete Successfully...!");
+            refreshTable();
+        } else {
+            alert("Fail to Delete, You have following error... \n" + serverResponce);
+        }
+    }
+
 
 }
 

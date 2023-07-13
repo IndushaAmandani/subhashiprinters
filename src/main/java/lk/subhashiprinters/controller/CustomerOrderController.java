@@ -2,6 +2,7 @@ package lk.subhashiprinters.controller;
 
 
 import lk.subhashiprinters.entity.*;
+import lk.subhashiprinters.repository.COrderStatusRepository;
 import lk.subhashiprinters.repository.CustomerOrderRepository;
 import lk.subhashiprinters.repository.ProductionStatusRepository;
 import lk.subhashiprinters.repository.UserRepository;
@@ -24,6 +25,8 @@ public class CustomerOrderController {
     @Autowired // for create instance
     private CustomerOrderRepository CustomerOrderDao;
 
+    @Autowired // for create instance
+    private COrderStatusRepository COrderSatatusDao;
     @Autowired // for create instance
     private ProductionStatusRepository productionStatusRepository;
 
@@ -119,77 +122,77 @@ public class CustomerOrderController {
 
     }
 
-    /*//update mapping for update quotationrequest [/quotationrequest - update]
-    @PutMapping
-    @Transactional
-    public String updateQuotationrequest(@RequestBody QuotationRequest quotationrequest){
-        // neeed to check logged user privilage
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
-            return "Quotationrequest Update Not completed : You don't have permissing";
-        }
-
-        // get logged user authentication object
-        User loggedUser = userDao.findUserByUsername(authentication.getName());
-        // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
-
-        if(loggedUser != null && userPiriv.get("upd")){
-
-            QuotationRequest extqr = quotationrequestDao.getReferenceById(quotationrequest.getId());
-            if(extqr == null && !extqr.getRequest_number().equals(quotationrequest.getRequest_number())){
-                return "Quotationrequest Update Not completed : Quotationrequest not available";
-            }
-
-            try {
-
-                quotationrequest.setUpdate_date(LocalDateTime.now());
-                quotationrequestDao.save(quotationrequest);
-                return "0";
-            }catch (Exception exception){
-                return "Quotationrequest Update Not completed : " + exception.getMessage();
-            }
-        }else {
-            return "Quotationrequest Update Not completed : You don't have permissing";
-        }
-    }
+    //update mapping for update quotationrequest [/quotationrequest - update]
+//    @PutMapping
+//    @Transactional
+//    public String updateQuotationrequest(@RequestBody QuotationRequest quotationrequest){
+//        // neeed to check logged user privilage
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if(authentication instanceof AnonymousAuthenticationToken){
+//            return "Quotationrequest Update Not completed : You don't have permissing";
+//        }
+//
+//        // get logged user authentication object
+//        User loggedUser = userDao.findUserByUsername(authentication.getName());
+//        // check privilage for add operation
+//        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
+//
+//        if(loggedUser != null && userPiriv.get("upd")){
+//
+//            QuotationRequest extqr = quotationrequestDao.getReferenceById(quotationrequest.getId());
+//            if(extqr == null && !extqr.getRequest_number().equals(quotationrequest.getRequest_number())){
+//                return "Quotationrequest Update Not completed : Quotationrequest not available";
+//            }
+//
+//            try {
+//
+//                quotationrequest.setUpdate_date(LocalDateTime.now());
+//                quotationrequestDao.save(quotationrequest);
+//                return "0";
+//            }catch (Exception exception){
+//                return "Quotationrequest Update Not completed : " + exception.getMessage();
+//            }
+//        }else {
+//            return "Quotationrequest Update Not completed : You don't have permissing";
+//        }
+//    }
 
 
 
     //delete mapping for delete quotationrequest [/quotationrequest - delete]
     @DeleteMapping
-    public String deleteQuotationrequest(@RequestBody QuotationRequest quotationrequest){
+    public String deleteCOrder(@RequestBody CustomerOrder customerOrder){
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Quotationrequest Delete Not completed : You don't have permissing";
+            return "Customer Order Delete Not completed : You don't have permissing";
         }
 
-        // get logged user authentication object
+       // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
-        // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
+   // check privilage for add operation
+    HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerOrder");
 
         if(loggedUser != null && userPiriv.get("del")){
 
-            QuotationRequest extQR = quotationrequestDao.getReferenceById(quotationrequest.getId());
-            if(extQR == null ){
-                return "Quotationrequest Delete Not completed : Quotationrequest not available";
+            CustomerOrder extCO = CustomerOrderDao.getReferenceById(customerOrder.getId());
+            if(extCO == null ){
+                return "Customer  Order Delete Not completed : Customer Order not available";
             }
 
             try {
-                extQR.setQuatation_req_status_id(quotationrequestStatusDao.getReferenceById(4));
-             extQR.setDelete_date(LocalDateTime.now());
-                quotationrequestDao.save(extQR);
+                extCO.setOrder_status_id(COrderSatatusDao.getReferenceById(3));
+                extCO.setDeleted_date(LocalDateTime.now());
+               CustomerOrderDao.save(extCO);
                 return "0";
             }catch (Exception exception){
-                return "Quotationrequest Delete Not completed : " + exception.getMessage();
+                return "Customer Order Delete Not completed : " + exception.getMessage();
             }
         }else {
-            return "Quotationrequest Delete Not completed : You don't have permissing";
+            return "Customer Order Delete Not completed : You don't have permissing";
         }
     }
 
 
-*/
+
 }

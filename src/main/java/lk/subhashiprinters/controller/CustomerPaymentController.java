@@ -1,10 +1,7 @@
 package lk.subhashiprinters.controller;
 
 
-import lk.subhashiprinters.entity.CustomerPayment;
-import lk.subhashiprinters.entity.QuotationRequest;
-import lk.subhashiprinters.entity.SupplierPayment;
-import lk.subhashiprinters.entity.User;
+import lk.subhashiprinters.entity.*;
 import lk.subhashiprinters.repository.CustomerPaymentRepository;
 import lk.subhashiprinters.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +41,14 @@ public class CustomerPaymentController {
     }
 
 
+    //get object by given id using path variable [ /supplier/getbyid/{id}]
+    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
+    public CustomerPayment getByPathId(@PathVariable("id")Integer id){
+        return customerpaymentDao.getReferenceById(id);
+    }
 
     //privilage- slect,insrt,updt,updt,deltt
-    // get mapping for get quotationrequest selected columns details [/quotationrequest/findall]
+    // get mapping for get  selected columns details [//findall]
     @GetMapping(value = "/findall", produces = "application/json")
     public List<CustomerPayment> quotationrequestFindAll(){
         //need to check logged user privilage
@@ -70,46 +72,45 @@ public class CustomerPaymentController {
     }
 
 
-//    //post mapping for insert item [/item - post]
-//    @PostMapping
-//    public String insertSuppler(@RequestBody QuotationRequest quotationrequest){
-//        // neeed to check logged user privilage
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if(authentication instanceof AnonymousAuthenticationToken){
-//            return "Quotationrequest Insert Not completed : You don't have permissing";
-//        }
-//
-//        // get logged user authentication object
-//        User loggedUser = userDao.findUserByUsername(authentication.getName());
-//        // check privilage for add operation
-//        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
-//
-//        if(loggedUser != null && userPiriv.get("ins")){
-//            // user has privilage for insert item
-//
-//            try {
-//                // set auto set value
-//          quotationrequest.setAdded_date(LocalDateTime.now());
-//                // item.setItemcode("00003");
-//       //      quotationrequest.setRequest_number(quotationrequestDao.getNextQuotationrequestRegNo());
-//             quotationrequest.setAdded_user_id(loggedUser);
-//
-//                //do the requeired operation
-//         //       quotationrequestDao.save(quotationrequest);
-//
-//                return "0";
-//            }catch (Exception ex){
-//                return "Quotationrequest Insert Not completed : " + ex.getMessage();
-//            }
-//
-//
-//        }
-//        else {
-//            return "Quotationrequest Insert Not completed : You don't have permissing";
-//        }
-//
-//
-//    }
+  //post mapping for insert customer Pyament [/spayment - post]
+@PostMapping
+public String insertSuppler(@RequestBody CustomerPayment customerPayment){
+    // neeed to check logged user privilage
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication instanceof AnonymousAuthenticationToken){
+        return "Customer Payment Insert Not completed : You don't have permissing";
+    }
+
+    // get logged user authentication object
+    User loggedUser = userDao.findUserByUsername(authentication.getName());
+    // check privilage for add operation
+    HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerPayment");
+
+    if(loggedUser != null && userPiriv.get("ins")){
+        // user has privilage for insert item
+
+        try {
+            // set auto set value
+            customerPayment.setAdded_date(LocalDateTime.now());
+            customerPayment.setCustomer_payment_bill_number(customerpaymentDao.getNextCustomerPaymentBillNo());
+            customerPayment.setAdded_user_id(loggedUser);
+
+            //do the requeired operation
+            customerpaymentDao.save(customerPayment);
+
+            return "0";
+        }catch (Exception ex){
+            return "Customer Payment Insert Not completed : " + ex.getMessage();
+        }
+
+
+    }
+    else {
+        return "Customer Payment Insert Not completed : You don't have permissing";
+    }
+
+
+}
 
     /*//update mapping for update quotationrequest [/quotationrequest - update]
     @PutMapping

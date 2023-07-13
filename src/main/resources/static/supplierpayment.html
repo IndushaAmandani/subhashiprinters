@@ -186,9 +186,15 @@
                             <thead class="table-dark" style="background-color: #0f68e5">
                                 <tr>
                                     <th> # </th>
-                                    <th>  Request No</th>
+                                    <th>  Bill No </th>
                                     <th> Supplier Name </th>
-                                    <th> Require Date </th>
+                                    <th> MRN no </th>
+                                    <th> MRN Amount </th>
+                                    <th> Total Amount </th>
+                                    <th> Paid Amount </th>
+                                    <th> Balance Amount </th>
+                                    <th> Paid Date Time </th>
+                                    <th> Pay Method </th>
                                     <th> Status </th>
                                     <th> Modify </th>
                                 </tr>
@@ -262,7 +268,7 @@
                         </label>
                         <div class="col-8">
                             <select id="cmbSupplier" class="form-control" required
-                                    onchange="selectValidator(cmbSupplier,'','newQuotationRequest','supplier_id','oldQuotationRequest')">
+                                    onchange="selectValidator(cmbSupplier,'','newSupplierPayment','supplier_id','oldSupplierPayment'); getMRN() ">
                             </select>
                         </div>
                     </div>
@@ -274,7 +280,7 @@
                         </label>
                         <div class="col-8">
                             <select id="cmbMrn" class="form-control" required
-                                    onchange="selectValidator(cmbMrn,'','newQuotationRequest','supplier_id','oldQuotationRequest')">
+                                    onchange="selectValidator(cmbMrn,'','newSupplierPayment','material_recieve_note_id','oldSupplierPayment'); getTotalAmountFormMRN()">
                             </select>
                         </div>
                     </div>
@@ -286,7 +292,7 @@
                         </label>
                         <div class="col-8">
                         <input type="text" id="txtNetAmount" class="form-control form-control-sm" required
-                               onchange="textFeildValidtor(txtNetAmount,'','newQuotationRequest','required_date','oldQuotationRequest')">
+                               onkeyup="textFeildValidtor(txtNetAmount,'^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$','newSupplierPayment','net_amount','oldSupplierPayment')">
                         </div>
                     </div>
 
@@ -297,7 +303,7 @@
                         </label>
                         <div class="col-8">
                             <input type="text" id="txtTotalAmount" class="form-control form-control-sm" required
-                                   onchange="textFeildValidtor(txtTotalAmount,'','newQuotationRequest','required_date','oldQuotationRequest')">
+                                   onkeyup="textFeildValidtor(txtTotalAmount,'^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$','newSupplierPayment','total_amount','oldSupplierPayment')">
                         </div>
                     </div>
 
@@ -308,7 +314,7 @@
                         </label>
                         <div class="col-8">
                             <input type="text" id="txtPaidAmount" class="form-control form-control-sm" required
-                                   onchange="textFeildValidtor(txtPaidAmount,'','newQuotationRequest','required_date','oldQuotationRequest')">
+                                   onkeyup="textFeildValidtor(txtPaidAmount,'^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$','newSupplierPayment','paid_amount','oldSupplierPayment'); getSPBalanceAmount()">
                         </div>
                     </div>
 
@@ -319,7 +325,7 @@
                         </label>
                         <div class="col-8">
                             <input type="text" id="txtBalanceAmount" class="form-control" required
-                                   onchange="textFeildValidtor(txtBalanceAmount,'','newQuotationRequest','required_date','oldQuotationRequest')">
+                                   onkeyup="textFeildValidtor(txtBalanceAmount,'^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$','newSupplierPayment','balance_amount','oldSupplierPayment')">
                         </div>
                     </div>
 
@@ -329,7 +335,7 @@
                                 style="color: red;">*</span></label>
                         <div class="col-8">
                             <select id="cmbPMethod" class="form-control form-control-sm" required
-                                    onchange="selectValidator(cmbPMethod,'','newQuotationRequest','quatation_req_status_id','oldQuotationRequest')">
+                                    onchange="selectValidator(cmbPMethod,'','newSupplierPayment','supplier_payment_type_id','oldSupplierPayment')">
 
                             </select>
                         </div>
@@ -344,18 +350,18 @@
                             </label>
                         <div class="col-8">
                             <textarea id="txtNote" class="form-control form-control-sm"
-                                      onkeyup="textFeildValidtor(txtNote,'^.*$','newQuotationRequest','note','oldQuotationRequest')"
+                                      onkeyup="textFeildValidtor(txtNote,'^.*$','newSupplierPayment','description','oldSupplierPayment')"
                                       placeholder="Enter Note"></textarea>
                         </div>
                     </div>
 
                     <!---  /  Status -->
                     <div class="row mt-1">
-                        <label for="cmbQRStatus" class="form-label font-weight-bold col-4"> Status : <span
+                        <label for="cmbSPStatus" class="form-label font-weight-bold col-4"> Status : <span
                                 style="color: red;">*</span></label>
                         <div class="col-8">
-                        <select id="cmbQRStatus" class="form-control form-control-sm" required
-                                onchange="selectValidator(cmbQRStatus,'','newQuotationRequest','quatation_req_status_id','oldQuotationRequest')">
+                        <select id="cmbSPStatus" class="form-control form-control-sm" required
+                                onchange="selectValidator(cmbSPStatus,'','newSupplierPayment','supplier_payment_status_id','oldSupplierPayment')">
 
                         </select>
                         </div>
@@ -369,7 +375,7 @@
                                     class="btn bg-info font-weight-bold"> Clear </button>
 
                             <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                                    class="btn bg-success font-weight-bold" onclick="buttonSupplierPaymentSave()"> Add </button>
+                                    class="btn bg-success font-weight-bold" onclick="buttonSPSave()"> Add </button>
                         </div>
                     </div>
 
@@ -396,7 +402,7 @@
 
   <script src="resources/script/common.js" type="text/javascript"></script>
   <script src="resources/script/dashboard.js" type="text/javascript"></script>
-  <script src="quotationrequest.js" type="text/javascript"></script>
+  <script src="supplierpayment.js" type="text/javascript"></script>
 
 </body>
 

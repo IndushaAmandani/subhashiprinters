@@ -7,85 +7,88 @@ function refreshUI() {
     $('[data-toggle="tooltip"]').tooltip();
 
     // get loged user privilage for item module
-    lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Quotationrequest");
+    lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=SupplierPayment");
 
     refreshTable();
-    refreshQRForm();
+    refreshSPForm();
 }
 
 // Create function for refresh table
 const refreshTable = ()=>{
 
-    quotationrequests = new Array();
-    quotationrequests = getServiceRequest("/quotationrequest/findall"); //
+    supplierpayments = new Array();
+    supplierpayments = getServiceRequest("/supplierpayment/findall"); //
 
     //call filldataintotablefunction
     // fillDataIntoTable(tableid , dataList,displayPropertyList , dpDataTypeList,formrefillfunctionname,
     // rowdeletefunctionname, rowviewfunctonname, buttonvisibility , buttonsprivilages)
-    let displayPropertyList =  ['request_number','supplier_id.company_name','required_date','quatation_req_status_id.name'];
-    let dpDataTypeList = ['text','object','text','object'];
-    fillDataIntoTable(tableQuotationRequest,quotationrequests,displayPropertyList,dpDataTypeList,reFillItemForm , deleteItemRow , viewItemRow, true, lggeduserprivilage);
+    let displayPropertyList =  ['bill_no','supplier_id.company_name','material_recieve_note_id.recieve_no','net_amount','total_amount',
+        'paid_amount', 'balance_amount','added_date','supplier_payment_type_id.name','supplier_payment_status_id.name'];
+    let dpDataTypeList = ['text','object','object',getNetAmount,getTotalAmount, getPaidAmount, getBalanceAmount,getAddedDatetime,'object','object'];
+    fillDataIntoTable(tableSupplierPayment,supplierpayments,displayPropertyList,dpDataTypeList,reFillSPForm , deleteSPRow , viewSPRow, true, lggeduserprivilage);
 
-    for(let index in quotationrequests){
-        if(quotationrequests[index].quatation_req_status_id.name == "Removed"){
-            tableQuotationRequest.children[1].children[index].style.backgroundColor = "pink";
+    for(let index in supplierpayments){
 
-            tableQuotationRequest.children[1].children[index].children[5].children[1].disabled = true;
-            tableQuotationRequest.children[1].children[index].children[5].children[1].style.pointerEvents = "all";
-            tableQuotationRequest.children[1].children[index].children[5].children[1].style.cursor = "not-allowed";
+        tableSupplierPayment.children[1].children[index].children[11].children[0].style.display = "none";
+        tableSupplierPayment.children[1].children[index].children[11].children[1].style.display = "none";
 
-        }
     }
 
-    $("#tableQuotationRequest").dataTable();
+    $("#tableSupplierPayment").dataTable();
 }
 
 
 // create function for get sales price
-function getSupplyMaterialName(ob){
-    let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id)
-    let materialName = "";
-    for(let ind in supplyIMaterialList){
-        if(supplyIMaterialList.length -1 == ind){
-            materialName = materialName + supplyIMaterialList[ind].name ;
-        }else
-            materialName = materialName + supplyIMaterialList[ind].name + " ,";
-    }
+function getNetAmount(ob){
+    return  parseFloat(ob.net_amount).toFixed(2);
+}
 
-    return materialName;
+function getTotalAmount(ob) {
+    return  parseFloat(ob.total_amount).toFixed(2);
+}
+function getPaidAmount(ob) {
+    return parseFloat(ob.paid_amount).toFixed(2);
+}
+function getBalanceAmount(ob) {
+    return parseFloat(ob.balance_amount).toFixed(2);
+}
+function getAddedDatetime(ob) {
+    return ob.added_date.split("T")[0] + "  " + ob.added_date.split("T")[1];
 }
 
 
-const refreshQRForm = ()=> {
+const refreshSPForm = ()=> {
 
-    newQuotationRequest = new Object();
-    oldQuotationRequest  = null;
+    newSupplierPayment = new Object();
+    oldSupplierPayment  = null;
 
     // need to fill data into dropdown element
     suppliers = getServiceRequest("/supplier/list"); //
-    qrStatuses = getServiceRequest("/qrstatus/list"); //
+    mrns = getServiceRequest("/mrn/list"); //
+    spstatuses = getServiceRequest("/spstatus/list"); //
+    sptypes = getServiceRequest("/sptype/list"); //
 
     fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name","");
+    fillSelectFeild(cmbPMethod,"Select Method>" , sptypes ,"name","Cash");
+    fillSelectFeild(cmbMrn,"Select MRN" , mrns ,"recieve_no","");
+    fillSelectFeild(cmbSPStatus,"Select QR Status" , spstatuses ,"name","Paid");
+    newSupplierPayment.supplier_payment_status_id = JSON.parse(cmbSPStatus.value);
+    newSupplierPayment.supplier_payment_type_id = JSON.parse(cmbPMethod.value);
 
-    fillSelectFeild(cmbQRStatus,"Select QR Status" , qrStatuses ,"name","Requested");
-    newQuotationRequest.quatation_req_status_id = JSON.parse(cmbQRStatus.value);
-
-    cmbQRStatus.disabled = true;
+    cmbSPStatus.disabled = true;
 
     // clear input feilds
-    txtQRNo.value = "Quotation Request number is auto generated";
-    dteRequiredDate.value = "";
-    let mindate = new Date();
-    let maxDate = new Date();
+    txtSPNo.value = "Supplier Payment Bill number is auto generated";
 
-    maxDate.setDate(maxDate.getDate()+10);
-    dteRequiredDate.max = getCurrentDate2("date",maxDate);
-
-    dteRequiredDate.min = getCurrentDate2("date",mindate);
+    txtNetAmount.value ="";
+    txtTotalAmount.value ="";
+    txtPaidAmount.value ="";
+    txtBalanceAmount.value ="";
     txtNote.value = "";
 
     setUiElementColor("1px solid #ced4da");
-    cmbQRStatus.style.borderBottom = "2px solid green";
+    cmbSPStatus.style.borderBottom = "2px solid green";
+    cmbPMethod.style.borderBottom = "2px solid green";
 
     disabledButton(true , false);
 }
@@ -101,7 +104,7 @@ let disabledButton = (addbtn , updbtn) => {
         $("#buttonAdd").css("pointer-events","all");
         $("#buttonAdd").css("cursor","not-allowed");
     }
-
+/*
     if(updbtn && lggeduserprivilage.upd){
         buttonUpdate.disabled = false;
         $("#buttonUpdate").css("pointer-events","all");
@@ -110,63 +113,76 @@ let disabledButton = (addbtn , updbtn) => {
         buttonUpdate.disabled = true;
         $("#buttonUpdate").css("pointer-events","all");
         $("#buttonUpdate").css("cursor","not-allowed");
-    }
+    }*/
 }
 
 let setUiElementColor = (style) => {
+
+    txtSPNo.style.borderBottom = style;
+    cmbSPStatus.style.borderBottom = style;
+    cmbPMethod.style.borderBottom = style;
     cmbSupplier.style.borderBottom = style;
-    cmbQRStatus.style.borderBottom = style;
-    dteRequiredDate.style.borderBottom = style;
+    cmbMrn.style.borderBottom = style;
+    txtNetAmount.style.borderBottom = style;
+    txtTotalAmount.style.borderBottom = style;
+    txtPaidAmount.style.borderBottom = style;
+    txtBalanceAmount.style.borderBottom = style;
     txtNote.style.borderBottom = style;
 
 }
 
 //check available errors in form
-const checkQRFormError = ()=>{
+const checkSPFormError = ()=>{
     let formerror = "";
 
-    if( newQuotationRequest.supplier_id == null){
+    if( newSupplierPayment.company_name == null){
         formerror = formerror + "Please Select Supplier ..! \n";
-
     }
 
-    if( newQuotationRequest.required_date == null){
-        formerror = formerror + "Please Select Required Date..! \n";
-
+    if( newSupplierPayment.material_recieve_note_id == null){
+        formerror = formerror + "Please Select MRN ..! \n";
+    }
+    if( newSupplierPayment.total_amount == null){
+        formerror = formerror + "Please Enter Total Amount ..! \n";
     }
 
-    if( newQuotationRequest.quatation_req_status_id == null){
-        formerror = formerror + "Please Select Supplier Status..! \n";
+    if( newSupplierPayment.paid_amount == null){
+        formerror = formerror + "Please Paid Amount..! \n";
+    }
 
+    if( newSupplierPayment.balance_amount == null){
+        formerror = formerror + "Please Balance Amount..! \n";
     }
 
     return formerror;
 }
 
-function buttonQRSave() {
+function buttonSPSave() {
     // check form error
-    let errors = checkQRFormError();
+    let errors = checkSPFormError();
     if(errors != ""){
         window.alert("form has following erros \n" + errors);
     }else {
         //get user confirmation
-        let userCofirmMsg = "Are you sure to add Following Quotation Request ..? " +
-            "\n Supplier Name : " + newQuotationRequest.supplier_id.company_name +
-            "\n Required Date : " + newQuotationRequest.required_date +
-            "\n QR Status : " + newQuotationRequest.quatation_req_status_id.name ;
+        let userCofirmMsg = "Are you sure to add Following Supplier Payment ..? " +
+            "\n Supplier Name : " + newSupplierPayment.supplier_id.company_name +
+            "\n MRN  No : " + newSupplierPayment.material_recieve_note_id.recieve_no +
+            "\n Total Amount : " + newSupplierPayment.total_amount +
+            "\n Paid Amount : " + newSupplierPayment.paid_amount +
+            "\n Balance Amount : " + newSupplierPayment.balance_amount ;
 
         let userSaveResponce = window.confirm(userCofirmMsg);
 
         if(userSaveResponce){
             //call post services
-            let serverResponce = getHTTPServiceRequest("/quotationrequest" , "POST" , newQuotationRequest);
+            let serverResponce = getHTTPServiceRequest("/supplierpayment" , "POST" , newSupplierPayment);
             if(serverResponce == "0"){
                 $("#modalQuotationRequestForm").modal("hide");
                 refreshTable();
-                refreshQRForm();
-                window.alert("Quotation Request Insert Successfully...");
+                refreshSPForm();
+                window.alert("Supplier Payment Insert Successfully...");
             }else {
-                window.alert("Quotation Request Insert Not Successfully you have server error...\n" + serverResponce);
+                window.alert("Supplier Payment Insert Not Successfully you have server error...\n" + serverResponce);
             }
 
         }
@@ -174,121 +190,16 @@ function buttonQRSave() {
 }
 
 //form refill function
-function reFillItemForm(rowob,rowind) {
+function reFillSPForm(rowob,rowind) {
 
-
-
-    newQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
-    oldQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
-
-  fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name",newQuotationRequest.supplier_id.company_name);
-
-    fillSelectFeild(cmbQRStatus,"Select QR Status" , qrStatuses ,"name",newQuotationRequest.quatation_req_status_id.name);
-    cmbQRStatus.disabled = false;
-
-    // clear input feilds
-    txtQRNo.value = newQuotationRequest.request_number;
-    dteRequiredDate.value = newQuotationRequest.required_date;
-    if( newQuotationRequest.note != null)
-    txtNote.value = newQuotationRequest.note; else  txtNote.value = "";
-
-    setUiElementColor("1px solid green");
-
-    if( newQuotationRequest.note == null)
-        txtNote.style.borderBottom = "1px solid #ced4da";
-    disabledButton(false , true);
-    $("#modalQuotationRequestForm").modal("show");
 }
-
-
-const checkQRFormUpdates = () =>{
-
-    let updates = "";
-
-    if(newQuotationRequest != null && oldQuotationRequest != null){
-
-        if(newQuotationRequest.required_date != oldQuotationRequest.required_date){
-            updates = updates + "Require Date  is changed " +  oldQuotationRequest.required_date + " into " + newQuotationRequest.required_date + "\n";
-        }
-
-        if(newQuotationRequest.note != oldQuotationRequest.note){
-            updates = updates + "Quotation Request Note No is changed " + oldQuotationRequest.note + " into " + newQuotationRequest.note + "\n";
-        }
-
-        if(newQuotationRequest.supplier_id.id != oldQuotationRequest.supplier_id.id){
-            updates = updates + "Supplier  is changed " + oldQuotationRequest.supplier_id.company_name + " into " + newQuotationRequest.supplier_id.company_name + "\n";
-        }
-
-        if(newQuotationRequest.quatation_req_status_id.name != oldQuotationRequest.quatation_req_status_id.name){
-            updates = updates + "Supplier Status is changed " + oldQuotationRequest.quatation_req_status_id.name + " into " + newQuotationRequest.quatation_req_status_id.name + "\n";
-        }
-
-    }
-
-
-    return updates;
-}
-
-//function for update button
-function buttonQRUpdate() {
-    $("#modalQuotationRequestForm").modal("hide");
-   let formeErrors = checkQRFormError();
-    if( formeErrors == ""){
-        let formUpdates = checkQRFormUpdates();
-        if(formUpdates == ""){
-            window.alert("Nothing updated...!");
-        }else {
-
-            let userUpdConfirmation = window.confirm("Are you sure to update following changers..? \n"+ formUpdates);
-
-            if(userUpdConfirmation){
-                let serverUpdResponce = getHTTPServiceRequest("/quotationrequest" , "PUT" , newQuotationRequest);
-                if(serverUpdResponce == "0"){
-                    $("#supplierAddModal").modal("hide");
-                    window.alert("Quotation Request Update Successfully...");
-                    refreshTable();
-                    refreshQRForm();
-
-
-                }else {
-                    window.alert("Quotation Request Update Not Successfully you have server error...\n" + serverUpdResponce);
-                }
-
-            }
-
-
-        }
-    }else {
-        window.alert("form has following erros \n" + formeErrors);
-    }
-}
-
 
 //create function for delete row
-function deleteItemRow(ob) {
-    // get uesr confirmation
-    let deleteConfirmMSG = "Are you sure to delete follwing Quotation Request..? \n" +
-        " QR Number : " + ob.request_number +
-        " Supplier Name : " + ob.supplier_id.company_name +
-        "\n Required Date : " + ob.required_date;
-
-    let userResponce =  window.confirm(deleteConfirmMSG);
-
-    if(userResponce){
-        let deleteServieResponce = getHTTPServiceRequest("/quotationrequest" , "DELETE" , ob);
-        if(deleteServieResponce == "0"){
-            refreshTable();
-            window.alert("Quotation Request Delete Successfully...");
-        }else {
-            window.alert("Quotation Request Delete Not Successfully you have server error...\n" + deleteServieResponce);
-        }
-
-    }
-
+function deleteSPRow(ob) {
 }
 
 
-function viewItemRow(rowob,rowind) {
+function viewSPRow(rowob,rowind) {
 
     let printItem = getServeiceRequst("/item/getbyid/"+rowob.id);
 
@@ -296,3 +207,49 @@ function viewItemRow(rowob,rowind) {
 
 }
 
+function getMRN() {
+    mrns = getServiceRequest("/mrn/listbysupplier/"+JSON.parse(cmbSupplier.value).id); //
+    fillSelectFeild(cmbMrn,"Select QR Status" , mrns ,"recieve_no","");
+
+    txtTotalAmount.value =  parseFloat(JSON.parse(cmbSupplier.value).amount).toFixed(2);
+    txtTotalAmount.style.borderBottom = "2px solid green";
+    newSupplierPayment.total_amount = txtTotalAmount.value;
+}
+
+function getTotalAmountFormMRN() {
+    txtNetAmount.value = parseFloat(JSON.parse(cmbMrn.value).net_amount).toFixed(2);
+    txtTotalAmount.value = (parseFloat(  txtTotalAmount.value) + parseFloat( txtNetAmount.value)).toFixed(2)
+    txtNetAmount.style.borderBottom = "2px solid green";
+    txtTotalAmount.style.borderBottom = "2px solid green";
+
+    newSupplierPayment.net_amount = txtNetAmount.value;
+    newSupplierPayment.total_amount = txtTotalAmount.value;
+}
+
+function getSPBalanceAmount() {
+
+    let  paidpattern = new RegExp("^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$");
+    if(paidpattern.test( txtPaidAmount.value)){
+        if( parseFloat(txtPaidAmount.value) <= parseFloat(  txtTotalAmount.value)){
+            txtBalanceAmount.value = (parseFloat(  txtTotalAmount.value) -  parseFloat(txtPaidAmount.value)).toFixed(2);
+            txtBalanceAmount.style.borderBottom = "2px solid green";
+            txtPaidAmount.style.borderBottom = "2px solid green";
+            newSupplierPayment.paid_amount = txtPaidAmount.value;
+            newSupplierPayment.balance_amount = txtBalanceAmount.value;
+        }else {
+            txtBalanceAmount.value ="";
+            txtBalanceAmount.style.borderBottom = "2px solid  #ced4da";
+            txtPaidAmount.style.borderBottom = "2px solid red";
+            newSupplierPayment.paid_amount = null;
+            newSupplierPayment.balance_amount = null;
+        }
+    }else {
+        txtBalanceAmount.value ="";
+        txtBalanceAmount.style.borderBottom = "2px solid  #ced4da";
+        txtPaidAmount.style.borderBottom = "2px solid red";
+        newSupplierPayment.paid_amount = null;
+        newSupplierPayment.balance_amount = null;
+    }
+
+
+}

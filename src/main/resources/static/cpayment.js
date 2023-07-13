@@ -41,4 +41,11 @@ const  refreshCPaymentForm = () =>{
 }
 const refillForm = () =>{}
 const deleteRow = () =>{}
-const viewRow = () =>{}
+const viewRow = (rowob,rowind) =>{
+
+        let printItem = getServeiceRequst("/cpayment/getbyid/"+rowob.id);
+
+        tdItemCode.innerText = printItem.itemcode;
+
+    }
+

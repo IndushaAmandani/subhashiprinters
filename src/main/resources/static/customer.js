@@ -376,7 +376,7 @@ function buttonSubmitMC() {
 
                 alert("Delete Successfull..!");
                 refreshCustomerTable();
-                refreshCustomerForm();
+
             } else {
                 window.alert("You have following error \n" + deleteServerResponce);
             }
