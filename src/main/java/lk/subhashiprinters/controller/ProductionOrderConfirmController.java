@@ -1,11 +1,11 @@
 package lk.subhashiprinters.controller;
 
 
-import lk.subhashiprinters.entity.*;
-import lk.subhashiprinters.repository.COrderStatusRepository;
-import lk.subhashiprinters.repository.CustomerOrderRepository;
-import lk.subhashiprinters.repository.ProductionStatusRepository;
-import lk.subhashiprinters.repository.UserRepository;
+import lk.subhashiprinters.entity.CustomerOrder;
+import lk.subhashiprinters.entity.CustomerOrderHasProduct;
+import lk.subhashiprinters.entity.Product;
+import lk.subhashiprinters.entity.User;
+import lk.subhashiprinters.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,11 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController //
-@RequestMapping(value = "/customerOrder") //Class level mapping
-public class CustomerOrderController {
+@RequestMapping(value = "/productoinOrderConfirm") //Class level mapping
+public class ProductionOrderConfirmController {
 
     @Autowired // for create instance
-    private CustomerOrderRepository CustomerOrderDao;
+    private ProductionOrderConfirmRepository productionOrderConfirmDao;
 
     @Autowired // for create instance
     private COrderStatusRepository COrderSatatusDao;
@@ -33,7 +33,6 @@ public class CustomerOrderController {
     @Autowired
     private UserRepository userDao;
 
-
     @Autowired
     private PrivilageController privilegeController;
 
@@ -41,19 +40,24 @@ public class CustomerOrderController {
 
     //get quotationrequest UI [/quotationrequest]
     @GetMapping
-    public ModelAndView customerOrderUI(){
-        ModelAndView customerOrderView = new ModelAndView();
-        customerOrderView.setViewName("corder.html");
+    public ModelAndView POrderCnfirmUI(){
+        ModelAndView productionOrderConfirm = new ModelAndView();
+        productionOrderConfirm.setViewName("productionOrderConfirm.html");
 
-        return customerOrderView;
+        return productionOrderConfirm;
     }
 
 
+    @GetMapping(value ="/findall",produces = "application/json")
+    //create function
+    public List<CustomerOrder> findAll(){
+        return productionOrderConfirmDao.findAll();
+    }
 
-
-    // get mapping for get customerOrder selected columns details [/customerOrder/findall]
+/*
+   // get mapping for get customerOrder selected columns details [/customerOrder/findall]
     @GetMapping(value = "/findall", produces = "application/json")
-    public List<CustomerOrder> quotationrequestFindAll(){
+    public List<CustomerOrder> POrderConfirmFindAll(){
         //need to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
@@ -66,25 +70,18 @@ public class CustomerOrderController {
         HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerOrder");
 
         if(loggedUser != null && userPiriv.get("sel"))
-            return CustomerOrderDao.findAll();
+            return productionOrderConfirmDao.findAll();
         else{
             List<CustomerOrder> customerOrderList = new ArrayList<>();
             return customerOrderList;
-        }
+        }/*
 
     }
 
 
     //get mapping for get corder details for  daily product
-    @GetMapping(value = "/list",produces = "application/json")
+  /*  @GetMapping(value = "/list",produces = "application/json")
     public  List<CustomerOrder> list(){return CustomerOrderDao.list();}
-
-//Customer Payment to be paid customer Order Numbers
-    @GetMapping(value = "/getActivePayCOrders/{cid}",produces = "applicaton/json")
-    public List<CustomerOrder> getpaymentPendingCustomers(@PathVariable("cid") Integer cid){return CustomerOrderDao.getNotPaidCustomers(cid);}
-
-    @GetMapping(value ="/notpaidCustomers",produces = "application/json")
-    public List<CustomerOrder> getNotPyCustomerOrders(){return CustomerOrderDao.getNotpaidList();}
 
 @GetMapping(value ="/pendingOrders",produces = "application/json")
     public CustomerOrder getPendingCustomerOrders(){return CustomerOrderDao.pendingCustomerOrders();}
@@ -109,13 +106,10 @@ public class CustomerOrderController {
 
             try {
                 // set auto set value
-                customerOrder.setOrder_code(CustomerOrderDao.getNextPorderNo());
-                customerOrder.setOrder_status_id(COrderSatatusDao.getReferenceById(1));
           customerOrder.setAdded_date(LocalDateTime.now());
              customerOrder.setAdded_user_id(loggedUser);
              customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
 
-                System.out.println(customerOrder);
              for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
                  coh.setCustomer_order_id(customerOrder);
                  coh.setCompletedqty(0);
@@ -136,7 +130,7 @@ public class CustomerOrderController {
 
 
     }
-
+*/
     //update mapping for update quotationrequest [/quotationrequest - update]
 //    @PutMapping
 //    @Transactional
@@ -173,7 +167,7 @@ public class CustomerOrderController {
 //    }
 
 
-
+/*
     //delete mapping for delete quotationrequest [/quotationrequest - delete]
     @DeleteMapping
     public String deleteCOrder(@RequestBody CustomerOrder customerOrder){
@@ -207,7 +201,7 @@ public class CustomerOrderController {
             return "Customer Order Delete Not completed : You don't have permissing";
         }
     }
-
+*/
 
 
 }

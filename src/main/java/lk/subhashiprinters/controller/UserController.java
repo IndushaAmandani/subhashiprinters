@@ -43,7 +43,7 @@ public class UserController {
         User loggedUser = userDao.findUserByUsername(auth.getName());
         HashMap<String,Boolean> userPrvi = privilageController.getPrivilageByUserModule(auth.getName(), "User");
 
-        if(loggedUser != null && userPrvi.get("slect")){
+        if(loggedUser != null && userPrvi.get("sel")){
             //return userDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
             return userDao.findAll();
         }else {
@@ -68,7 +68,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
 
-        if(loggrgUser !=null && userPriv.get("insrt")){
+        if(loggrgUser !=null && userPriv.get("ins")){
 
             //need to check duplicate
             //need to check duplicate
@@ -107,7 +107,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
         //privilage- slect,insrt,updt,updt,deltt
-        if(loggrgUser !=null && userPriv.get("updt")){
+        if(loggrgUser !=null && userPriv.get("upd")){
 
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());
@@ -142,7 +142,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
 
-        if(loggrgUser !=null && userPriv.get("deltt")){
+        if(loggrgUser !=null && userPriv.get("delt")){
 
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());

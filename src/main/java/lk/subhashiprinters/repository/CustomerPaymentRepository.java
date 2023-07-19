@@ -18,5 +18,7 @@ public interface CustomerPaymentRepository extends JpaRepository<CustomerPayment
    String getNextCustomerPaymentBillNo();
 
 
+//        @Query(value = "select new CustomerPayment(cp.id,cp.customer_payment_bill_number) from CustomerPayment cp where cp.customer_payment_status_id.id=2")
+//  List <CustomerPayment> getCustomerPaymentBy();
 
 }

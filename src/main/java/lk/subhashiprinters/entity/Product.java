@@ -47,8 +47,6 @@ public class Product {
     @Column(name = "single_or_double")
     private String single_or_double;
 
-    @Column(name = "number_of_copies")
-    private Integer number_of_copies;
 
     @ManyToOne
     @JoinColumn(name = "added_user_id", referencedColumnName = "id")

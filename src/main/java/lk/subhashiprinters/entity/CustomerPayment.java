@@ -101,5 +101,9 @@ public class CustomerPayment implements Serializable {
         this.customer_payment_type_id = customer_payment_type_id;
         this.customer_payment_status_id = customer_payment_status_id;
     }
+    public CustomerPayment(Integer id,String customer_payment_bill_number){
+        this.id = id;
+        this.customer_payment_bill_number = customer_payment_bill_number;
+    }
 
 }

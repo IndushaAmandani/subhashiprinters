@@ -5,7 +5,7 @@ function getServiceRequest(url) {
 //jQuery.ajax()
     $.ajax(url,{
         async: false,
-        dataType:'json',
+        dataType:'json', //DATA that you are exopecting back from the server
         success: function (data,status, xhr){
           //  $('#err').append("Service : " + url + "<br>");
            // $('#err').append("data : " + JSON.parse(data) + "<br>");

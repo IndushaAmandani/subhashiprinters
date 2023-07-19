@@ -10,9 +10,9 @@ import lk.subhashiprinters.entity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
-   @Query(value = "select new Customer(c.id,c.customer_code,c.customer_name,c.mobile,c.customer_email,c.customerstatus_id,c.customer_type_id,c.customer_category_id) from Customer c order by c.id desc")
+   @Query(value = "select new Customer(c.id,c.customer_code,c.customer_name,c.mobile,c.customer_email,c.customerstatus_id,c.customer_category_id) from Customer c order by c.id desc")
     List<Customer> findAll();
-
+//,c.customer_type_id
         //Query for get employee by given nic
         @Query("select c from Customer c where c.mobile = ?1")
         Customer getByMobile(String mobile); // mapping function for above query

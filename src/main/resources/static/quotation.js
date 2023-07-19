@@ -25,7 +25,7 @@ const refreshTable = () => {
 
     for (let index in quotations) {
         if (quotations[index].quatation_status_id.name == "Removed") {
-            tableQuotation.children[1].children[index].style.backgroundColor = "pink";
+            tableQuotation.children[1].children[index].style.backgroundColor = "red";
 
             tableQuotation.children[1].children[index].children[7].children[1].disabled = true;
             tableQuotation.children[1].children[index].children[7].children[1].style.pointerEvents = "all";

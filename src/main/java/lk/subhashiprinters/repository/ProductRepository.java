@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
  List<Product> findAll();
 
  //Query for next product code
- @Query(value = "SELECT lpad(max(p.product_code)+1,10,'0') FROM subhashiprinters.product as p;" ,nativeQuery = true)
+ @Query(value = "SELECT lpad(max(p.product_code)+1,8,'0') FROM subhashiprinters.product as p;" ,nativeQuery = true)
  String nextProductCodeNumber();
 
 
@@ -27,7 +27,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
  @Query("select new Product (p.id, p.product_code, p.p_name,p.price) from Product p where p.product_status_id.id=1 and p.id in(select co.product_id.id from CustomerOrderHasProduct co where co.customer_order_id.id=?1)")
  List<Product> getListByCOrder(Integer coid);
 
- @Query("select new Product (p.id,p.product_code,p.p_name,p.price) from Product p where p.product_status_id.id=3")
+ @Query("select new Product (p.id,p.product_code,p.p_name,p.price) from Product p where p.product_status_id.id=1")
  List<Product> list();
 
 

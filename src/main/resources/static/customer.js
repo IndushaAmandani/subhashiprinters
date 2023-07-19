@@ -17,9 +17,9 @@ const refreshCustomerTable = () => {
     customers = getServiceRequest("/customer/findall");
 
     //create display property list
-    let dispalyPropertyList = [ 'customer_code', 'customer_name', 'mobile', 'customer_email', 'customer_category_id.name','customer_type_id.name','customerstatus_id.name'];
+    let dispalyPropertyList = [ 'customer_code', 'customer_name', 'mobile', 'customer_email', 'customer_category_id.name','customerstatus_id.name'];
     //Property type list
-    let dispalyPropertyDTList = [ 'text', 'text', 'text', 'text', 'object', 'object', 'object'];
+    let dispalyPropertyDTList = [ 'text', 'text', 'text', 'text', 'object', 'object'];
 
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCustomer,customers,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
@@ -202,11 +202,15 @@ function buttonSubmitMC() {
 }
 
     const formRefill = (ob, rowno) => {
-         rowno
-        customer = JSON.parse(JSON.stringify((ob)));
-        oldcustomer = JSON.parse(JSON.stringify((ob)))
 
-    customergetbyid =getServiceRequest("/customer/getbyid/" )
+        // customer = JSON.parse(JSON.stringify((ob)));
+        // oldcustomer = JSON.parse(JSON.stringify((ob)))
+
+        customer =  new Object();
+        oldcustomer = new Object();
+
+    customer =getServiceRequest("/customer/getbyid/"+ob.id )
+        oldcustomer =getServiceRequest("/customer/getbyid?id=" +ob.id)
 
 
         //set value into fields
@@ -227,11 +231,12 @@ function buttonSubmitMC() {
             txtDescription.value = customer.description; else txtDescription.value = "";
 
         //radio button value checking
+        customerCategories = getServiceRequest("/customerCategory/list");
+        customerStatuses = getServiceRequest("/customerstatus/list");
 
-
-        fillSelectFeild(cmbCustomerCategory, "Select Category", categories, 'name', customer.customer_category_id.name);
+        fillSelectFeild(cmbCustomerCategory, "Select Category", customerCategories, 'name', customer.customer_category_id.name);
         //fillSelectFeild(cmbCustomerType, "Select Types", types, 'name', customer.customer_type_id.name);
-        fillSelectFeild(cmbCustomerStatus, "Select Customer status", customerstatuses, 'name', customer.customerstatus_id.name);
+        fillSelectFeild(cmbCustomerStatus, "Select Customer status", customerStatuses, 'name', customer.customerstatus_id.name);
 
         setStyle("2px dotted green");
 
@@ -256,42 +261,43 @@ function buttonSubmitMC() {
     }
 
     const checkUpdate = () => {
-        let update = "";
+        let updates = "";
 
-        if (customer != null && oldcustomer != null) {
+        if (customer != null && oldcustmer != null) {
 
             if (customer.customer_name != oldcustomer.customer_name) {
                 updates = updates + "Customer name has changed " + oldcustomer.customer_name
                     + "into " + customer.customer_name + "\n";
             }
             if (customer.mobile != oldcustomer.mobile) {
-                updates = updates + "Customer name has changed " + oldcustomer.mobile
+                updates = updates + "Customer mobile has changed " + oldcustomer.mobile
                     + "into " + customer.mobile + "\n";
             }
             if (customer.customer_email != oldcustomer.customer_email) {
-                updates = updates + "Customer name has changed " + oldcustomer.customer_email
+                updates = updates + "Customer Email has changed " + oldcustomer.customer_email
                     + "into " + customer.customer_email + "\n";
             }
-            if (customer.customer_ != oldcustomer.customer_name) {
-                updates = updates + "Customer name has changed " + oldcustomer.customer_name
-                    + "into " + customer.customer_name + "\n";
 
-            }
             if (customer.company_name != oldcustomer.company_name) {
-                updates = updates + "Customer name has changed " + oldcustomer.company_name
+                updates = updates + "Customer company name has changed " + oldcustomer.company_name
                     + "into " + customer.company_name + "\n";
             }
             if (customer.company_email != oldcustomer.company_email) {
-                updates = updates + "Customer name has changed " + oldcustomer.company_email
+                updates = updates + "Customer company email has changed " + oldcustomer.company_email
                     + "into " + customer.company_email + "\n";
             }
             if (customer.company_contactnumber != oldcustomer.company_contactnumber) {
-                updates = updates + "Customer name has changed " + oldcustomer.company_contactnumber
+                updates = updates + "Customer contact number has changed " + oldcustomer.company_contactnumber
                     + "into " + customer.company_contactnumber + "\n";
             }
 
+            if(customer.customerstatus_id.name != oldcustomer.customerstatus_id.name){
+                updates = updates + "Customer Status has changed " + oldcustomer.customerstatus_id.name
+                    + "into " + customer.customerstatus_id.name + "\n";
+            }
+
         }
-        return update;
+        return updates;
     }
 
     function buttonUpdateMC() {
@@ -388,7 +394,7 @@ function buttonSubmitMC() {
 
 function showCompanyForm() {
 
-    if (JSON.parse(cmbCustomerCategory.value).name == "company") {
+    if (cmbCustomerCategory.value.toString() == "company") {
         divCompanyDetails.style.display = "block";
     } else {
         divCompanyDetails.style.display = "none";

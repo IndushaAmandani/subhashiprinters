@@ -126,7 +126,7 @@
                 <ul class="menu-content">
                     <li><a class="menu-item" href="customer.html">Customer</a></li>
                     <li><a class="menu-item" href="product.html">Product</a></li>
-                    <li><a class="menu-item" href="printOrder.html">Print Order </a></li>
+                    <li><a class="menu-item" href="corder.html">Customer Order </a></li>
                     <li><a class="menu-item" href="cpayment.html">Customer Payement </a></li>
                 </ul>
             </li>
@@ -147,7 +147,7 @@
                     <li><a class="menu-item" href="quotationrequest.html.html">Quotation Request</a></li>
                     <li><a class="menu-item" href="quotation.html.html">Quotation </a></li>
                     <li><a class="menu-item" href="porder.html.html">Purchase Order </a></li>
-                    <li><a class="menu-item" href="grn.html">GRN </a></li>
+                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
                     <li><a class="menu-item" href="supplierpayment.html.html">Supplier Payement </a></li>
                 </ul>
             </li>
@@ -225,11 +225,11 @@
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
                                                             <i class="align-middle" data-feather="users"></i>
-                                                            <img src="app-assets/images/pages/In-ProgressOrders.jpeg" height="225" width="245" alt="inprogressimg" style="display:block ">
+                                                            <img src="app-assets/images/pages/In-ProgressOrders.jpeg" height="220" width="245" alt="inprogressimg" style="display:block ">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h1 class="mt-1 mb-3" id="hPendingQRCount"></h1>
+                                                <h1 class="mt-1 mb-3" id="pendingCOCount"></h1>
                                             </div>
                                         </div>
                                     </div>
@@ -456,8 +456,11 @@
 <script src="js/app.js"></script>
 
 <script>
-    let hactiveCCount = getServiceRequest("/customer/getActiveCustomerCount()");
+    let hactiveCCount = getServiceRequest("/customer/getActiveCustomerCount");
     activeCCount.innerText = hactiveCCount.id;
+
+    let hcustomerOrder = getServiceRequest("/customerOrder/pendingOrders");
+    pendingCOCount.innerText = hcustomerOrder.id;
 </script>
 
 <script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>

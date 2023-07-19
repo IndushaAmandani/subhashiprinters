@@ -29,7 +29,7 @@ public class CustomerOrder implements Serializable {
     private  String order_code;
 
     @Column(name = "required_date")
-    private  LocalDateTime required_date;
+    private  LocalDate required_date;
 
     @Column(name = "total_of_lines")
     private BigDecimal total_of_lines;
@@ -109,4 +109,8 @@ public class CustomerOrder implements Serializable {
 
 
     }
+    public CustomerOrder(Long count){
+        this.id = Integer.valueOf(count.toString());
+    }
 }
+

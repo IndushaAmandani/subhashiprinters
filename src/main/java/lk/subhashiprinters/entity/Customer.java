@@ -78,16 +78,16 @@ public class Customer {
   @JoinColumn(name = "updated_user", referencedColumnName = "id")
   private User updated_user_id;
 
-  @ManyToOne
-  @JoinColumn(name = "customer_type_id", referencedColumnName = "id")
-  private CustomerType customer_type_id;
+//  @ManyToOne
+//  @JoinColumn(name = "customer_type_id", referencedColumnName = "id")
+//  private CustomerType customer_type_id;
 
   @ManyToOne
   @JoinColumn(name = "customer_category_id", referencedColumnName = "id")
   private CustomerCategory customer_category_id;
 
   public Customer(Integer id, String customer_code, String customer_name,String mobile,
-      String customer_email, CustomerStatus customerstatus_id,CustomerType customer_type_id,
+      String customer_email, CustomerStatus customerstatus_id,
       CustomerCategory customer_category_id  ) {
     this.id = id;
     this.customer_code = customer_code;
@@ -96,7 +96,7 @@ public class Customer {
     this.customer_email = customer_email;
     this.customerstatus_id = customerstatus_id;
     this.customer_category_id = customer_category_id;
-    this.customer_type_id = customer_type_id;
+//    this.customer_type_id = customer_type_id;
   }
 
 public char[] getName() {

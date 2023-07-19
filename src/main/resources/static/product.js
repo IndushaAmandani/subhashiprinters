@@ -43,6 +43,18 @@ const refreshTable = () => {
     fillDataIntoTable(tableProduct, products, displayPropertyList, displayDatatypeList,
         formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
+    for (let index in products ){
+        if (products[index].product_status_id.name == "Not-Active") {
+            tableProduct.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableProduct.children[1].children[index].children[11].children[1].disabled = true;
+            tableProduct.children[1].children[index].children[11].children[1].style.pointerEvents = "all";
+            tableProduct.children[1].children[index].children[11].children[1].style.cursor = "not-allowed";
+
+        }
+    }
+
+
+
 
     // need to add jquerty table
     $('#tableProduct').dataTable();
@@ -122,10 +134,35 @@ refreshProductForm = () => {
   // // ###################### PaperSide  ##########################
 
 
-    refreshPInnerFormTable();
+    txtProductname.value="";
+    txtHeight.value="";
+    txtWidth.value="";
 
+    txtPrice.value="";
+    txtDescription.value="";
+
+    refreshPInnerFormTable();
+    setStyle("1px solid #cacfe7")
 
 }
+
+function setStyle(style) {
+    txtProductname.style.border = style;
+    txtHeight.style.border = style;
+    txtWidth.style.border = style;
+    txtPrice.style.border = style;
+    txtDescription.style.border = style;
+    cmbprintColors.style.border = style;
+    cmbpaperColors.style.border = style;
+    cmbCustomer.style.border = style;
+    cmbproductCategory.style.border = style;
+    cmbproductSize.style.border = style;
+    cmbpaperTypes.style.border = style;
+    lblRadioSingle.style.border = style;
+    lblRadioDouble.style.border = style;
+}
+
+
 
 //Inner Form
 refreshPInnerFormTable = () => {
@@ -193,6 +230,14 @@ const buttonInnerAddMC = (value) => {
 
 //inner form-inner tale-row button functions
 const innerFormReFill = (innerob, rowind) => {
+
+
+    //    pCopypTbyPCategory = getServiceRequest("/paperTypes/list");
+   fillSelectFeild(cmbPcopypaperTypes, "Select Paper Types", pCopypTbyPCategory, "name",productCopy.papertype_id.name);
+//    pCopypaperColors = getServiceRequest("/paperColors/list")
+     fillSelectFeild(cmbPcopypaperColors, "Select Paper Colors", pCopypaperColors, "name", "");
+    //  productCategory= getServiceRequest("/productCategory/list")
+      fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name', '');
 }
 const innerRowDelete = (innerob, rowind) => {
 
@@ -204,7 +249,6 @@ const innerRowDelete = (innerob, rowind) => {
     let innserdeleteUserResponce = window.confirm(deleteInnerMsg);
 
     if (innserdeleteUserResponce) {
-
         product.productCopyList.splice(rowind, 1)
         alert("Remove Successfully...!");
         refreshPInnerFormTable();
@@ -217,13 +261,20 @@ const rowView = () => {
 const rowDelete = (ob, row) => {
     let deleteMsg = "Are you surely want to delete following Product..? \n" + ob.p_name;
 
-    let serverResponce = getHTTPRequestService("/product", "DELETE", ob);
+    let serverResponce = window.confirm(deleteMsg);
+    if (serverResponce) {
+        let serverResponce;
+        serverResponce = getHTTPServiceRequest("/product", "DELETE", ob);
     if (serverResponce == "0") {
         alert("Delete Successfully... !");
+        refreshTable();
+
     } else {
         alert("Fail to Delete,You have folowing error .. \n" + serverResponce);
+
     }
-}
+
+}}
 
 const formRefill = (ob, rowno) => {
 
@@ -252,6 +303,7 @@ const formRefill = (ob, rowno) => {
             oldproduct = {};
         }
     })
+    console.log(product)
 
     // set value into  feilds
 
@@ -264,35 +316,95 @@ const formRefill = (ob, rowno) => {
     // txtSideType
 
 
-    //Optional calue checking
-    if (employee.land != undefined)
-        txtLand.value = employee.land; else txtLand.value = "";
+    // //Optional calue checking
+    // if (product.p_name != undefined)
+    //     txtProductname.value = product.p_name; else txtProductname.value = "";
+    //
+    // if (txtProductname != undefined)
+    //     txtDescription.value = product.description; else txtDescription.value = "";
+    //
 
-    if (product.description != undefined)
-        txtDescription.value = product.description; else txtDescription.value = "";
 
-    //radio button value checking
+    // //radio button value checking
 
-    if (employee.gender == "Male") {
-        radioMale.checked = true;
+    if (product.single_or_double == "Single") {
+        radioSingle.checked = true;
     } else {
-        radioFemale.checked = true;
+        radioDouble.checked = true;
     }
+    txtProductname.value=product.p_name
+    txtHeight.value=product.height
+    txtWidth.value=product.width
 
-    fillSelectFeild(cmbDesignation, "Select Desiganation", designations, 'name', employee.designation_id.name);
-    fillSelectFeild(cmbCivilStatus, "Select Civilstatus", civilstatuses, 'name', employee.civilstatus_id.name);
-    fillSelectFeild(cmbEmployeeStatus, "Select Emp Status", employeeStatuses, 'name', employee.employeestatus_id.name);
+    txtPrice.value=product.price
+    txtDescription.value=product.description
 
+
+
+    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", product.customer_id.customer_name);
+//    productCategory= getServiceRequest("/productCategory/list")
+    fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name',product.product_category_id.name);
+ // productStatuses = getServiceRequest("/product_Status/list")
+    fillSelectFeild(cmbProductStatus, "Select Status", productStatuses, 'name',product.product_status_id.name);
+  //  productSizes = getServiceRequest("productsize/list")
+    fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", product.product_size_id.name);
+  //  paperTypes = getServiceRequest("/paperTypes/list")
+    fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypes, "name", product.papertype_id.name);
+ //   printColors = getServiceRequest("/printColors/list")
+    fillSelectFeild(cmbprintColors, "Select Print Colors", printColors, "name", product.printcolors_id.name);
+    fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", product.papercolors_id.name);
 
     setStyle("2px dotted green");
 
-    if (employee.land == undefined)
-        txtLand.style.borderBottom = "2px solid #ced4da";
 
-    $('#modalEmployeeForm').modal("show");
+
+    $('#modalProductForm').modal("show");
 
     disabledButton(false, true);
 
+
+}
+
+function setStyle(style) {
+
+    txtProductname.style.border = style;
+    txtHeight.style.border = style;
+    txtWidth.style.border = style;
+
+    txtPrice.style.border = style;
+    txtDescription.style.border = style;
+    // txtDescription.style.border = style;
+    // cmbCustomerCategory.style.borderBottom = style;
+    // cmbCustomerStatus.style.borderBottom = style;
+    cmbCustomer.style.border = style
+    cmbproductCategory.style.border = style
+    cmbProductStatus.style.border = style
+    cmbproductSize.style.border = style
+    cmbpaperTypes.style.border = style
+    cmbprintColors.style.border = style
+    cmbpaperColors.style.border = style
+}
+
+function disabledButton(addbtn , updbtn){
+
+    if(addbtn && lggeduserprivilage.ins){
+        buttonAdd.disabled = false;
+        $("buttonAdd").css("pointer-events","all");
+        $("buttonAdd").css("cursor","pointer");
+    }else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events","all");
+        $("#buttonAdd").css("cursor","not-allowed");
+    }
+    if(updbtn && lggeduserprivilage.upd){
+        buttonUpdate.disabled = false;
+        $("#buttonUpdate").css("pointer-events","all");
+        $("#buttonUpdate").css("cursor","pointer");
+    }else {
+        buttonUpdate.disabled = true;
+        $("#buttonUpdate").css("pointer-events","all");
+        $("#buttonUpdate").css("cursor","not-allowed");
+    }
 
 }
 
@@ -362,14 +474,14 @@ const checkErrors = () => {
     if (product.product_category_id == null) {
         errors = errors + "Product Category is not selected \n";
     } else {
-        if (product.product_category_id.name == "Bill Book") {
+   /*     if (product.product_category_id.name == "Bill Book") {
             if (productCopy.papertype_id == null) {
                 errors = errors + "Paper Type is not selected \n";
             }
             if (productCopy.papercolors_id == null) {
                 errors = errors + "Paper Colors are not selected\n";
             }
-        }
+        }*/
 
     }
     if (product.product_size_id == null) {
@@ -398,15 +510,72 @@ const checkErrors = () => {
     if (product.printcolors_id == null) {
         errors = errors + "Product print color is not selected\n";
     }
-    if (product.noofcopies == null) {
-        errors = errors + "Product print copies is not entered\n";
-    }
     if (product.price == null) {
         errors = errors + "Product print copies is not entered\n";
     }
 
     return errors;
 
+}
+
+const checkUpdate = () => {
+    let updates = "";
+
+    if (product != null && oldproduct != null) {
+
+      if(product.single_or_double != oldproduct.single_or_double){
+          updates = updates + "Product Paaper Side changed " + oldproduct.single_or_double
+              + " into " + product.single_or_double + "\n";
+    }
+      if(product.p_name !=oldproduct.p_name){
+          updates = updates + "Product name has changed " + oldproduct.p_name
+              + " into " +product.p_name  + "\n";
+      }
+       if( product.height!=oldproduct.height){
+           updates = updates + "Product height has changed " + oldproduct.height
+               + " into " + product.height + "\n";
+       }
+       if(  product.width !=oldproduct.width){
+           updates = updates + "Product weight has changed " + oldproduct.width
+               + " into " + product.width + "\n";
+       }
+       if(  product.price != oldproduct.price){
+           updates = updates + "Product price has changed " + oldproduct.price
+               + " into " + product.price + "\n";
+       }
+       if(  product.customer_id.customer_name != oldproduct.customer_id.customer_name){
+           updates = updates + "Product customer_name name has changed " + oldproduct.customer_id.customer_name
+               + " into " + product.customer_id.customer_name + "\n";
+       }
+       if(  product.product_category_id.name != oldproduct.product_category_id.name){
+           updates = updates + "Product product_category name has changed " + oldproduct.product_category_id.name
+               + " into " + product.product_category_id.name + "\n";
+       }
+       if( product.product_status_id.name != oldproduct.product_status_id.name){
+           updates = updates + "Product Status name has changed " + oldproduct.product_status_id.name
+               + " into " + product.product_status_id.name + "\n";
+       }
+      if(  product.product_size_id.name != oldproduct.product_size_id.name){
+          updates = updates + "Product name has changed " + oldproduct.product_size_id.name
+              + " into " +product.product_size_id.name+ "\n";
+      }
+      if(  product.papertype_id.name != oldproduct.papertype_id.name){
+          updates = updates + "Product papertype name name has changed " + oldproduct.papertype_id.name
+              + " into " + product.papertype_id.name + "\n";
+      }
+      if(  product.printcolors_id.name != oldproduct.printcolors_id.name){
+          updates = updates + "Product print colors has changed " + oldproduct.printcolors_id.name
+              + " into " + product.printcolors_id.name + "\n";
+      }
+
+      if(  product.papercolors_id.name != oldproduct.papercolors_id.name){
+          updates = updates + "Product paper colors has changed " + oldproduct.papercolors_id.name
+              + " into " + product.papercolors_id.name + "\n";
+      }
+
+
+    }
+return updates;
 }
 
 function buttonSubmitMC() {
@@ -429,8 +598,9 @@ function buttonSubmitMC() {
                 alert("Save Succecfully...!");
                 refreshTable();
                 refreshProductForm();
+
                 // need to close modal
-                $("#modalProductForm").modal("hide");
+                $('#modalProductForm').modal('hide');
             } else {
                 alert("Fail to add, You have following error... \n" + serverResponce);
             }
@@ -444,4 +614,55 @@ function buttonSubmitMC() {
 
 function buttonClearMC(){
     refreshProductForm;
+}
+
+function buttonUpdateMC(){
+    let errors = checkErrors();
+    if (errors == "") {
+        //
+        let updates = checkUpdate();
+        if (updates == "") {
+
+            window.alert("Nothing updated...! \n ");
+        } else {
+
+            let updateResponce = window.confirm("Are you sure to update following customer..? \n" + updates);
+
+            if (updateResponce) {
+                let putResponce;
+
+                $.ajax("/product", {
+                    async: false,
+                    type: "PUT", // method delete
+                    data: JSON.stringify(product), // object
+                    contentType: "application/json",
+                    success: function (susResdata, susStatus, ajresob) {
+                        putResponce = susResdata;
+                    },
+                    error: function (errRsOb, errStatus, errorMsg) {
+                        putResponce = errorMsg;
+                    }
+                });
+
+
+                if (putResponce == "0") {
+                    window.alert("Update Successfully...!");
+                    refreshTable();
+                    refreshProductForm();
+                    $("#modalProductForm").modal("hide");
+
+
+                } else {
+                    //
+                    window.alert("Fail to update ...! \n " + putResponce);
+                }
+
+            }
+        }
+    }else {
+
+        window.alert("You have following error in your form...! \n " + errors);
+    }
+
+
 }

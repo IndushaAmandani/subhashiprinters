@@ -518,7 +518,7 @@ select.form-control {
   -moz-transition: 0.5s;
   transition: 0.5s;
   /*background-color: #0f68e5;*/
-  background-image: -webkit-gradient(linear, left top, right top, from(#913834), color-stop(51%, #ceae2a), to(#de524a));
+  background-image: -webkit-gradient(linear, left top, right top, from(#913834), color-stop(51%, #ceae2a), to(#cb4f48));
   background-image: -webkit-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);
   background-image: -moz-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);
   background-image: -o-linear-gradient(left, #913834 0%, #ceae2a 51%, #de524a 100%);

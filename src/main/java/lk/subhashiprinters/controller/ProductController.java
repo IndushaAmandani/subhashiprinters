@@ -75,7 +75,21 @@ public class ProductController {
     @GetMapping(value = "/list",produces = "application/json")
     public List<Product> productList(){return productDao.list();}
 
-//    //get object by given id using path variable [ /productCopy/getbyid/{id}]
+    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
+    public Product getProductByPVId(
+            @PathVariable("id") Integer id
+    ){
+        return productDao.getReferenceById(id);
+    }
+
+    //get mapping service for get employee by given Query param id [ /employee/getbyid?id=1]
+    @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")
+    public Product getProductByQPId(
+            @RequestParam("id") Integer id
+    ){
+        return productDao.getReferenceById(id);
+    }
+    //get object by given id using path variable [ /productCopy/getbyid/{id}]
 //    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
 //    public ProductCopy getByPathId(@PathVariable("id")Integer id){
 //        return productCopyDao.getReferenceById(id);
@@ -93,7 +107,7 @@ public class ProductController {
         User logeduser = userDao.findUserByUsername(authentication.getName());
         HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(authentication.getName(), "Product");
         if (userPrive != null && userPrive.get("ins")) {
-
+            System.out.println(logeduser);
             try {
 
                 product.setAdded_date(LocalDateTime.now());
@@ -150,6 +164,42 @@ public class ProductController {
 
 
     }
+    @PutMapping
+    public String updateProduct(@RequestBody Product product){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // customerDao.getReferenceById(customer.getId());
+        // neeed to check logged user privilage
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "Customer Order Update Not completed : You don't have permissing";
+        }
+        User logeduser = userDao.findUserByUsername(authentication.getName());
+        HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(logeduser.getUsername(), "Product");
+        if (logeduser != null && userPrive.get("upd")) {
+
+            Product extproduct = productDao.getReferenceById(product.getId());
+
+
+            try {
+
+                extproduct.setUpdated_date(LocalDateTime.now());
+                extproduct.setUpdated_user_id(logeduser);
+
+
+                productDao.save(extproduct);
+
+                return "0";
+            } catch (Exception ex) {
+                return "Product Update Not Complete : " + ex.getMessage();
+            }
+
+        } else {
+            return "Product Update  Not completed : You don't have permissing";
+        }
+
+    }
+
 }
 
 

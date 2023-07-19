@@ -256,6 +256,7 @@ function buttonSubmitMC() {
 //
 const formRefill = (ob, rowno) => {
 
+
     employee = new Object();
     oldemployee = new Object();
 
@@ -420,8 +421,9 @@ function buttonUpdateMC() {
 
                 if (putResponce == "0") {
                     window.alert("Update Successfully...!");
-                    refreshEmployeeTable();
+                    refreshTable();
                     refreshEmployeeForm();
+
                     $('#modalEmployeeForm').modal("hide");
 
 

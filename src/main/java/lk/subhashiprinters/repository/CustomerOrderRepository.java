@@ -14,10 +14,19 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Int
     List<CustomerOrder> findAll();
 
 
-    @Query(value = "SELECT concat('CO',lpad(substring(max(co.order_code),3)+1,5,'0')) FROM subhashiprinters.customer_order as co;",nativeQuery = true)
+    @Query(value = "SELECT concat('CO',lpad(substring(max(co.order_code),3)+1,4,'0')) FROM subhashiprinters.customer_order as co;",nativeQuery = true)
     String getNextPorderNo();
 
-    @Query("select new CustomerOrder (co.id,co.order_code) from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2")
+    @Query("select new CustomerOrder (co.id,co.order_code) from CustomerOrder co")
     List<CustomerOrder> list();
+
+    @Query(value = "select new CustomerOrder(count(co.id)) from CustomerOrder co where co.order_status_id.id=1")
+    CustomerOrder pendingCustomerOrders();
+
+    @Query(value = "select new CustomerOrder(co.id,co.order_code)from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2")
+            List <CustomerOrder> getNotpaidList();
+
+@Query(value = "select new CustomerOrder(co.id,co.order_code)from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2 and co.customer_id.id=?1")
+    List <CustomerOrder> getNotPaidCustomers(Integer cid);
 }
 

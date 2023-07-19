@@ -114,7 +114,7 @@
                     <li><a class="menu-item" href="privilage.html">Privilage </a> </li>
                 </ul>
             </li>
-            <li class=" nav-item active"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
+            <li class=" nav-item active"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title active"
                                                                                            data-i18n="">Print Order</span></a>
                 <ul class="menu-content">
                     <li><a class="menu-item" href="customer.html">Customer</a> </li>
@@ -199,7 +199,6 @@
                                                     <th> #</th>
                                                     <th> Order Code</th>
                                                     <th> Required Date</th>
-                                                    <th>Final Cancellation Date</th>
                                                     <th> Total Amount</th>
                                                     <th>Advance Amount</th>
                                                     <th> Balance Amount</th>
@@ -294,7 +293,7 @@
                                     style="color: red;">*</span></label>
                             <div class="col-6">
                                 <input type="date" id="dteRequiredDate" class="form-control" required
-                                       onchange="dateFeildValidator(dteRequiredDate,'','corder','required_date','oldcorder');getValidQuotaion()">
+                                       onchange="dateFeildValidator(dteRequiredDate,'','corder','required_date','oldcorder');">
                             </div>
 
                         </div>
@@ -352,20 +351,6 @@
                                                            class="form-control form-control-sm"
                                                            onkeyup="textFeildValidtor(txtOrderedQuantity,'^[1-9][0-9]{0,5}$','customerOrderHasProduct','order_qty','oldcustomerOrderHasProduct');getLineTotal()"
                                                            placeholder="Enter Ordered Quantity">
-
-                                                </div>
-                                            </div>
-
-                                            <!--- Co Completed Quantity-->
-                                            <div class="row mt-1">
-                                                <div class="col">
-                                                    <label for="txtCompletedQty" class="form-label  font-weight-bold">
-                                                        Completed Quantity : <span style="color: red;">*</span>
-                                                    </label>
-                                                    <input type="text" id="txtCompletedQty"
-                                                           class=" form-control form-control-sm"
-                                                           onkeyup="textFeildValidtor(txtCompletedQty,'^[1-9][0-9]{0,5}$','customerOrderHasProduct','completed_qty','oldcustomerOrderHasProduct')"
-                                                           placeholder="Enter Completed Quantity">
 
                                                 </div>
                                             </div>
@@ -448,8 +433,9 @@
                                 Line Total(Rs. ) : <span style="color: red;">*</span>
                             </label>
                             <input type="text" id="txtLineTotal" class="form-control"
-                                   onkeyup="textFeildValidtor(txtLineTotal,'^[0-9]{1,5}[.][0-9]{2}$','corder','total_of_lines','oldcorder')"
-                                   placeholder="Enter Line Total">
+                                   onkeyup="textFeildValidtor(txtLineTotal,'^[0-9]{1,5}[.][0-9]{2}$','corder','total_of_lines','oldcorder');"
+
+                                   placeholder="Enter Line Total" disabled>
 
                         </div>
                         <div class="col-4">
@@ -457,17 +443,17 @@
                                 Discount Amount : <span style="color: red;">*</span>
                             </label>
                             <input type="text" id="txtDiscountRatio" class="form-control"
-                                   onkeyup="textFeildValidtor(txtDiscountRatio,'^[0-9]{1,5}[.][0-9]{2}$','corder','discount','oldcorder')" onchange = "checkValidPrice()"
+                                  onchange="checkValidPrice()"
                                    placeholder="Enter Discount Amount">
-
+<!--// onkeyup="textFeildValidtor(txtDiscountRatio,'^[0-9]{1,5}[.][0-9]{2}$','corder','discount','oldcorder')"-->
                         </div>
                         <div class="col-4">
                             <label for="txtTotalAmount" class="form-label font-weight-bold">
                                 Total Amount (Rs. ) : <span style="color: red;">*</span>
                             </label>
                             <input type="text" id="txtTotalAmount" class="form-control"
-                                   onkeyup="textFeildValidtor(txtTotalAmount,'^[0-9]{1,5}[.][0-9]{2}$','corder','total_amount','oldcorder') "
-                                   placeholder="Enter Net Amount">
+                                   onkeyup="textFeildValidtor(txtTotalAmount,'^[0-9]{1,5}[.][0-9]{2}$','corder','total_amount','oldcorder'); "
+                                   placeholder="Enter Net Amount" disabled>
 
                         </div>
                     </div>
@@ -477,33 +463,23 @@
 
                     <!-- Advance Amount-->
                     <div class="row mt-2">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label for="txtTAdvanceAmount" class="form-label font-weight-bold">
                                 Total Advance Amount (Rs. ) : <span style="color: red;">*</span>
                             </label>
                             <input type="text" id="txtTAdvanceAmount" class="form-control"
-                                   onkeyup="textFeildValidtor(txtTAdvanceAmount,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','customerorder','advacned_amount','oldcustomerorder')"
+                                   onkeyup="textFeildValidtor(txtTAdvanceAmount,'^([1-9][0-9]{1,5}[.]{1}[0-9]{2})$','corder','advanced_amount','oldcorder');calculatingTotalAmount()"
                                    placeholder="Enter Advance Amount">
                         </div>
-                        <!--Paid Amount-->
-                        <div class="col-4">
-                            <label for="txtPaidAmount" class="form-label font-weight-bold">
-                                Paid Amount : <span style="color: red;">*</span>
-                            </label>
-                            <input type="text" id="txtPaidAmount" class="form-control"
-                                   onkeyup="textFeildValidtor(txtPaidAmount,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','customerorder','paid_amount','oldcustomerorder')"
-                                   placeholder="Enter Paid Amount">
-                        </div>
-
 
                         <!--Final Balance Amount-->
-                        <div class="col-4">
+                        <div class="col-6">
                             <label for="txtFBalanceAmount" class="form-label font-weight-bold">
                                 Final Balance Amount : <span style="color: red;">*</span>
                             </label>
                             <input type="text" id="txtFBalanceAmount" class="form-control"
-                                   onkeyup="textFeildValidtor(txtFBalanceAmount,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','customerorder','final_balanced_amount','oldcustomerorder')"
-                                   placeholder="Enter Final Balance Amount">
+                                   onkeyup="textFeildValidtor(txtFBalanceAmount,'^([1-9][0-9]{1,5}[.]{1}[0-9]{2})$','corder','final_balanced_amount','oldcorder')"
+                                   placeholder="Enter Final Balance Amount" disabled>
 
                         </div>
                     </div>
@@ -536,9 +512,7 @@
                                 <button type="reset" style="width: 23%; border-radius: 50px;"
                                         class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
                                 </button>
-                                <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
-                                        class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
-                                </button>
+
                                 <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                         class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
                                 </button>

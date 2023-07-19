@@ -320,7 +320,7 @@ const innerRowDelete = (innerob, rowind) => {
     if (innserdeleteUserResponce) {
 
         purchaseorder.purchaseOrderHasMaterialList.splice(rowind, 1)
-        alert("Romve Successfully...!");
+        alert("Removed Successfully...!");
         refreshInnerFormTable();
 
     }

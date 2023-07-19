@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
-import lk.subhashiprinters.entity.QuotationRequest;
-import lk.subhashiprinters.entity.User;
+import lk.subhashiprinters.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,11 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import lk.subhashiprinters.entity.Customer;
-import lk.subhashiprinters.entity.CustomerStatus;
 import lk.subhashiprinters.repository.CustomerRepository;
 import lk.subhashiprinters.repository.CustomerStatusRepository;
-import lk.subhashiprinters.repository.CustomerTypeRepository;
 import lk.subhashiprinters.repository.UserRepository;
 
 @RestController
@@ -38,8 +34,8 @@ public class CustomerController {
 
     @Autowired
     private PrivilageController privilegeController;
-    @Autowired//link required repository 
-    private CustomerTypeRepository customerTypeDao;
+   /* @Autowired//link required repository
+    private CustomerTypeRepository customerTypeDao;*/
 
     @Autowired
     private CustomerStatusRepository customerStatusDao;
@@ -84,7 +80,7 @@ public class CustomerController {
     }
 
     //dashboard [active customer count]
-    @GetMapping(value = "/getActiveCustomerCount()", produces = "application/json")
+    @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
     public Customer getbyActiveCustomer() {
         return customerDao.activeCustomerCount();
     }
@@ -92,9 +88,14 @@ public class CustomerController {
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
     @GetMapping(value = "/getbyid/{id}", produces = "application/json")
-    public Customer getReferenceById(@PathVariable("id") Integer id) {
+    public Customer getReferenceById(@PathVariable("id") Integer id) {return customerDao.getReferenceById(id);}
+    @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")
+    public Customer getEmployeeByQPId(
+            @RequestParam("id") Integer id
+    ){
         return customerDao.getReferenceById(id);
     }
+
 
 
     //create post mapping function for add empoyee [/employee - POST]
@@ -134,7 +135,7 @@ public class CustomerController {
 
             customer.setAdded_user_id(userDao.getReferenceById(1));
 
-            customer.setCustomer_type_id(customerTypeDao.getReferenceById(2));
+//            customer.setCustomer_type_id(customerTypeDao.getReferenceById(2));
 
             // save operator
             customerDao.save(customer);
@@ -153,6 +154,7 @@ public class CustomerController {
 
     @DeleteMapping
     public String deleteCustomer(@RequestBody Customer customer) {
+        System.out.println(customer.getId());
         //retrieving the object from db as some of data retrun from customer
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -192,42 +194,50 @@ public class CustomerController {
 
 
     //update mapping for update customer [/customer- update]
-//    @PutMapping
+    @PutMapping
 
-//    @Transactional
-//    public String updateCustomer(@RequestBody Customer customer) {
-//        // customerDao.getReferenceById(customer.getId());
-//        // neeed to check logged user privilage
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication instanceof AnonymousAuthenticationToken) {
-//            return "Customer Order Update Not completed : You don't have permissing";
-//        }
-//
-//        // get logged user authentication object
-//        User loggedUser = userDao.findUserByUsername(authentication.getName());
-//        // check privilage for add operation
-//        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Customer");
-//
-//
-//        if (loggedUser != null && userPiriv.get("upd")) {
-//
-//            Customer extqr = customerDao.getReferenceById(customer.getId());
-//            if (extqr == null && !extqr.getReferenceById().equals(customer.getReferenceById())) {
+    @Transactional
+    public String updateCustomer(@RequestBody Customer customer) {
+
+        // customerDao.getReferenceById(customer.getId());
+        // neeed to check logged user privilage
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "Customer Order Update Not completed : You don't have permissing";
+        }
+
+        // get logged user authentication object
+        User loggedUser = userDao.findUserByUsername(authentication.getName());
+        // check privilage for add operation
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Customer");
+
+
+        if (loggedUser != null && userPiriv.get("upd")) {
+
+            Customer extqr = customerDao.getReferenceById(customer.getId());
+
+            System.out.print(customer.getId());
+//            if (extqr != null && !extqr.equals(customer)) {
 //                return "Customer Update Not completed : Customer not available";
 //            }
-//
-//            try {
-//
-//                extqr.setUpdated_date(LocalDateTime.now());
-//                customerDao.save(extqr);
-//                return "0";
-//            } catch (Exception exception) {
-//                return "Customer Update Update Not completed : " + exception.getMessage();
-//            }
-//        } else {
-//            return "Customer Update Not completed : You don't have permissing";
-//        }
-//    }
+
+            try {
+
+                customer.setUpdated_date(LocalDateTime.now());
+
+                customerDao.save(customer);
+//                System.out.println(customer.getId());
+                return "0";
+            } catch (Exception exception) {
+                return "Customer Update Update Not completed : " + exception.getMessage();
+            }
+        } else {
+            return "Customer Update Not completed : You don't have permissing";
+        }
+    }
+
+
+
 
 }
 

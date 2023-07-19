@@ -57,6 +57,7 @@ public class CustomerPaymentController {
             return null;
         }
 
+
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
@@ -70,6 +71,10 @@ public class CustomerPaymentController {
         }
 
     }
+
+/*
+    @GetMapping(value = "/getCustomerPaymentList",produces = "application/json")
+    public List<CustomerPayment> gettoBePaymentCustomers(){return customerpaymentDao.getCustomerPaymentBy();}*/
 
 
   //post mapping for insert customer Pyament [/spayment - post]
@@ -145,44 +150,46 @@ public String insertSuppler(@RequestBody CustomerPayment customerPayment){
         }else {
             return "Quotationrequest Update Not completed : You don't have permissing";
         }
-    }
+    }*/
 
 
 
-    //delete mapping for delete quotationrequest [/quotationrequest - delete]
-    @DeleteMapping
-    public String deleteQuotationrequest(@RequestBody QuotationRequest quotationrequest){
+   @DeleteMapping
+    public String deleteCustomerPayment(@RequestBody CustomerPayment customerPayment) {
+        System.out.println(customerPayment.getId());
+        //retrieving the object from db as some of data retrun from customer
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
-            return "Quotationrequest Delete Not completed : You don't have permissing";
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "Customer Payment Delete Not completed : You don't have permissing";
         }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Customer");
 
-        if(loggedUser != null && userPiriv.get("del")){
+        if (loggedUser != null && userPiriv.get("del")) {
+            CustomerPayment insCustomerP = customerpaymentDao.getReferenceById(customerPayment.getId());
+            if (insCustomerP != null) {
 
-            QuotationRequest extQR = quotationrequestDao.getReferenceById(quotationrequest.getId());
-            if(extQR == null ){
-                return "Quotationrequest Delete Not completed : Quotationrequest not available";
+                try {
+                    //now() is a  static type so have to call with class
+                    insCustomerP.setDelete_date(LocalDateTime.now());
+                    customerpaymentDao.save(insCustomerP);
+                    return "0";
+                } catch (Exception ex) {
+                    return "";
+
+                }
+
+            } else {
+                return "Delete Not Complete :   Customer doesn't exist";
             }
 
-            try {
-                extQR.setQuatation_req_status_id(quotationrequestStatusDao.getReferenceById(4));
-             extQR.setDelete_date(LocalDateTime.now());
-                quotationrequestDao.save(extQR);
-                return "0";
-            }catch (Exception exception){
-                return "Quotationrequest Delete Not completed : " + exception.getMessage();
-            }
-        }else {
-            return "Quotationrequest Delete Not completed : You don't have permissing";
+        } else {
+            return "Customer Payment Delete Not completed : You don't have permissing";
         }
     }
 
-
-*/
 }
