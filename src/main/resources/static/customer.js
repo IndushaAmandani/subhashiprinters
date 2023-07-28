@@ -23,6 +23,18 @@ const refreshCustomerTable = () => {
 
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCustomer,customers,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+
+
+    for (let index in customers ){
+        if (customers[index].customerstatus_id.name == "Inactive") {
+            tableCustomer.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableCustomer.children[1].children[index].children[7].children[1].disabled = true;
+            tableCustomer.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
+            tableCustomer.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+
+        }
+    }
+
     // need to add jquerty table
     $('#tableCustomer').dataTable();
 
@@ -190,7 +202,7 @@ function buttonSubmitMC() {
                 alert("Add Successfull..!");
                 refreshCustomerTable();
                 refreshCustomerForm();
-                $('#modalCustomerForm').modal('hide');
+                $("#modalCustomerForm").modal("hide");
             } else {
                 window.alert("You have following error \n" + postServieResponce);
             }
@@ -203,11 +215,9 @@ function buttonSubmitMC() {
 
     const formRefill = (ob, rowno) => {
 
-        // customer = JSON.parse(JSON.stringify((ob)));
-        // oldcustomer = JSON.parse(JSON.stringify((ob)))
+        customer = JSON.parse(JSON.stringify((ob)));
+        oldcustomer = JSON.parse(JSON.stringify((ob)))
 
-        customer =  new Object();
-        oldcustomer = new Object();
 
     customer =getServiceRequest("/customer/getbyid/"+ob.id )
         oldcustomer =getServiceRequest("/customer/getbyid?id=" +ob.id)
@@ -217,13 +227,13 @@ function buttonSubmitMC() {
         txtName.value = customer.customer_name;
         txtMobile.value = customer.mobile;
         txtCustomerEmail.value = customer.customer_email;
-        showCompanyForm();
+
         if (customer.customer_category_id.name == "company") {
 
             txtCompanyName.value = customer.company_name;
             txtCompanyNumber.value = customer.company_contactnumber;
             txtCompanyEmail.value = customer.company_email;
-        }
+        }else
 
 
         //option clue checaking
@@ -240,7 +250,7 @@ function buttonSubmitMC() {
 
         setStyle("2px dotted green");
 
-        $('#modalCustomerForm').modal('show');
+        $("#modalCustomerForm").modal("show");
 
         disabledButton(false, true);
 
@@ -263,7 +273,7 @@ function buttonSubmitMC() {
     const checkUpdate = () => {
         let updates = "";
 
-        if (customer != null && oldcustmer != null) {
+        if (customer != null && oldcustomer != null) {
 
             if (customer.customer_name != oldcustomer.customer_name) {
                 updates = updates + "Customer name has changed " + oldcustomer.customer_name
@@ -277,7 +287,10 @@ function buttonSubmitMC() {
                 updates = updates + "Customer Email has changed " + oldcustomer.customer_email
                     + "into " + customer.customer_email + "\n";
             }
-
+            if(customer.customer_category_id.name != oldcustomer.customer_category_id.name){
+                updates = updates + "Customer Type has changed " + oldcustomer.customer_category_id.name
+                    + " into " + customer.customer_category_id.name + "\n";
+            }
             if (customer.company_name != oldcustomer.company_name) {
                 updates = updates + "Customer company name has changed " + oldcustomer.company_name
                     + "into " + customer.company_name + "\n";
@@ -394,9 +407,21 @@ function buttonSubmitMC() {
 
 function showCompanyForm() {
 
-    if (cmbCustomerCategory.value.toString() == "company") {
+   /* if (cmbCustomerCategory.value.toString() == "company") */
+    if (JSON.parse(cmbCustomerCategory.value).name == "company") {
         divCompanyDetails.style.display = "block";
     } else {
         divCompanyDetails.style.display = "none";
+    }
+}
+
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshCustomerForm();
+        $("#modalCustomerForm").modal("hide");
     }
 }

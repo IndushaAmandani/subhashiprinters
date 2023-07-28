@@ -100,6 +100,9 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "product_id" , orphanRemoval = true )
     private List<ProductCopy> productCopyList;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy ="product_id", orphanRemoval = true)
+    private List<ProductHasMaterial> productHasMaterialList;
+
 
 
 public Product(Integer id,String product_code,String p_name,BigDecimal price,String single_or_double,ProductStatus product_status_id,Customer customer_id,PaperColors papercolors_id,ProductCategory product_category_id,PrintColors printcolors_id,ProductSize product_size_id){

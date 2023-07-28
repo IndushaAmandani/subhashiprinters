@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class CustomerOrderController {
     public  List<CustomerOrder> list(){return CustomerOrderDao.list();}
 
 //Customer Payment to be paid customer Order Numbers
-    @GetMapping(value = "/getActivePayCOrders/{cid}",produces = "applicaton/json")
+    @GetMapping(value = "/getActivePayCOrders/{cid}",produces = "application/json")
     public List<CustomerOrder> getpaymentPendingCustomers(@PathVariable("cid") Integer cid){return CustomerOrderDao.getNotPaidCustomers(cid);}
 
     @GetMapping(value ="/notpaidCustomers",produces = "application/json")
@@ -114,13 +115,21 @@ public class CustomerOrderController {
           customerOrder.setAdded_date(LocalDateTime.now());
              customerOrder.setAdded_user_id(loggedUser);
              customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
+             customerOrder.setOrder_balance(customerOrder.getTotal_amount());
 
                 System.out.println(customerOrder);
+
              for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
                  coh.setCustomer_order_id(customerOrder);
                  coh.setCompletedqty(0);
                  coh.setProduction_status_id(productionStatusRepository.getReferenceById(1));
              }
+
+                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
+                    cohm.setCustomer_order_id(customerOrder);
+
+                }
+
                 CustomerOrderDao.save(customerOrder);
 
                 return "0";
@@ -198,6 +207,16 @@ public class CustomerOrderController {
             try {
                 extCO.setOrder_status_id(COrderSatatusDao.getReferenceById(3));
                 extCO.setDeleted_date(LocalDateTime.now());
+
+                for(CustomerOrderHasProduct coh : extCO.getCustomerOrderHasProductList()){
+                    coh.setCustomer_order_id(extCO);
+
+                }
+
+                for(CustomerOrderHasMaterial cohm : extCO.getCustomerOrderHasMaterialList()){
+                    cohm.setCustomer_order_id(extCO);
+
+                }
                CustomerOrderDao.save(extCO);
                 return "0";
             }catch (Exception exception){

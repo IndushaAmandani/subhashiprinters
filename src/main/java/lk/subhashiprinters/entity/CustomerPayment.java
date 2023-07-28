@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -52,8 +53,14 @@ public class CustomerPayment implements Serializable {
     @Column(name = "account_number")
     private String account_number;
 
+    @Column(name = "transfer_id")
+    private String transfer_id;
+
     @Column(name = "added_date")
     private LocalDateTime added_date;
+
+    @Column(name = "transfer_date")
+    private LocalDate transfer_date;
 
     @Column(name = "update_date")
     private LocalDateTime update_date;

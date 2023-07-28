@@ -15,15 +15,22 @@ function refreshCustomerOrderTable() {
     customerOrders = getServiceRequest("/customerOrder/findall");
 
     //create display property list
- let dispalyPropertyList = [ 'order_code', 'required_date', 'total_amount', 'advanced_amount', 'final_balanced_amount','order_status_id.name'];
+ let dispalyPropertyList = [ 'order_code', 'required_date', 'total_amount', 'advanced_amount', 'final_balanced_amount','production_status_id.name','order_status_id.name'];
     //Property type list
- let dispalyPropertyDTList = [ 'text', 'text', 'text','text' ,'text', 'object'];
+ let dispalyPropertyDTList = [ 'text', 'text', 'text','text' ,'text', 'object','object'];
 
     //called filldataintotable function for fill data
   fillDataIntoTable(tableCOrder,customerOrders,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
     for (let index in customerOrders ){
-        tableCOrder.children[1].children[index].children[7].children[0].style.display = "none";
-        tableCOrder.children[1].children[index].children[7].children[2].style.display = "none";
+        tableCOrder.children[1].children[index].children[8].children[0].style.display = "none";
+
+        if(customerOrders[index].order_status_id.name == "Finished"){
+            tableCOrder.children[1].children[index].style.backgroundColor = "#668d84";
+            tableCOrder.children[1].children[index].style.color = "#0f100f";
+            tableCOrder.children[1].children[index].children[8].children[1].disabled = true;
+            tableCOrder.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
+            tableCOrder.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
+        }
 
     }
 
@@ -41,6 +48,7 @@ function refreshCustomerOrderForm() {
 
 
     corder.customerOrderHasProductList = new Array();
+    corder.customerOrderHasMaterialList = new Array();
 
 
     customers = getServiceRequest("/customer/list")
@@ -48,7 +56,7 @@ function refreshCustomerOrderForm() {
 
 
     cOrdrStatus = getServiceRequest("/cOrderstatus/list")
-    fillSelectFeild(cmbOrderStatus, "Select Status", cOrdrStatus, "name", "Active",true);
+    fillSelectFeild(cmbOrderStatus, "Select Status", cOrdrStatus, "name","" ,true);
     disabledButton(true , false);
 //dteRequiredDate
     let currentDateForVDMin = new Date();
@@ -125,7 +133,8 @@ const refreshInnerFormTable = () => {
     customerOrderHasProduct = new Object();
     oldcustomerOrderHasProduct = null;
 
-    buttonInnerAdd.disabled = true;
+
+    buttonInnerUpdate.disabled = true;
 
 
 
@@ -172,7 +181,7 @@ const refreshInnerFormTable = () => {
     //Hide view icon
     for (let index in corder.customerOrderHasProductList) {
         // parseFloat() parses a string and returns the first number:
-        totalLineAmount = parseFloat(totalLineAmount)+ parseFloat(corder.customerOrderHasProductList[index].line_total);
+        totalLineAmount = (parseFloat(totalLineAmount)+ parseFloat(corder.customerOrderHasProductList[index].line_total)).toFixed(2);
         tableCustomerOrderHasProducts.children[1].children[index].children[5].children[2].style.display = "none";
     }
 
@@ -211,9 +220,18 @@ const rowDelete = (ob, rowno) => {
     }
 
 }
-const rowView = () => {
+const rowView = (ob,rowno) => {
+    $("#modalCustomerOrderForm").modal("show");
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+//     printPrivilage = ob;
+//
+//     tdrole.innerText = printPrivilage.role_id.name ;
+//     tdModule.innerText = printPrivilage.module_id.name ;
+//     tdSelect.innerText =getSelectPri(printPrivilage);
+//     tdIns.innerText = getInsertPri(printPrivilage);
+//     tdUpd.innerText = getUpdatePri(printPrivilage);
+//     tdDel.innerText = getDeletePri(printPrivilage);
 }
-
 //Calculating Total amount
 function checkValidPrice(){
 
@@ -253,7 +271,7 @@ function checkValidPrice(){
         txtDiscountRatio.style.disabled=true;
         corder.total_amount = null;
         corder.discount = null;
-        txtTotalAmount.value=0;
+        txtTotalAmount.value=0.00;
     }
 
 }
@@ -314,6 +332,7 @@ const buttonInnerAddMC = () => {
 }
 
 function buttonInnerUpdateMC(){
+
     if(customerOrderHasProduct.line_total != oldcustomerOrderHasProduct.line_total || customerOrderHasProduct.product_id.p_name != oldcustomerOrderHasProduct.product_id.p_name ) {
         let updateInnerMsg = "Are you sure to update following Purchase order Material..?" +
             "\n Product : " + customerOrderHasProduct.product_id.product_code +
@@ -353,6 +372,7 @@ const innerFormReFill = (innerob, rowind) => {
     txtProductCost.style.borderBottom = "2px solid  orange";
 
     buttonInnerAdd.disabled = true;
+    buttonInnerUpdate.disabled = false;
 }
 const innerRowDelete = (innerob, rowind) => {
 
@@ -390,8 +410,21 @@ function disabledButton(addbtn , updbtn){
 
 
 const checkErrors = () =>{
-    let error = "";
-    return error;
+    let errors = "";
+
+    if (corder.customer_id == null) {
+        errors = errors + "Customer Name is Not Selected \n";
+    }
+    if (corder.required_date == null) {
+        errors = errors + "Required date is Not Selected \n";
+    }
+    if (corder.discount == null) {
+        errors = errors + "Discount Amount is Not Entered \n";
+    }
+    if (corder.advanced_amount == null) {
+        errors = errors + "Advanced Amount is Not Entered \n";
+    }
+    return errors;
 
 
 
@@ -437,3 +470,14 @@ function buttonSubmitMC() {
         window.alert("You have following error \n" + errors);
     }
 }
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshCustomerOrderForm();
+        $("#modalCustomerOrderForm").modal("hide");
+    }
+}
+

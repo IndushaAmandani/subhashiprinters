@@ -47,8 +47,8 @@ public class CustomerOrder implements Serializable {
 
     @Column(name = "confirmdate")
     private LocalDate confirmdate;
-  @Column(name = "paid_amount")
-    private BigDecimal paid_amount;
+  @Column(name = "order_balance")
+    private BigDecimal order_balance;
 
     @Column(name = "added_date")
     private LocalDateTime added_date;
@@ -83,29 +83,35 @@ public class CustomerOrder implements Serializable {
     private Customer customer_id;
 
 
-
+//??Changes it is going to happen like entity manager operatons (merge,refresh,remove) in customer order will propagate/spread to COHasP entity also
     @OneToMany(cascade = CascadeType.ALL,mappedBy ="customer_order_id", orphanRemoval = true)
     private List<CustomerOrderHasProduct>  customerOrderHasProductList;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy ="customer_order_id", orphanRemoval = true)
+    private List<CustomerOrderHasMaterial>  customerOrderHasMaterialList;
 
-
-    public CustomerOrder(Integer id, String order_code,BigDecimal total_of_lines,BigDecimal discount,BigDecimal total_amount,BigDecimal advanced_amount , BigDecimal paid_amount,
-                         BigDecimal final_balanced_amount, COrderStatus order_status_id){
+    public CustomerOrder(Integer id, String order_code,LocalDate required_date,BigDecimal total_of_lines,BigDecimal discount,BigDecimal total_amount,BigDecimal advanced_amount , BigDecimal order_balance,
+                         BigDecimal final_balanced_amount,ProductionStatus production_status_id, COrderStatus order_status_id){
         this.id = id;
         this.order_code = order_code;
+this.required_date = required_date;
         this.total_of_lines = total_of_lines;
         this.discount = discount;
         this.total_amount = total_amount;
         this.advanced_amount = advanced_amount;
-        this.paid_amount = paid_amount;
+        this.order_balance = order_balance;
         this.final_balanced_amount = final_balanced_amount;
+        this.production_status_id = production_status_id;
         this.order_status_id = order_status_id;
 
     }
 
-    public CustomerOrder(Integer id, String order_code){
+    public CustomerOrder(Integer id, String order_code, BigDecimal final_balanced_amount,BigDecimal total_amount,BigDecimal order_balance){
         this.id = id;
         this.order_code = order_code;
+        this.total_amount = total_amount;
+        this.order_balance = order_balance;
+        this.final_balanced_amount = final_balanced_amount;
 
 
     }

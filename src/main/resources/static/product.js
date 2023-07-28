@@ -53,9 +53,6 @@ const refreshTable = () => {
         }
     }
 
-
-
-
     // need to add jquerty table
     $('#tableProduct').dataTable();
 }
@@ -67,6 +64,8 @@ refreshProductForm = () => {
     oldproduct = null;
 
     product.productCopyList = new Array();
+
+product.productHasMaterialList = new Array();
 // ###################productCategory#########################
     // productCategory = [{ id: 1, name: "Label" }, { id: 2, name: "Posters" }];
     productcategories = new Array();
@@ -142,11 +141,12 @@ refreshProductForm = () => {
     txtDescription.value="";
 
     refreshPInnerFormTable();
+    refreshMQFormTable();
     setStyle("1px solid #cacfe7")
 
 }
 
-function setStyle(style) {
+function setStyle(style){
     txtProductname.style.border = style;
     txtHeight.style.border = style;
     txtWidth.style.border = style;
@@ -256,6 +256,97 @@ const innerRowDelete = (innerob, rowind) => {
 }
 const innerRowView = () => {
 }
+//@@@@@@@@@ Material Inner FormTable@@@@@@@@@@@@@
+function refreshMQFormTable() {
+
+    productHasMaterial =  new Object();
+    oldproductHasMaterial = null;
+
+  getMaterial =   getServiceRequest("/material/list")
+    fillSelectFeild(cmbMaterial, "Select Materials", getMaterial, "name", "");
+
+    txtQty.value="";
+    txtQty.style.borderBottom = "1px solid #cacfe7";
+    cmbMaterial.style.borderBottom = "1px solid #cacfe7";
+//   Innere Table
+    let displayPropList = ['material_id.name', 'quantity'];
+    let disPPDTypeList = ['object', 'text'];
+    let innerlogedUserPrivilage = {sel: true, ins: true, upd: true, del: true};
+
+        fillDataIntoTable(tableMateiralQuantity, product.productHasMaterialList, displayPropList, disPPDTypeList, innerFormMReFill, innerMRowDelete, innerMRowView, true, innerlogedUserPrivilage);
+
+        for (let index in product.productHasMaterialList) {
+            tableMateiralQuantity.children[1].children[index].children[3].children[0].style.display = "none";
+            tableMateiralQuantity.children[1].children[index].children[3].children[2].style.display = "none";
+
+        }
+    // if (product.productCopyList.length < 3) {} else {
+    //
+    // }
+
+}
+//inner form-inner tale-row button functions
+const innerFormMReFill = (innerob, rowind) => {
+
+    //    pCopypTbyPCategory = getServiceRequest("/paperTypes/list");
+    fillSelectFeild(cmbMaterial, "Select Materials", getMaterial, "name",innerob.papertype_id.name);
+}
+const innerMRowDelete = (innerob, rowind) => {
+
+
+    let deleteInnerMsg = "Are you sure to delete following Product Copy Details..?" +
+        "\n Material: " + innerob.material_id.name
+        + "\n Quantity : " + innerob.quantity;
+
+    let innserdeleteUserResponce = window.confirm(deleteInnerMsg);
+
+    if (innserdeleteUserResponce) {
+        product.productHasMaterialList.splice(rowind, 1)
+        alert("Remove Successfully...!");
+        refreshMQFormTable();
+    }
+}
+const innerMRowView = () => {
+}
+
+
+const buttonMInnerAddMC = (value) => {
+    let productcopyset = false;
+
+    for (let index in product.producthasMaterial) {
+
+        if (product.producthasMaterial[index].material_id.name == productHasMaterial.material_id.name) {
+            productcopyset = true;
+            break;
+        }
+
+    }
+    if (!productcopyset) {
+
+            let confirmMs = "Are you sure to add following Product Details \n"
+                + "\n Material : " + productHasMaterial.material_id.name
+                + "\n Quantity : " + productHasMaterial.quantity;
+            let userResponce = window.confirm(confirmMs);
+
+
+            if (userResponce) {
+                product.productHasMaterialList.push(productHasMaterial);
+                alert("Save Succecfully...!");
+                refreshMQFormTable();
+
+            }
+
+
+
+    }
+
+}
+
+
+
+const buttonMInnerUpdateMC = ()=>{
+
+}
 const rowView = () => {
 }
 const rowDelete = (ob, row) => {
@@ -338,6 +429,7 @@ const formRefill = (ob, rowno) => {
 
     txtPrice.value=product.price
     txtDescription.value=product.description
+    productImage.src =atob(product.image);
 
 
 
@@ -355,6 +447,7 @@ const formRefill = (ob, rowno) => {
     fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", product.papercolors_id.name);
 
     setStyle("2px dotted green");
+
 
 
 
@@ -487,6 +580,7 @@ const checkErrors = () => {
     if (product.product_size_id == null) {
         errors = errors + "Product Size is not selected\n";
     } else if (product.product_size_id.name == "Customized Size") {
+
         if (product.height == null) {
             errors = errors + "Customized Size height is not selected\n";
             if (product.width == null) {
@@ -556,7 +650,7 @@ const checkUpdate = () => {
                + " into " + product.product_status_id.name + "\n";
        }
       if(  product.product_size_id.name != oldproduct.product_size_id.name){
-          updates = updates + "Product name has changed " + oldproduct.product_size_id.name
+          updates = updates + "Product size has changed " + oldproduct.product_size_id.name
               + " into " +product.product_size_id.name+ "\n";
       }
       if(  product.papertype_id.name != oldproduct.papertype_id.name){
@@ -613,7 +707,7 @@ function buttonSubmitMC() {
 }
 
 function buttonClearMC(){
-    refreshProductForm;
+    refreshProductForm();
 }
 
 function buttonUpdateMC(){
@@ -665,4 +759,16 @@ function buttonUpdateMC(){
     }
 
 
+}
+
+
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshProductForm();
+        $("#modalProductForm").modal("hide");
+    }
 }

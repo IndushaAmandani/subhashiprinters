@@ -15,4 +15,12 @@ public class ReportUIController {
     return materialListStatusReport; 
 
      }
+
+    @GetMapping(value ="/customerPaymentreport")
+    public ModelAndView invoiceReport(){
+        ModelAndView invoiceReportView = new ModelAndView();
+        invoiceReportView.setViewName("CustomerPayment.html");
+        return invoiceReportView;
+
+    }
 }

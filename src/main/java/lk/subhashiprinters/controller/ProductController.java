@@ -118,6 +118,10 @@ public class ProductController {
                 for (ProductCopy pc : product.getProductCopyList()) {
                     pc.setProduct_id(product);
                 }
+
+                for (ProductHasMaterial pm : product.getProductHasMaterialList()) {
+                    pm.setProduct_id(product);
+                }
                 productDao.save(product);
 
                 return "0";
@@ -172,7 +176,7 @@ public class ProductController {
         // neeed to check logged user privilage
 
         if (authentication instanceof AnonymousAuthenticationToken) {
-            return "Customer Order Update Not completed : You don't have permissing";
+            return "Product Update Not completed : You don't have permissing";
         }
         User logeduser = userDao.findUserByUsername(authentication.getName());
         HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(logeduser.getUsername(), "Product");
@@ -180,14 +184,25 @@ public class ProductController {
 
             Product extproduct = productDao.getReferenceById(product.getId());
 
-
+            if (extproduct == null ) {
+              return "Product Update Not completed : Product not available";
+           }
             try {
 
-                extproduct.setUpdated_date(LocalDateTime.now());
-                extproduct.setUpdated_user_id(logeduser);
+                product.setUpdated_date(LocalDateTime.now());
+                product.setUpdated_user_id(logeduser);
 
 
-                productDao.save(extproduct);
+                for ( ProductCopy pc : product.getProductCopyList()) {
+                    pc.setProduct_id(product);
+                }
+
+
+                for ( ProductHasMaterial phm : product.getProductHasMaterialList()) {
+                    phm.setProduct_id(product);
+                }
+
+                productDao.save(product);
 
                 return "0";
             } catch (Exception ex) {
@@ -197,6 +212,9 @@ public class ProductController {
         } else {
             return "Product Update  Not completed : You don't have permissing";
         }
+
+
+
 
     }
 

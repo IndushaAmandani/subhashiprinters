@@ -21,6 +21,6 @@ public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
     @Query(value = "SELECT concat('SUP',lpad(substring(max(s.reg_no),4)+1 , 7 ,'0')) FROM subhashiprinters.supplier as s;",nativeQuery = true)
     String getNextSupplierRegNo();
 
-    @Query("select  new Supplier(s.id, s.reg_no, s.company_name) from Supplier s where s.supplier_status_id.id=1")
+    @Query("select  new Supplier(s.id, s.reg_no, s.company_name,s.amount) from Supplier s where s.supplier_status_id.id=1")
     List<Supplier> list();
 }

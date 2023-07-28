@@ -48,6 +48,34 @@ const clearTableStyle = (tableid) => {
         
       }
 }
+
+//Files as Photos
+const fileFieldValidator = (fieldid,pattern,object,property,oldobject) => {
+    let ob = window[object];
+    let oldob = window[oldobject];
+
+    console.log(fieldid.files[0]);
+
+    let filereader = new FileReader();
+
+    filereader.onload = function (){
+        productImage.src = filereader.result;
+        ob[property] = btoa(filereader.result);
+
+        if(oldob != null &&  ob[property] != oldob[property]){
+            fieldid.style.borderBottom = "2px solid orange";
+
+        }else{
+            fieldid.style.borderBottom = "2px solid green";
+        }
+
+        return;
+    }
+
+filereader.readAsDataURL(fieldid.files[0]);
+
+
+}
 // ok
 const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
 
@@ -139,14 +167,14 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
  }
 
  //
- const checkBoxValidator = (feildid , pattern,object, property,oldobject,lblid,trueMsg,falseMsg )=>{
+ const checkBoxValidator = (feildid,pattern,object, property,setTruevalue,setFalseValue,oldobject,lblid,trueMsg,falseMsg )=>{
   let  ob = window[object];
   let  oldob = window[oldobject];
 
   if (feildid.checked) {
     ob[property] = true;
     if(trueMsg != ""){
-        lblid.innerText = "";
+        lblid.value = setTruevalue;
         lblid.innerText = trueMsg;
         if(oldob != null && ob[property] != oldob[property]){
             lblid.style.color = "orange";
@@ -159,7 +187,7 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
   } else {
     ob[property] = false;
     if(falseMsg != ""){
-        lblid.innerText = "";
+        lblid.value = setFalseValue;
         lblid.innerText = falseMsg;
         if(oldob != null && ob[property] != oldob[property]){
             lblid.style.color = "orange";
@@ -289,7 +317,14 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
                     tdp.innerText = data;
                     td.appendChild(tdp);
                 }
-            }else if(displayDTList[pro] == 'object'){
+            } else if(displayDTList[pro] == 'decimal'){
+                if(data == null) {
+                    td.innerText = "-";
+                }else {
+                    td.innerText=parseFloat(data).toFixed(2)
+                }
+            }
+            else if(displayDTList[pro] == 'object'){
 
                // console.log(propertyList[pro]);
                 tdp.innerText = getDataFromObject(dataList[index],propertyList[pro]);
@@ -301,14 +336,15 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
                 }else{
                     td.innerText = new Date(data).getFullYear();
                 }
-            } else if(displayDTList[pro] == 'image'){
+            } else if(displayDTList[pro] == 'imagearray'){
                 //create img node
               let img = document.createElement('img'); // DOM 
-               
+               img.style.width = '50px';
+               img.style.height = '50px';
                 if(data == null){
                     img.src = "res/images/sort_asc.png";
                 }else{
-                    img.src = data;
+                    img.src = atob(data);
                 }
                 td.appendChild(img);
             }else{
@@ -440,7 +476,7 @@ const getCurrentDate = () => {
 const getCurrentDate2 = (format,givendate) => {
     let nowDate = new Date(givendate);
  // retrive 0 to 11   
-    let month = nowDate.getMonth() + 1;//return 0 jan-11
+    let month = nowDate.getMonth() + 1;//return 0jan-11Dec
 //retrive 1-31
     let date = nowDate.getDate();//return 1-31
 //year 

@@ -5,6 +5,7 @@ package lk.subhashiprinters.controller;
 import lk.subhashiprinters.entity.User;
 import lk.subhashiprinters.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,9 +54,7 @@ public class UserController {
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
     @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
-    public User getUserbyid(
-            @PathVariable("id") Integer id
-    ){
+    public User getUserbyid(@PathVariable("id") Integer id){
         return userDao.getReferenceById(id);
     }
 
@@ -65,12 +64,15 @@ public class UserController {
     public String inserUser(@RequestBody User user){
        //need check logged user privilage
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof AnonymousAuthenticationToken) {
+            return "User Insert Not completed : You don't have permissing";
+        }
+        // get logged user authentication object
         User loggrgUser = userDao.findUserByUsername(auth.getName());
-        HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
+        // check privilage for add operation
+        HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(loggrgUser.getUsername(),"User");
 
         if(loggrgUser !=null && userPriv.get("ins")){
-
-            //need to check duplicate
             //need to check duplicate
             User extUser = userDao.findUserByUsername(user.getUsername());
             if(extUser != null){
@@ -85,8 +87,6 @@ public class UserController {
 
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-                user.setPhotoname("user.png");
-                user.setPhotopath("resources/images/user_photo/");
 
                 userDao.save(user);
                 return "0";

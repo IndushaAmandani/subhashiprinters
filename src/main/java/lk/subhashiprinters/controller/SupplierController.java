@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController //
 @RequestMapping(value = "/supplier") //Class level mapping
-public class  SupplierController {
+public class SupplierController {
 
     @Autowired // for create instance
     private SupplierRepository supplierDao;
@@ -116,6 +117,7 @@ public class  SupplierController {
                supplier.setAdded_datetime(LocalDateTime.now());
                 supplier.setReg_no(supplierDao.getNextSupplierRegNo());
                 supplier.setAdded_user_id(loggedUser);
+                supplier.setAmount(BigDecimal.ZERO);
                 //do the requeired operation
                 supplierDao.save(supplier);
 

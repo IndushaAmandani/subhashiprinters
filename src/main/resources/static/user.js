@@ -17,7 +17,7 @@ const refreshTable = () =>{
     users = getServiceRequest("/user/findall")
 
     let displayPropertyList = ['employee_id.calling_name' , 'username' , 'password' ,'email','status'];
-    let dPDTList = ['object' , 'text' ,getUserRole ,'text' , getUserStatus ];
+    let dPDTList = ['object' , 'text' ,getUserRole ,'text','text' ];
 
     fillDataIntoTable(tableUser,users,displayPropertyList, dPDTList, formRefill , deleteRow , viewRow , true , loggedUserPrivilage);
 
@@ -38,16 +38,7 @@ function getUserRole(ob) {
     return userrolename;
 }
 
-function getUserStatus(ob){
-    let userstatus;
-    if(ob.status){
-        userstatus = "<i class='fas fa-cross'></i>";
-    }else {
-        userstatus = "<i class='fas fa-check'></i>";
-    }
 
-    return userstatus;
-}
 
 //Check this out
 // function selectEmployeeCH() {
@@ -119,6 +110,8 @@ const  refreshForm = () => {
         rolediv.appendChild(checkBox);
         rolediv.appendChild(chkLabel);
         divRoles.appendChild(rolediv);
+
+
     }
 
     // fill data into employee select element
@@ -129,6 +122,8 @@ const  refreshForm = () => {
     textUserName.value = "";
     textPassword.value = "";
     textReTypePassword.value = "";
+    textPassword.disabled =false;
+    textReTypePassword.disabled = false;
     textEmail.value = "";
     textDescription.value = "";
 
@@ -170,7 +165,7 @@ function buttonSubmitMC() {
             alert("Add Successfull..!");
             refreshTable();
             refreshForm();
-            $('#modalUserForm').modal('hide');
+            $("#modalUserForm").modal("hide");
         }else {
             window.alert("You have following error \n" + postServieResponce);
         }
@@ -186,33 +181,53 @@ function buttonSubmitMC() {
 }
 
 const formRefill = (ob,rowno) => {
+console.log("hi");
+ //user = getServiceRequest("user/getbyid/" + ob.id);
+user = JSON.parse(JSON.stringify(ob));
+olduser = JSON.parse(JSON.stringify(ob));
 
- //   user = getServiceRequest("user/getbyid/" + ob.id);
- employee = new Object();
- olduser = new Object();
 
- $.ajax('user/getbyid/'+ob.id,{
-     async: false,
-     dataType:'json',
-     //responce obj -xhr
-     success: function (data,status, xhr){
-         user = data;
-     },
-     error: function (rxhrdata,errorstatus,errorMessge){
-        user = {};
-     }
- })
+ // $.ajax('user/getbyid/'+ob.id,{
+ //     async: false,
+ //     dataType:'json',
+ //     //responce obj -xhr
+ //     success: function (data,status, xhr){
+ //         user = data;
+ //     },
+ //     error: function (rxhrdata,errorstatus,errorMessge){
+ //        user = {};
+ //     }
+ // })
+ //
+ // $.ajax('user/getbyid?id='+ob.id,{
+ //     async: false,
+ //     dataType:'json',
+ //     success: function (data,status, xhr){
+ //        olduser = data;
+ //     },
+ //     error: function (rxhrdata,errorstatus,errorMessge){
+ //        olduser  = {};
+ //     }
+ // })
 
- $.ajax('user/getbyid?id='+ob.id,{
-     async: false,
-     dataType:'json',
-     success: function (data,status, xhr){
-        olduser = data;
-     },
-     error: function (rxhrdata,errorstatus,errorMessge){
-        olduser  = {};
-     }
- })
+
+    // fill data into employee select element
+    employeesListwithoutUserAccount.push(ob.employee_id);
+    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","")
+
+    // empty text feild
+    textUserName.value = user.username  ;
+    textPassword.disabled = true;
+    textReTypePassword.disabled= true;
+    textEmail.value = user.email;
+
+    user.status = true;
+    chkUserStatus.checked = true;
+    lblUserStatus.innerText = "User Account is Active";
+
+
+
+
 }
 
 function checkUpdate(){

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
     <title> Subhashi Printers - Customer Order Management</title>
-    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
+<!--    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">-->
     <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
     <link
             href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
@@ -70,14 +70,14 @@
 
                 </ul>
                 <ul class="nav navbar-nav  float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fas fa-bell"> </i></a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fa-solid fa-gear"> </i></a>
-                    </li>
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fas fa-bell"> </i></a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fa-solid fa-gear"> </i></a>-->
+<!--                    </li>-->
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
                             <i class="fas fa-power-off"> </i></a>
@@ -93,63 +93,64 @@
 </nav>
 
 <!--SideBar-->
-
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
 <div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
-    <div class="main-menu-content">
-        <a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
+    <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
                                       href="index.html">
-        <img class=" rounded-circle  brand-logo"   src="resources/images/user_photo/user.png" id="imgUserPhoto" />
-        <p class="m-1 text-white" id="hUsername"> </p>
-        <p class="m-1  text-white" id="spnRole"> </p>
+        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
+        <p class="m-1 text-white" id="hUsername"></p>
+        <p class="m-1  text-white" id="spnRole"></p>
     </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
+            <li class=" nav-item "><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
                     class="menu-title" data-i18n="">Dashboard</span></a>
             </li>
             <li class=" nav-item"><a href="#"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
                                                                                          data-i18n="">Administration</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="employee.html">Employee</a> </li>
-                    <li><a class="menu-item" href="user.html">User</a> </li>
-                    <li><a class="menu-item" href="privilage.html">Privilage </a> </li>
+                    <li><a class="menu-item" href="employee.html">Employee</a></li>
+                    <li><a class="menu-item" href="user.html">User</a></li>
+                    <li><a class="menu-item" href="privilage.html">Privilage </a></li>
                 </ul>
             </li>
-            <li class=" nav-item active"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title active"
-                                                                                           data-i18n="">Print Order</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="customer.html">Customer</a> </li>
-                    <li><a class="menu-item" href="product.html">Product</a> </li>
-                    <li class="active"><a class="menu-item" href="corder.html">Customer Order </a> </li>
-                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a> </li>
+            <li class=" nav-item active "><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
+                                                                                            data-i18n="">Print Order</span></a>
+                <ul class="menu-content ">
+                    <li ><a class="menu-item " href="customer.html">Customer</a></li>
+                    <li class="active"><a class="menu-item active" href="corder.html">Customer Order </a></li>
+                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a></li>
                 </ul>
             </li>
-            <li class=" nav-item"><a href="#">
+            <li class=" nav-item "><a href="#">
                 <i class="fa-solid fa-print"></i><span class="menu-title"
-                                                       data-i18n="">Pruduction</span></a>
+                                                       data-i18n="">Production</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Product Analysis</a> </li>
-                    <li><a class="menu-item" href="porder.html">Production Order</a> </li>
-                    <li><a class="menu-item" href="product.html">Production </a> </li>
+
+                    <li ><a class="menu-item " href="product.html">Product</a></li>
+                    <li><a class="menu-item" href="productionOrderConfirm.html">Production Confirmation </a></li>
+                    <li><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
+                    <li><a class="menu-item" href="material.html">Material</a></li>
+
                 </ul>
             </li>
-            <li class=" nav-item">
+            <li class=" nav-item ">
                 <a href="#"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
                                                                            data-i18n="">Purchase</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="supplier.html">Supplier</a> </li>
-                    <li><a class="menu-item" href="quotationrequest.html.html">Quotation Request</a> </li>
-                    <li><a class="menu-item" href="quotation.html.html">Quotation </a> </li>
-                    <li><a class="menu-item" href="porder.html.html">Purchase Order </a> </li>
-                    <li><a class="menu-item" href="grn.html">GRN </a> </li>
-                    <li><a class="menu-item" href="supplierpayment.html.html">Supplier Payement </a> </li>
+                    <li><a class="menu-item" href="supplier.html">Supplier</a></li>
+                    <li><a class="menu-item" href="quotationrequest.html">Quotation Request</a></li>
+                    <li><a class="menu-item" href="quotation.html">Quotation </a></li>
+                    <li><a class="menu-item" href="porder.html">Purchase Order </a></li>
+                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
+                    <li><a class="menu-item" href="supplierpayment.html">Supplier Payment </a></li>
                 </ul>
             </li>
 
             <li class=" nav-item"><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
                                                                                           data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Report 1</a> </li>
-                    <li><a class="menu-item" href="account-login-history.html">Report 2</a></li>
+                    <li><a class="menu-item" href="materialListStatus.html">Report 1</a> </li>
+                    <li><a class="menu-item" href="CustomerPayment.html">Report 2</a></li>
                     <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
                 </ul>
             </li>
@@ -202,6 +203,7 @@
                                                     <th> Total Amount</th>
                                                     <th>Advance Amount</th>
                                                     <th> Balance Amount</th>
+                                                    <th> Production Status</th>
                                                     <th> Order Status</th>
                                                     <th> Modify</th>
                                                 </tr>
@@ -241,17 +243,15 @@
 
 <!---->
 
-<div class="modal" tabindex="-1" id="modalCustomerOrderForm">
+<div class="modal" tabindex="-1" id="modalCustomerOrderForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
                 <h2 class="h2"><i class="fas fa-user fx"></i> Edit Customer Order</h2>
 
-                <button type="button" class="btn-close" onclick="btnClose()"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-            </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+        </div>
             <!-- Body -->
             <div class="modal-body">
                 <!--  Customer Order form -->
@@ -529,6 +529,57 @@
         </div>
     </div>
 
+</div>
+<!--View Modal-->
+<div class="modal" tabindex="-1" id="modalViewCOrderForm" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> View Privileage </h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="buttonModalCloseMCV()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped table-bordered" id="tableCOrder">
+                    <tr>
+                        <th>Order Code</th>
+                        <td id="tdCOCode"></td>
+                    </tr>
+                    <tr>
+                        <th>Customer Name</th>
+                        <td id="tdCName"></td>
+                        <th>Required Date</th>
+                        <td id="tdReqDate"></td>
+                    </tr>
+                    <tr>
+                        <th>Prducts</th>
+                       <hr>
+                    </tr>
+                    <tr>
+                        <th>Select</th>
+                        <td id="tdSelect"></td>
+                    </tr>
+                    <tr>
+                        <th>Insert</th>
+                        <td id="tdIns"></td>
+                    </tr>
+                    <tr>
+                        <th>Update</th>
+                        <td id="tdUpd"></td>
+                    </tr>
+                    <tr>
+                        <th>Delete</th>
+                        <td id="tdDel"> </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" onclick="printRowItemMC()"> Print </a></div>
+            </div>
+        </div>
+    </div>
 </div>
 <!---->
 

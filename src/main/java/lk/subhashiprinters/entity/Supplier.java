@@ -95,10 +95,11 @@ public class Supplier implements Serializable {
     @JoinTable(name = "supplier_has_material" ,joinColumns = @JoinColumn(name = "supplier_id"), inverseJoinColumns = @JoinColumn(name = "material_id"))
     private Set<Material> materialList;
 
-    public Supplier(Integer id, String reg_no, String company_name) {
+    public Supplier(Integer id, String reg_no, String company_name, BigDecimal amount) {
         this.id = id;
         this.reg_no = reg_no;
         this.company_name = company_name;
+        this.amount = amount;
     }
 
     public Supplier(Integer id, String reg_no, String company_name ,String company_email, String company_contact_no ,SupplierStatus supplier_status_id){

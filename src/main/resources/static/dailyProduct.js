@@ -24,7 +24,7 @@ function refreshdailyProductTable() {
     //called filldataintotable function for fill data
     fillDataIntoTable(tableDailyProduct,dailyProduct,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
     // need to add jquerty table
-    $('tableDailyProduct').dataTable();
+    $("tableDailyProduct").dataTable();
 
 
 
@@ -58,6 +58,7 @@ function refreshdailyProductForm(){
 
 
 function getProductList() {
+
     productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerOrder.value).id);
     fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", "");
 }
@@ -66,48 +67,72 @@ function getCOPQty() {
     customerOrderProduct = getServiceRequest("/customerOrderHasproduct/orderedQtyBycoidPid/" + JSON.parse(cmbCustomerOrder.value).id +"/"+ JSON.parse(cmbProduct.value).id )
     txtTotalQuantity.value = customerOrderProduct.order_qty;
      dailyP.totalqty = txtTotalQuantity.value;
+    txtTotalQuantity.style.borderBottom = "2px solid green";
 
     txtcompletedQuantity.value = customerOrderProduct.completedqty;
     dailyP.completedqty = txtcompletedQuantity.value;
-
-    txtPreBalanceQuantity.value = parseInt(txtTotalQuantity.value) - parseInt(txtcompletedQuantity.value);
-    dailyP.pre_balance_qty = txtPreBalanceQuantity.value;
-    txtNewBalanceQuantity.style.borderbottomstyle= green;
-
+    txtcompletedQuantity.style.borderBottom = "2px solid green";
+    setValue();
 
 }
 
+function setValue() {
+    txtPreBalanceQuantity.value = parseInt(txtTotalQuantity.value)- parseInt(txtcompletedQuantity.value);
+    dailyP.pre_balance_qty = txtPreBalanceQuantity.value;
+    txtPreBalanceQuantity.style.borderBottom = "2px solid green";
+}
+
 function getBalanceAmount(){
+    if (txtDailyQuantity.value != "") {
+        let pattern = new RegExp("^[1-9][0-9]{0,5}$");
+        if (pattern.test(txtDailyQuantity.value)) {
+            if(parseInt(txtPreBalanceQuantity.value) >= parseInt(txtDailyQuantity.value)) {
+                txtNewBalanceQuantity.value = parseInt(txtPreBalanceQuantity.value) - parseInt(txtDailyQuantity.value);
+                dailyP.new_balance_qty = txtNewBalanceQuantity.value;
+                dailyP.dailyqty = txtDailyQuantity.value;
+                txtNewBalanceQuantity.style.borderBottom="2px solid green";
+                txtNewBalanceQuantity.style.borderBottom = "2px solid green";
+            }else {
+                txtDailyQuantity.style.borderBottom = "2px solid red";
+                txtNewBalanceQuantity.style.borderBottom = "2px solid red";
+                txtDailyQuantity.value = "";
+                txtDailyQuantity.value = "";
+                dailyP.dailyqty = null;
+                dailyP.new_balance_qty = null;
 
-    let pattern = new RegExp("^[1-9][0-9]{0,5}$");
-    if(pattern.test(txtDailyQuantity.value)){
-        if((txtPreBalanceQuantity.value >= txtDailyQuantityvalue.value) && (txtDailyQuantity.value>0) ){
-            txtNewBalanceQuantity.value = parseInt(txtPreBalanceQuantity.value) - parseInt(txtDailyQuantity.value);
-            dailyP.new_balance_qty = txtNewBalanceQuantity.value;
-            txtNewBalanceQuantity.style.borderbottomstyle = green;
+            }
+        } else {
+            txtDailyQuantity.style.borderBottom = "2px solid red";
+            txtNewBalanceQuantity.style.borderBottom ="2px solid red";
+            txtDailyQuantity.value = "";
+            txtDailyQuantity.value = "";
+            dailyP.dailyqty = null;
+            dailyP.new_balance_qty = null;
+
         }
-
-    } else{
-
-        txtNewBalanceQuantity.style.borderbottomstyle = red;
+    }else {
+        txtDailyQuantity.style.borderBottom = "2px solid red";
+        txtDailyQuantity.style.borderBottom = "2px solid red";
+        txtDailyQuantity.value = "";
+        txtDailyQuantity.value = "";
+        dailyP.dailyqty = null;
+        dailyP.new_balance_qty = null;
     }
-
 }
 function formRefill(){}
 function rowDelete(){}
 function rowView(){}
 
 function buttonSubmitMC() {
-    console.log("Add Daily Product ")
 
 //need to check form errors
     let errors = checkErrors();
 
     if(errors == ""){
         let submitConfirmMsg  = "Are you sure to add following... " +
-            "\n Daily Product Id : " + dailyProduct.id +
-            "\n Customer Full Name : " + dailyProduct.customer_name +
-            "\n Product Name : " + dailyProduct.product_id.p_name ;
+
+            "\n Customer Full Name : " + dailyP.customer_order_id.order_code +
+            "\n Product Name : " + dailyP.product_id.p_name ;
         let userResponce = window.confirm(submitConfirmMsg);
 
         if(userResponce){
@@ -115,7 +140,7 @@ function buttonSubmitMC() {
             $.ajax("/dailyProduct",{
                 async : false,
                 type : "POST",
-                data : JSON.stringify(customer),
+                data : JSON.stringify(dailyP),
                 contentType :"application/json",
                 success: function (susResdata,susStatus,ajresob){
                     postServieResponce = susResdata;
@@ -130,8 +155,8 @@ function buttonSubmitMC() {
 
                 alert("Add Successfull..!");
                 refreshdailyProductTable();
-                refreshdailyProductTable;
-                $('modalDailyForm').modal('hide');
+                refreshdailyProductForm();
+                $("#modalDailyForm").modal("hide");
             }else {
                 window.alert("You have following error \n" + postServieResponce);
             }
@@ -145,4 +170,16 @@ function buttonSubmitMC() {
         window.alert("You have following error \n"+ errors);
     }
 }
-function checkErrors(){}
+function checkErrors(){
+    return "";
+}
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshdailyProductForm();
+        $("#modalDailyForm").modal("hide");
+    }
+}

@@ -10,7 +10,9 @@ import java.util.List;
 public interface ProductionOrderConfirmRepository extends JpaRepository<CustomerOrder,Integer> {
 
     @Query("select co from CustomerOrder co where co.production_status_id.id=1 order by co.id desc")
-    List<CustomerOrder> findAll();
+    List<CustomerOrder> findbyStatus();
+ @Query("select co from CustomerOrder co where co.production_status_id.id=1 and co.id=?1")
+ CustomerOrder getReferenceById( Integer id);
 
 
 

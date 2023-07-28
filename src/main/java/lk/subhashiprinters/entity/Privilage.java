@@ -20,17 +20,17 @@ public class Privilage {
     @Column(name = "id")
    private Integer id;
    //privilage- slect,insrt,updt,updt,deltt
-    @Column(name = "slect")
-   private Boolean slect;
+    @Column(name = "sel")
+   private Boolean sel;
 
-   @Column(name = "insrt")
-   private Boolean insrt;
+   @Column(name = "ins")
+   private Boolean ins;
 
-   @Column(name = "updt")
-   private Boolean updt;
+   @Column(name = "upd")
+   private Boolean upd;
 
-   @Column(name = "deltt")
-   private Boolean deltt;
+   @Column(name = "del")
+   private Boolean del;
 
    @Column(name = "added_datetime")
    private LocalDateTime added_datetime;
@@ -50,7 +50,7 @@ public class Privilage {
    @JoinColumn(name = "module_id",referencedColumnName = "id")
    private Module  module_id;
 
-   @ManyToOne(optional = false)
+   @ManyToOne(optional = false)//null not allowed
    @JoinColumn(name = "added_user_id",referencedColumnName = "id")
    private User  added_user_id;
 

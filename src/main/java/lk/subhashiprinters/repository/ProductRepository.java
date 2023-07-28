@@ -20,7 +20,7 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
 
 //
 //
- @Query("select new Product (p.id, p.product_code, p.p_name,p.price) from Product p where p.product_status_id.id=1  and p.customer_id.id=?1")
+ @Query("select new Product(p.id, p.product_code, p.p_name,p.price) from Product p where p.product_status_id.id=1  and p.customer_id.id=?1")
  List<Product> getListByCustomer(Integer cid);
 
 

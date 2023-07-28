@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_status")
+@Table(name = "inventorystatus")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class COrderStatus {
+public class InventoryStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "id")

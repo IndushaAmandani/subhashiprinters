@@ -41,15 +41,25 @@
     <div class="navbar-wrapper">
         <div class="navbar-header d-md-none">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
-                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img class="brand-logo d-none d-md-block" alt="CryptoDash admin logo" src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none" alt="CryptoDash admin logo sm" src="../../../app-assets/images/logo/logo-sm.png"></a></li>
-                <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="la la-ellipsis-v">   </i></a></li>
+                <li class="nav-item mobile-menu d-md-none mr-auto"><a
+                        class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
+                        class="ft-menu font-large-1"></i></a></li>
+                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
+                        class="brand-logo d-none d-md-block" alt="Dash admin logo"
+                        src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
+                                                                            alt="Dash admin logo sm"
+                                                                            src="../../../app-assets/images/logo/logo-sm.png"></a>
+                </li>
+                <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
+                                                  data-target="#navbar-mobile"><i class="la la-ellipsis-v"> </i></a>
+                </li>
             </ul>
         </div>
         <div class="navbar-container">
             <div class="collapse navbar-collapse" id="navbar-mobile">
                 <ul class="nav navbar-nav mr-auto float-left">
-                    <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu">         </i></a></li>
+                    <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
+                                                              href="#"><i class="ft-menu"> </i></a></li>
 
                 </ul>
                 <ul class="nav navbar-nav mr-auto float-right">
@@ -60,17 +70,17 @@
 
                 </ul>
                 <ul class="nav navbar-nav  float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fas fa-bell">         </i></a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fa-solid fa-gear">         </i></a>
-                    </li>
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fas fa-bell"> </i></a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fa-solid fa-gear"> </i></a>-->
+<!--                    </li>-->
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
-                            <i class="fas fa-power-off">         </i></a>
+                            <i class="fas fa-power-off"> </i></a>
                     </li>
 
 
@@ -87,58 +97,60 @@
 <div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
     <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
                                       href="index.html">
-        <img class=" rounded-circle  brand-logo"   src="resources/images/user_photo/user.png" id="imgUserPhoto" />
-        <p class="m-1 text-white" id="hUsername"> </p>
-        <p class="m-1  text-white" id="spnRole"> </p>
+        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
+        <p class="m-1 text-white" id="hUsername"></p>
+        <p class="m-1  text-white" id="spnRole"></p>
     </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
+            <li class=" nav-item active"><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
                     class="menu-title" data-i18n="">Dashboard</span></a>
             </li>
             <li class=" nav-item"><a href="#"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
                                                                                          data-i18n="">Administration</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="employee.html">Employee</a> </li>
-                    <li><a class="menu-item" href="user.html">User</a> </li>
-                    <li><a class="menu-item" href="privilage.html">Privilage </a> </li>
+                    <li><a class="menu-item" href="employee.html">Employee</a></li>
+                    <li><a class="menu-item" href="user.html">User</a></li>
+                    <li><a class="menu-item" href="privilage.html">Privilage </a></li>
                 </ul>
             </li>
             <li class=" nav-item"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
-                                                                                          data-i18n="">Print Order</span></a>
+                                                                                           data-i18n="">Print Order</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="customer.html">Customer</a> </li>
-                    <li><a class="menu-item" href="product.html">Product</a> </li>
-                    <li><a class="menu-item" href="printOrder.html">Print Order </a> </li>
-                    <li><a class="menu-item" href="cpayment.html">Customer Payement </a> </li>
+                    <li><a class="menu-item" href="customer.html">Customer</a></li>
+                    <li><a class="menu-item" href="corder.html">Customer Order </a></li>
+                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a></li>
                 </ul>
             </li>
             <li class=" nav-item"><a href="#">
                 <i class="fa-solid fa-print"></i><span class="menu-title"
-                                                  data-i18n="">Pruduction</span></a>
+                                                       data-i18n="">Production</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Product Analysis</a> </li>
-                    <li><a class="menu-item" href="porder.html">Production Order</a> </li>
-                    <li><a class="menu-item" href="product.html">Production </a> </li>
+
+                    <li><a class="menu-item" href="product.html">Product</a></li>
+                    <li><a class="menu-item" href="productionOrderConfirm.html">Production Confirmation </a></li>
+                    <li><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
+                    <li><a class="menu-item" href="porder.html">Material</a></li>
+
                 </ul>
             </li>
-            <li class=" nav-item active">
+            <li class=" nav-item active ">
                 <a href="#"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
-                                                                              data-i18n="">Purchase</span></a>
+                                                                           data-i18n="">Purchase</span></a>
                 <ul class="menu-content">
-                    <li class="active"><a class="menu-item" href="supplier.html">Supplier</a> </li>
-                    <li><a class="menu-item" href="quotationrequest.html.html">Quotation Request</a> </li>
-                    <li><a class="menu-item" href="quotation.html.html">Quotation </a> </li>
-                    <li><a class="menu-item" href="porder.html.html">Purchase Order </a> </li>
-                    <li><a class="menu-item" href="grn.html">GRN </a> </li>
-                    <li><a class="menu-item" href="supplierpayment.html.html">Supplier Payement </a> </li>
+                    <li class="active"><a class="menu-item active" href="supplier.html">Supplier</a></li>
+                    <li><a class="menu-item" href="quotationrequest.html">Quotation Request</a></li>
+                    <li><a class="menu-item" href="quotation.html">Quotation </a></li>
+                    <li><a class="menu-item" href="porder.html">Purchase Order </a></li>
+                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
+                    <li><a class="menu-item" href="supplierpayment.html">Supplier Payment </a></li>
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
-                                                                                       data-i18n="">Report</span></a>
+            <li class=" nav-item "><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
+                                                                                          data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Report 1</a> </li>
-                    <li><a class="menu-item" href="account-login-history.html">Report 2</a></li>
+                    <li><a class="menu-item" href="materialListStatus.html">Report 1</a> </li>
+                    <li><a class="menu-item" href="CustomerPayment.html">Report 2</a></li>
                     <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
                 </ul>
             </li>
@@ -165,7 +177,7 @@
           </div>
         </div>
         <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white"
+          <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
                                                    data-toggle="modal" data-target="#modalSupplierForm">Add new Supplier</a></div>
         </div>
       </div>
@@ -181,15 +193,15 @@
                     <div class="row">
                       <div class="col-12">
 
-                        <table class="table table-hover table-bordered" id="tableSupplier">
-                            <thead class="table-dark" style="background-color: #0f68e5">
+                        <table class="table table-hover table-bordered" id="tableSupplier" >
+                            <thead class="table-dark" style="background-color: #152650">
                                 <tr>
                                     <th> # </th>
                                     <th> Reg No </th>
                                     <th> Name </th>
-                                    <th> Contact No </th>
                                     <th> Email </th>
-                                    <th> Supply Material </th>
+                                    <th> Contact No </th>
+                                    <th> Supply Materiall </th>
                                     <th> Status </th>
                                     <th> Modify </th>
                                 </tr>
@@ -221,18 +233,20 @@
         <script>
           document.write(new Date().getFullYear())
         </script> <a class="text-bold-800 grey darken-2" href="https://themeselection.com/"
-          target="_blank">TMI </a>, All rights reserved.
+          target="_blank">ThemeSelection </a>, All rights reserved.
       </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i
           class="ft-heart pink"></i></span></p>
   </footer>
 
 
 
-  <div class="modal" tabindex="-1" id="modalSupplierForm">
+  <div class="modal" tabindex="-1" id="modalSupplierForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="h2"> <i class="fas fa-user fx"></i> Edit Supplier</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+
             </div>
             <div class="modal-body">
                 <!--  Supplier form -->
@@ -258,24 +272,21 @@
                     </div>
 
                     <!--- Supplier Name / Supplier Address / Note  -->
-
-
-
                     <div class="row mt-1">
 
                         <div class="col-4">
                             <label for="txtSupplierName" class="form-label font-weight-bold">Supplier Name : <span
                                     style="color: red;">*</span></label>
-                            <textarea  id="txtSupplierName" class="form-control form-control-sm" required
-                                   onkeyup="textFeildValidtor(txtSupplierName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','employee','fullname','oldemployee')"
-                                       placeholder="Enter Supplier Name"></textarea>
+                            <input type="text"   id="txtSupplierName" class="form-control form-control-sm" required
+                                   onkeyup="textFeildValidtor(txtSupplierName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','company_name','oldSupplier')"
+                                       placeholder="Enter Supplier Name">
                             <div class="form-text"> Ex: Abc Aency</div>
                         </div>
                         <div class="col-4">
                             <label for="txtSupplierAddress" class="form-label font-weight-bold">Supplier Address : <span
                                     style="color: red;">*</span></label>
                             <textarea id="txtSupplierAddress" class="form-control form-control-sm" required
-                                   onkeyup="textFeildValidtor(txtSupplierAddress,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','employee','fullname','oldemployee')"
+                                   onkeyup="textFeildValidtor(txtSupplierAddress,'^.*$','newSupplier','address','oldSupplier')"
                                       placeholder="Enter Supplier Address"></textarea>
                             <div class="form-text"> Ex: no 2, Borella Rd, Maradana.</div>
                         </div>
@@ -283,7 +294,7 @@
                             <label for="txtSupplierNote" class="form-label font-weight-bold"> Note : <span
                                     style="color: red;"></span></label>
                             <textarea id="txtSupplierNote" class="form-control form-control-sm"
-                                      onkeyup="textFeildValidtor(txtSupplierNote,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','employee','fullname','oldemployee')"
+                                      onkeyup="textFeildValidtor(txtSupplierNote,'^.*$','newSupplier','description','oldSupplier')"
                                       placeholder="Enter Supplier Note"></textarea>
                             <div class="form-text"> Ex: new supplier</div>
                         </div>
@@ -296,7 +307,7 @@
                             <label for="txtContactNo" class="form-label font-weight-bold">Contact No : <span
                                     style="color: red;">*</span></label>
                             <input type="text" id="txtContactNo" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtContactNo,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
+                                   onkeyup="textFeildValidtor(txtContactNo,'^[0][1-9][1-9][0-9]{7}$','newSupplier','company_contact_no','oldSupplier')"
                                    placeholder="Enter Contact No" required >
                             <div class="form-text"> Ex: 0112325652</div>
                         </div>
@@ -306,7 +317,7 @@
                                 Email Address : <span style="color: red;">*</span>
                             </label>
                             <input type="email" id="txtEmailAddress" placeholder="Enter Email Address"  required class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','employee','nic','oldemployee')"  >
+                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','newSupplier','company_email','oldSupplier')"  >
                             <div class="form-text"> Ex: example@gmail.com</div>
                         </div>
 
@@ -314,7 +325,7 @@
                             <label for="cmbSupplierStatus" class="form-label font-weight-bold">Supplier Status : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbSupplierStatus" class="form-control form-control-sm" required
-                                    onchange="selectValidator(cmbSupplierStatus,'','employee','employeestatus_id','oldemployee')">
+                                    onchange="selectValidator(cmbSupplierStatus,'','newSupplier','supplier_status_id','oldSupplier')">
                                 <div class="form-text"> Ex: Active</div>
                             </select>
                         </div>
@@ -327,7 +338,7 @@
                                 Company Reg  no : <span style="color: red;"></span>
                             </label>
                             <input type="text" id="txtCompanyRegno" class="form-control form-control-sm" placeholder="EnterCompany Reg  no"
-                                   onkeyup="textFeildValidtor(txtCompanyRegno,'^[0][7][01245678][0-9]{7}$','employee','mobile','oldemployee')">
+                                   onkeyup="textFeildValidtor(txtCompanyRegno,'^[A-Za-z0-9]{5,8}$','newSupplier','company_registration_number','oldSupplier')">
                             <div class="form-text"> Ex: 158525a</div>
                         </div>
 
@@ -337,7 +348,7 @@
                             </label>
                             <input type="text" id="txtContactPersonName" class="form-control form-control-sm"
                                    placeholder="EnterContact Person Name"
-                                   onkeyup="textFeildValidtor(txtContactPersonName,'^[0][1-9][0-9]{8}$','employee','land','oldemployee')" >
+                                   onkeyup="textFeildValidtor(txtContactPersonName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','contact_person_name','oldSupplier')" >
                             <div class="form-text"> Ex: Sampath</div>
                         </div>
 
@@ -346,55 +357,101 @@
                                 Contact Person Mobile : <span style="color: red;"></span>
                             </label>
                             <input type="text" id="txtContactPersonMobile" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtContactPersonMobile,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','employee','email','oldemployee')"
+                                   onkeyup="textFeildValidtor(txtContactPersonMobile,'^[0][7][01245678][0-9]{7}$','newSupplier','contact_person_number','oldSupplier')"
                                    placeholder="Enter Contact Person Mobile">
                             <div class="form-text"> Ex: 0776352445</div>
                         </div>
                     </div>
 
-                    <!--- Bank Name / Bank  Branch Name -->
-                    <div class="row mt-1">
+                    <div class="card mt-1">
+                        <div class="card-header"><h2>Supplier Bank Details</h2> </div>
+                        <div class="card-body">
+                            <!--- Bank Name / Bank  Branch Name -->
+                            <div class="row mt-1">
 
-                        <div class="col">
-                            <label for="txtBankName" class="form-label font-weight-bold">Bank Name : <span
-                                    style="color: red;"></span></label>
-                            <input type="text" id="txtBankName" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtBankName,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
-                                   placeholder="Enter Bank Name"  >
-                                <div class="form-text"> Ex: BOC</div>
-                            </select>
-                        </div>
+                                <div class="col">
+                                    <label for="txtBankName" class="form-label font-weight-bold">Bank Name : <span
+                                            style="color: red;"></span></label>
+                                    <input type="text" id="txtBankName" class="form-control form-control-sm"
+                                           onkeyup="textFeildValidtor(txtBankName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','bank_name','oldSupplier')"
+                                           placeholder="Enter Bank Name"  >
+                                    <div class="form-text"> Ex: BOC</div>
+                                    </select>
+                                </div>
 
-                        <div class="col">
-                            <label for="txtBankBranchName" class="form-label font-weight-bold">Bank Branch Name : <span
-                                    style="color: red;"></span></label>
-                            <input type="text" id="txtBankBranchName" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtBankBranchName,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
-                                   placeholder="Enter Bank Branch Name"  >
-                            <div class="form-text"> Ex: Piliyandala</div>
+                                <div class="col">
+                                    <label for="txtBankBranchName" class="form-label font-weight-bold">Bank Branch Name : <span
+                                            style="color: red;"></span></label>
+                                    <input type="text" id="txtBankBranchName" class="form-control form-control-sm"
+                                           onkeyup="textFeildValidtor(txtBankBranchName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','branch_name','oldSupplier')"
+                                           placeholder="Enter Bank Branch Name"  >
+                                    <div class="form-text"> Ex: Piliyandala</div>
+                                </div>
+                            </div>
+                            <!--- Bank Account Number / Bank  Account Holder Name -->
+                            <div class="row mt-1">
+
+                                <div class="col">
+                                    <label for="txtBankAccountNumber" class="form-label font-weight-bold">Bank Account Number : <span
+                                            style="color: red;"></span></label>
+                                    <input type="text" id="txtBankAccountNumber" class="form-control form-control-sm"
+                                           onkeyup="textFeildValidtor(txtBankAccountNumber,'^[0-9]{6,20}$','newSupplier','account_number','oldSupplier')"
+                                           placeholder="Enter Bank Account Number"  >
+                                    <div class="form-text"> Ex: 0125698</div>
+                                </div>
+
+                                <div class="col">
+                                    <label for="txtBankAccountHolderName" class="form-label font-weight-bold">Bank Account Holder Name : <span
+                                            style="color: red;"></span></label>
+                                    <input type="text" id="txtBankAccountHolderName" class="form-control form-control-sm"
+                                           onkeyup="textFeildValidtor(txtBankAccountHolderName,'^(([A-Z][a-z]{0,16}[ ]{0,1})+([A-Z][a-z]{0,16})+)$','newSupplier','account_holder_name','oldSupplier')"
+                                           placeholder="Enter Bank Account Holder Name"  >
+                                    <div class="form-text"> Ex: APB Samapath</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!--- Bank Account Number / Bank  Account Holder Name -->
-                    <div class="row mt-1">
 
-                        <div class="col">
-                            <label for="txtBankAccountNumber" class="form-label font-weight-bold">Bank Account Number : <span
-                                    style="color: red;"></span></label>
-                            <input type="text" id="txtBankAccountNumber" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtBankAccountNumber,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
-                                   placeholder="Enter Bank Account Number"  >
-                            <div class="form-text"> Ex: 0125698</div>
+                    <div class="card mt-1">
+                        <div class="card-header">
+                           <h2> Supplier Suppplier Material</h2>
                         </div>
+                        <div class="card-body">
 
-                        <div class="col">
-                            <label for="txtBankAccountHolderName" class="form-label font-weight-bold">Bank Account Holder Name : <span
-                                    style="color: red;"></span></label>
-                            <input type="text" id="txtBankAccountHolderName" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtBankAccountHolderName,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
-                                   placeholder="Enter Bank Account Holder Name"  >
-                            <div class="form-text"> Ex: APB Samapath</div>
+                            <!-- List Transfer -->
+                            <div class="row mt-2">
+                                <div class="col-1"></div>
+                                <div class="col-4">
+                                    <select class="form-select" id="selectMaterial" multiple aria-label="multiple select example">
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <div class="row">
+                                        <button type="button" class="btn fw-bold" onclick="buttonAddByOne()"> > </button>
+                                    </div>
+
+                                    <div class="row">
+                                        <button  type="button" class="btn fw-bold" onclick="buttonAddByAll()"> >> </button>
+                                    </div>
+
+                                    <div class="row">
+                                        <button type="button" class="btn fw-bold"  onclick="buttonRemoveByOne()"> < </button>
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByAll()"> << </button>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-select"  id="selectSelectedItem" multiple aria-label="multiple select example">
+
+                                    </select>
+                                </div>
+                                <div class="col-1"></div>
+                            </div>
+
                         </div>
                     </div>
+
 
                     <!--- Buttons -->
                     <div class="row mt-2">
@@ -404,7 +461,7 @@
                             <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update </button>
                             <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                                    class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add </button>
+                                    class="btn bg-success font-weight-bold" onclick="buttonSupplierSave()"> Add </button>
                         </div>
                     </div>
 

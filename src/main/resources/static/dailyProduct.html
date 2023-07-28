@@ -125,9 +125,9 @@
             </li>
             <li class=" nav-item active"><a href="#">
                 <i class="fa-solid fa-print"></i><span class="menu-title"
-                                                       data-i18n="">Pruduction</span></a>
+                                                       data-i18n="">Production</span></a>
                 <ul class="menu-content">
-                    <li class="active"><a class="menu-item" href="dailyProduct.html.html">Daily Product</a></li>
+                    <li class="active"><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
                     <li><a class="menu-item" href="porder.html">Production Order</a></li>
                     <li><a class="menu-item" href="product.html">Production </a></li>
                 </ul>
@@ -242,12 +242,13 @@
 
 <!--Form-->
 
-<div class="modal" tabindex="-1" id="modalDailyForm">
+<div class="modal" tabindex="-1" id="modalDailyForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
                 <h2 class="h2"><i class="fas fa-user fx"></i> Edit Daily Product</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <!-- Body -->
             <div class="modal-body">
@@ -291,7 +292,7 @@
                             </label>
                             <input type="text" id="txtTotalQuantity"
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtTotalQuantity,'^[1-9][0-9]{0,5}$','dailyP','totalqty','olddailyP')"
+                                   onkeyup="textFeildValidtor(txtTotalQuantity,'^[1-9][0-9]{0,5}$','dailyP','totalqty','olddailyP');"
                                    placeholder="Enter Total Quantity">
 
                         </div>
@@ -305,7 +306,7 @@
                             </label>
                             <input type="text" id="txtcompletedQuantity"
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtcompletedQuantity,'^[1-9][0-9]{0,5}$','dailyP','completedqty','olddailyP');getLineTotal()"
+                                   onkeyup="textFeildValidtor(txtcompletedQuantity,'^[1-9][0-9]{0,5}$','dailyP','completedqty','olddailyP');setValue()"
                                    placeholder="Enter Completed Quantity">
 
                         </div>
@@ -333,7 +334,7 @@
                             </label>
                             <input type="text" id="txtDailyQuantity"
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtDailyQuantity,'^[1-9][0-9]{0,5}$','dailyP','dailyqty','olddailyP')"
+                                   onkeyup="textFeildValidtor(txtDailyQuantity,'^[1-9][0-9]{0,5}$','dailyP','dailyqty','olddailyP');getBalanceAmount()"
                                    placeholder="Enter Daily Quantity">
 
                         </div>
@@ -346,7 +347,7 @@
                             </label>
                             <input type="text" id="txtNewBalanceQuantity"
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtNewBalanceQuantity,'^[1-9][0-9]{0,5}$','dailyP','new_balance_qty','olddailyP');getBalanceAmount()"
+                                   onkeyup="textFeildValidtor(txtNewBalanceQuantity,'^[1-9][0-9]{0,5}$','dailyP','new_balance_qty','olddailyP');"
                                    placeholder="Enter New Balance Quantity ">
 
                         </div>

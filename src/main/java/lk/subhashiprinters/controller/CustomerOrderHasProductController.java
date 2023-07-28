@@ -17,8 +17,11 @@ public class CustomerOrderHasProductController {
     @Autowired // for create instance
     private CustomerOrderProductRepository CustomerOrderHasProductDao;
 
+
     @GetMapping(value = "/orderedQtyBycoidPid/{coid}/{pid}" ,produces = "application/json")
     public CustomerOrderHasProduct getByCOPid(@PathVariable("coid") Integer coid, @PathVariable("pid") Integer pid){
         return CustomerOrderHasProductDao.byCoidPid(coid,pid);
     }
+
+
 }

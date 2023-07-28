@@ -2,7 +2,9 @@ package lk.subhashiprinters.controller;
 
 
 import lk.subhashiprinters.entity.*;
+import lk.subhashiprinters.repository.CustomerOrderRepository;
 import lk.subhashiprinters.repository.CustomerPaymentRepository;
+import lk.subhashiprinters.repository.ProductionStatusRepository;
 import lk.subhashiprinters.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,18 +25,19 @@ public class CustomerPaymentController {
 
     @Autowired // for create instance
     private CustomerPaymentRepository customerpaymentDao;
-
+    @Autowired // for create instance
+    private CustomerOrderRepository CustomerOrderDao;
     @Autowired
     private UserRepository userDao;
 
     @Autowired
     private PrivilageController privilegeController;
 
-
-
+    @Autowired // for create instance
+    private ProductionStatusRepository productionStatusRepository;
 
     @GetMapping
-    public ModelAndView customerpaymentUI(){
+    public ModelAndView customerpaymentUI() {
         ModelAndView customerpaymentView = new ModelAndView();
         customerpaymentView.setViewName("cpayment.html");
 
@@ -42,18 +46,18 @@ public class CustomerPaymentController {
 
 
     //get object by given id using path variable [ /supplier/getbyid/{id}]
-    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
-    public CustomerPayment getByPathId(@PathVariable("id")Integer id){
+    @GetMapping(value = "/getbyid/{id}", produces = "application/json")
+    public CustomerPayment getByPathId(@PathVariable("id") Integer id) {
         return customerpaymentDao.getReferenceById(id);
     }
 
     //privilage- slect,insrt,updt,updt,deltt
     // get mapping for get  selected columns details [//findall]
     @GetMapping(value = "/findall", produces = "application/json")
-    public List<CustomerPayment> quotationrequestFindAll(){
+    public List<CustomerPayment> quotationrequestFindAll() {
         //need to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
 
@@ -61,11 +65,11 @@ public class CustomerPaymentController {
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerPayment");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "CustomerPayment");
 
-        if(loggedUser != null && userPiriv.get("sel"))
+        if (loggedUser != null && userPiriv.get("sel"))
             return customerpaymentDao.findAll();
-        else{
+        else {
             List<CustomerPayment> customerPaymentList = new ArrayList<>();
             return customerPaymentList;
         }
@@ -77,45 +81,61 @@ public class CustomerPaymentController {
     public List<CustomerPayment> gettoBePaymentCustomers(){return customerpaymentDao.getCustomerPaymentBy();}*/
 
 
-  //post mapping for insert customer Pyament [/spayment - post]
-@PostMapping
-public String insertSuppler(@RequestBody CustomerPayment customerPayment){
-    // neeed to check logged user privilage
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if(authentication instanceof AnonymousAuthenticationToken){
-        return "Customer Payment Insert Not completed : You don't have permissing";
-    }
+    //post mapping for insert customer Pyament [/spayment - post]
+    @PostMapping
+    public String insertSuppler(@RequestBody CustomerPayment customerPayment) {
+        // neeed to check logged user privilage
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "Customer Payment Insert Not completed : You don't have permissing";
+        }
 
-    // get logged user authentication object
-    User loggedUser = userDao.findUserByUsername(authentication.getName());
-    // check privilage for add operation
-    HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerPayment");
+        // get logged user authentication object
+        User loggedUser = userDao.findUserByUsername(authentication.getName());
+        // check privilage for add operation
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "CustomerPayment");
 
-    if(loggedUser != null && userPiriv.get("ins")){
-        // user has privilage for insert item
+        if (loggedUser != null && userPiriv.get("ins")) {
+            // user has privilage for insert item
 
-        try {
-            // set auto set value
-            customerPayment.setAdded_date(LocalDateTime.now());
-            customerPayment.setCustomer_payment_bill_number(customerpaymentDao.getNextCustomerPaymentBillNo());
-            customerPayment.setAdded_user_id(loggedUser);
+            try {
+                // set auto set value
+                customerPayment.setAdded_date(LocalDateTime.now());
+                customerPayment.setCustomer_payment_bill_number(customerpaymentDao.getNextCustomerPaymentBillNo());
+                customerPayment.setAdded_user_id(loggedUser);
 
-            //do the requeired operation
-            customerpaymentDao.save(customerPayment);
+                //do the requeired operation
+                customerpaymentDao.save(customerPayment);
 
-            return "0";
-        }catch (Exception ex){
-            return "Customer Payment Insert Not completed : " + ex.getMessage();
+
+
+                CustomerOrder customerOrder = CustomerOrderDao.getReferenceById(customerPayment.getCustomer_order_id().getId());
+
+                BigDecimal orderBalanceforCOrder = customerOrder.getOrder_balance();
+                BigDecimal paidamount = customerPayment.getPaid_amount();
+
+                BigDecimal newTotalamount = orderBalanceforCOrder.subtract(paidamount);
+
+                customerOrder.setOrder_balance(newTotalamount);
+
+                for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
+                    coh.setCustomer_order_id(customerOrder);
+
+                }
+
+                CustomerOrderDao.save(customerOrder);
+                return "0";
+            } catch (Exception ex) {
+                return "Customer Payment Insert Not completed : " + ex.getMessage();
+            }
+
+
+        } else {
+            return "Customer Payment Insert Not completed : You don't have permissing";
         }
 
 
     }
-    else {
-        return "Customer Payment Insert Not completed : You don't have permissing";
-    }
-
-
-}
 
     /*//update mapping for update quotationrequest [/quotationrequest - update]
     @PutMapping
@@ -153,8 +173,7 @@ public String insertSuppler(@RequestBody CustomerPayment customerPayment){
     }*/
 
 
-
-   @DeleteMapping
+    @DeleteMapping
     public String deleteCustomerPayment(@RequestBody CustomerPayment customerPayment) {
         System.out.println(customerPayment.getId());
         //retrieving the object from db as some of data retrun from customer
@@ -167,7 +186,7 @@ public String insertSuppler(@RequestBody CustomerPayment customerPayment){
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Customer");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "CustomerPayment");
 
         if (loggedUser != null && userPiriv.get("del")) {
             CustomerPayment insCustomerP = customerpaymentDao.getReferenceById(customerPayment.getId());

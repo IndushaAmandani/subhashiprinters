@@ -10,7 +10,7 @@ function refreshUI() {
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Supplier");
 
     refreshTable();
-//    refreshSupplierForm();
+   refreshSupplierForm();
 }
 
 // Create function for refresh table
@@ -62,82 +62,134 @@ const refreshSupplierForm = ()=> {
     oldSupplier = null;
 
     // need to fill data into dropdown element
-
     supplierStatuses = getServiceRequest("/supplierstatus/list");
-    fillSelectFeild(selectSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name","Active");
-    newSupplier.supplierstatus_id = JSON.parse(selectSupplierStatus.value);
-    selectSupplierStatus.style.borderBottom = "2px solid green";
-    selectSupplierStatus.disabled = true;
+    fillSelectFeild(cmbSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name","Active");
+    newSupplier.supplier_status_id = JSON.parse(cmbSupplierStatus.value);
+    cmbSupplierStatus.disabled = true;
 
     // clear input feilds
-    textSupplierName.value = "";
-    textSupplierName.style.borderBottom = "1px solid #ced4da";
-    textEmail.value = "";
-    textEmail.style.borderBottom = "1px solid #ced4da";
-    textContactNo.value = "";
-    textContactNo.style.borderBottom = "1px solid #ced4da";
 
-    newSupplier.itemList = new Array();
+    txtSNo.value = "Purchase Order No is auto generated";
 
-    allitemList = getServeiceRequst("/item/list");
-    fillSelectFeild(selectItem,"" , allitemList ,"itemname","");
+    txtSupplierName.value = "";
+    txtSupplierAddress.value = "";
+    txtSupplierNote.value = "";
+    txtContactNo.value = "";
+    txtEmailAddress.value = "";
 
-    //fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+    txtCompanyRegno.value = "";
+    txtContactPersonName.value = "";
+    txtContactPersonMobile.value = "";
+    txtBankName.value = "";
+    txtBankBranchName.value = "";
+    txtBankAccountNumber.value = "";
+    txtBankAccountHolderName.value = "";
 
+    setStyle("1px solid #ced4da");
+    cmbSupplierStatus.style.borderBottom = "2px solid green";
 
+    disabledButton(true, false);
+    newSupplier.materialList = new Array();
+
+    allMateialList = getServiceRequest("/material/list");
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
+
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
 }
 
-function buttonAddByOne() {
-    let selectedItem = JSON.parse(selectItem.value);
-    newSupplier.itemList.push(selectedItem);
-    fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+let disabledButton = (addbtn, updbtn) => {
 
-    for (let index in allitemList){
-        if(allitemList[index]['itemname'] == selectedItem.itemname){
-            allitemList.splice(index,1);
+    if (addbtn && lggeduserprivilage.ins) {
+        buttonAdd.disabled = false;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "pointer");
+    } else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "not-allowed");
+    }
+
+    if (updbtn && lggeduserprivilage.upd) {
+        buttonUpdate.disabled = false;
+        $("#buttonUpdate").css("pointer-events", "all");
+        $("#buttonUpdate").css("cursor", "pointer");
+    } else {
+        buttonUpdate.disabled = true;
+        $("#buttonUpdate").css("pointer-events", "all");
+        $("#buttonUpdate").css("cursor", "not-allowed");
+    }
+}
+
+function setStyle(style) {
+    txtSNo.style.borderBottom = style;
+    txtSupplierName.style.borderBottom = style;
+    txtSupplierAddress.style.borderBottom = style;
+    txtSupplierNote.style.borderBottom = style;
+    txtContactNo.style.borderBottom = style;
+    txtEmailAddress.style.borderBottom = style;
+    cmbSupplierStatus.style.borderBottom = style;
+    txtCompanyRegno.style.borderBottom = style;
+    txtContactPersonName.style.borderBottom = style;
+    txtContactPersonMobile.style.borderBottom = style;
+    txtBankName.style.borderBottom = style;
+    txtBankBranchName.style.borderBottom = style;
+    txtBankAccountNumber.style.borderBottom = style;
+    txtBankAccountHolderName.style.borderBottom = style;
+
+}
+
+
+function buttonAddByOne() {
+    let selectedItem = JSON.parse(selectMaterial.value);
+    newSupplier.materialList.push(selectedItem);
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
+
+    for (let index in allMateialList){
+        if(allMateialList[index]['name'] == selectedItem.name){
+            allMateialList.splice(index,1);
             break;
         }
     }
-    fillSelectFeild(selectItem,"" , allitemList ,"itemname","")
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","")
 
 }
 function buttonAddByAll() {
-    for(let index in allitemList){
-        newSupplier.itemList.push(allitemList[index]);
+    for(let index in allMateialList){
+        newSupplier.materialList.push(allMateialList[index]);
     }
-    fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
-    allitemList = [];
-    fillSelectFeild(selectItem,"" , allitemList ,"itemname","");
+    allMateialList = [];
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
 }
 
 function buttonRemoveByOne() {
     let selectedItem = JSON.parse(selectSelectedItem.value);
-    allitemList.push(selectedItem);
-    fillSelectFeild(selectItem,"" , allitemList ,"itemname","")
+    allMateialList.push(selectedItem);
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","")
 
 
-    for (let index in newSupplier.itemList){
-        if(newSupplier.itemList[index]['itemname'] == selectedItem.itemname){
-            newSupplier.itemList.splice(index,1);
+    for (let index in newSupplier.materialList){
+        if(newSupplier.materialList[index]['name'] == selectedItem.name){
+            newSupplier.materialList.splice(index,1);
             break;
         }
     }
-    fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
 }
 
 function buttonRemoveByAll() {
-    for (let index in newSupplier.itemList){
-        allitemList.push(newSupplier.itemList[index]);
+    for (let index in newSupplier.materialList){
+        allMateialList.push(newSupplier.materialList[index]);
     }
 
-    fillSelectFeild(selectItem,"" , allitemList ,"itemname","");
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
 
 
-    newSupplier.itemList = [];
-    fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+    newSupplier.materialList = [];
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 }
 
 
@@ -145,32 +197,30 @@ function buttonRemoveByAll() {
 const checkSupplierFormError = ()=>{
     let formerror = "";
 
-    if( newSupplier.name == null){
+    if( newSupplier.company_name == null){
         formerror = formerror + "Please enter Supplier name..! \n";
-        textSupplierName.style.borderBottom = "2px solid red";
-        // selectBrand.classList.add("");
-    }
-    if( newSupplier.contactno == null){
-        formerror = formerror + "Please Supplier Contact No..! \n";
-        textContactNo.style.borderBottom = "2px solid red";
-        // selectBrand.classList.add("");
-    }
 
-    if( newSupplier.email == null){
-        formerror = formerror + "Please enter supplier email address..! \n";
-        textEmail.style.borderBottom = "2px solid red";
-        // selectBrand.classList.add("");
+    }
+    if( newSupplier.address == null){
+        formerror = formerror + "Please enter Supplier Address..! \n";
+
+    }
+    if( newSupplier.company_email == null){
+        formerror = formerror + "Please Supplier email address..! \n";
+
     }
 
-    if( newSupplier.supplierstatus_id == null){
-        formerror = formerror + "Please Select Supplier Status..! \n";
-        selectSupplierStatus.style.borderBottom = "2px solid red";
-        // selectBrand.classList.add("");
+    if( newSupplier.company_contact_no == null){
+        formerror = formerror + "Please enter supplier Contact No..! \n";
+
     }
 
-    if( newSupplier.itemList.length == 0){
-        formerror = formerror + "Please Select supply items ..! \n";
+    if( newSupplier.supplier_status_id == null){
+        formerror = formerror + "Please Select Supplier Status..! \n"
+    }
 
+    if( newSupplier.materialList.length == 0){
+        formerror = formerror + "Please Select supply Material ..! \n";
     }
 
     return formerror;
@@ -184,19 +234,19 @@ function buttonSupplierSave() {
     }else {
         //get user confirmation
         let userCofirmMsg = "Are you sure to add Following Supplier ..? " +
-            "\n Supplier Name : " + newSupplier.name +
-            "\n Supplier Contact No : " + newSupplier.contactno +
-            "\n Supplier Email : " + newSupplier.email ;
+            "\n Supplier Name : " + newSupplier.company_name +
+            "\n Supplier Contact No : " + newSupplier.company_contact_no +
+            "\n Supplier Email : " + newSupplier.company_email ;
 
         let userSaveResponce = window.confirm(userCofirmMsg);
 
         if(userSaveResponce){
             //call post services
-            let serverResponce = getHTTPRequestService("/supplier" , "POST" , newSupplier);
+            let serverResponce = getHTTPServiceRequest("/supplier" , "POST" , newSupplier);
             if(serverResponce == "0"){
                 refreshTable();
                 refreshSupplierForm();
-                $("#supplierAddModal").modal("hide");
+                $("#modalSupplierForm").modal("hide");
 
                 window.alert("Supplier Insert Successfully...");
             }else {
@@ -215,24 +265,24 @@ function reFillItemForm(rowob,rowind) {
     oldSupplier = getServiceRequest("/supplier/getbyid/"+rowob.id);
 
 
-   // fillSelectFeild(selectSelectedItem,"" , newSupplier.itemList ,"itemname","");
+    fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
-    // allitemList = getServiceRequest("/item/listbysupplier/"+rowob.id);
-    // fillSelectFeild(selectItem,"" , allitemList ,"itemname","");
+    allMateialList = getServiceRequest("/item/listbysupplier/"+rowob.id);
+    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
 
-    supplierStatuses = getServiceRequest("/supplierstatus/list");
-    fillSelectFeild(selectSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name",newSupplier.supplierstatus_id.name);
 
-    selectSupplierStatus.style.borderBottom = "2px solid green";
-    selectSupplierStatus.disabled = false;
+    fillSelectFeild(cmbSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name",newSupplier.supplier_status_id.name);
+
+    cmbSupplierStatus.style.borderBottom = "2px solid green";
+    cmbSupplierStatus.disabled = false;
 
     // clear input feilds
-    textSupplierName.value = newSupplier.name;
-    textSupplierName.style.borderBottom = "1px solid green";
-    textEmail.value = newSupplier.email;
-    textEmail.style.borderBottom = "1px solid green";
-    textContactNo.value = newSupplier.contactno;
-    textContactNo.style.borderBottom = "1px solid green";
+    txtSupplierName.value = newSupplier.name;
+    txtSupplierName.style.borderBottom = "1px solid green";
+    txtEmailAddress.value = newSupplier.email;
+    txtEmailAddress.style.borderBottom = "1px solid green";
+    txtContactNo.value = newSupplier.contactno;
+    txtContactNo.style.borderBottom = "1px solid green";
 
 
     $("#supplierAddModal").modal("show");
@@ -261,20 +311,20 @@ const checkSupplierFormUpdates = () =>{
         }
 
 
-        if(newSupplier.itemList.length != oldSupplier.itemList.length){
+        if(newSupplier.materialList.length != oldSupplier.itemList.length){
             updates = updates + "Supply Item is changed "+ "\n";
         }else {
             let extitem = 0;
 
-            for( i=0; i< newSupplier.itemList.length ; i++){
+            for( i=0; i< newSupplier.materialList.length ; i++){
                 for (let l=0; l< oldSupplier.itemList.length ; l++){
 
-                    if(newSupplier.itemList[i].id == oldSupplier.itemList[l].id ){
+                    if(newSupplier.materialList[i].id == oldSupplier.itemList[l].id ){
                         extitem = parseInt(extitem) + 1;
                     }
                 }
             }
-            if (extitem != newSupplier.itemList.length){
+            if (extitem != newSupplier.materialList.length){
                 updates = updates + "Supply Item is changed "+ "\n";
             }
         }
@@ -323,13 +373,13 @@ function buttonSupplierUpdate() {
 function deleteItemRow(ob) {
     // get uesr confirmation
     let deleteConfirmMSG = "Are you sure to delete follwing supplier..? \n" +
-        " Supplier Name : " + ob.name +
-        "\n Supplier Email : " + ob.email;
+        " Supplier Name : " + ob.company_name +
+        "\n Supplier Email : " + ob.company_email;
 
     let userResponce =  window.confirm(deleteConfirmMSG);
 
     if(userResponce){
-        let deleteServieResponce = getHTTPRequestService("/supplier" , "DELETE" , ob);
+        let deleteServieResponce = getHTTPServiceRequest("/supplier" , "DELETE" , ob);
         if(deleteServieResponce == "0"){
             refreshTable();
             window.alert("Supplier Delete Successfully...");
@@ -350,3 +400,20 @@ function viewItemRow(rowob,rowind) {
 
 }
 
+$('#myModal').modal({
+    keyboard: false
+})
+
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshSupplierForm();
+        $("#modalSupplierForm").modal("hide");
+        $("#modalSupplierForm").modal({
+            keyboard: false
+        })
+    }
+}

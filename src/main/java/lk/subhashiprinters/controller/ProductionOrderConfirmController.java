@@ -1,10 +1,7 @@
 package lk.subhashiprinters.controller;
 
 
-import lk.subhashiprinters.entity.CustomerOrder;
-import lk.subhashiprinters.entity.CustomerOrderHasProduct;
-import lk.subhashiprinters.entity.Product;
-import lk.subhashiprinters.entity.User;
+import lk.subhashiprinters.entity.*;
 import lk.subhashiprinters.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -13,8 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +25,9 @@ public class ProductionOrderConfirmController {
 
     @Autowired // for create instance
     private COrderStatusRepository COrderSatatusDao;
+
+    @Autowired // for create instance
+    private CustomerOrderRepository customerOrderDao;
     @Autowired // for create instance
     private ProductionStatusRepository productionStatusRepository;
 
@@ -35,6 +36,12 @@ public class ProductionOrderConfirmController {
 
     @Autowired
     private PrivilageController privilegeController;
+
+    @Autowired
+    private  MaterialInventoryRepository materialInventoryRepository;
+
+    @Autowired
+    private InventoryStatusRepository inventoryStatusRepository;
 
 
 
@@ -48,11 +55,18 @@ public class ProductionOrderConfirmController {
     }
 
 
-    @GetMapping(value ="/findall",produces = "application/json")
+    @GetMapping(value ="/findbyStatus",produces = "application/json")
     //create function
-    public List<CustomerOrder> findAll(){
-        return productionOrderConfirmDao.findAll();
+    public List<CustomerOrder> findbyStatus(){
+        return productionOrderConfirmDao.findbyStatus();
     }
+
+    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
+    public CustomerOrder getByPathId(@PathVariable("id") Integer id){
+        return productionOrderConfirmDao.getReferenceById(id);
+    }
+
+
 
 /*
    // get mapping for get customerOrder selected columns details [/customerOrder/findall]
@@ -82,18 +96,18 @@ public class ProductionOrderConfirmController {
     //get mapping for get corder details for  daily product
   /*  @GetMapping(value = "/list",produces = "application/json")
     public  List<CustomerOrder> list(){return CustomerOrderDao.list();}
-
-@GetMapping(value ="/pendingOrders",produces = "application/json")
-    public CustomerOrder getPendingCustomerOrders(){return CustomerOrderDao.pendingCustomerOrders();}
-
+*/
+//@GetMapping(value ="/pendingOrders",produces = "application/json")
+//    public CustomerOrder getPendingCustomerOrders(){return CustomerOrderDao.pendingCustomerOrders();}
+//
 
     //post mapping for insert item [/item - post]
-    @PostMapping
+   @PostMapping
     public String insertCOrder(@RequestBody CustomerOrder customerOrder){
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Customer Order Insert Not completed : You don't have permission";
+            return "Customer Order Status Insert Not completed : You don't have permission";
         }
 
         // get logged user authentication object
@@ -104,33 +118,59 @@ public class ProductionOrderConfirmController {
         if(loggedUser != null && userPiriv.get("ins")){
             // user has privilage for insert item
 
+            CustomerOrder extCustomerOrder = customerOrderDao.getByProductionStatus(customerOrder.getId());
+            if(extCustomerOrder != null){
+                return "Customer Order Confirmation Not completed : Given Customer order All ready Accepted";
+            }
+
             try {
                 // set auto set value
-          customerOrder.setAdded_date(LocalDateTime.now());
-             customerOrder.setAdded_user_id(loggedUser);
-             customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
+             customerOrder.setConfirmdate(LocalDate.now());
+             customerOrder.setUpdate_user_id(loggedUser);
+             customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(2));
 
              for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
                  coh.setCustomer_order_id(customerOrder);
-                 coh.setCompletedqty(0);
-                 coh.setProduction_status_id(productionStatusRepository.getReferenceById(1));
+                 coh.setProduction_status_id(productionStatusRepository.getReferenceById(2));
              }
-                CustomerOrderDao.save(customerOrder);
+
+                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
+                    cohm.setCustomer_order_id(customerOrder);
+
+                }
+
+
+                customerOrderDao.save(customerOrder);
+
+
+
+                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
+                    MaterialInventory materialInventory = materialInventoryRepository.getByMaterial(cohm.getMaterial_id().getId());
+
+                    if(materialInventory != null){
+                        materialInventory.setAvaqty(materialInventory.getAvaqty().subtract(cohm.getRequired_quantity()));
+                        if(materialInventory.getAvaqty().equals(BigDecimal.valueOf(0.000))){
+                            materialInventory.setInventorystatus_id(inventoryStatusRepository.getReferenceById(2));
+                        }
+                        materialInventoryRepository.save(materialInventory);
+                    }
+
+                }
 
                 return "0";
             }catch (Exception ex){
-                return "Customer Order Insert Not completed : " + ex.getMessage();
+                return "Customer Order Status Insert Not completed : " + ex.getMessage();
             }
 
 
         }
         else {
-            return "Customer Order Insert Insert Not completed : You don't have permission";
+            return "Customer Order Status Insert Insert Not completed : You don't have permission";
         }
 
 
     }
-*/
+    /*
     //update mapping for update quotationrequest [/quotationrequest - update]
 //    @PutMapping
 //    @Transactional

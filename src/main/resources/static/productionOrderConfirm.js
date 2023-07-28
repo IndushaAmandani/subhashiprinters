@@ -1,5 +1,3 @@
-
-
 window.addEventListener('load', loadUI);
 
 function loadUI() {
@@ -12,218 +10,206 @@ function loadUI() {
 function refreshtablePendingCOrder() {
     //create array for stor data
     productoinOrders = new Array();
-    productoinOrders = getServiceRequest("/productoinOrderConfirm/findall");
+    productoinOrders = getServiceRequest("/productoinOrderConfirm/findbyStatus");
+
 
     //create display property list
- let dispalyPropertyList = [ 'order_code','customer_id.customer_name','customer_id.customer_code','production_status_id.name'];
+    let dispalyPropertyList = ['order_code', 'customer_id.customer_name', 'customer_id.customer_code', 'production_status_id.name'];
     //Property type list
- let dispalyPropertyDTList = [ 'text','object' ,'object', 'object'];
+    let dispalyPropertyDTList = ['text', 'object', 'object', 'object'];
 
     //called filldataintotable function for fill data
-  fillDataIntoTable(productionOrderConfirmTable,productoinOrders,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+    fillDataIntoTable(productionOrderConfirmTable, productoinOrders, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
-    for (let index in productoinOrders ){
+    for (let index in productoinOrders) {
         productionOrderConfirmTable.children[1].children[index].children[5].children[2].style.display = "none";
         productionOrderConfirmTable.children[1].children[index].children[5].children[1].style.display = "none";
-            productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Accepted";
-            productionOrderConfirmTable.children[1].children[index].children[5].children[0].style.backgroundColor = "lightblue";
+        productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Confirmed";
+        productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Confirmed";
+        productionOrderConfirmTable.children[1].children[index].children[5].children[0].style.backgroundColor = "lightblue";
+
 
     }
 
-  // need to add jquerty table
-    $('#productionOrderConfirmTable').dataTable();
-
-
-
-}
-
-function refreshPOrderConfirmForm() {
-
-
-    pOcn = new Array();
-    pOcn = getServiceRequest("/productoinOrderConfirm/findall")
-
-    txtName.value = pOcn.customer_id.customer_name;
-    txtOrderCodeNo.value= pOcn.customer_id.customer_code;
-
-
-
+    // need to add jquerty table
+    $("#productionOrderConfirmTable").dataTable();
 
 
 }
-
-
-function getProductList() {
-    productsByCustomerOrder = getServiceRequest("/product/listbyCustomer/" + JSON.parse(cmbCustomerName.value).id);
-    fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", "");
-}
-
-
-function getProductCost() {
-    //productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerName.value).id);
-    txtProductCost.value = JSON.parse(cmbProduct.value).price;
-    txtProductCost.style.borderBottom = "2px solid  green";
-    customerOrderHasProduct.product_cost = txtProductCost.value;
-}
-/*
-function getLineTotal() {
-    if (txtOrderedQuantity.value != 0) {
-        let regpattern = new RegExp("^[0-9]{1,4}$");
-        if (regpattern.test(txtOrderedQuantity.value)) {
-            //toFixed -Convert number to a string
-            //parseFloat - parses a string and returns the first number:
-            txtLinePrice.value = (parseFloat(txtOrderedQuantity.value) * parseFloat(txtProductCost.value)).toFixed(2);
-            txtLinePrice.style.borderBottom = "2px solid  green";
-            customerOrderHasProduct.line_total = txtLinePrice.value;
-            if (oldcustomerOrderHasProduct == null)
-                buttonInnerAdd.disabled = false; else buttonInnerUpdate.disabled = false;
-        } else {
-            txtLinePrice.style.borderBottom = "2px solid red";
-            customerOrderHasProduct.order_qty = null;
-            buttonInnerAdd.disabled = true;
-            buttonInnerUpdate.disabled = true;
-        }
-    } else {
-        txtLinePrice.style.borderBottom = "2px solid red";
-        customerOrderHasProduct.order_qty = null;
-        buttonInnerAdd.disabled = true;
-        buttonInnerUpdate.disabled = true;
-    }
-
-
-
-}*/
-
-
 
 
 
 
 const refreshInnerFormTable = () => {
-    /* inner Form */
-    customerOrderHasProduct = new Object();
-    oldcustomerOrderHasProduct = null;
-
-    buttonInnerAdd.disabled = true;
-    buttonInnerUpdate.disabled = true;
-
-
-
-    if (cmbCustomerName.value != "") {
-        productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerName.value).id);
-        fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", "");
-        cmbProduct.disabled = false;
-    } else {
-        products = getServiceRequest("/product/list")
-        fillSelectFeild(cmbProduct, "Select Product", products, "product_code", "p_name", "");
-        cmbProduct.disabled = false;
-    }
-
-
-
-    txtProductCost.value ="";
-
-
-    cmbProduct.style.borderBottom = "2px solid  #ced4da";
-    cmbProduct.disabled = true;
-
-    txtProductCost.value = "";
-    txtProductCost.disabled = true;
-    txtProductCost.style.borderBottom = "2px solid  #ced4da";
-
-    txtOrderedQuantity.value = "";
-    txtOrderedQuantity.style.borderBottom = "2px solid  #ced4da";
-
-    txtLinePrice.value = "";
-    txtLinePrice.disabled = true;
-    txtLinePrice.style.borderBottom = "2px solid  #ced4da";
-
-
 
     /* Inner Table */
-    let totalLineAmount = 0.00;
-    let displayPropList = ['product_id.p_name', 'product_id.price', 'order_qty', 'line_total', 'completed_qty',];
-    let disPPDTypeList = ['object', 'object', 'text', 'text', 'text'];
+
+    //product name,product cost,width,height,quantity
+    let displayPropList = ['product_id.p_name','order_qty',];
+    let disPPDTypeList = ['object','text'];
     let innerlogedUserPrivilage = {sel: true, ins: true, upd: true, del: true};
 
-    fillDataIntoTable(tableCustomerOrderHasProducts, corder.customerOrderHasProductList, displayPropList, disPPDTypeList, innerFormReFill, innerRowDelete, innerRowView, true, innerlogedUserPrivilage);
-
-    //Hide view icon
-    for (let index in corder.customerOrderHasProductList) {
-        // parseFloat() parses a string and returns the first number:
-        totalLineAmount = parseFloat(totalLineAmount)+ parseFloat(corder.customerOrderHasProductList[index].line_total);
-        tableCustomerOrderHasProducts.children[1].children[index].children[6].children[2].style.display = "none";
-    }
+    fillDataIntoTable(tablePendingCustomerOrder, pOrders.customerOrderHasProductList, displayPropList, disPPDTypeList, innerFormReFill, innerRowDelete, innerRowView, false, innerlogedUserPrivilage);
 
 
-    if (totalLineAmount != 0.00) {
-        //toFixed() converts a number to a string, rounded to a specified number of decimals:
-        txtLineTotal.value = parseFloat(totalLineAmount).toFixed(2);
-        corder.total_of_lines = txtLineTotal.value;
 
-        if (oldcorder != null && corder.total_amount != oldcorder.total_amount) {
-            txtLineTotal.style.borderBottom = "2px solid orange";
-        } else {
-            txtLineTotal.style.borderBottom = "2px solid green";
-        }
-    }
+
+
+}
+function innerFormReFill() {
 
 }
 
+function innerRowDelete() {
+
+}
+
+function innerRowView() {
+
+}
 const rowDelete = () => {
 }
+const formRefill = (ob, rowno) => {
+
+
+    pOrders = getServiceRequest("/productoinOrderConfirm/getbyid/" + ob.id);
+
+    pStatuses = getServiceRequest("/productionStatus/list");
+    fillSelectFeild(cmbOrderStatus,"Select Statuses",pStatuses,"name","Accepted","")
+    pOrders.production_status_id = JSON.parse(cmbOrderStatus.value);
+
+
+    //set value into fields
+    txtName.value = pOrders.customer_id.customer_name;
+    txtOrderCodeNo.value = pOrders.order_code;
+    dteRequiredDate.value = pOrders.required_date;
+
+
+    dteAcceptedDate.value = getCurrentDate();
+    pOrders.confirmdate =  dteAcceptedDate.value;
+
+    dteAcceptedDate.style.borderBottom ="2px solid green";
+    refreshInnerFormTable();
+    $("#modalProductionOrderForm").modal("show");
+
+
+    let allMaerials = new Array();
+     pOrders.customerOrderHasMaterialList = new Array();
+
+    for (let index in pOrders.customerOrderHasProductList){
+        let requiredMaterials = pOrders.customerOrderHasProductList[index].product_id.productHasMaterialList;
+        console.log(requiredMaterials)
+        for(let matInd in requiredMaterials){
+            let allMat = new Object();
+            allMat.material_id = requiredMaterials[matInd].material_id;
+            allMat.required_quantity = parseFloat(requiredMaterials[matInd].quantity) * parseFloat(pOrders.customerOrderHasProductList[index].order_qty);
+            allMaerials.push(allMat);
+        }
+    }
+
+
+    let displayPropList = ['material_id.name','required_quantity',];
+    let disPPDTypeList = ['object','text'];
+    let innerlogedUserPrivilage = {sel: true, ins: true, upd: true, del: true};
+
+    fillDataIntoTable(tableRequiredMaterial, allMaerials, displayPropList, disPPDTypeList, innerFormReFill, innerRowDelete, innerRowView, false, innerlogedUserPrivilage);
+
+
+
+    let allmatwithoutduplicate = new Array();
+
+    for (let i=0 ; i<allMaerials.length; i++ ){
+        //--- 0
+        for (let j= i+1; j<allMaerials.length ; j++){
+            //-- 1
+
+            if(allMaerials[i].material_id.name == allMaerials[j].material_id.name){
+                allMaerials[i].required_quantity = parseFloat(allMaerials[i].required_quantity) + parseFloat(allMaerials[j].required_quantity)
+            }
+
+        }
+
+        if(allmatwithoutduplicate.length !=0 ){
+            let ext =false;
+            for(let k= 0; k<allmatwithoutduplicate.length ; k++){
+                if(allmatwithoutduplicate[k].material_id.name == allMaerials[i].material_id.name) {
+                    ext = true;
+                    break
+                }
+            }
+            if (!ext){
+                allmatwithoutduplicate.push(allMaerials[i]);
+            }
+        }else {
+            allmatwithoutduplicate.push(allMaerials[i]);
+        }
+
+
+    }
+
+    console.log(allmatwithoutduplicate);
+    for (let index in allmatwithoutduplicate){
+        let materialid = allmatwithoutduplicate[index].material_id.id;
+        let requiredmaterials = getServiceRequest("/materialInventory/bymaterial/"+materialid);
+        allmatwithoutduplicate[index].available_quantity = requiredmaterials.avaqty;
+    }
+
+    pOrders.customerOrderHasMaterialList  = allmatwithoutduplicate;
+
+
+    let comdisplayPropList = ['material_id.name','required_quantity','available_quantity'];
+    let comdisPPDTypeList = ['object','text','text'];
+    let cominnerlogedUserPrivilage = {sel: true, ins: true, upd: true, del: true};
+
+    fillDataIntoTable(tableAvailableMaterial, pOrders.customerOrderHasMaterialList, comdisplayPropList, comdisPPDTypeList, innerFormReFill, innerRowDelete, innerRowView, false, cominnerlogedUserPrivilage);
+
+    let canaccept = true;
+    for(let index in pOrders.customerOrderHasMaterialList){
+        if(pOrders.customerOrderHasMaterialList[index].available_quantity < pOrders.customerOrderHasMaterialList[index].required_quantity){
+
+            tableAvailableMaterial.children[1].children[index].style.backgroundColor = "red";
+            canaccept= false;
+        }
+    }
+
+    if(canaccept){
+        buttonAdd.disabled = false;
+    }else {
+        buttonAdd.disabled = true;
+    }
+
+
+
+
+}
+
+
 const rowView = () => {
 }
-function checkValidPrice(){
-    if(txtDiscountRatio.value >= txtLineTotal.value ){
-        txtDiscountRatio.style.borderBottom = "2px solid red";
 
 
-    }else {
-        txtTotalAmount =   parseFloat(txtLineTotal) - parseFloat(txtDiscountRatio);
-        corder.total_of_lines=txtTotalAmount.value;
-        txtTotalAmount.style.borderBottom = "2px solid green";
+function buttonSubmitMC(){
+    let confirmMs = "Are you acceptig t he product to the production?"
+    let userResponce = window.confirm(confirmMs);
+
+
+    if (userResponce) {
+        alert("Save Succecfully...!");
+        refreshInnerFormTable();
 
     }
 }
 
 
-const buttonInnerAddMC = () => {
 
-    let orderSet = false;
+function buttonModalCloseMC() {
 
-    for (let index in corder.customerOrderHasProductList) {
-        if (corder.customerOrderHasProductList[index].product_id.id == customerOrderHasProduct.product_id.id) {
-            orderSet = true;
-            break;
-        }
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshInnerFormTable();
+        $("#modalProductionOrderForm").modal("hide");
     }
-
-
-
-
-   // let displayPropList = ['product_id.name', 'product_cost', 'order_qty', 'line_total', 'completed_qty',];
-    if (!orderSet) {
-        let confirmMs = "Are you sure to add following Product Details \n"
-            + "\n Product Name : " + customerOrderHasProduct.product_id.p_name
-            + "\n Product Cost : " + customerOrderHasProduct.product_cost
-            + "\n Ordered Quantity : " + customerOrderHasProduct.order_qty
-            + "\n Line Total : " + customerOrderHasProduct.line_total;
-        let userResponce = window.confirm(confirmMs);
-
-        if (userResponce) {
-            corder.customerOrderHasProductList.push(customerOrderHasProduct);
-            alert("Save Succecfully...!");
-
-            refreshInnerFormTable();
-            cmbCustomerName.disabled = true;
-
-        }
-    } else {
-        alert("Product Allready ext...!")
-    }
-
-
 }
 
 

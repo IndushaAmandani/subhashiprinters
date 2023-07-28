@@ -133,7 +133,7 @@ public class CustomerController {
             customer.setCustomer_code(customerDao.nextCustomerNumber());
             customer.setAdded_date(LocalDateTime.now());
 
-            customer.setAdded_user_id(userDao.getReferenceById(1));
+            customer.setAdded_user_id(loggedUser);
 
 //            customer.setCustomer_type_id(customerTypeDao.getReferenceById(2));
 
