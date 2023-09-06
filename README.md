@@ -1,7 +1,7 @@
 # subhashiprinters
 Designed and developed a comprehensive System as the culmination of my final year individual project.
 
-Title: Order and Purchase Management System
+Title: Print Order and Purchase Management System
 
 During my final year of undergraduate studies, I undertook an ambitious individual project focused on developing an Order and Purchase Management System. This project showcased my ability to handle end-to-end development, from conceptualization to deployment, and highlights my skills in conducting thorough requirement analysis and incorporating client feedback to tailor the solution to specific business needs.
 
