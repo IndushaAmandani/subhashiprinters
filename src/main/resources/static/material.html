@@ -41,13 +41,13 @@
     <div class="navbar-wrapper">
         <div class="navbar-header d-md-none">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mobile-menu d-md-none mr-auto"><a
-                        class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
-                        class="ft-menu font-large-1"></i></a></li>
+                <li class="nav-item mobile-menu d-md-none mr-auto">
+                    <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
+                            class="ft-menu font-large-1"></i></a></li>
                 <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
                         class="brand-logo d-none d-md-block" alt="CryptoDash admin logo"
                         src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
-                                                                            alt="CryptoDash admin logo sm"
+                                                                            alt=" admin logo sm"
                                                                             src="../../../app-assets/images/logo/logo-sm.png"></a>
                 </li>
                 <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
@@ -70,14 +70,14 @@
 
                 </ul>
                 <ul class="nav navbar-nav  float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fas fa-bell"> </i></a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fa-solid fa-gear"> </i></a>
-                    </li>
+                    <!--                    <li class="nav-item d-none d-md-block">-->
+                    <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+                    <!--                            <i class="fas fa-bell"> </i></a>-->
+                    <!--                    </li>-->
+                    <!--                    <li class="nav-item d-none d-md-block">-->
+                    <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+                    <!--                            <i class="fa-solid fa-gear"> </i></a>-->
+                    <!--                    </li>-->
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
                             <i class="fas fa-power-off"> </i></a>
@@ -92,7 +92,11 @@
     </div>
 </nav>
 
-<!--Side bar-->
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
 <div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
     <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
                                       href="index.html">
@@ -101,53 +105,55 @@
         <p class="m-1  text-white" id="spnRole"></p>
     </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item"><a href="/dashboard"><i class="icon-grid"></i><span
+            <li class=" nav-item "><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
                     class="menu-title" data-i18n="">Dashboard</span></a>
             </li>
-            <li class=" nav-item"><a href="wallet.html"><i class="icon-wallet"></i><span class="menu-title"
+            <li class=" nav-item"><a href="#"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
                                                                                          data-i18n="">Administration</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Employee</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">User</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Privilage </a></li>
+                    <li><a class="menu-item" href="employee.html">Employee</a></li>
+                    <li><a class="menu-item" href="user.html">User</a></li>
+                    <li><a class="menu-item" href="privilage.html">Privilage </a></li>
                 </ul>
             </li>
-            <li class=" nav-item"><a href="buy-ico.html"><i class="icon-layers"></i><span class="menu-title"
-                                                                                          data-i18n="">Print Order</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Customer</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Product</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Print Order </a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Customer Payement </a></li>
+            <li class=" nav-item active"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
+                                                                                                  data-i18n="">Print Order</span></a>
+                <ul class="menu-content ">
+                    <li class="active"><a class="menu-item active" href="customer.html">Customer</a></li>
+                    <li><a class="menu-item" href="corder.html">Customer Order </a></li>
+                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a></li>
                 </ul>
             </li>
-            <li class=" nav-item"><a href="faq.html">
-                <i class="icon-support"></i><span class="menu-title"
-                                                  data-i18n="">Pruduction</span></a>
+            <li class=" nav-item"><a href="#">
+                <i class="fa-solid fa-print"></i><span class="menu-title"
+                                                       data-i18n="">Production</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Product Analysis</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Production Order</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Production </a></li>
+
+                    <li><a class="menu-item" href="product.html">Product</a></li>
+                    <li><a class="menu-item" href="productionOrderConfirm.html">Production Confirmation </a></li>
+                    <li><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
+                    <li><a class="menu-item" href="material.html">Material</a></li>
+
                 </ul>
             </li>
-            <li class=" nav-item active">
-                <a href="transactions.html"><i class="icon-shuffle"></i><span class="menu-title"
-                                                                              data-i18n="">Purchase</span></a>
+            <li class=" nav-item ">
+                <a href="#"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
+                                                                           data-i18n="">Purchase</span></a>
                 <ul class="menu-content">
-                    <li class="active"><a class="menu-item" href="account-profile.html">Supplier</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Quotation Request</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Quotation </a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Purchase Order </a></li>
-                    <li><a class="menu-item" href="account-login-history.html">GRN </a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Supplier Payement </a></li>
+                    <li><a class="menu-item" href="supplier.html">Supplier</a></li>
+                    <li><a class="menu-item" href="quotationrequest.html">Quotation Request</a></li>
+                    <li><a class="menu-item" href="quotation.html">Quotation </a></li>
+                    <li><a class="menu-item" href="porder.html">Purchase Order </a></li>
+                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
+                    <li><a class="menu-item" href="supplierpayment.html">Supplier Payment </a></li>
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="icon-user-following"></i><span class="menu-title"
-                                                                                       data-i18n="">Report</span></a>
+            <li class=" nav-item"><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
+                                                                                          data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="account-profile.html">Report 1</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Report 2</a></li>
+                    <li><a class="menu-item" href="materialListStatus.html">Report 1</a> </li>
+                    <li><a class="menu-item" href="CustomerPayment.html">Report 2</a></li>
                     <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
                 </ul>
             </li>
@@ -174,7 +180,7 @@
                 </div>
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-                <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" data-toggle="modal"
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" data-toggle="modal"
                                                          data-target="#modalMaterialForm">Add
                     New Material</a></div>
             </div>
@@ -192,7 +198,7 @@
                                         <div class="col-12">
 
                                             <table class="table table-hover table-bordered" id="tableMaterial">
-                                                <thead class="table-dark" style="background-color: #0f68e5">
+                                                <thead class="table-dark" style="background-color: #152650">
                                                 <tr>
                                                     <th> #</th>
                                                     <th> Code</th>
@@ -237,11 +243,12 @@
 </footer>
 
 
-<div class="modal" tabindex="-1" id="modalMaterialForm">
+<div class="modal" tabindex="-1" id="modalMaterialForm" data-backdrop="static" data-keyboard="false"    >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> Edit Material</h2>
+                <h2 class="h2"><i class="fas fa-user fx"></i>Material Management Form</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <!--  form -->
@@ -281,7 +288,7 @@
                                 style="color: red;">*</span></label>
                         <div class="col-8">
                             <select id="cmbCategory" class="form-control form-control-sm" required
-                                    onchange="selectValidator(cmbCategory,'','material','material_catedory_id','oldmaterial')">
+                                    onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory()">
                             </select>
                         </div>
                     </div>
@@ -295,7 +302,7 @@
                         </div>
                         <div class="col-4">
                             <select id="cmbUnitType" class="form-control form-control-sm" required
-                                    onchange="selectValidator(cmbUnitType,'','material','materal_unit_type_id','oldmaterial')">
+                                    onchange="selectValidator(cmbUnitType,'','material','material_unit_type_id','oldmaterial')">
                             </select>
                         </div>
                     </div>

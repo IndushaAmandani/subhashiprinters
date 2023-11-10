@@ -187,33 +187,35 @@ user = JSON.parse(JSON.stringify(ob));
 olduser = JSON.parse(JSON.stringify(ob));
 
 
- // $.ajax('user/getbyid/'+ob.id,{
- //     async: false,
- //     dataType:'json',
- //     //responce obj -xhr
- //     success: function (data,status, xhr){
- //         user = data;
- //     },
- //     error: function (rxhrdata,errorstatus,errorMessge){
- //        user = {};
- //     }
- // })
- //
- // $.ajax('user/getbyid?id='+ob.id,{
- //     async: false,
- //     dataType:'json',
- //     success: function (data,status, xhr){
- //        olduser = data;
- //     },
- //     error: function (rxhrdata,errorstatus,errorMessge){
- //        olduser  = {};
- //     }
- // })
+ $.ajax('/user/getbyid/'+ob.id,{
+     async: false,
+     dataType:'json',
+     //responce obj -xhr
+     success: function (data,status, xhr){
+         user = data;
+     },
+     error: function (rxhrdata,errorstatus,errorMessge){
+        user = {};
+     }
+ })
+
+ // $.ajax('/user/getbyid?id='+ob.id,{
+     $.ajax('/user/getbyid/'+ob.id,{
+         async: false,
+         dataType:'json',
+         success: function (data,status, xhr){
+             olduser = data;
+         },
+         error: function (rxhrdata,errorstatus,errorMessge){
+             olduser  = {};
+         }
+     })
+
 
 
     // fill data into employee select element
     employeesListwithoutUserAccount.push(ob.employee_id);
-    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","")
+    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","");
 
     // empty text feild
     textUserName.value = user.username  ;
@@ -225,9 +227,7 @@ olduser = JSON.parse(JSON.stringify(ob));
     chkUserStatus.checked = true;
     lblUserStatus.innerText = "User Account is Active";
 
-
-
-
+    $("#modalUserForm").modal("show");
 }
 
 function checkUpdate(){

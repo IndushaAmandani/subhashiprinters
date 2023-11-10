@@ -1,6 +1,8 @@
 package lk.subhashiprinters.controller;
 
 
+
+import lk.subhashiprinters.entity.CPaymentReport;
 import lk.subhashiprinters.entity.Quotation;
 import lk.subhashiprinters.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController //as impleent services
@@ -19,7 +22,41 @@ public class ReportDataController {
     private ReportRepository reportRepository;
 
     @GetMapping(value ="/customerPaymentreport/bysdateedate/{sdate}/{edate}/{type}",produces ="application/json")
-        public List getCPaymentbySDateEDate(@PathVariable("sdate") String sdate ,@PathVariable("edate") String edate,@PathVariable("type")String type){return reportRepository.getPaymentReport(sdate,edate);}
+        public List<CPaymentReport> getCPaymentbySDateEDate(@PathVariable("sdate") String sdate ,@PathVariable("edate") String edate,@PathVariable("type")String type) {
+
+        String[][] reportDataList = new String[100][4];
+        if(type.equals("Daily"))
+            reportDataList = reportRepository.getPaymentReportDaily(sdate, edate);
+        if(type.equals("Weekly"))
+            reportDataList = reportRepository.getPaymentReportWeekly(sdate, edate);
+        if(type.equals("Monthly"))
+            reportDataList = reportRepository.getPaymentReportMonthly(sdate, edate);
+        if(type.equals("Annualy"))
+            reportDataList = reportRepository.getPaymentReportAnnualy(sdate, edate);
+        List<CPaymentReport> paymentReportsList  = new ArrayList<>();
+
+       for (int i = 0; i < reportDataList.length; i++) {
+          CPaymentReport cPaymentReport = new CPaymentReport();
+           if(type.equals("Annualy"))
+               cPaymentReport.setDate(reportDataList[i][0]);
+           else
+             cPaymentReport.setDate(reportDataList[i][0] + "-" + reportDataList[i][1]);
+
+           cPaymentReport.setCpaymentcount(reportDataList[i][2]);
+            cPaymentReport.setTotalamount(reportDataList[i][3]);
+
+
+         paymentReportsList.add(cPaymentReport);
+  }
+
+return paymentReportsList;
+    }
+
+
+
+
+
+
     }
 
 //

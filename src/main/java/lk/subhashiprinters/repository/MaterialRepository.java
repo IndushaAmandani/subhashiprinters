@@ -10,7 +10,7 @@ package lk.subhashiprinters.repository;
 
  public interface MaterialRepository extends JpaRepository<Material,Integer> {
 
-     @Query(value = "select new Material(m.id, m.name, m.code,m.measuring_count,m.material_category_id, m.materal_unit_type_id, m.material_status_id) from Material m order by m.id desc")
+     @Query(value = "select new Material(m.id, m.name, m.code,m.measuring_count,m.material_category_id, m.material_unit_type_id, m.material_status_id) from Material m order by m.id desc")
      List<Material> findAll();
 
     // //Query for get material by given code
@@ -41,6 +41,6 @@ package lk.subhashiprinters.repository;
         List<Material> list();
 
 
-     @Query("select new Material(m.id,m.code,m.name,m.measuring_count) from Material m where m.material_status_id.id=1 and m.materal_unit_type_id.id=3 and m.material_category_id.id=1")
+     @Query("select new Material(m.id,m.code,m.name,m.measuring_count) from Material m where m.material_status_id.id=1 and m.material_unit_type_id.id=3 and m.material_category_id.id=1")
      List<Material> getMaterialListbyCategory();
  }

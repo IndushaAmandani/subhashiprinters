@@ -32,7 +32,7 @@ function refreshdailyProductTable() {
     //Hide view icon
     for (let index in dailyProduct) {
         tableDailyProduct.children[1].children[index].children[7].children[0].style.display = "none";
-        tableDailyProduct.children[1].children[index].children[7].children[2].style.display = "none";
+        tableDailyProduct.children[1].children[index].children[7].children[1].style.display = "none";
     }
 }
 
@@ -51,11 +51,34 @@ function refreshdailyProductForm(){
     txtcompletedQuantity.disabled =true;
     txtPreBalanceQuantity.disabled=true;
     let x = 0;
-
+    setStyle("1px solid #ced4da");
     txtNewBalanceQuantity.disabled=true;
+    disabledButton(true, false);
 
 }
+function setStyle() {
+    cmbCustomerOrder.style.borderBottom = "1px solid #ced4da" ;
+    cmbProduct.style.borderBottom =  "1px solid #ced4da"
+    txtTotalQuantity.style.borderBottom =  "1px solid #ced4da";
+    txtcompletedQuantity.style.borderBottom = "1px solid #ced4da" ;
+    txtPreBalanceQuantity.style.borderBottom = "1px solid #ced4da" ;
+    txtDailyQuantity.style.borderBottom = "1px solid #ced4da" ;
+    txtNewBalanceQuantity.style.borderBottom = "1px solid #ced4da" ;
+}
 
+function disabledButton(addbtn , updbtn){
+
+    if(addbtn && lggeduserprivilage.ins){
+        buttonAdd.disabled = false;
+        $("buttonAdd").css("pointer-events","all");
+        $("buttonAdd").css("cursor","pointer");
+    }else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events","all");
+        $("#buttonAdd").css("cursor","not-allowed");
+    }
+
+}
 
 function getProductList() {
 
@@ -84,7 +107,7 @@ function setValue() {
 
 function getBalanceAmount(){
     if (txtDailyQuantity.value != "") {
-        let pattern = new RegExp("^[1-9][0-9]{0,5}$");
+        let pattern = new RegExp("^[1-9][0-9]{0,8}$");
         if (pattern.test(txtDailyQuantity.value)) {
             if(parseInt(txtPreBalanceQuantity.value) >= parseInt(txtDailyQuantity.value)) {
                 txtNewBalanceQuantity.value = parseInt(txtPreBalanceQuantity.value) - parseInt(txtDailyQuantity.value);
@@ -92,36 +115,59 @@ function getBalanceAmount(){
                 dailyP.dailyqty = txtDailyQuantity.value;
                 txtNewBalanceQuantity.style.borderBottom="2px solid green";
                 txtNewBalanceQuantity.style.borderBottom = "2px solid green";
+                buttonAdd.disabled = false;
             }else {
                 txtDailyQuantity.style.borderBottom = "2px solid red";
                 txtNewBalanceQuantity.style.borderBottom = "2px solid red";
-                txtDailyQuantity.value = "";
-                txtDailyQuantity.value = "";
+                // txtDailyQuantity.value = "";
+                // txtDailyQuantity.value = "";
                 dailyP.dailyqty = null;
                 dailyP.new_balance_qty = null;
+                buttonAdd.disabled = false;
 
             }
         } else {
             txtDailyQuantity.style.borderBottom = "2px solid red";
             txtNewBalanceQuantity.style.borderBottom ="2px solid red";
-            txtDailyQuantity.value = "";
-            txtDailyQuantity.value = "";
+            // txtDailyQuantity.value = "";
+            // txtDailyQuantity.value = "";
             dailyP.dailyqty = null;
             dailyP.new_balance_qty = null;
+            buttonAdd.disabled = true;
 
         }
     }else {
         txtDailyQuantity.style.borderBottom = "2px solid red";
         txtDailyQuantity.style.borderBottom = "2px solid red";
-        txtDailyQuantity.value = "";
-        txtDailyQuantity.value = "";
+        // txtDailyQuantity.value = "";
+        // txtDailyQuantity.value = "";
         dailyP.dailyqty = null;
         dailyP.new_balance_qty = null;
+        buttonAdd.disabled = true;
     }
 }
 function formRefill(){}
-function rowDelete(){}
-function rowView(){}
+
+
+const rowDelete = (ob, row) => {
+    // let deleteMsg = "Are you surely want to delete following Product..? \n" + ob.p_name;
+    //
+    // let serverResponce = window.confirm(deleteMsg);
+    // if (serverResponce) {
+    //     let serverResponce;
+    //     serverResponce = getHTTPServiceRequest("/dailyProduct", "DELETE", ob);
+    //     if (serverResponce == "0") {
+    //         alert("Delete Successfully... !");
+    //         refreshTable();
+    //
+    //     } else {
+    //         alert("Fail to Delete,You have folowing error .. \n" + serverResponce);
+    //
+    //     }
+    //
+    // }
+}
+
 
 function buttonSubmitMC() {
 
@@ -171,7 +217,17 @@ function buttonSubmitMC() {
     }
 }
 function checkErrors(){
-    return "";
+let errors = "";
+    if (dailyP.customer_order_id == null) {
+        errors = errors + "Customer Order is not selected \n";
+    }
+    if (dailyP.product_id == null) {
+        errors = errors + "Customer Order is not selected \n";
+    }
+    if (product.dailyqty == null) {
+        errors = errors + "Daily quantities  is not entered\n";
+    }
+    return errors;
 }
 
 function buttonModalCloseMC() {
@@ -183,3 +239,40 @@ function buttonModalCloseMC() {
         $("#modalDailyForm").modal("hide");
     }
 }
+
+//View
+
+function buttonModalCloseMCV() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+
+        $("#modalViewDailyPForm").modal("hide");
+    }
+}
+
+function printRowItemMC() {
+    let newWindow = window.open();
+    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Daily Product Details</h2>" + "<div>"+tablePrintDailyP.outerHTML +"</div>");
+    setTimeout(function () {
+        newWindow.print();
+        newWindow.close();
+    },1000);
+}
+
+const rowView = (ob,rowind) => {
+    $("#modalViewDailyPForm").modal("show");
+
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+
+
+
+    tdCOrderCode.innerHTML = ob.customer_order_id.order_code;
+    tdProduct.innerHTML = ob.product_id.p_name;
+    tdTQuantity.innerHTML = ob.totalqty;
+    tdCQuantity.innerHTML = ob.completedqty;
+    tdDQuantity.innerHTML = ob.dailyqty;
+    tdNewBQuantity.innerHTML = ob.new_balance_qty;
+}
+

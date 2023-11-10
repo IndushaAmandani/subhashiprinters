@@ -3,16 +3,9 @@
 <html class="loading" lang="en" data-textdirection="ltr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description" content="CryptoDash admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard.">
-    <meta name="keywords" content="admin template, CryptoDash Cryptocurrency Dashboard Template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
-    <meta name="author" content="ThemeSelection">
-    <title>Login - CryptoDash - Free Cryptocurrency Dashboard Template + Bitcoin Dashboard</title>
-    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
-    <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700" rel="stylesheet">
-    <!-- BEGIN VENDOR CSS-->
+    <meta name="author" content="Indusha">
+    <title>Login - Subhashi Printers</title>
+<!--     BEGIN VENDOR CSS&ndash;&gt;-->
     <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/icheck/icheck.css">
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/forms/icheck/custom.css">
@@ -28,6 +21,23 @@
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <!-- END Custom CSS-->
+
+
+
+      <script>
+
+          window.addEventListener("load", ev => {
+
+              var url = window.location.href;
+              if (url == "http://localhost:8080/login?error=usernamepassorderror") {
+
+                  $("#lblErrUInactive").css("display", "block");
+              } else{
+
+                  $("#lblErrUInactive").css("display", "none");
+              }
+          });
+      </script>
   </head>
   <body class="vertical-layout vertical-compact-menu 1-column  bg-full-screen-image menu-expanded blank-page blank-page" data-open="click" data-menu="vertical-compact-menu" data-col="1-column">
     <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -40,7 +50,8 @@
         <!-- image -->
         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-5 col-12 p-0 text-center d-none d-md-block">
             <div class="border-grey border-lighten-3 m-0 box-shadow-0 card-account-left height-400">
-                <img src="app-assets/images/logo/Subhashi Printers Logo 2" class="card-account-img width-200" alt="card-account-img">
+                <img src="app-assets/images/logo/Subhashi%20Printers%20Logo%203.png" class="card-account-img width-200" alt="card-account-img">
+<!--                "E:\BIT Project\Final Project\subhashiprinters\src\main\resources\static\app-assets\images\logo\Subhashi Printers Logo.png"-->
             </div>
         </div>
         <!-- login form -->
@@ -59,6 +70,10 @@
                                 <input type="password" class="form-control" id="user-password" name="password" placeholder="Enter Password"  required autofocus="">
                                 <label for="user-password">Password</label>
                             </fieldset>
+
+                            <div  id="lblErrUInactive" style="display: none">
+                                <p style="font-size: 20px; color: #FF1C19;">User name Password incorrect..! </p>
+                            </div>
 
                             <button type="submit" class="btn-gradient-primary btn-block my-1">Log In</button>
                         </form>

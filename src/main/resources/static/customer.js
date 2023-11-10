@@ -2,6 +2,7 @@ window.addEventListener('load', loadUI);
 
 function loadUI() {
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Customer");
+    console.log(lggeduserprivilage);
     refreshCustomerTable();
     //call refresh from function
     refreshCustomerForm();
@@ -28,6 +29,7 @@ const refreshCustomerTable = () => {
     for (let index in customers ){
         if (customers[index].customerstatus_id.name == "Inactive") {
             tableCustomer.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableCustomer.children[1].children[index].style.color = "#0f100f";
             tableCustomer.children[1].children[index].children[7].children[1].disabled = true;
             tableCustomer.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             tableCustomer.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
@@ -40,7 +42,7 @@ const refreshCustomerTable = () => {
 
 }
 
-const rowView = () => { }
+
 
 
 //create from refresh funcion for refresh from element
@@ -51,7 +53,7 @@ const refreshCustomerForm = () => {
 
     //dropdowns
     customerStatuses = getServiceRequest("/customerstatus/list");
-    fillSelectFeild(cmbCustomerStatus, "Select Status", customerStatuses, 'name', 'Active');
+    fillSelectFeild(cmbCustomerStatus, "Select Status", customerStatuses, 'name', 'Active',true);
     //Defaultly value is gained when the data is parsed here it is working
     customer.customerstatus_id = JSON.parse(cmbCustomerStatus.value)
 
@@ -228,13 +230,14 @@ function buttonSubmitMC() {
         txtMobile.value = customer.mobile;
         txtCustomerEmail.value = customer.customer_email;
 
-        if (customer.customer_category_id.name == "company") {
+        fillSelectFeild(cmbCustomerCategory, "Select Category", customerCategories, 'name', customer.customer_category_id.name);
+       if(customer.customer_category_id.name == "company") {
 
             txtCompanyName.value = customer.company_name;
             txtCompanyNumber.value = customer.company_contactnumber;
             txtCompanyEmail.value = customer.company_email;
-        }else
 
+       }
 
         //option clue checaking
         if (customer.description != undefined)
@@ -424,4 +427,76 @@ function buttonModalCloseMC() {
         refreshCustomerForm();
         $("#modalCustomerForm").modal("hide");
     }
+}
+function validatingNamings() {
+    let txtPersonName = txtName.value;
+    let txtComName = txtCompanyName.value;
+    if(txtPersonName == txtComName ){
+        alert("Person name and Company name cannot be same..!");
+        txtCompanyName.style.borderBottom = "2px solid red";
+    }else{
+        customer.company_name = txtCompanyName.value;
+    }
+}
+
+function validateEmails(){
+    let txtCompanyEmailVar = txtCompanyEmail.value;
+    let txtCustomerEmailVar = txtCustomerEmail.value;
+    if(txtCompanyEmailVar == txtCustomerEmailVar ){
+        alert("Person email and Company email cannot be same..!");
+        txtCompanyEmail.style.borderBottom = "2px solid red";
+    }else{
+        customer.company_email = txtCustomerEmail.value;
+    }
+}
+
+
+function validateMobileNumber(){
+
+    let txtCompanyMobileVar = txtCompanyNumber.value;
+    let txtCustomerMobileVar = txtMobile.value;
+    if(txtCompanyMobileVar == txtCustomerMobileVar ){
+        alert("Person mobile and Company mobile cannot be same..!");
+        txtCompanyNumber.style.borderBottom = "2px solid red";
+    }else{
+        customer.company_email = txtCompanyNumber.value;
+    }
+}
+
+
+//View
+
+function buttonModalCloseMCV() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+
+        $("#modalViewCustomerForm").modal("hide");
+    }
+}
+
+function printRowItemMC() {
+    let newWindow = window.open();
+    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Customer Details</h2>" + "<div>"+tablePrintCustomer.outerHTML +"</div>");
+    setTimeout(function () {
+        newWindow.print();
+        newWindow.close();
+    },1000);
+}
+
+const rowView = (ob,rowind) => {
+    $("#modalViewCustomerForm").modal("show");
+
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+    printCustomer = getServiceRequest("/customer/getbyid/"+ob.id) ;
+
+
+    tdCode.innerText = printCustomer.customer_code;
+    tdName.innerText = printCustomer.customer_name;
+    tdMobile.innerText = printCustomer.mobile;
+    tdCompanyorNot.innerText = printCustomer.customer_category_id.name;
+    tdEmail.innerText = printCustomer.customer_email;
+    tdCompany.innerText = printCustomer.company_name
+    tdCompanyCNumber.innerText = printCustomer.company_contactnumber;
 }

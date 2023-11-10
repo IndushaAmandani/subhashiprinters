@@ -7,7 +7,7 @@ function loadUi() {
     // get loged user privilage for item module
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Mrn");
     refreshTable();
- //   refreshMRNForm();
+    refreshMrnForm();
 
 }
 
@@ -37,7 +37,7 @@ const refreshTable = () => {
     $('#tableMrn').dataTable();
 
 }
-
+/*
 function getMaterilasName(ob) {
     // console.log(ob);
     let purchaseOrderHasMaterilaList = getServiceRequest("/material/listbyporder/" + ob.id);
@@ -49,10 +49,10 @@ function getMaterilasName(ob) {
     }
     return orderMaterialName;
 }
-
+*/
 
 // functon for refresh form
-const refreshPOForm = () => {
+const refreshMrnForm = () => {
 
     //create new object with it's old object(duplicatie object)
     purchaseorder = new Object();
@@ -62,12 +62,14 @@ const refreshPOForm = () => {
 
     //create arrys for get data for fill select ellement
     suppliers = getServiceRequest("/supplier/list");
-    quotations = getServiceRequest("/quotation/listall");
-    porderstatuses = getServiceRequest("/porderstatus/list");
+
+
+    porderstatuses = getServiceRequest("/purchaseorder/findall");
     cmbSupplier.disabled = false;
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
-    fillSelectFeild(cmbQuotation, "Select Quotation", quotations, "number");
-    cmbQuotation.disabled = true;
+    fillSelectFeild(cmbPurchaseOrder,"Select Purchase Order",porderstatuses,"")
+
+
     fillSelectFeild(cmbPOStatus, "Select Status", porderstatuses, "name", "Ordered", true);
     purchaseorder.purchase_order_status_id = JSON.parse(cmbPOStatus.value);
 
@@ -129,11 +131,11 @@ function setStyle(style) {
 
 }
 
-function getValidQuotaion() {
-    quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
-    fillSelectFeild(cmbQuotation, "Select Quotation", quotationsBySupRequdate, "number");
-    cmbQuotation.disabled = false;
-}
+// function getValidQuotaion() {
+//     quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
+//     fillSelectFeild(cmbQuotation, "Select Quotation", quotationsBySupRequdate, "number");
+//     cmbQuotation.disabled = false;
+// }
 
 function getMaterialByQuotation() {
 
@@ -144,8 +146,8 @@ function getMaterialByQuotation() {
 }
 
 function getUnitPrice() {
-    let quotationMaterial = getServiceRequest("/quotationmaterial/byqm/" + JSON.parse(cmbQuotation.value).id + "/" + JSON.parse(cmbMaterial.value).id)
-    txtUnitPrice.value = parseFloat(quotationMaterial.purchase_price).toFixed(2);
+
+    txtUnitPrice.value = parseFloat().toFixed(2);
     txtUnitPrice.style.borderBottom = "2px solid  green";
     purchaseOrderHasIMatrial.purchase_price = txtUnitPrice.value;
 }
@@ -184,15 +186,15 @@ const refreshInnerFormTable = () => {
     buttonInnerAdd.disabled = true;
     buttonInnerUpdate.disabled = true;
 
-    materials = getServiceRequest("/material/list");
-    if (cmbQuotation.value != "") {
-        materialsByQuotation = getServiceRequest("/material/listbyquotation/" + JSON.parse(cmbQuotation.value).id);
-        fillSelectFeild2(cmbMaterial, "Select Material", materialsByQuotation, "code", "name", "");
-        cmbMaterial.disabled = false;
-    } else {
-        fillSelectFeild2(cmbMaterial, "Select Material", materials, "code", "name", "");
-        cmbMaterial.disabled = true;
-    }
+    // materials = getServiceRequest("/material/list");
+    // if (cmbQuotation.value != "") {
+    //     materialsByQuotation = getServiceRequest("/material/listbyquotation/" + JSON.parse(cmbQuotation.value).id);
+    //     fillSelectFeild2(cmbMaterial, "Select Material", materialsByQuotation, "code", "name", "");
+    //     cmbMaterial.disabled = false;
+    // } else {
+    //     fillSelectFeild2(cmbMaterial, "Select Material", materials, "code", "name", "");
+    //     cmbMaterial.disabled = true;
+    // }
 
     txtUnitPrice.value = "";
     txtUnitPrice.disabled = true;
@@ -248,7 +250,7 @@ const buttonInnerAddMC = () => {
 
     if (!materialext) {
         let confirmMs = "Are you sure to add following Porder Material Details \n"
-            + "\n Item Name : " + purchaseOrderHasIMatrial.material_id.name
+
             + "\n Unit Price : " + purchaseOrderHasIMatrial.purchase_price
             + "\n Quantity : " + purchaseOrderHasIMatrial.quantity
             + "\n Line Total : " + purchaseOrderHasIMatrial.line_total;
@@ -548,3 +550,8 @@ function buttonUpdateMC() {
     }
 
 }
+function getPObysupplier(){
+    purchaseorder = getServiceRequest("/purchaseorder/getPObySupplierid/" + JSON.parse(cmbSupplier.value).id);
+//fillSelectFeild(cmbPurchaseOrder,"Select purchase Order",purchaseorder,)
+}
+

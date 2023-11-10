@@ -22,7 +22,7 @@ const refreshTable = () => {
     materials = getServiceRequest("/material/findall");
 
     //create display proporty list
-    let displayPropertyList = ['code', 'name', 'measuring_count', 'material_catedory_id.name', 'materal_unit_type_id.name', 'material_status_id.name'];
+    let displayPropertyList = ['code', 'name', 'measuring_count', 'material_category_id.name', 'material_unit_type_id.name', 'material_status_id.name'];
     // creat display property data type list
     let displayDatatypeList = ['text', 'text', 'text', 'object', 'object', 'object'];
     //called filldataintotable function for fill data
@@ -30,7 +30,7 @@ const refreshTable = () => {
 
     for (let index in materials) {
         if (materials[index].material_status_id.name == "Removed") {
-            tableMaterial.children[1].children[index].style.backgroundColor = "pink";
+            tableMaterial.children[1].children[index].style.backgroundColor = "#ad9393";
 
             tableMaterial.children[1].children[index].children[7].children[1].disabled = true;
             tableMaterial.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
@@ -69,7 +69,7 @@ const refreshMaterialForm = () => {
     txtMaterialName.value = "";
     txtMeasuringCount.value = "";
 
-    setStyle("1px solid #ced4da");
+    setStyle("1px solid #cacfe7");
     cmbMaterialStatus.style.borderBottom = "2px solid green";
 
     disabledButton(true, false);
@@ -120,7 +120,7 @@ const checkMFormError = ()=>{
 
     }
 
-    if( material.material_catedory_id == null){
+    if( material.material_category_id == null){
         formerror = formerror + "Please Select Category..! \n";
 
     }
@@ -129,7 +129,7 @@ const checkMFormError = ()=>{
 
     }
 
-    if( material.materal_unit_type_id == null){
+    if( material.material_unit_type_id == null){
         formerror = formerror + "Please Select Unit Type..! \n";
 
     }
@@ -150,8 +150,8 @@ function buttonMSave() {
         //get user confirmation
         let userCofirmMsg = "Are you sure to add Following Materialt ..? " +
             "\n Material Name : " + material.name +
-            "\n Material Category : " + material.material_catedory_id.name +
-            "\n Material Unit Type : " + material.materal_unit_type_id.name ;
+            "\n Material Category : " + material.material_category_id.name +
+            "\n Material Unit Type : " + material.material_unit_type_id.name ;
 
         let userSaveResponce = window.confirm(userCofirmMsg);
 
@@ -159,8 +159,8 @@ function buttonMSave() {
             //call post services
             let serverResponce = getHTTPServiceRequest("/material" , "POST" , material);
             if(serverResponce == "0"){
-                $("#modalMaterialForm").modal("hide");
                 window.alert("Material Insert Successfully...");
+                $("#modalMaterialForm").modal("hide");
                 refreshTable();
                 refreshMaterialForm();
 
@@ -174,13 +174,14 @@ function buttonMSave() {
 
 
 //form refill function
+
 function formRefill(rowob,rowind) {
 
     material = getServiceRequest("/material/getbyid/"+rowob.id);
     oldmaterial = getServiceRequest("/material/getbyid/"+rowob.id);
 
-    fillSelectFeild(cmbCategory, "Select Category", materialcategories, "name",material.material_catedory_id.name);
-    fillSelectFeild(cmbUnitType, "Select Unit Type", unittypes, "name",material.materal_unit_type_id.name);
+    fillSelectFeild(cmbCategory, "Select Category", materialcategories, "name",material.material_category_id.name);
+    fillSelectFeild(cmbUnitType, "Select Unit Type", unittypes, "name",material.material_unit_type_id.name);
 
     fillSelectFeild(cmbMaterialStatus, "Select Status", materialstatuses, "name", material.material_status_id.name , false);
 
@@ -223,7 +224,7 @@ const checkMFormUpdates = () =>{
             updates = updates + "Material Satatus  is changed " + oldmaterial.material_status_id.name + " into " + material.material_status_id.name + "\n";
         }
 
-        if(material.material_catedory_id.id != oldmaterial.material_catedory_id.id){
+        if(material.material_category_id.id != oldmaterial.material_category_id.id){
             updates = updates + "Material Category is changed " + oldmaterial.material_category_id.name + " into " + material.material_category_id.name + "\n";
         }
 
@@ -231,8 +232,8 @@ const checkMFormUpdates = () =>{
             updates = updates + "Material Measuring Count is changed " + oldmaterial.measuring_count + " into " + material.measuring_count + "\n";
         }
 
-        if(material.materal_unit_type_id.id != oldmaterial.materal_unit_type_id.id){
-            updates = updates + "Material Unit Type is changed " + oldmaterial.materal_unit_type_id.name + " into " + material.materal_unit_type_id.name + "\n";
+        if(material.material_unit_type_id.id != oldmaterial.material_unit_type_id.id){
+            updates = updates + "Material Unit Type is changed " + oldmaterial.material_unit_type_id.name + " into " + material.material_unit_type_id.name + "\n";
         }
 
     }
@@ -275,12 +276,6 @@ function buttonMUpdate() {
     }
 }
 
-
-
-
-
-
-
 const rowDelete = (ob, rowno) => {
 
     let deleteMsg = "Are you sure want to delete following Material ..? \n" + ob.name;
@@ -299,3 +294,25 @@ const rowDelete = (ob, rowno) => {
         }
     }
 }
+
+function buttonModalCloseMC() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshMaterialForm();
+        $("#modalMaterialForm").modal("hide");
+
+    }else{
+        $("#modalMaterialForm").modal("show");
+    }
+}
+
+
+//Get material unit type by its category
+function getMaterialUnitTypeByMCategory(){
+
+   let materialtypeByCategory=  getServiceRequest( "/materialUnitType/getByMCategory/"+ JSON.parse(cmbCategory.value).id);
+    fillSelectFeild(cmbUnitType,"Select Material Type",materialtypeByCategory,"name","")
+}
+

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <title> Subhashi Printers - Customer Order Management</title>
+    <title> Subhashi Printers - Customer Order Report - Chart</title>
 <!--    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">-->
     <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
     <link
@@ -30,6 +30,8 @@
 
     <link rel="stylesheet" type="text/css" href="resources/datatable/css/datatables.min.css">
     <!-- END Custom CSS-->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
@@ -162,7 +164,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-                <h3 class="content-header-title mb-0 d-inline-block">Customer Order Management</h3>
+                <h3 class="content-header-title mb-0 d-inline-block">Customer Order - Sample Chart</h3>
                 <div class="row breadcrumbs-top d-inline-block">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
@@ -170,16 +172,14 @@
                             </li>
                             <li class="breadcrumb-item active">Product
                             </li>
-                            <li class="breadcrumb-item active">Customer Order
+                            <li class="breadcrumb-item active">Customer Order - Sample Chart
                             </li>
                         </ol>
                     </div>
                 </div>
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal" data-target="#modalCustomerOrderForm">Add
-                    new Customer Order</a></div>
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" onclick="printChartMC()">Print Chart </a></div>
             </div>
         </div>
         <div class="content-body">
@@ -194,22 +194,9 @@
                                     <div class="row">
                                         <div class="col-12">
 
-                                            <table class="table table-hover table-bordered" id="tableCOrder">
-                                                <thead class="table-dark" style="background-color: #152650">
-                                                <tr>
-                                                    <th> #</th>
-                                                    <th> Order Code</th>
-                                                    <th> Required Date</th>
-                                                    <th> Total Amount</th>
-                                                    <th>Advance Amount</th>
-                                                    <th> Balance Amount</th>
-                                                    <th> Production Status</th>
-                                                    <th> Order Status</th>
-                                                    <th> Modify</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
+                                            <div>
+                                                <canvas id="myChart" width="400px" height="500px"></canvas>
+                                            </div>
 
                                         </div>
 
@@ -226,6 +213,22 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    function printChartMC() {
+        let newWindow = window.open();
+
+        newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+
+            <h2>Subhashi Printers Customer Order  - Chart</h2>+
+            "<div style='width: 500px;height: 600px'><img src='"+myChart.toBase64Image()+"'></div>");
+        setTimeout(function () {
+            newWindow.print();
+            newWindow.close();
+        },1000);
+    }
+
+</script>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
@@ -565,37 +568,14 @@
                         <th></th>
 
                     </tr>
+                    </hr>
+                    <table class="table table-striped table-bordered" id="tableInnerCOrderView">
 
-
-                    <tr>
-                        <table class="table table-hover table-bordered"
-                               id="tableInnerCustomerOrderHasProducts">
-                            <thead class="table-dark" style="background-color: #27344d">
-                            <tr>
-                                <th> #</th>
-                                <th>Product Name</th>
-                                <th>Product Cost</th>
-                                <th>Ordered Quantity</th>
-                                <th>Completed Quantity</th>
-                                <th>Production Status</th>
-                                <th>Line Price</th>
-
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </tr>
-                </table>
-                    <table class="table table-striped table-bordered" id="tableCOrderPView">
+                        <th>Product Name </th>
+                        <th>Product Cost</th>
+                        <th>Ordered Quantity</th>
+                        <th>Line Price</th>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th>Total of Lines</th>
-                            <td id="tdTotalofLines"></td>
-
-                        </tr>
-                    <tr>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -619,8 +599,8 @@
                             <th>Balance Amount</th>
                             <td id="tdBalanceAmount"> </td>
                         </tr>
-
                     </table>
+
                 </table>
 
             </div>

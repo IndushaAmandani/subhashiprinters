@@ -23,4 +23,12 @@ public class ReportUIController {
         return invoiceReportView;
 
     }
+
+    @GetMapping(value ="/samplechart")
+    public ModelAndView samplechartUI(){
+        ModelAndView samplechartView = new ModelAndView();
+        samplechartView.setViewName("corderChart.html");
+        return samplechartView;
+
+    }
 }

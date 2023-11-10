@@ -77,7 +77,7 @@ public class DailyProductController {
                 // set auto set value
                 dailyProduct.setAdded_date_time(LocalDateTime.now());
 
-                dailyProduct.setUser_id(loggedUser);
+                dailyProduct.setAdded_user_id(loggedUser);
                 //do the requeired operation
                 dailyProductDao.save(dailyProduct);
 
@@ -126,5 +126,7 @@ public class DailyProductController {
 
 
     }
+
+
 
 }

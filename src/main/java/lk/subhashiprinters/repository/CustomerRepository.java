@@ -26,7 +26,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
         @Query(value = "SELECT lpad(max(c.customercode)+1,5,'0') FROM subhashiprinters.customer as c;" ,nativeQuery = true)
         String nextCustomerNumber();
 
-        @Query("select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 and c.id in (select p.customer_id from Product p)")
+        @Query("select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 order by c.id DESC ")
        List<Customer> listAll();
 
         @Query(value = "select new Customer(count(c.id)) from Customer c  where  c.customerstatus_id.id=1")

@@ -75,16 +75,17 @@ public class MRN {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "material_recieve_note_id" , orphanRemoval = true )
     private List<MRNHasMaterial> mrnHasMaterialList;
 
-    public MRN(Integer id, String recieve_no, String supplier_inovice_no, LocalDate recieve_date, BigDecimal net_amount, PurchaseOrder purchase_order_id,
-               MRNStatus material_recieve_note_status_id  ) {
-        this.id = id;
-        this.recieve_no = recieve_no;
-        this.supplier_inovice_no = supplier_inovice_no;
-        this.recieve_date = recieve_date;
-        this.net_amount = net_amount;
-        this.purchase_order_id = purchase_order_id;
-        this.material_recieve_note_status_id = material_recieve_note_status_id;
+public MRN(Integer id,String recieve_no,String supplier_inovice_no,LocalDate recieve_date,BigDecimal net_amount,PurchaseOrder purchase_order_id, MRNStatus material_recieve_note_status_id){
+    this.id  =id ;
+    this.recieve_no = recieve_no;
+    this.supplier_inovice_no =supplier_inovice_no ;
+    this.recieve_date =recieve_date ;
+    this.net_amount =net_amount ;
+    this.purchase_order_id = purchase_order_id;
+    this.material_recieve_note_status_id = material_recieve_note_status_id;
+}
 
-    }
+
+
 
 }

@@ -44,15 +44,8 @@ const refreshTable = ()=>{
 // create function for get sales price
 function getSupplyMaterialName(ob){
     let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id)
-    let materialName = "";
-    for(let ind in supplyIMaterialList){
-        if(supplyIMaterialList.length -1 == ind){
-            materialName = materialName + supplyIMaterialList[ind].name ;
-        }else
-            materialName = materialName + supplyIMaterialList[ind].name + " ,";
-    }
 
-    return materialName;
+    return supplyIMaterialList.name;
 }
 
 

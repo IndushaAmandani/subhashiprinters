@@ -31,9 +31,14 @@ public class DailyProduct {
     private Integer note;
    @Column(name="added_date_time")
     private LocalDateTime added_date_time;
+   @Column(name="deleted_date_time")
+    private LocalDateTime deleted_date_time;
    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user_id;
+    @JoinColumn(name="added_user_id")
+    private User added_user_id;
+   @ManyToOne
+    @JoinColumn(name="deleted_user_id")
+    private User deleted_user_id;
     @ManyToOne
     @JoinColumn(name="customer_order_id")
     private CustomerOrder customer_order_id;

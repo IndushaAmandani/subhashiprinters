@@ -16,8 +16,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
   "where u.username <> 'Admin' order by u.id DESC ")
     List<User> findAll();
 
-    @Query(value = "select u from User u where u.employee_id.id=?1")
-    User getReferenceById(Integer eid);
+  /*  @Query(value = "select u from User u where u.employee_id.id=?1")
+    User getReferenceById(Integer eid);*/
 
 @Query(value = "select u from User u where u.username =?1")
     //use for get user by given username

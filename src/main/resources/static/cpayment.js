@@ -26,7 +26,7 @@ const refreshTable = () => {
     cpayments = getServiceRequest("cpayment/findall");
 
     let displayPropList = ['customer_payment_bill_number', 'customer_id.customer_name', 'total_amount', 'after_balance_amount', 'customer_payment_status_id.name'];
-    let displayPropDataTypeList = ['object', 'object', 'text', 'text', 'object'];
+    let displayPropDataTypeList = ['object', 'object', 'decimal', 'decimal', 'object'];
 
     fillDataIntoTable(tableCustomerPayment, cpayments, displayPropList, displayPropDataTypeList, refillForm, deleteRow, viewRow, true, lggeduserprivilage);
     for (let index in cpayments ){
@@ -340,13 +340,7 @@ const deleteRow = (ob, rowno) => {
         }
     }
 }
-const viewRow = (rowob, rowind) => {
 
-    let printItem = getServeiceRequst("/cpayment/getbyid/" + rowob.id);
-
-    tdItemCode.innerText = printItem.itemcode;
-
-}
 function buttonModalCloseMC() {
 
     let userConfirm = window.confirm("Are you sure to close the Modal...?");
@@ -357,3 +351,35 @@ function buttonModalCloseMC() {
     }
 }
 
+
+
+
+function buttonModalCloseMCV() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+
+        $("#modalViewCPaymentForm").modal("hide");
+    }
+}
+
+function printRowItemMC() {
+    let newWindow = window.open();
+    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Customer Payment Details</h2>" + "<div>"+tableCPaymentView.outerHTML +"</div>");
+    setTimeout(function () {
+        newWindow.print();
+        newWindow.close();
+    },1000);
+}
+
+const viewRow  = (ob,rowind) => {
+    $("#modalViewCustomerForm").modal("show");
+    printCPymnet = getServiceRequest("/cpayment/getbyid/" + ob.id)
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+    tdCOCode.innerHTML = printCPymnet.customer_order_id.order_code;
+    tdTAmount.innerHTML = printCPymnet.total_amount ;
+    tdPreBalance.innerHTML = printCPymnet.pre_balance_amount ;
+    tdPAmount.innerHTML = printCPymnet.paid_amount ;
+
+}

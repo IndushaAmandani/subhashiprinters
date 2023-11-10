@@ -127,6 +127,7 @@ public class CustomerController {
                 return "Customer insert not completed : email aready Exist";
             }
 
+
         try {
             // set auto inser value
             // employee.setNumber("00004");

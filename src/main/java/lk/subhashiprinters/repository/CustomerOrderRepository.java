@@ -1,6 +1,7 @@
 package lk.subhashiprinters.repository;
 
 
+import lk.subhashiprinters.entity.Customer;
 import lk.subhashiprinters.entity.CustomerOrder;
 import lk.subhashiprinters.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,7 +20,8 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Int
 
     @Query("select new CustomerOrder (co.id,co.order_code,co.final_balanced_amount,co.total_amount,co.order_balance) from CustomerOrder co where co.order_status_id.id <>3")
     List<CustomerOrder> list();
-
+    @Query(value = "select c from CustomerOrder c where c.id=?1")
+    CustomerOrder getReferenceById(Integer id);
     @Query(value = "select new CustomerOrder(count(co.id)) from CustomerOrder co where co.order_status_id.id=1")
     CustomerOrder pendingCustomerOrders();
 

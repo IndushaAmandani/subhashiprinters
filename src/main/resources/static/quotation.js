@@ -240,7 +240,6 @@ const innreFormReFill = (innerob, rowind) => {
     cmbMaterial.style.borderBottom = "2px solid  green";
     txtUnitPrice.style.borderBottom = "2px solid  green";
 
-
     buttonInnerUpdate.disabled = true;
     buttonInnerAdd.disabled = true;
 }

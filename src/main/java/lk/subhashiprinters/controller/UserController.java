@@ -84,7 +84,8 @@ public class UserController {
             try {
 
                 user.setAddeddatetime(LocalDateTime.now());
-
+                user.setPhotoname("user3.png");
+                user.setPhotopath("resources/images/user_photo/");
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
 
@@ -121,7 +122,8 @@ public class UserController {
             try {
 
                 user.setUpdatedatetime(LocalDateTime.now());
-
+               // user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+                user.setPassword(extUser.getPassword());
                 userDao.save(user);
                 return "0";
             }catch (Exception exception){
@@ -142,7 +144,7 @@ public class UserController {
         User loggrgUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilageController.getPrivilageByUserModule(auth.getName(),"User");
 
-        if(loggrgUser !=null && userPriv.get("delt")){
+        if(loggrgUser !=null && userPriv.get("del")){
 
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());
@@ -153,9 +155,10 @@ public class UserController {
             //try to save with set auto set value
             try {
 
-                user.setUpdatedatetime(LocalDateTime.now());
-                user.setStatus(false);
-                userDao.save(user);
+                extUser.setUpdatedatetime(LocalDateTime.now());
+
+                extUser.setStatus(false);
+                userDao.save(extUser);
                 return "0";
             }catch (Exception exception){
                 return "User Deleted Not Successfully : " + exception.getMessage();

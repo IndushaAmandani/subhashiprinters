@@ -80,5 +80,10 @@ public class PurchaseOrder {
         this.purchase_order_status_id = purchase_order_status_id;
 
     }
+    public PurchaseOrder( Integer id,Supplier supplier_id, Quotation quatation_id){
+        this.id = id;
+        this.supplier_id = supplier_id;
+        this.quatation_id = quatation_id;
+    }
 
 }

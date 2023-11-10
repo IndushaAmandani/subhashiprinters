@@ -129,13 +129,13 @@ public List<Material> getMaterialListbyCategory(){return materialDao.getMaterial
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Material Insert Not completed : You don't have permissing";
+            return "Material Insert Not completed : You don't have permission";
         }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Materila");
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Material");
 
         if(loggedUser != null && userPiriv.get("ins")){
             // user has privilage for insert material

@@ -17,7 +17,7 @@ function refreshCustomerOrderTable() {
     //create display property list
  let dispalyPropertyList = [ 'order_code', 'required_date', 'total_amount', 'advanced_amount', 'final_balanced_amount','production_status_id.name','order_status_id.name'];
     //Property type list
- let dispalyPropertyDTList = [ 'text', 'text', 'text','text' ,'text', 'object','object'];
+ let dispalyPropertyDTList = [ 'text', 'text', 'decimal','decimal' ,'decimal', 'object','object'];
 
     //called filldataintotable function for fill data
   fillDataIntoTable(tableCOrder,customerOrders,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
@@ -25,7 +25,7 @@ function refreshCustomerOrderTable() {
         tableCOrder.children[1].children[index].children[8].children[0].style.display = "none";
 
         if(customerOrders[index].order_status_id.name == "Finished"){
-            tableCOrder.children[1].children[index].style.backgroundColor = "#668d84";
+            tableCOrder.children[1].children[index].style.backgroundColor = "#6c8c86";
             tableCOrder.children[1].children[index].style.color = "#0f100f";
             tableCOrder.children[1].children[index].children[8].children[1].disabled = true;
             tableCOrder.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
@@ -96,7 +96,7 @@ function getProductCost() {
 
 function getLineTotal() {
     if (txtOrderedQuantity.value != 0) {
-        let regpattern = new RegExp("^[0-9]{1,4}$");
+        let regpattern = new RegExp("^[0-9]{1,10}$");
         if (regpattern.test(txtOrderedQuantity.value)) {
             //toFixed -round the string to a specifioed decimls
             //parseFloat - parses a string and returns the first number:
@@ -221,9 +221,44 @@ const rowDelete = (ob, rowno) => {
 
 }
 const rowView = (ob,rowno) => {
-    $("#modalCustomerOrderForm").modal("show");
+    $("#modalViewCOrderForm").modal("show");
 //as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
-//     printPrivilage = ob;
+
+
+
+    printCOrder =getServiceRequest("/customerOrder/getbyid/"+ob.id )
+
+
+
+    tdCOCode.innerHTML = printCOrder.order_code;
+    tdCName.innerHTML = printCOrder.customer_id.customer_name;
+    tdReqDate.innerHTML = printCOrder.required_date;
+
+
+   let dispalyPropertyList = [ 'product_id.p_name', 'product_cost', 'order_qty','completedqty','production_status_id.name','line_total'];
+    //Property type list
+    let dispalyPropertyDTList = ['object', 'text', 'text','text' ,'object','text'];
+
+    fillDataIntoTable(tableInnerCustomerOrderHasProducts,printCOrder.customerOrderHasProductList,dispalyPropertyList,dispalyPropertyDTList, formRefillM, rowDeleteM, rowViewM,false,lggeduserprivilage);
+    tdTotalofLines.innerHTML = printCOrder.total_of_lines
+    tdTotalAmount.innerHTML = printCOrder.total_amount ;
+    tdAdvanceAmout.innerHTML = printCOrder.advanced_amount ;
+    tdBalanceAmount.innerHTML = printCOrder.final_balanced_amount ;
+
+
+}
+
+function formRefillM() {
+    
+}
+function rowDeleteM() {
+
+}
+function rowViewM() {
+
+}
+
+
 //
 //     tdrole.innerText = printPrivilage.role_id.name ;
 //     tdModule.innerText = printPrivilage.module_id.name ;
@@ -231,6 +266,15 @@ const rowView = (ob,rowno) => {
 //     tdIns.innerText = getInsertPri(printPrivilage);
 //     tdUpd.innerText = getUpdatePri(printPrivilage);
 //     tdDel.innerText = getDeletePri(printPrivilage);
+
+
+function printRowItemMC() {
+    let newWindow = window.open();
+    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Customer Order Details</h2>" + "<div>"+ tableCOrderView.outerHTML +tableCOrderPView.outerHTML+"</div>");
+    setTimeout(function () {
+        newWindow.print();
+        newWindow.close();
+    },1000);
 }
 //Calculating Total amount
 function checkValidPrice(){
@@ -481,3 +525,13 @@ function buttonModalCloseMC() {
     }
 }
 
+
+function buttonModalCloseMCV() {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+
+        $("#modalViewCOrderForm").modal("hide");
+    }
+}

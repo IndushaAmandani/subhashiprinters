@@ -27,8 +27,9 @@ public class WebConfiguration {
                 antMatchers("/employee/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/user/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/privilage/**").hasAnyAuthority("ADMIN","MANAGER").
-                antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER").
-                antMatchers("/material/**","/dailyProduct/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
+                antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
+                antMatchers("/material/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
+                antMatchers("/dailyProduct/**","/CustomerOrder/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","CASHIER").
                 anyRequest().authenticated().and()
                 .csrf().disable(). //prevent cross-reference access

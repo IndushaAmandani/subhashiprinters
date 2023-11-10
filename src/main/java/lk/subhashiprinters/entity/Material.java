@@ -30,7 +30,7 @@ public class Material {
     private Integer id;
 
 @Column(name ="name ")
-private String  name; 
+private String name;
 @Column(name ="code")
 private String code;
 @Column(name ="added_date")
@@ -66,7 +66,7 @@ private MaterialStatus material_status_id ;
 
 @ManyToOne
 @JoinColumn(name ="materal_unit_type_id",referencedColumnName = "id")
-private MaterialUnitType materal_unit_type_id ;
+private MaterialUnitType material_unit_type_id ;
 
 
     public  Material(Integer id,String name,String code,BigDecimal measuring_count) {
@@ -76,13 +76,13 @@ private MaterialUnitType materal_unit_type_id ;
         this.measuring_count = measuring_count;
     }
 
-public  Material(Integer id, String name, String code, BigDecimal measuring_count, MaterialCategory material_category_id, MaterialUnitType materal_unit_type_id, MaterialStatus material_status_id){
+public  Material(Integer id, String name, String code, BigDecimal measuring_count, MaterialCategory material_category_id, MaterialUnitType material_unit_type_id, MaterialStatus material_status_id){
     this.id = id;
     this.name = name;
     this.code = code;
     this.measuring_count = measuring_count;
     this.material_category_id = material_category_id;
-    this.materal_unit_type_id = materal_unit_type_id;
+    this.material_unit_type_id = material_unit_type_id;
     this.material_status_id = material_status_id;
 
 }

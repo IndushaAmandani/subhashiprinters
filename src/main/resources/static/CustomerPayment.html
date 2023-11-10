@@ -70,13 +70,13 @@
 
                 </ul>
                 <ul class="nav navbar-nav  float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fas fa-bell"> </i></a>
-                    </li>
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <i class="fa-solid fa-gear"> </i></a>
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fas fa-bell"> </i></a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item d-none d-md-block">-->
+<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+<!--                            <i class="fa-solid fa-gear"> </i></a>-->
                     </li>
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
@@ -189,14 +189,20 @@
 
 
                                     <div class="row mt-2">
-                                        <div class="col-4">
-                                            <label class="font-weight-bold form-control">Start Date : </label>
-                                            <input type="date" id="dteStartDate">
+                                        <div class="col-4 ">
+                                            <label class="font-weight-bold form-control">Start Date : <input type="date"
+                                                                                                             id="dteStartDate"
+                                                                                                             class="form-control">
+                                            </label>
+
 
                                         </div>
                                         <div class="col-4">
-                                            <label class="font-weight-bold form-control">End Date : </label>
-                                            <input type="date" id="dteEndDate">
+                                            <label class="font-weight-bold form-control">End Date : <input type="date"
+                                                                                                           id="dteEndDate"
+                                                                                                           class="form-control">
+                                            </label>
+
                                         </div>
                                         <div class="col-4">
                                             <label class="font-weight-bold">Report Type : </label>
@@ -205,22 +211,40 @@
                                                 <option value="Daily">Daily</option>
                                                 <option value="Weekly">Weekly</option>
                                                 <option value="Monthly">Monthly</option>
-                                                <option value="Annually">Annualy</option>
+                                                <option value="Annualy">Annualy</option>
                                             </select>
                                         </div>
-
                                     </div>
+                                    <div class="row mt-2">
+                                        <div class="col-4" ></div>
+                                        <div class="row col-4">
+
+                                            <button class="btn-sm btn-gradient-primary table-responsive"
+                                                    onclick="generateReport()">
+                                                Generate Report
+                                            </button>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <button class="btn-sm btn-gradient-primary-add table-responsive"
+                                                    onclick="buttonPrint()">Print Table
+                                            </button>
+
+                                        </div>
+                                    </div>
+
                                     <div class="row mt-2">
 
                                         <div class="col-12">
 
-                                            <table class="table table-hover table-bordered" id="tableMaterial">
+                                            <table class="table table-hover table-bordered"
+                                                   id="tableCustomerPaymentReport">
                                                 <thead class="table-dark" style="background-color: #152650">
                                                 <tr>
                                                     <th> #</th>
-                                                    <th> Code</th>
-                                                    <th> Name</th>
-                                                    <th> Measuring Count</th>
+                                                    <th> Day</th>
+                                                    <th> Count</th>
+                                                    <th> Total Amount</th>
 
                                                 </thead>
                                                 <tbody></tbody>
@@ -230,29 +254,19 @@
 
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <button class="btn-sm btn-gradient-primary table-responsive" onclick="generateReport()">
-                                                Generate Report
-                                            </button>
-                                        </div>
-                                        <div class="col-6">
-                                                <button class="btn-sm btn-gradient-primary-add table-responsive"
-                                                        onclick="buttonPrint()">Print Table
-                                                </button>
 
-                                        </div>
-                                    </div>
                                 </div>
+
                             </div>
-                        </div>
+                            </div>
                     </section>
 
-
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 

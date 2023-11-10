@@ -80,6 +80,9 @@ public class CustomerOrderController {
     @GetMapping(value = "/list",produces = "application/json")
     public  List<CustomerOrder> list(){return CustomerOrderDao.list();}
 
+    @GetMapping(value = "/getbyid/{id}", produces = "application/json")
+    public CustomerOrder getReferenceById(@PathVariable("id") Integer id) {return CustomerOrderDao.getReferenceById(id);}
+
 //Customer Payment to be paid customer Order Numbers
     @GetMapping(value = "/getActivePayCOrders/{cid}",produces = "application/json")
     public List<CustomerOrder> getpaymentPendingCustomers(@PathVariable("cid") Integer cid){return CustomerOrderDao.getNotPaidCustomers(cid);}

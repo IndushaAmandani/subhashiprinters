@@ -1,10 +1,7 @@
 package lk.subhashiprinters.controller;
 
 
-import lk.subhashiprinters.entity.Material;
-import lk.subhashiprinters.entity.PurchaseOrder;
-import lk.subhashiprinters.entity.PurchaseOrderHasMaterial;
-import lk.subhashiprinters.entity.User;
+import lk.subhashiprinters.entity.*;
 import lk.subhashiprinters.repository.POrderStatusRepository;
 import lk.subhashiprinters.repository.PurchaseOrderHasMaterialRepository;
 import lk.subhashiprinters.repository.PurchaseOrderRepository;
@@ -56,26 +53,20 @@ public class PurchaseOrderController {
         return purchaseOrderDao.getReferenceById(id);
     }
 
-    @GetMapping(value = "/findall", produces = "application/json")
-    public List<PurchaseOrder> findAll() {
-        //need to check logged user privilage
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            return null;
-        }
 
-        // get logged user authentication object
-        User loggedUser = userDao.findUserByUsername(authentication.getName());
-        // check privilage for add operation
-        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "PurchaseOrder");
-
-        if (loggedUser != null && userPiriv.get("sel"))
-            return purchaseOrderDao.findAll();
-        else {
-            List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
-            return purchaseOrderList;
-        }
+    @GetMapping(value = "/getPObySupplierid/{id}" , produces = "application/json")
+    public List<PurchaseOrder> getByPObySupplierId(@PathVariable("id")Integer id){
+        return purchaseOrderDao.getPorderbySupplier(id);
     }
+
+    @GetMapping(value ="/findall",produces = "application/json")
+    //create function
+    public List<PurchaseOrder> porderfindAll(){
+        return purchaseOrderDao.findAll();
+    }
+
+
+//
 
     @PostMapping
     @Transactional
@@ -180,5 +171,29 @@ public class PurchaseOrderController {
         }
 
 
+
+
+
     }
+
+  //  @GetMapping(value = "/findall", produces = "application/json")
+//    public List<PurchaseOrder> findAll() {
+//        //need to check logged user privilage
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication instanceof AnonymousAuthenticationToken) {
+//            return null;
+//        }
+//
+//        // get logged user authentication object
+//        User loggedUser = userDao.findUserByUsername(authentication.getName());
+//        // check privilage for add operation
+//        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "PurchaseOrder");
+//
+//        if (loggedUser != null && userPiriv.get("sel"))
+//            return purchaseOrderDao.findAll();
+//        else {
+//            List<PurchaseOrder> purchaseOrderList = new ArrayList<>();
+//            return purchaseOrderList;
+//        }
+//    }
 }
