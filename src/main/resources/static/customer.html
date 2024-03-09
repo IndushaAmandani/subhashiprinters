@@ -1,491 +1,792 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
+    />
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-
-    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
     <link
-            href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
-            rel="stylesheet">
+      rel="apple-touch-icon"
+      href="app-assets/images/ico/apple-icon-120.png"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="app-assets/images/ico/favicon.ico"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
+      rel="stylesheet"
+    />
     <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css" />
 
-    <link rel="stylesheet" type="text/css" href="resources/fontawesome/css/all.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="resources/fontawesome/css/all.css"
+    />
     <!-- END VENDOR CSS-->
 
-    <link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
-    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/cryptocoins/cryptocoins.css">
-    <link rel="stylesheet" type="text/css" href="app-assets/css/pages/transactions.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="app-assets/css/core/menu/menu-types/vertical-compact-menu.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="app-assets/vendors/css/cryptocoins/cryptocoins.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="app-assets/css/pages/transactions.css"
+    />
 
     <!-- BEGIN MODERN CSS-->
-    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css" />
     <!-- END MODERN CSS-->
 
-    <link rel="stylesheet" type="text/css" href="app-assets/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="app-assets/assets/css/style.css"
+    />
 
-    <link rel="stylesheet" type="text/css" href="resources/datatable/css/datatables.min.css">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="resources/datatable/css/datatables.min.css"
+    />
     <!-- Link Comman js -->
     <script src="resources/script/common.js"></script>
     <script src="resources/script/dashboard.js"></script>
     <script src="customer.js"></script>
     <!-- END Custom CSS-->
-</head>
+  </head>
 
-<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
-      data-menu="vertical-compact-menu" data-col="2-columns">
-<!-- fixed-top-->
-<nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color">
-    <div class="navbar-wrapper">
+  <body
+    class="vertical-layout vertical-compact-menu 2-columns menu-expanded fixed-navbar"
+    data-open="click"
+    data-menu="vertical-compact-menu"
+    data-col="2-columns"
+  >
+    <!-- fixed-top-->
+    <nav
+      class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color"
+    >
+      <div class="navbar-wrapper">
         <div class="navbar-header d-md-none">
-            <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mobile-menu d-md-none mr-auto">
-                    <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
-                            class="ft-menu font-large-1"></i></a></li>
-                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
-                        class="brand-logo d-none d-md-block" alt="CryptoDash admin logo"
-                        src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
-                                                                            alt=" admin logo sm"
-                                                                            src="../../../app-assets/images/logo/logo-sm.png"></a>
-                </li>
-                <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
-                                                  data-target="#navbar-mobile"><i class="la la-ellipsis-v"> </i></a>
-                </li>
-            </ul>
+          <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mobile-menu d-md-none mr-auto">
+              <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"
+                ><i class="ft-menu font-large-1"></i
+              ></a>
+            </li>
+            <li class="nav-item d-md-none">
+              <a class="navbar-brand" href="index.html"
+                ><img
+                  class="brand-logo d-none d-md-block"
+                  alt="CryptoDash admin logo"
+                  src="../../../app-assets/images/logo/logo.png" /><img
+                  class="brand-logo d-sm-block d-md-none"
+                  alt=" admin logo sm"
+                  src="../../../app-assets/images/logo/logo-sm.png"
+              /></a>
+            </li>
+            <li class="nav-item d-md-none">
+              <a
+                class="nav-link open-navbar-container"
+                data-toggle="collapse"
+                data-target="#navbar-mobile"
+                ><i class="la la-ellipsis-v"> </i
+              ></a>
+            </li>
+          </ul>
         </div>
         <div class="navbar-container">
-            <div class="collapse navbar-collapse" id="navbar-mobile">
-                <ul class="nav navbar-nav mr-auto float-left">
-                    <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
-                                                              href="#"><i class="ft-menu"> </i></a></li>
-
-                </ul>
-                <ul class="nav navbar-nav mr-auto float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <h2> Subhashi Printers</h2>
-                        </a></li>
-
-                </ul>
-                <ul class="nav navbar-nav  float-right">
-<!--                    <li class="nav-item d-none d-md-block">-->
-<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
-<!--                            <i class="fas fa-bell"> </i></a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item d-none d-md-block">-->
-<!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
-<!--                            <i class="fa-solid fa-gear"> </i></a>-->
-<!--                    </li>-->
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
-                            <i class="fas fa-power-off"> </i></a>
-                    </li>
-
-
-                </ul>
-
-
-            </div>
+          <div class="collapse navbar-collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav mr-auto float-left">
+              <li class="nav-item d-none d-md-block">
+                <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"
+                  ><i class="ft-menu"> </i
+                ></a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav mr-auto float-right">
+              <li class="nav-item d-none d-md-block">
+                <a
+                  class="nav-link nav-menu-main menu-toggle hidden-xs"
+                  href="#"
+                >
+                  <h2>Subhashi Printers</h2>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav float-right">
+              <!--                    <li class="nav-item d-none d-md-block">-->
+              <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+              <!--                            <i class="fas fa-bell"> </i></a>-->
+              <!--                    </li>-->
+              <!--                    <li class="nav-item d-none d-md-block">-->
+              <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
+              <!--                            <i class="fa-solid fa-gear"> </i></a>-->
+              <!--                    </li>-->
+              <li class="nav-item d-none d-md-block">
+                <a
+                  class="nav-link nav-menu-main menu-toggle hidden-xs"
+                  href="#"
+                  onclick="logoutMC()"
+                >
+                  <i class="fas fa-power-off"> </i
+                ></a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+    </nav>
 
+    <!--SideBar-->
+    <!--//                <thead class="table-dark" style="background-color: #152650">-->
+    <div
+      class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow"
+    >
+      <div class="main-menu-content">
+        <a
+          class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
+          href="index.html"
+        >
+          <img
+            class="rounded-circle brand-logo"
+            src="resources/images/user_photo/user.png"
+            id="imgUserPhoto"
+          />
+          <p class="m-1 text-white" id="hUsername"></p>
+          <p class="m-1 text-white" id="spnRole"></p>
+        </a>
+        <ul
+          class="navigation navigation-main"
+          id="main-menu-navigation"
+          data-menu="menu-navigation"
+        >
+          <li class="nav-item">
+            <a href="/dashboard"
+              ><i class="fa-solid fa-chart-line"></i
+              ><span class="menu-title" data-i18n="">Dashboard</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="#"
+              ><i class="fa-solid fa-user-gear"></i
+              ><span class="menu-title" data-i18n="">Administration</span></a
+            >
+            <ul class="menu-content">
+              <li><a class="menu-item" href="employee.html">Employee</a></li>
+              <li><a class="menu-item" href="user.html">User</a></li>
+              <li><a class="menu-item" href="privilage.html">Privilage </a></li>
+            </ul>
+          </li>
+          <li class="nav-item active">
+            <a href="#"
+              ><i class="fa-solid fa-folder-plus"></i
+              ><span class="menu-title" data-i18n="">Print Order</span></a
+            >
+            <ul class="menu-content">
+              <li class="active">
+                <a class="menu-item active" href="customer.html">Customer</a>
+              </li>
+              <li>
+                <a class="menu-item" href="corder.html">Customer Order </a>
+              </li>
+              <li>
+                <a class="menu-item" href="cpayment.html">Customer Payment </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <i class="fa-solid fa-print"></i
+              ><span class="menu-title" data-i18n="">Production</span></a
+            >
+            <ul class="menu-content">
+              <li><a class="menu-item" href="product.html">Product</a></li>
+              <li>
+                <a class="menu-item" href="productionOrderConfirm.html"
+                  >Production Confirmation
+                </a>
+              </li>
+              <li>
+                <a class="menu-item" href="dailyProduct.html">Daily Product</a>
+              </li>
+              <li><a class="menu-item" href="material.html">Material</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#"
+              ><i class="fa-solid fa-cart-shopping"></i
+              ><span class="menu-title" data-i18n="">Purchase</span></a
+            >
+            <ul class="menu-content">
+              <li><a class="menu-item" href="supplier.html">Supplier</a></li>
+              <li>
+                <a class="menu-item" href="quotationrequest.html"
+                  >Quotation Request</a
+                >
+              </li>
+              <li><a class="menu-item" href="quotation.html">Quotation </a></li>
+              <li>
+                <a class="menu-item" href="porder.html">Purchase Order </a>
+              </li>
+              <li><a class="menu-item" href="mrn.html">MRN </a></li>
+              <li>
+                <a class="menu-item" href="supplierpayment.html"
+                  >Supplier Payment
+                </a>
+              </li>
+            </ul>
+          </li>
 
-
-<!--SideBar-->
-<!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
-    <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
-                                      href="index.html">
-        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
-        <p class="m-1 text-white" id="hUsername"></p>
-        <p class="m-1  text-white" id="spnRole"></p>
-    </a>
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item "><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
-                    class="menu-title" data-i18n="">Dashboard</span></a>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
-                                                                                         data-i18n="">Administration</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="employee.html">Employee</a></li>
-                    <li><a class="menu-item" href="user.html">User</a></li>
-                    <li><a class="menu-item" href="privilage.html">Privilage </a></li>
-                </ul>
-            </li>
-            <li class=" nav-item active"><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
-                                                                                           data-i18n="">Print Order</span></a>
-                <ul class="menu-content ">
-                    <li class="active"><a class="menu-item active" href="customer.html">Customer</a></li>
-                    <li><a class="menu-item" href="corder.html">Customer Order </a></li>
-                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a></li>
-                </ul>
-            </li>
-            <li class=" nav-item"><a href="#">
-                <i class="fa-solid fa-print"></i><span class="menu-title"
-                                                       data-i18n="">Production</span></a>
-                <ul class="menu-content">
-
-                    <li><a class="menu-item" href="product.html">Product</a></li>
-                    <li><a class="menu-item" href="productionOrderConfirm.html">Production Confirmation </a></li>
-                    <li><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
-                    <li><a class="menu-item" href="material.html">Material</a></li>
-
-                </ul>
-            </li>
-            <li class=" nav-item ">
-                <a href="#"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
-                                                                           data-i18n="">Purchase</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="supplier.html">Supplier</a></li>
-                    <li><a class="menu-item" href="quotationrequest.html">Quotation Request</a></li>
-                    <li><a class="menu-item" href="quotation.html">Quotation </a></li>
-                    <li><a class="menu-item" href="porder.html">Purchase Order </a></li>
-                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
-                    <li><a class="menu-item" href="supplierpayment.html">Supplier Payment </a></li>
-                </ul>
-            </li>
-
-            <li class=" nav-item"><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
-                                                                                          data-i18n="">Report</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="materialListStatus.html">Report 1</a> </li>
-                    <li><a class="menu-item" href="CustomerPayment.html">Report 2</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
-                </ul>
-            </li>
+          <li class="nav-item">
+            <a href="#"
+              ><i class="fa-solid fa-list-check"></i
+              ><span class="menu-title" data-i18n="">Report</span></a
+            >
+            <ul class="menu-content">
+              <li>
+                <a class="menu-item" href="materialListStatus.html">Report 1</a>
+              </li>
+              <li>
+                <a class="menu-item" href="CustomerPayment.html">Report 2</a>
+              </li>
+              <li>
+                <a class="menu-item" href="account-login-history.html"
+                  >Report 3</a
+                >
+              </li>
+            </ul>
+          </li>
         </ul>
+      </div>
     </div>
-</div>
 
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-<!-- ////////////////////////////////////////////////////////////////////////////-->
-
-
-<div class="app-content content">
-    <div class="content-wrapper">
+    <div class="app-content content">
+      <div class="content-wrapper">
         <div class="content-header row">
-            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-                <h3 class="content-header-title mb-0 d-inline-block">Customer Management</h3>
-                <div class="row breadcrumbs-top d-inline-block">
-                    <div class="breadcrumb-wrapper col-12">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="breadcrumb-item active">Customer
-                            </li>
-                        </ol>
-                    </div>
-                </div>
+          <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+            <h3 class="content-header-title mb-0 d-inline-block">
+              Customer Management
+            </h3>
+            <div class="row breadcrumbs-top d-inline-block">
+              <div class="breadcrumb-wrapper col-12">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="index.html">Dashboard</a>
+                  </li>
+                  <li class="breadcrumb-item active">Customer</li>
+                </ol>
+              </div>
             </div>
-            <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal"
-                                                         data-target="#modalCustomerForm">Add
-                    new customer</a></div>
+          </div>
+          <div
+            class="content-header-right col-md-4 col-12 d-none d-md-inline-block"
+          >
+            <div class="btn-group float-md-right">
+              <a
+                class="btn-gradient-primary-add btn-sm white"
+                data-toggle="modal"
+                data-target="#modalCustomerForm"
+                >Add new customer</a
+              >
             </div>
+          </div>
         </div>
         <div class="content-body">
-            <div id="transactions">
-                <div class="transactions-table-tbody">
-                    <section class="card pull-up">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <div class="row">
-                                        <div class="col-12">
-
-                                            <table class="table table-hover table-bordered" id="tableCustomer">
-                                                <thead class="table-dark" style="background-color: #152650">
-                                                <tr>
-                                                    <th> #</th>
-                                                    <th> Customer code</th>
-                                                    <th> Name</th>
-                                                    <th> Mobile</th>
-                                                    <th> Customer Email</th>
-                                                    <th> Comapny or Not</th>
-                                                    <th> Status</th>
-                                                    <th> Modify</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
+          <div id="transactions">
+            <div class="transactions-table-tbody">
+              <section class="card pull-up">
+                <div class="card-content">
+                  <div class="card-body">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-12">
+                          <table
+                            class="table table-hover table-bordered"
+                            id="tableCustomer"
+                          >
+                            <thead
+                              class="table-dark"
+                              style="background-color: #152650"
+                            >
+                              <tr>
+                                <th>#</th>
+                                <th>Customer code</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Customer Email</th>
+                                <th>Comapny or Not</th>
+                                <th>Status</th>
+                                <th>Modify</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                          </table>
                         </div>
-                    </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
+    <footer class="footer footer-static footer-transparent">
+      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
+        <span class="float-md-left d-block d-md-inline-block"
+          >Copyright &copy;
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          All rights reserved. </span
+        ><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block"
+          >Hand-crafted & Made with <i class="ft-heart pink"></i
+        ></span>
+      </p>
+    </footer>
+
+    <div
+      class="modal"
+      tabindex="-1"
+      id="modalCustomerForm"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="h2">
+              <i class="fas fa-user fx"></i> Customer Management Form
+            </h2>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+
+              
+              aria-label="Close"
+              onclick="buttonModalCloseMC()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!--  Cutomer form -->
+            <form onsubmit="return false">
+              <!--- Required (Star mark)  -->
+              <div class="row text-end">
+                <span class="font-weight-bold p-1" style="font-size: 18px"
+                  ><span style="color: red">*</span> Required
+                </span>
+              </div>
+
+              <!--                    &lt;!&ndash;-Customer No  &ndash;&gt;-->
+              <!--                    <div class="row mt-2">-->
+              <!--                        <label for="txtCustomerCode" class="font-weight-bold col-4 col-form-label"> Customer Code:-->
+              <!--                            <span style="color: red;">*</span>-->
+              <!--                        </label>-->
+              <!--                        <div class="col-8">-->
+              <!--                            <input type="text" readonly id="txtCustomerCode" class="form-control" disabled-->
+              <!--                                   value="Cusotmer Code is auto generated">-->
+              <!--                        </div>-->
+
+              <!--                    </div>-->
+
+              <!--- Customer Name/Mobile  -->
+              <div class="row mt-2">
+                <!-- Company or Not -->
+                <div class="col-6">
+                  <label
+                    for="cmbCustomerCategory"
+                    class="form-label font-weight-bold"
+                  >
+                    Company or Not :
+                    <span style="color: red">*</span>
+                  </label>
+                  <!-- selectValidator = (feildid,pattern,object,property,oldobject) -->
+                  <select
+                    id="cmbCustomerCategory"
+                    class="form-control"
+                    required
+                    onchange="selectValidator(cmbCustomerCategory,'','customer','customer_category_id','oldcustomer'); showCompanyForm()"
+                  ></select>
+                </div>
+
+                <!-- Customer Name -->
+                <div class="col-6 position-relative">
+                  <label for="txtName" class="form-label font-weight-bold"
+                    >Customer Name : <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="txtName"
+                    class="form-control"
+                    onkeyup="textFeildValidtor(txtName,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{2,16})|([A-Z][a-z]{2,16}))$','customer','customer_name','oldcustomer')"
+                    placeholder="Enter Cutomer name"
+                    required
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                  />
+                </div>
+              </div>
+
+              <!-- Company Name /Company contact number/company email  -->
+              <div id="divCompanyDetails" style="display:none">
+                <!-- Contact Person Name/ Mobile/email-->
+                <div class="row mt-2">
+                  <!-- Contact Person Name -->
+                  <div class="col-4 position-relative">
+                    <label  class="form-label font-weight-bold" >Contact Person Name : <span style="color: red">*</span></label>
+                    <input
+                            type="text"
+                            id="txtContactPName"
+                            class="form-control"
+                            onkeyup="textFeildValidtor(txtContactPName,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{2,16})|([A-Z][a-z]{2,16}))$','customer','customer_name','oldcustomer')"
+                            placeholder="Enter Contact Person Name"
+                            required
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                    />
+                  </div>
+                  <!-- Customer Mobile -->
+                  <div class="col-4 position-relative">
+                    <label  class="form-label font-weight-bold">
+                      Contact Person Mobile Number : <span style="color: red">*</span>
+                    </label>
+                    <input
+                            type="text"
+                            id="txtContactPMobile"
+                            class="form-control"
+                            required
+                            placeholder="Enter Contact Person Mobile No"
+                            onkeyup="textFeildValidtor(txtContactPMobile,'^[0][7][01245678][0-9]{7}$','customer','contactpmobile','oldcustomer')"
+                    />
+                  </div>
+                  <!-- Company Email -->
+                  <div class="col-4">
+                    <label
+                            for="txtContactPEmail"
+                            class="form-label font-weight-bold"
+                    >
+                      Contact Person Email : <span style="color: red">*</span>
+                    </label>
+                    <input
+                            type="email"
+                            id="txtContactPEmail"
+                            class="form-control"
+                            required
+                            placeholder="Enter Contact Person Email"
+                            onkeyup="textFeildValidtor(txtContactPEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','contactp_email','oldcustomer')"
+                    />
+                  </div>
 
                 </div>
-            </div>
+
+                <!--- Compnay Name/Company Contact Number/Company Email -->
+<!--                <div class="row mt-2">-->
+<!--                  &lt;!&ndash; Company Contact Name &ndash;&gt;-->
+<!--                  <div class="col">-->
+<!--                    <label-->
+<!--                      for="txtCompanyName"-->
+<!--                      class="form-label font-weight-bold"-->
+<!--                    >-->
+<!--                      Company Name : <span style="color: red">*</span>-->
+<!--                    </label>-->
+<!--                    <input-->
+<!--                      type="text"-->
+<!--                      id="txtCompanyName"-->
+<!--                      class="form-control"-->
+<!--                      required-->
+<!--                      placeholder="Enter Comapny Name"-->
+<!--                      onkeyup="textFeildValidtor(txtCompanyName,'^(([A-Za-z0-9]{3,20})|([A-Za-z0-9]{3,20}[ ])+([A-Za-z0-9]{3,20}){1})$','customer','company_name','oldcustomer');validatingNamings()"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                  &lt;!&ndash; Company Contact Number &ndash;&gt;-->
+<!--                  <div class="col">-->
+<!--                    <label-->
+<!--                      for="txtCompanyNumber"-->
+<!--                      class="form-label font-weight-bold"-->
+<!--                    >-->
+<!--                      Company Contact Number : <span style="color: red">*</span>-->
+<!--                    </label>-->
+<!--                    <input-->
+<!--                      type="text"-->
+<!--                      id="txtCompanyNumber"-->
+<!--                      class="form-control"-->
+<!--                      required-->
+<!--                      placeholder="Enter Comapny No."-->
+<!--                      onkeyup="textFeildValidtor(txtCompanyNumber,'^[0][1-9][0-9]{8}$','customer','company_contactnumber','oldcustomer');validateMobileNumber()"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                <div class="row mt-2">-->
+<!--                  &lt;!&ndash; Company Email &ndash;&gt;-->
+<!--                  <div class="col">-->
+<!--                    <label-->
+<!--                      for="txtCompanyEmail"-->
+<!--                      class="form-label font-weight-bold"-->
+<!--                    >-->
+<!--                      Company Email : <span style="color: red">*</span>-->
+<!--                    </label>-->
+<!--                    <input-->
+<!--                      type="email"-->
+<!--                      id="txtCompanyEmail"-->
+<!--                      class="form-control"-->
+<!--                      required-->
+<!--                      placeholder="Enter Company Email"-->
+<!--                      onkeyup="textFeildValidtor(txtCompanyEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','company_email','oldcustomer');validateEmails();"-->
+<!--                    />-->
+<!--                  </div>-->
+<!--                </div>-->
+              </div>
+              <!-- Customer Email/ Mobile-->
+              <div id="divContactdetails" >
+                <div  class="row mt-2" >
+                  <!-- Customer Mobile -->
+                  <div class="col-6 position-relative">
+                    <label for="txtMobile" class="form-label font-weight-bold">
+                      Customer contact Number : <span style="color: red">*</span>
+                    </label>
+                    <input
+                            type="text"
+                            id="txtMobile"
+                            class="form-control"
+                            required
+                            placeholder="Enter Mobile No"
+                            onkeyup="textFeildValidtor(txtMobile,'^[0][7][01245678][0-9]{7}$','customer','mobile','oldcustomer')"
+                    />
+                  </div>
+
+                  <!-- Customer Email -->
+                  <div class="col-6">
+                    <label for="txtCustomerEmail" class="form-label font-weight-bold">
+                      Customer Email : <span style="color: red">*</span>
+                    </label>
+                    <input
+                            type="email"
+                            id="txtCustomerEmail"
+                            class="form-control"
+                            required
+                            onkeyup="textFeildValidtor(txtCustomerEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','customer_email','oldcustomer')"
+                            placeholder="Enter Email "
+                    />
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!--- Employee Description -->
+              <div class="row mt-2">
+                <div class="col">
+                  <label for="txtDescription" class="form-label font-weight-bold">
+                    Cusotmer Description :
+                  </label>
+                  <textarea
+                    id="txtDescription"
+                    class="form-control"
+                    onkeyup="textFeildValidtor(txtDescription,'^.*$','customer','description','oldcustomer')"
+                    placeholder="Enter Description"
+                  ></textarea>
+                </div>
+                <!--Customer Type-->
+                <!--                        <div class="col">-->
+                <!--                            <label for="txtCustomerType" class="form-label font-weight-bold">-->
+                <!--                                Cusotmer Type :-->
+                <!--                            </label>-->
+                <!--                            <input type="text" readonly id="txtCustomerType" class="form-control" disabled>getCustomerType()-->
+                <!--                        </div>-->
+              </div>
+              <!--- Customer Assigndate /  Status -->
+              <div class="row mt-2">
+                <!-- Customer Assigndate -->
+                <div class="col">
+                  <label
+                    for="dteAssigndate"
+                    class="form-label font-weight-bold"
+                  >
+                    Assgin Date: <span style="color: red">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    readonly
+                    id="dteAssigndate"
+                    class="form-control"
+                    disabled
+                  />
+                </div>
+                <!-- Customer Status -->
+                <div class="col">
+                  <label
+                    for="cmbCustomerStatus"
+                    class="form-label font-weight-bold"
+                  >
+                    Customer Status : <span style="color: red">*</span></label
+                  >
+                  <select
+                    id="cmbCustomerStatus"
+                    class="form-control"
+                    required
+                    onchange="selectValidator(cmbCustomerStatus,'','customer','customerstatus_id','oldcustomer')"
+                  ></select>
+                </div>
+              </div>
+
+              <!--- Buttons -->
+              <div class="row mt-3">
+                <div class="col text-end">
+                  <button
+                    type="reset"
+                    style="width: 23%; border-radius: 50px"
+                    class="btn bg-info fw-bold"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    type="submit"
+                    style="width: 23%; border-radius: 50px"
+                    id="buttonUpdate"
+                    class="btn bg-warning fw-bold"
+                    onclick="buttonUpdateMC()"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="submit"
+                    style="width: 23%; border-radius: 50px"
+                    id="buttonAdd"
+                    class="btn bg-success fw-bold"
+                    onclick="buttonSubmitMC()"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!-- ////////////////////////////////////////////////////////////////////////////-->
-
-
-<footer class="footer footer-static footer-transparent">
-    <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span
-            class="float-md-left d-block d-md-inline-block">Copyright &copy;
-        <script>
-          document.write(new Date().getFullYear())
-        </script> All rights reserved.
-      </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i
-            class="ft-heart pink"></i></span></p>
-</footer>
-
-
-<div class="modal" tabindex="-1" id="modalCustomerForm" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
+    <!--View Modal-->
+    <div
+      class="modal"
+      tabindex="-1"
+      id="modalViewCustomerForm"
+      data-backdrop="static"
+      data-keyboard="false"
+    >
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> Customer Management Form</h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+          <div class="modal-header">
+            <h2 class="h2"><i class="fas fa-user fx"></i> View Privileage</h2>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              onclick="buttonModalCloseMCV()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table
+              class="table table-striped table-bordered"
+              id="tablePrintCustomer"
+            >
+              <tr>
+                <th>Code</th>
+                <td id="tdCode"></td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td id="tdName"></td>
+              </tr>
+              <tr>
+                <th>Mobile</th>
+                <td id="tdMobile"></td>
+              </tr>
+              <tr>
+                <th>Company or Not</th>
+                <td id="tdCompanyorNot"></td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td id="tdEmail"></td>
+              </tr>
+              <tr>
+                <th>Company Name</th>
+                <td id="tdCompany"></td>
+              </tr>
+              <tr>
+                <th>Company Contact Number</th>
+                <td id="tdCompanyCNumber"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-group float-md-right">
+              <a
+                class="btn-gradient-primary-add btn-sm white"
+                onclick="printRowItemMC()"
+              >
+                Print
+              </a>
             </div>
-            <div class="modal-body">
-
-                <!--  Cutomer form -->
-                <form onsubmit="return false">
-
-                    <!--- Required (Star mark)  -->
-                    <div class="row text-end">
-              <span class="font-weight-bold p-1" style="font-size: 18px;"><span style="color: red;">*</span> Required
-              </span>
-                    </div>
-
-<!--                    &lt;!&ndash;-Customer No  &ndash;&gt;-->
-<!--                    <div class="row mt-2">-->
-<!--                        <label for="txtCustomerCode" class="font-weight-bold col-4 col-form-label"> Customer Code:-->
-<!--                            <span style="color: red;">*</span>-->
-<!--                        </label>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" readonly id="txtCustomerCode" class="form-control" disabled-->
-<!--                                   value="Cusotmer Code is auto generated">-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-
-
-                    <!--- Customer Name/Mobile  -->
-                    <div class="row mt-2">
-                        <!-- Customer Name -->
-                        <div class="col-6 position-relative">
-                            <label for="txtName" class="form-label font-weight-bold">Customer Name : <span
-                                    style="color: red;">*</span></label>
-                            <input type="text" id="txtName" class="form-control"
-                                   onkeyup="textFeildValidtor(txtName,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','customer','customer_name','oldcustomer')"
-                                   placeholder="Enter Cutomer name" required data-bs-toggle="tooltip"
-                                   data-bs-placement="bottom">
-                        </div>
-                        <!-- Customer Mobile -->
-                        <div class="col-6 position-relative">
-                            <label for="txtMobile" class="form-label font-weight-bold">
-                                Mobile No : <span style="color: red;">*</span>
-                            </label>
-                            <input type="text" id="txtMobile" class="form-control" required
-                                   placeholder="Enter Mobile No"
-                                   onkeyup="textFeildValidtor(txtMobile,'^[0][7][01245678][0-9]{7}$','customer','mobile','oldcustomer')">
-
-                        </div>
-
-                    </div>
-
-                    <!-- Customer Email/company or not -->
-                    <div class="row mt-2">
-                        <!-- Customer Email -->
-                        <div class="col-6">
-                            <label for="txtCustomerEmail" class="form-label font-weight-bold">
-                                Customer Email : <span style="color: red;">*</span>
-                            </label>
-                            <input type="email" id="txtCustomerEmail" class="form-control" required
-                                   onkeyup="textFeildValidtor(txtCustomerEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','customer_email','oldcustomer')"
-                                   placeholder="Enter Email ">
-                        </div>
-
-                        <!-- Company or Not -->
-                        <div class="col-6 ">
-                            <label for="cmbCustomerCategory" class="form-label font-weight-bold"> Company or Not :
-                                <span style="color: red;">*</span>
-                            </label>
-                            <!-- selectValidator = (feildid,pattern,object,property,oldobject) -->
-                            <select id="cmbCustomerCategory" class="form-control" required
-                                    onchange="selectValidator(cmbCustomerCategory,'','customer','customer_category_id','oldcustomer'); showCompanyForm()"></select>
-                        </div>
-                    </div>
-
-                    <!-- Company Name /Company contact number/company email  -->
-                    <div id="divCompanyDetails">
-                        <!--- Compnay Name/Company Contact Number/Company Email -->
-                        <div class="row mt-2">
-                            <!-- Company Contact Name -->
-                            <div class="col">
-                                <label for="txtCompanyName" class="form-label font-weight-bold ">
-                                    Company Name : <span style="color: red;">*</span>
-                                </label>
-                                <input type="text" id="txtCompanyName" class="form-control" required
-                                       placeholder="Enter Comapny Name"
-                                       onkeyup="textFeildValidtor(txtCompanyName,'^(([A-Za-z0-9]{3,20})|([A-Za-z0-9]{3,20}[ ])+([A-Za-z0-9]{3,20}){1})$','customer','company_name','oldcustomer');validatingNamings()">
-
-                            </div>
-                            <!-- Company Contact Number -->
-                            <div class="col">
-                                <label for="txtCompanyNumber" class="form-label font-weight-bold ">
-                                    Company Contact Number : <span style="color: red;">*</span>
-                                </label>
-                                <input type="text" id="txtCompanyNumber" class="form-control" required
-                                       placeholder="Enter Comapny No."
-                                       onkeyup="textFeildValidtor(txtCompanyNumber,'^[0][1-9][0-9]{8}$','customer','company_contactnumber','oldcustomer');validateMobileNumber()">
-                            </div>
-                            <!-- Company Email -->
-                            <div class="col">
-                                <label for="txtCompanyEmail" class="form-label  font-weight-bold">
-                                    Company Email : <span style="color: red;">*</span>
-                                </label>
-                                <input type="email" id="txtCompanyEmail" class="form-control" required
-                                       placeholder="Enter Company Email"
-                                       onkeyup="textFeildValidtor(txtCompanyEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','company_email','oldcustomer');validateEmails();">
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!--- Employee Description -->
-                    <div class="row mt-2">
-                        <div class="col">
-                            <label for="txtDescription" class="form-label font-weight-bold">
-                                Cusotmer Description :
-                            </label>
-                            <textarea id="txtDescription" class="form-control"
-                                      onkeyup="textFeildValidtor(txtDescription,'^.*$','customer','description','oldcustomer')"
-                                      placeholder="Enter Description"></textarea>
-                        </div>
-                        <!--Customer Type-->
-<!--                        <div class="col">-->
-<!--                            <label for="txtCustomerType" class="form-label font-weight-bold">-->
-<!--                                Cusotmer Type :-->
-<!--                            </label>-->
-<!--                            <input type="text" readonly id="txtCustomerType" class="form-control" disabled>getCustomerType()-->
-<!--                        </div>-->
-                    </div>
-                    <!--- Customer Assigndate /  Status -->
-                    <div class="row mt-2">
-                        <!-- Customer Assigndate -->
-                        <div class="col">
-                            <label for="dteAssigndate" class="form-label font-weight-bold">
-                                Assgin Date: <span style="color: red;">*</span>
-                            </label>
-                            <input type="date" readonly id="dteAssigndate" class="form-control" disabled>
-                        </div>
-                        <!-- Customer Status -->
-                        <div class="col">
-                            <label for="cmbCustomerStatus" class="form-label font-weight-bold"> Customer Status : <span
-                                    style="color: red;">*</span></label>
-                            <select id="cmbCustomerStatus" class="form-control" required
-                                    onchange="selectValidator(cmbCustomerStatus,'','customer','customerstatus_id','oldcustomer')">
-
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <!--- Buttons -->
-                    <div class="row mt-3">
-                        <div class="col text-end">
-                            <button type="reset" style="width: 23%; border-radius: 50px;" class="btn bg-info fw-bold">
-                                Clear
-                            </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
-                                    class="btn bg-warning fw-bold" onclick="buttonUpdateMC()"> Update
-                            </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                                    class="btn bg-success fw-bold" onclick="buttonSubmitMC()"> Add
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<!--View Modal-->
-<div class="modal" tabindex="-1" id="modalViewCustomerForm" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> View Privileage </h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        onclick="buttonModalCloseMCV()"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-striped table-bordered" id="tablePrintCustomer">
-                    <tr>
-                        <th>Code</th>
-                        <td id="tdCode"></td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td id="tdName"></td>
-                    </tr>
-                    <tr>
-                        <th>Mobile</th>
-                        <td id="tdMobile"></td>
-                    </tr>
-                    <tr>
-                        <th>Company or Not</th>
-                        <td id="tdCompanyorNot"></td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td id="tdEmail"></td>
-                    </tr>
-                    <tr>
-                        <th>Company Name</th>
-                        <td id="tdCompany"> </td>
-                    </tr>
-                    <tr>
-                        <th>Company Contact Number</th>
-                        <td id="tdCompanyCNumber"> </td>
-                    </tr>
-                </table>
 
-            </div>
-            <div class="modal-footer">
+    <!-- BEGIN VENDOR JS-->
+    <script
+      src="app-assets/vendors/js/vendors.min.js"
+      type="text/javascript"
+    ></script>
+    <!-- BEGIN VENDOR JS-->
+    <!-- BEGIN PAGE VENDOR JS-->
+    <!-- END PAGE VENDOR JS-->
+    <!-- BEGIN MODERN JS-->
+    <script
+      src="app-assets/js/core/app-menu.js"
+      type="text/javascript"
+    ></script>
+    <script src="app-assets/js/core/app.js" type="text/javascript"></script>
 
-                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" onclick="printRowItemMC()"> Print </a></div>
-            </div>
-        </div>
-    </div>
-</div>
+    <script
+      src="resources/datatable/js/datatables.min.js"
+      type="text/javascript"
+    ></script>
 
-<!-- BEGIN VENDOR JS-->
-<script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
-<!-- BEGIN VENDOR JS-->
-<!-- BEGIN PAGE VENDOR JS-->
-<!-- END PAGE VENDOR JS-->
-<!-- BEGIN MODERN JS-->
-<script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
-<script src="app-assets/js/core/app.js" type="text/javascript"></script>
+    <script
+      src="resources/bootstrap/js/bootstrap.bundle.min.js"
+      type="text/javascript"
+    ></script>
 
-
-<script src="resources/datatable/js/datatables.min.js" type="text/javascript"></script>
-
-<script src="resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-
-<script src="resources/script/common.js" type="text/javascript"></script>
-<script src="customer.js" type="text/javascript"></script>
-<!-- END MODERN JS-->
-<!-- BEGIN PAGE LEVEL JS-->
-<!-- END PAGE LEVEL JS-->
-</body>
-
+    <script src="resources/script/common.js" type="text/javascript"></script>
+    <script src="customer.js" type="text/javascript"></script>
+    <!-- END MODERN JS-->
+    <!-- BEGIN PAGE LEVEL JS-->
+    <!-- END PAGE LEVEL JS-->
+  </body>
 </html>

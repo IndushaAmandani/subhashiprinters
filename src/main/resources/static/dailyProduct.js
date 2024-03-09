@@ -87,7 +87,7 @@ function getProductList() {
 }
 
 function getCOPQty() {
-    customerOrderProduct = getServiceRequest("/customerOrderHasproduct/orderedQtyBycoidPid/" + JSON.parse(cmbCustomerOrder.value).id +"/"+ JSON.parse(cmbProduct.value).id )
+    customerOrderProduct = getServiceRequest("/customerOrderHasproduct/orderedQtyBycoidPid/" + JSON.parse(cmbCustomerOrder.value).id +"/"+ JSON.parse(cmbProduct.value).id );
     txtTotalQuantity.value = customerOrderProduct.order_qty;
      dailyP.totalqty = txtTotalQuantity.value;
     txtTotalQuantity.style.borderBottom = "2px solid green";
@@ -220,11 +220,11 @@ function checkErrors(){
 let errors = "";
     if (dailyP.customer_order_id == null) {
         errors = errors + "Customer Order is not selected \n";
-    }
+    }   
     if (dailyP.product_id == null) {
         errors = errors + "Customer Order is not selected \n";
     }
-    if (product.dailyqty == null) {
+    if (dailyP.dailyqty == null) {
         errors = errors + "Daily quantities  is not entered\n";
     }
     return errors;

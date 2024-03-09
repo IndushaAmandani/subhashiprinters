@@ -258,22 +258,9 @@
                             </span>
                     </div>
 
-<!--                    &lt;!&ndash;- Supplier  No  &ndash;&gt;-->
-<!--                    <div class="row mt-2">-->
-<!--                        <div class="col-2"></div>-->
-<!--                        <label for="txtSNo" class="font-weight-bold col-2 col-form-label">Supplier No :-->
-<!--                            <span style="color: red;">*</span>-->
-<!--                        </label>-->
-<!--                        <div class="col-6">-->
-<!--                            <input type="text" readonly id="txtSNo" class="form-control form-control-sm" disabled-->
-<!--                                   value="Supplier No is auto generated">-->
-<!--                        </div>-->
-<!--                        <div class="col-2"></div>-->
-<!--                    </div>-->
-
-                    <!--- Supplier Name / Supplier Address / Note  -->
+                    <!--- Supplier Name / Company Reg  no   -->
                     <div class="row mt-1">
-
+                        <!--- Supplier Name -->
                         <div class="col-4">
                             <label for="txtSupplierName" class="form-label font-weight-bold">Supplier Name : <span
                                     style="color: red;">*</span></label>
@@ -282,27 +269,44 @@
                                        placeholder="Enter Supplier Name">
                             <div class="form-text"> Ex: Abc Aency</div>
                         </div>
-                        <div class="col-4">
-                            <label for="txtSupplierAddress" class="form-label font-weight-bold">Supplier Address : <span
-                                    style="color: red;">*</span></label>
-                            <textarea id="txtSupplierAddress" class="form-control form-control-sm" required
-                                   onkeyup="textFeildValidtor(txtSupplierAddress,'^.*$','newSupplier','address','oldSupplier')"
-                                      placeholder="Enter Supplier Address"></textarea>
-                            <div class="form-text"> Ex: no 2, Borella Rd, Maradana.</div>
-                        </div>
-                        <div class="col-4">
-                            <label for="txtSupplierNote" class="form-label font-weight-bold"> Note : <span
-                                    style="color: red;"></span></label>
-                            <textarea id="txtSupplierNote" class="form-control form-control-sm"
-                                      onkeyup="textFeildValidtor(txtSupplierNote,'^.*$','newSupplier','description','oldSupplier')"
-                                      placeholder="Enter Supplier Note"></textarea>
-                            <div class="form-text"> Ex: new supplier</div>
-                        </div>
-                    </div>
+                        
+                            <!-- Company Reg  no-->
+                            <div class="col-4">
+                                <label for="txtCompanyRegno" class="form-label font-weight-bold">
+                                    Company Reg  no : <span style="color: red;"></span>
+                                </label>
+                                <input type="text" id="txtCompanyRegno" class="form-control form-control-sm" placeholder="EnterCompany Reg  no"
+                                       onkeyup="textFeildValidtor(txtCompanyRegno,'^[A-Za-z0-9]{5,8}$','newSupplier','company_registration_number','oldSupplier')">
+                                <div class="form-text"> Ex: 158525a</div>
+                            </div>
 
-                    <!--- Contact No / Email / Status  -->
+                       
+                        <div class="row mt-1">
+                        <!-- Contact Person Name /C.P Email-->
+                        <div class="col-4">
+                            <label for="txtContactPersonName" class="form-label font-weight-bold">
+                                Contact Person Name : <span style="color: red;"></span>
+                            </label>
+                            <input type="text" id="txtContactPersonName" class="form-control form-control-sm"
+                                   placeholder="EnterContact Person Name"
+                                   onkeyup="textFeildValidtor(txtContactPersonName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','contact_person_name','oldSupplier')" >
+                            <div class="form-text"> Ex: Sampath</div>
+                        </div>
+                        <!--Contact Person Mobile -->
+                        <div class="col-4">
+                            <label for="txtContactPersonMobile" class="form-label font-weight-bold">
+                                Contact Person Mobile : <span style="color: red;"></span>
+                            </label>
+                            <input type="text" id="txtContactPersonMobile" class="form-control form-control-sm"
+                                   onkeyup="textFeildValidtor(txtContactPersonMobile,'^[0][7][01245678][0-9]{7}$','newSupplier','contact_person_number','oldSupplier')"
+                                   placeholder="Enter Contact Person Mobile">
+                            <div class="form-text"> Ex: 0776352445</div>
+                        </div>
+                    </div>  
+                    
+                    <!--- Contact No /Email/  Supplier Address   -->
                     <div class="row mt-1">
-
+                        <!--Contact No-->
                         <div class="col-4" >
                             <label for="txtContactNo" class="form-label font-weight-bold">Contact No : <span
                                     style="color: red;">*</span></label>
@@ -312,6 +316,7 @@
                             <div class="form-text"> Ex: 0112325652</div>
                         </div>
 
+                        <!--Email-->
                         <div class="col-4">
                             <label for="txtEmailAddress" class="form-label font-weight-bold">
                                 Email Address : <span style="color: red;">*</span>
@@ -321,6 +326,30 @@
                             <div class="form-text"> Ex: example@gmail.com</div>
                         </div>
 
+                        <!-- Supplier Address-->
+                        <div class="col-4">
+                            <label for="txtSupplierAddress" class="form-label font-weight-bold">Supplier Address : <span
+                                    style="color: red;">*</span></label>
+                            <textarea id="txtSupplierAddress" class="form-control form-control-sm" required
+                                      onkeyup="textFeildValidtor(txtSupplierAddress,'^.*$','newSupplier','address','oldSupplier')"
+                                      placeholder="Enter Supplier Address"></textarea>
+                            <div class="form-text"> Ex: no 2, Borella Rd, Maradana.</div>
+                        </div>
+                    </div>
+
+                <!--  Note /Status-->
+                    <div class="row mt-1">
+                      
+                        <!-- Note-->
+                        <div class="col-4">
+                            <label for="txtSupplierNote" class="form-label font-weight-bold"> Note : <span
+                                    style="color: red;"></span></label>
+                            <textarea id="txtSupplierNote" class="form-control form-control-sm"
+                                      onkeyup="textFeildValidtor(txtSupplierNote,'^.*$','newSupplier','description','oldSupplier')"
+                                      placeholder="Enter Supplier Note"></textarea>
+                            <div class="form-text"> Ex: new supplier</div>
+                        </div>
+                        <!--Status-->
                         <div class="col-4">
                             <label for="cmbSupplierStatus" class="form-label font-weight-bold">Supplier Status : <span
                                     style="color: red;">*</span></label>
@@ -331,44 +360,11 @@
                         </div>
                     </div>
 
-                    <!--- Company Reg  no /  Contact Person Name / Contact Person Mobile -->
-                    <div class="row mt-1 ">
-                        <div class="col-4">
-                            <label for="txtCompanyRegno" class="form-label font-weight-bold">
-                                Company Reg  no : <span style="color: red;"></span>
-                            </label>
-                            <input type="text" id="txtCompanyRegno" class="form-control form-control-sm" placeholder="EnterCompany Reg  no"
-                                   onkeyup="textFeildValidtor(txtCompanyRegno,'^[A-Za-z0-9]{5,8}$','newSupplier','company_registration_number','oldSupplier')">
-                            <div class="form-text"> Ex: 158525a</div>
-                        </div>
-
-                        <div class="col-4">
-                            <label for="txtContactPersonName" class="form-label font-weight-bold">
-                                Contact Person Name : <span style="color: red;"></span>
-                            </label>
-                            <input type="text" id="txtContactPersonName" class="form-control form-control-sm"
-                                   placeholder="EnterContact Person Name"
-                                   onkeyup="textFeildValidtor(txtContactPersonName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','contact_person_name','oldSupplier')" >
-                            <div class="form-text"> Ex: Sampath</div>
-                        </div>
-
-                        <div class="col-4">
-                            <label for="txtContactPersonMobile" class="form-label font-weight-bold">
-                                Contact Person Mobile : <span style="color: red;"></span>
-                            </label>
-                            <input type="text" id="txtContactPersonMobile" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtContactPersonMobile,'^[0][7][01245678][0-9]{7}$','newSupplier','contact_person_number','oldSupplier')"
-                                   placeholder="Enter Contact Person Mobile">
-                            <div class="form-text"> Ex: 0776352445</div>
-                        </div>
-                    </div>
-
-                    <div class="card mt-1">
+                    <div class ="card mt-1">
                         <div class="card-header"><h2>Supplier Bank Details</h2> </div>
                         <div class="card-body">
                             <!--- Bank Name / Bank  Branch Name -->
                             <div class="row mt-1">
-
                                 <div class="col">
                                     <label for="txtBankName" class="form-label font-weight-bold">Bank Name : <span
                                             style="color: red;"></span></label>

@@ -43,9 +43,15 @@ const refreshTable = ()=>{
 
 // create function for get sales price
 function getSupplyMaterialName(ob){
-    let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id)
+    let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id);
+    // console.log(supplyIMaterialList);
+    let materialsName = "";
 
-    return supplyIMaterialList.name;
+for(index in supplyIMaterialList ){
+    materialsName = materialsName + supplyIMaterialList[index]['name'] + ","
+ //String - poster paper,dimai,
+}
+    return materialsName;
 }
 
 
@@ -62,7 +68,6 @@ const refreshSupplierForm = ()=> {
 
     // clear input feilds
 
-    txtSNo.value = "Purchase Order No is auto generated";
 
     txtSupplierName.value = "";
     txtSupplierAddress.value = "";
@@ -115,7 +120,7 @@ let disabledButton = (addbtn, updbtn) => {
 }
 
 function setStyle(style) {
-    txtSNo.style.borderBottom = style;
+
     txtSupplierName.style.borderBottom = style;
     txtSupplierAddress.style.borderBottom = style;
     txtSupplierNote.style.borderBottom = style;
@@ -253,23 +258,21 @@ function buttonSupplierSave() {
 //form refill function
 function reFillItemForm(rowob,rowind) {
 
-
+// console.log("Hi");
     newSupplier = getServiceRequest("/supplier/getbyid/"+rowob.id);
     oldSupplier = getServiceRequest("/supplier/getbyid/"+rowob.id);
-
 
     fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
     allMateialList = getServiceRequest("/item/listbysupplier/"+rowob.id);
     fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
 
-
     fillSelectFeild(cmbSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name",newSupplier.supplier_status_id.name);
 
-    cmbSupplierStatus.style.borderBottom = "2px solid green";
-    cmbSupplierStatus.disabled = false;
+     cmbSupplierStatus.style.borderBottom = "2px solid green";
+     cmbSupplierStatus.disabled = false;
 
-    // clear input feilds
+    //  clear input feilds
     txtSupplierName.value = newSupplier.name;
     txtSupplierName.style.borderBottom = "1px solid green";
     txtEmailAddress.value = newSupplier.email;
@@ -278,7 +281,7 @@ function reFillItemForm(rowob,rowind) {
     txtContactNo.style.borderBottom = "1px solid green";
 
 
-    $("#supplierAddModal").modal("show");
+    $("#modalSupplierForm").modal("show");
 }
 
 

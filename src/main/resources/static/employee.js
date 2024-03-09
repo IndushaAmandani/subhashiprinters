@@ -16,8 +16,6 @@ function loadUI() {
 
     dteDOB.addEventListener("change",checkDoB())
 
-
-
 }
 
 //define refresh table function
@@ -103,8 +101,8 @@ const refreshEmployeeForm = () => {
     })
     fillSelectFeild(cmbEmployeeStatus, "Select Status", employeeStatuses, 'name', 'Working');
 
- //Defaultly value is gained when the data is parsed here it is working
-    employee.employeestatus_id = JSON.parse(cmbEmployeeStatus.value);
+ //Defaultly value is gained when the data is parsed here it is worki/ng
+    // employee.employeestatus_id = JSON.parse(cmbEmployeeStatus.value);
 
     // need to empty form element
 
@@ -138,8 +136,8 @@ const refreshEmployeeForm = () => {
     dteAssigndate.value = getCurrentDate();
 
 
-
-    disabledButton(true , false);
+console.log(lggeduserprivilage);
+   // disabledButton(true,false);
 
     setStyle("2px solid #cacfe7");
 }
@@ -225,6 +223,7 @@ function buttonSubmitMC() {
                 contentType:"application/json",
                 success: function (susResdata , susStatus , ajresob) {
                     postServieResponce = susResdata;
+                    console.log(postServieResponce);
                 },
                 error: function (errRsOb , errStatus, errorMsg) {
                     postServieResponce = errorMsg;
@@ -237,6 +236,7 @@ function buttonSubmitMC() {
                 refreshTable();
                 refreshEmployeeForm();
                 $('#modalEmployeeForm').modal('hide');
+                window.location.replace("/user");
             }else {
                 window.alert("You have following error \n" + postServieResponce);
             }
@@ -509,4 +509,15 @@ function checkDoB(){
         dteDOB.style.borderBottom = "2px solid red"
     }
 }
+//buttonModalCloseMC( "#modalEmployeeForm",refreshEmployeeForm());
+
+    function buttonModalCloseMC() {
+      let userConfirm = window.confirm("Are you sure to close the Modal...?");
+      if (userConfirm) {
+        refreshEmployeeForm();
+         $("#modalEmployeeForm").modal("hide");
+         
+      }
+  }
+
 

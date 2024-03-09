@@ -1,9 +1,9 @@
 package lk.subhashiprinters.service;
 
 
-import lk.subhashiprinters.entity.Role;
-import lk.subhashiprinters.entity.User;
-import lk.subhashiprinters.repository.UserRepository;
+import lk.subhashiprinters.userm.Role;
+import lk.subhashiprinters.userm.User;
+import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

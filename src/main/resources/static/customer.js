@@ -18,12 +18,14 @@ const refreshCustomerTable = () => {
     customers = getServiceRequest("/customer/findall");
 
     //create display property list
-    let dispalyPropertyList = [ 'customer_code', 'customer_name', 'mobile', 'customer_email', 'customer_category_id.name','customerstatus_id.name'];
+    let dispalyPropertyList = [ 'customer_code', 'customer_name', 'mobile', 'customer_email','customer_category_id.name','customerstatus_id.name'];
     //Property type list
     let dispalyPropertyDTList = [ 'text', 'text', 'text', 'text', 'object', 'object'];
 
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCustomer,customers,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+// contactp_name
+//contactp_mobile
 
 
     for (let index in customers ){
@@ -41,8 +43,6 @@ const refreshCustomerTable = () => {
     $('#tableCustomer').dataTable();
 
 }
-
-
 
 
 //create from refresh funcion for refresh from element
@@ -76,9 +76,12 @@ const refreshCustomerForm = () => {
     txtCustomerEmail.value = "";
     // cmbCustomerStatus.value = "";
     cmbCustomerCategory.value = "";
-    txtCompanyName.value = "";
-    txtCompanyNumber.value = "";
-    txtCompanyEmail.value = "";
+    // txtCompanyName.value = "";
+    // txtCompanyNumber.value = "";
+    // txtCompanyEmail.value = "";
+    txtContactPName.value = "";
+    txtContactPMobile.value= "";
+    txtContactPEmail.value= "";
     //cmbCustomerType.value = "";
     // lblRadioYes.style.color = "black";
     // lblRadioNo.style.color = "black";
@@ -124,6 +127,8 @@ function setUiElementColor(style) {
     txtMobile.style.borderBottom = style;
     cmbCstomerStatus.style.borderBottom = style;
     cmbCompanyName.style.borderBottom = style;
+    txtContactPName.style.borderBottom = style;
+    txtContactPMobile.style.borderBottom = style;
 }
 
 const  checkErrors = () => {
@@ -166,7 +171,8 @@ const  checkErrors = () => {
         }
     }
 
-    
+    // txtContactPName.style.borderBottom = style;
+    // txtContactPMobile.style.borderBottom = style;
     if(customer.customer_type_id = null){
         errors = errors + "Customer type is not entered.. \n";
     }
@@ -202,6 +208,7 @@ function buttonSubmitMC() {
             if (postServieResponce == "0") {
 
                 alert("Add Successfull..!");
+                window.location.replace("/product.html");
                 refreshCustomerTable();
                 refreshCustomerForm();
                 $("#modalCustomerForm").modal("hide");
@@ -215,7 +222,7 @@ function buttonSubmitMC() {
     }
 }
 
-    const formRefill = (ob, rowno) => {
+ const formRefill = (ob, rowno) => {
 
         customer = JSON.parse(JSON.stringify((ob)));
         oldcustomer = JSON.parse(JSON.stringify((ob)))
@@ -229,13 +236,16 @@ function buttonSubmitMC() {
         txtName.value = customer.customer_name;
         txtMobile.value = customer.mobile;
         txtCustomerEmail.value = customer.customer_email;
-
+        customerCategories = getServiceRequest("/customerCategory/list");
         fillSelectFeild(cmbCustomerCategory, "Select Category", customerCategories, 'name', customer.customer_category_id.name);
        if(customer.customer_category_id.name == "company") {
 
-            txtCompanyName.value = customer.company_name;
-            txtCompanyNumber.value = customer.company_contactnumber;
-            txtCompanyEmail.value = customer.company_email;
+            // txtCompanyName.value = customer.company_name;
+            // txtCompanyNumber.value = customer.company_contactnumber;
+            // txtCompanyEmail.value = customer.company_email;
+            txtContactPName.value = customer.contactp_name;
+            txtContactPMobile.value = customer.contactp_mobile;
+            txtContactPEmail.value = customer.contactp_email;
 
        }
 
@@ -264,11 +274,14 @@ function buttonSubmitMC() {
         txtName.style.border = style;
         txtMobile.style.border = style;
         txtCustomerEmail.style.border = style;
-        txtCompanyName.style.border = style;
-        txtCompanyNumber.style.border = style;
-        txtCompanyEmail.style.border = style;
+        txtContactPName.style.border = style;
+        txtContactPMobile.style.border = style;
+        txtContactPEmail.style.border = style;
+        // txtCompanyName.style.border = style;
+      //  txtCompanyNumber.style.border = style;
+      //  txtCompanyEmail.style.border = style;
         txtDescription.style.border = style;
-        cmbCustomerCategory.style.borderBottom = style;
+        cmbCustomerCategory.style.border = style;
         cmbCustomerStatus.style.borderBottom = style;
 
     }
@@ -318,6 +331,7 @@ function buttonSubmitMC() {
 
     function buttonUpdateMC() {
         //
+        let updateResponceMsg = "Are you sure to update following customer..? \n";
         let errors = checkErrors();
         if (errors == "") {
             //
@@ -327,7 +341,7 @@ function buttonSubmitMC() {
                 window.alert("Nothing updated...! \n ");
             } else {
 
-                let updateResponce = window.confirm("Are you sure to update following customer..? \n" + updates);
+                let updateResponce = window.confirm( updateResponceMsg + updates);
 
                 if (updateResponce) {
                     let putResponce;
@@ -412,12 +426,15 @@ function showCompanyForm() {
 
    /* if (cmbCustomerCategory.value.toString() == "company") */
     if (JSON.parse(cmbCustomerCategory.value).name == "company") {
+        divContactdetails.style.display = "none"
         divCompanyDetails.style.display = "block";
     } else {
+        divContactdetails.style.display = "block"
         divCompanyDetails.style.display = "none";
     }
 }
 
+//divContactdetails
 
 function buttonModalCloseMC() {
 

@@ -204,6 +204,8 @@
                                                     <th> Code</th>
                                                     <th> Name</th>
                                                     <th> Measuring Count</th>
+                                                    <th> Width</th>
+                                                    <th> Height</th>
                                                     <th> Category</th>
                                                     <th> Unit Type</th>
                                                     <th> Status</th>
@@ -260,17 +262,6 @@
                             </span>
                     </div>
 
-                    <!-- Material Code  -->
-                    <div class="row mt-2">
-                        <label for="txtMCNo" class="font-weight-bold col-4 col-form-label">Material Code :
-                            <span style="color: red;">*</span>
-                        </label>
-                        <div class="col-8">
-                            <input type="text" readonly id="txtMCNo" class="form-control form-control-sm" disabled
-                                   value="Material Code is auto generated">
-                        </div>
-                    </div>
-
                     <!---  Material name -->
                     <div class="row mt-1">
                         <label for="txtMaterialName" class="form-label font-weight-bold col-4">
@@ -282,30 +273,63 @@
                                    onkeyup="textFeildValidtor(txtMaterialName,'^([A-Za-z0-9]{1,20}[\\s])+([A-Za-z0-9.]{1,20})$','material','name','oldmaterial')">
                         </div>
                     </div>
-                    <!-- Category -->
-                    <div class="row mt-1">
-                        <label for="cmbCategory" class="form-label font-weight-bold col-4">Category : <span
-                                style="color: red;">*</span></label>
-                        <div class="col-8">
-                            <select id="cmbCategory" class="form-control form-control-sm" required
-                                    onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory()">
-                            </select>
-                        </div>
-                    </div>
-                    <!-- Unit Type -->
-                    <div class="row mt-1">
-                        <label for="txtMeasuringCount" class="form-label font-weight-bold col-4">Unit Type : <span
-                                style="color: red;">*</span></label>
+
+                <!--  Measuring Count/Category/Unit Type-->
+
+                    <div class="row mt-2">
+                        <!-- Measuring Count -->
                         <div class="col-4">
+                            <label for="txtMeasuringCount" class="form-label font-weight-bold ">Measuring Count : <span
+                                    style="color: red;">*</span></label>
                             <input type="text"  id="txtMeasuringCount" class="form-control form-control-sm" placeholder="Enter Measuring Count"
                                    onkeyup="textFeildValidtor(txtMeasuringCount,'^[0-9]{1,2}[.]{0,1}[0-9]{0,3}$','material','measuring_count','oldmaterial')"       >
                         </div>
-                        <div class="col-4">
+                        <!-- Category -->
+                        <div class="col-4 position-relative">
+                            <label for="cmbCategory" class="form-label font-weight-bold ">Category : <span
+                                    style="color: red;">*</span></label>
+
+                                <select id="cmbCategory" class="form-control form-control-sm" required
+                                        onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory(),showPaperSize()">
+                                </select>
+                        </div>
+                        <!-- Unit Type  -->
+                        <div class="col-4 position-relative">
+                            <label  class="form-label font-weight-bold ">Unit Type : <span
+                                    style="color: red;">*</span></label>
                             <select id="cmbUnitType" class="form-control form-control-sm" required
                                     onchange="selectValidator(cmbUnitType,'','material','material_unit_type_id','oldmaterial')">
                             </select>
                         </div>
+
                     </div>
+                    <!--  ####### Sizes #######-->
+
+                    <div id="divPaperSize" style="display: none" >
+                        <div class="row mt-2">
+                            <!-- Height-->
+                            <div class="col-6">
+                                <label for="txtPaperHeight" class="form-label font-weight-bold">
+                                    Paper Height : <span style="color: red;">*</span>
+                                </label>
+                                <input type="text" id="txtPaperHeight" placeholder="Ex: 2 " required
+                                       onkeyup="textFeildValidtor(txtPaperHeight,'^(([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})|([1-9]{1}[.]{0,1}[0-9]{0,2}))$','material','height','oldmaterial')"
+                                       class="form-control">
+                                <div class="form-text"> Ex:morethan 10cm</div>
+                            </div>
+                            <!-- Width-->
+                            <div class="col-6">
+                                <label for="txtPaperWidth" class="form-label font-weight-bold">
+                                    Paper Width: <span style="color: red;">*</span>
+                                </label>
+                                <input type="text" id="txtPaperWidth" placeholder="Ex: 2 " required
+                                       onkeyup="textFeildValidtor(txtPaperWidth,'^([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})$','material','width','oldmaterial')"
+                                       class="form-control">
+                                <div class="form-text"> Ex:  morethan 10cm</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!--- Material Description -->
                     <div class="row mt-1">
                         <label for="txtDescription" class="form-label font-weight-bold col-4">

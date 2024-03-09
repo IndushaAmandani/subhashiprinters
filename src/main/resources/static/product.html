@@ -298,10 +298,10 @@
                                    placeholder="Enter Product name">
                         </div>
                     </div>
-                    <!--  Product Size / Product Category -->
+                    <!--  Product Category -->
                     <div class="row mt-2">
                         <!-- Product Category -->
-                        <div class="col-6">
+                        <div class="col">
                             <label for="cmbproductCategory" class="form-label font-weight-bold">Product Category : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbproductCategory" class="form-control" required
@@ -310,16 +310,7 @@
 
                         </div>
 
-                        <!-- Product Size -->
-
-                        <div class="col-6">
-
-                            <label for="cmbproductSize" class="form-label font-weight-bold">Product Size : <span
-                                    style="color: red;">*</span></label>
-                            <select id="cmbproductSize" class="form-control" required
-                                    onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomizedproductSize()">
-                            </select>
-                        </div>
+                       
                     </div>
 
 
@@ -406,32 +397,7 @@
 
                     </div>
 
-                    <!--  ####### Customized Sizes #######-->
-
-                    <div id="divproductSize" style="display: none">
-                        <div class="row mt-2">
-                            <!-- Height-->
-                            <div class="col-6">
-                                <label for="txtHeight" class="form-label font-weight-bold">
-                                    Customized Height : <span style="color: red;">*</span>
-                                </label>
-                                <input type="text" id="txtHeight" placeholder="Ex: 2 " required
-                                       onkeyup="textFeildValidtor(txtHeight,'^(([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})|([1-9]{1}[.]{0,1}[0-9]{0,2}))$','product','height','oldproduct')"
-                                       class="form-control">
-                                <div class="form-text"> Ex: 2/2.5 inches</div>
-                            </div>
-                            <!-- Width-->
-                            <div class="col-6">
-                                <label for="txtWidth" class="form-label font-weight-bold">
-                                    Customized Width: <span style="color: red;">*</span>
-                                </label>
-                                <input type="text" id="txtWidth" placeholder="Ex: 2 " required
-                                       onkeyup="textFeildValidtor(txtWidth,'^([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})$','product','width','oldproduct')"
-                                       class="form-control">
-                                <div class="form-text"> Ex: 2/2.5  inches</div>
-                            </div>
-                        </div>
-                    </div>
+                  
                     <!-- ######### Single or Double Side /  Image######## -->
 
                     <!-- Single or Double Side-->
@@ -471,6 +437,43 @@
                         <!--                        </div>-->
                     </div>
 
+
+                     <!-- Product Size -->
+
+                     <div class="col">
+
+                        <label for="cmbproductSize" class="form-label font-weight-bold">Product Size : <span
+                                style="color: red;">*</span></label>
+                        <select id="cmbproductSize" class="form-control" required
+                                onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomizedproductSize()">
+                        </select>
+                    </div>
+                      <!--  ####### Customized Sizes #######-->
+
+                      <div id="divproductSize" style="display: none">
+                        <div class="row mt-2">
+                            <!-- Height-->
+                            <div class="col-6">
+                                <label for="txtHeight" class="form-label font-weight-bold">
+                                    Customized Height : <span style="color: red;">*</span>
+                                </label>
+                                <input type="text" id="txtHeight" placeholder="Ex: 2 " required
+                                       onkeyup="textFeildValidtor(txtHeight,'^(([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})|([1-9]{1}[.]{0,1}[0-9]{0,2}))$','product','height','oldproduct')"
+                                       class="form-control">
+                                <div class="form-text"> Ex: 2/2.5 inches</div>
+                            </div>
+                            <!-- Width-->
+                            <div class="col-6">
+                                <label for="txtWidth" class="form-label font-weight-bold">
+                                    Customized Width: <span style="color: red;">*</span>
+                                </label>
+                                <input type="text" id="txtWidth" placeholder="Ex: 2 " required
+                                       onkeyup="textFeildValidtor(txtWidth,'^([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})$','product','width','oldproduct')"
+                                       class="form-control">
+                                <div class="form-text"> Ex: 2/2.5  inches</div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Paper Types /Print Colors /Paper Colors-->
                     <div class="row mt-2">
                         <!-- Paper Types-->

@@ -1,9 +1,9 @@
 package lk.subhashiprinters;
 
-import lk.subhashiprinters.entity.Role;
-import lk.subhashiprinters.entity.User;
-import lk.subhashiprinters.repository.RoleRepository;
-import lk.subhashiprinters.repository.UserRepository;
+import lk.subhashiprinters.userm.Role;
+import lk.subhashiprinters.userm.User;
+import lk.subhashiprinters.userm.RoleRepository;
+import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

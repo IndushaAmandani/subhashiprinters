@@ -20,11 +20,11 @@ const refreshTable = () => {
     materials = new Array();
 
     materials = getServiceRequest("/material/findall");
-
+//m.id, m.name, m.code,m.measuring_count,m.width,m.height,m.material_category_id, m.material_unit_type_id, m.material_status_id
     //create display proporty list
-    let displayPropertyList = ['code', 'name', 'measuring_count', 'material_category_id.name', 'material_unit_type_id.name', 'material_status_id.name'];
+    let displayPropertyList = ['code','name', 'measuring_count','width','height', 'material_category_id.name', 'material_unit_type_id.name', 'material_status_id.name'];
     // creat display property data type list
-    let displayDatatypeList = ['text', 'text', 'text', 'object', 'object', 'object'];
+    let displayDatatypeList = ['text', 'text', 'text','text','text', 'object', 'object', 'object'];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableMaterial, materials, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
@@ -32,9 +32,9 @@ const refreshTable = () => {
         if (materials[index].material_status_id.name == "Removed") {
             tableMaterial.children[1].children[index].style.backgroundColor = "#ad9393";
 
-            tableMaterial.children[1].children[index].children[7].children[1].disabled = true;
-            tableMaterial.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
-            tableMaterial.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+            tableMaterial.children[1].children[index].children[9].children[1].disabled = true;
+            tableMaterial.children[1].children[index].children[9].children[1].style.pointerEvents = "all";
+            tableMaterial.children[1].children[index].children[9].children[1].style.cursor = "not-allowed";
 
         }
     }
@@ -180,9 +180,8 @@ function formRefill(rowob,rowind) {
     material = getServiceRequest("/material/getbyid/"+rowob.id);
     oldmaterial = getServiceRequest("/material/getbyid/"+rowob.id);
 
-    fillSelectFeild(cmbCategory, "Select Category", materialcategories, "name",material.material_category_id.name);
+    fillSelectFeild(cmbCategory, "Select Category", materialcategories, "name",material.material_category.name);
     fillSelectFeild(cmbUnitType, "Select Unit Type", unittypes, "name",material.material_unit_type_id.name);
-
     fillSelectFeild(cmbMaterialStatus, "Select Status", materialstatuses, "name", material.material_status_id.name , false);
 
     txtMCNo.value =  material.code;
@@ -308,7 +307,17 @@ function buttonModalCloseMC() {
     }
 }
 
+function showPaperSize(){
+    if (JSON.parse(cmbCategory.value).name == "Paper") {
+        divPaperSize.style.display = "block";
 
+
+    } else {
+        divPaperSize.style.display = "none";
+
+
+    }
+}
 //Get material unit type by its category
 function getMaterialUnitTypeByMCategory(){
 

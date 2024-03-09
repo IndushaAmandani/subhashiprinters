@@ -278,7 +278,7 @@ const formRefill = (ob, rowno) => {
 
     txtPrice.value=product.price
     txtDescription.value=product.description
-    productImage.src =atob(product.image);
+   // productImage.src =atob(product.image);
 
 
 
