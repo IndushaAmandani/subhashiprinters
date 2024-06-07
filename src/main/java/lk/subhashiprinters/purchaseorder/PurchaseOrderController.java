@@ -2,6 +2,7 @@ package lk.subhashiprinters.purchaseorder;
 
 
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.quotation.Quotation;
 import lk.subhashiprinters.userm.UserRepository;
 import lk.subhashiprinters.userm.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,6 +57,12 @@ public class PurchaseOrderController {
         return purchaseOrderDao.getPorderbySupplier(id);
     }
 
+    @GetMapping(value = "/pOrdervalid/{sid}/{recieveDate}",produces = "application/json")
+    public List<PurchaseOrder> getvalidPobysidrDate(@PathVariable("sid")Integer sid ,@PathVariable("recieveDate")String recieveDate){
+        //since require date retrieve as string have to convert into date type
+        return purchaseOrderDao.getValidPobySupplierRecieveDate(sid,LocalDate.parse(recieveDate));
+    }
+
     @GetMapping(value ="/findall",produces = "application/json")
     //create function
     public List<PurchaseOrder> porderfindAll(){
@@ -61,7 +70,9 @@ public class PurchaseOrderController {
     }
 
 
-//
+//list
+    @GetMapping(value = "/list",produces = "application/json")
+    public List<PurchaseOrder> purchaseOrderList(){return purchaseOrderDao.list();}
 
     @PostMapping
     @Transactional

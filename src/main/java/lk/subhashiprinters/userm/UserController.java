@@ -58,6 +58,9 @@ public class UserController {
     }
 
 
+    @GetMapping(value = "/getbyemployeeid/{emp_id}",produces = "application/json")
+    public User getUserbyEmplyeeid(@PathVariable ("emp_id") Integer emp_id){return  userDao.getUserByEmplyee(emp_id);}
+
     //user past mapping [/user - POST] user add
     @PostMapping
     public String inserUser(@RequestBody User user){
@@ -85,7 +88,7 @@ public class UserController {
                 user.setAddeddatetime(LocalDateTime.now());
                 user.setPhotoname("user3.png");
                 user.setPhotopath("resources/images/user_photo/");
-                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+               user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
 
                 userDao.save(user);
@@ -112,17 +115,21 @@ public class UserController {
             //need to check duplicate
             User extUser = userDao.getReferenceById(user.getId());
             if(extUser == null){
-                return "User Deleted Not Successfully : User Not available";
+                return "User Update Not Successfully : User Not available";
             }
-
-
 
             //try to save with set auto set value
             try {
-
+                if(user.getPassword() == null){
+                    user.setPassword(extUser.getPassword());
+                }else {
+                 Boolean passwordExt = bCryptPasswordEncoder.matches(user.getPassword(), extUser.getPassword());
+                if(passwordExt)
+                    return "User update not completed : User password already exist ..!";
+                }
                 user.setUpdatedatetime(LocalDateTime.now());
-               // user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-                user.setPassword(extUser.getPassword());
+               user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
                 userDao.save(user);
                 return "0";
             }catch (Exception exception){

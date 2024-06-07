@@ -71,7 +71,7 @@ const refreshPOForm = () => {
     purchaseorder.purchase_order_status_id = JSON.parse(cmbPOStatus.value);
 
 
-    txtPONo.value = "Purchase Order No is auto generated";
+    // txtPONo.value = "Purchase Order No is auto generated";
     txtTotalAmount.value = "";
     txtTotalAmount.disabled = true;
     txtNote.value = "";
@@ -79,54 +79,26 @@ const refreshPOForm = () => {
 
 
     let currentDateForMin = new Date();
-    currentDateForMin.setDate(currentDateForMin.getDate() + 2);
+    currentDateForMin.setDate(currentDateForMin.getDate() - 2);
     dteRequiredDate.min = getCurrentDate2("date", currentDateForMin);
 
     let currentDateForMax = new Date();
-    currentDateForMax.setDate(currentDateForMax.getDate() + 16);
+    currentDateForMax.setDate(currentDateForMax.getDate() + 12);
     dteRequiredDate.max = getCurrentDate2("date", currentDateForMax);
 
-    setStyle("1px solid #ced4da");
-    cmbPOStatus.style.borderBottom = "2px solid green";
+    let porderArray = [cmbSupplier,cmbQuotation,cmbPOStatus,txtTotalAmount,dteRequiredDate,txtNote]
+    setIDStyle(porderArray,"1px solid #ced4da");
+
 
     disabledButton(true, false);
 
     refreshInnerFormTable();
-}
-
-let disabledButton = (addbtn, updbtn) => {
-
-    if (addbtn && lggeduserprivilage.ins) {
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "pointer");
-    } else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "not-allowed");
-    }
-
-    if (updbtn && lggeduserprivilage.upd) {
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "pointer");
-    } else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "not-allowed");
-    }
-}
-
-function setStyle(style) {
-    cmbSupplier.style.borderBottom = style;
-    cmbQuotation.style.borderBottom = style;
-    cmbPOStatus.style.borderBottom = style;
-    txtPONo.style.borderBottom = style;
-    txtTotalAmount.style.borderBottom = style;
-    dteRequiredDate.style.borderBottom = style;
-    txtNote.style.borderBottom = style;
 
 }
+
+
+
+
 
 function getValidQuotaion() {
     quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
@@ -246,8 +218,8 @@ const buttonInnerAddMC = () => {
         }
     }
 
-
     if (!materialext) {
+
         let confirmMs = "Are you sure to add following Porder Material Details \n"
             + "\n Item Name : " + purchaseOrderHasIMatrial.material_id.name
             + "\n Unit Price : " + purchaseOrderHasIMatrial.purchase_price
@@ -439,7 +411,7 @@ const formReFill = (ob, rowno) => {
     if (purchaseorder.note != null)
         txtNote.value = purchaseorder.note; else txtNote.value = "";
 
-    txtPONo.value = purchaseorder.order_no;
+
     txtTotalAmount.value = purchaseorder.total_amount;
     dteRequiredDate.value = purchaseorder.required_date
 
@@ -451,8 +423,8 @@ const formReFill = (ob, rowno) => {
     cmbQuotation.disabled = true;
     fillSelectFeild(cmbPOStatus, "Select Status", porderstatuses, "name", purchaseorder.purchase_order_status_id.name, true);
     cmbPOStatus.disabled = false;
-
-    setStyle("2px solid green");
+    let porderArray = [cmbSupplier,cmbQuotation,cmbPOStatus,txtTotalAmount,dteRequiredDate,txtNote]
+    setIDStyle(porderArray,"1px solid green");
 
     if (purchaseorder.note == null)
         txtNote.style.borderBottom = "2px solid rgb(118, 118, 118)";
@@ -548,4 +520,8 @@ function buttonUpdateMC() {
         alert("You have following error in your form... \n" + errors);
     }
 
+}
+
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalPurchaseOrderForm",refreshPOForm);
 }

@@ -41,4 +41,10 @@ public class PurchaseOrderHasMaterial {
     @JoinColumn(name = "material_id" ,referencedColumnName = "id")
     private Material material_id;
 
+
+    PurchaseOrderHasMaterial(Integer id,PurchaseOrder purchase_order_id,Material material_id){
+        this.id  = id;
+        this.purchase_order_id = purchase_order_id;
+        this.material_id  = material_id;
+    }
 }

@@ -178,24 +178,10 @@ const viewRow = (ob,rowno) => {
 
 
 function buttonModalCloseMC() {
-
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-
-        $("#modalAddPrivilageForm").modal("hide");
-    }
+    buttonCloseModal("#modalAddPrivilageForm",refreshPrivilageForm)
 }
 
-function buttonModalCloseMCV() {
 
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-
-        $("#modalViewPrivilageForm").modal("hide");
-    }
-}
 
 function buttonSubmit() {
     //  need to check form errors
@@ -320,25 +306,3 @@ function printRowItemMC() {
     },1000);
 }
 
-function  disabledButton(addbtn , updbtn) {
-
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("buttonAdd").css("pointer-events","all");
-        $("buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-    if(updbtn && lggeduserprivilage.upd){
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","pointer");
-    }else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","not-allowed");
-    }
-
-}

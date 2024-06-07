@@ -91,11 +91,14 @@ public  Material(Integer id, String name, String code, BigDecimal measuring_coun
 
 
 }
-    public  Material(Integer id,String name,String code,BigDecimal measuring_count) {
+    public  Material(Integer id,String name,String code,BigDecimal measuring_count,BigDecimal width,BigDecimal height) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.measuring_count = measuring_count;
+        this.width = width;
+        this.height = height;
+
     }
 
 }

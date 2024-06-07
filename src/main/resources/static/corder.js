@@ -57,7 +57,7 @@ function refreshCustomerOrderForm() {
 
     cOrdrStatus = getServiceRequest("/cOrderstatus/list")
     fillSelectFeild(cmbOrderStatus, "Select Status", cOrdrStatus, "name","" ,true);
-    disabledButton(true , false);
+
 //dteRequiredDate
     let currentDateForVDMin = new Date();
     dteRequiredDate.min = getCurrentDate2("date", currentDateForVDMin);
@@ -65,21 +65,16 @@ function refreshCustomerOrderForm() {
     let currentDateForVDMax = new Date();
     currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 90);
     dteRequiredDate.max = getCurrentDate2("date", currentDateForVDMax);
-    setStyle("1px solid #ced4da");
-    disabledButton(true, false);
+     const idArray = [txtDiscountRatio,txtTotalAmount,txtTAdvanceAmount,txtFBalanceAmount,txtDescription];
+    setIDStyle(idArray,"1px solid #ced4da");
+    disabledCButton(true, false);
     refreshInnerFormTable()
     txtTotalAmount.style.disabled = true;
     txtTotalAmount.value =0.00
     txtFBalanceAmount.value=0.00;
 }
 
-function setStyle(style){
-txtDiscountRatio.style.borderBottom = style;
-txtTotalAmount.style.borderBottom = style;
-txtTAdvanceAmount.style.borderBottom = style;
-txtFBalanceAmount.style.borderBottom = style;
-txtDescription.style.borderBottom = style;
-}
+
 function getProductList() {
     productsByCustomerOrder = getServiceRequest("/product/listbyCustomer/" + JSON.parse(cmbCustomerName.value).id);
     fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", "");
@@ -125,8 +120,19 @@ function getLineTotal() {
 
 
 
+let disabledCButton = (addbtn, updbtn) => {
 
+    if (addbtn && lggeduserprivilage.ins) {
+        buttonAdd.disabled = false;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "pointer");
+    } else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "not-allowed");
+    }
 
+}
 
 const refreshInnerFormTable = () => {
     /* inner Form */
@@ -436,23 +442,6 @@ const innerRowDelete = (innerob, rowind) => {
 const innerRowView = () => {
 }
 
-
-function disabledButton(addbtn , updbtn){
-
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("buttonAdd").css("pointer-events","all");
-        $("buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-
-
-}
-
-
 const checkErrors = () =>{
     let errors = "";
 
@@ -516,13 +505,7 @@ function buttonSubmitMC() {
 }
 
 function buttonModalCloseMC() {
-
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-        refreshCustomerOrderForm();
-        $("#modalCustomerOrderForm").modal("hide");
-    }
+    buttonCloseModal("#modalCustomerOrderForm",refreshCustomerOrderForm)
 }
 
 

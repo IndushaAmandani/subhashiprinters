@@ -22,12 +22,13 @@ public class WebConfiguration {
                 antMatchers("/app-assets/**").permitAll().
                 antMatchers("/login").permitAll().
                 antMatchers("/createadmin").permitAll().
-                antMatchers("/error").permitAll().
+                antMatchers("/errorpagge").permitAll().
                 antMatchers("/dashboard","/userprivilage/bymodule").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/employee/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/user/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/privilage/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
+                antMatchers("/paperTypes/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
                 antMatchers("/material/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/dailyProduct/**","/CustomerOrder/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","CASHIER").
@@ -45,7 +46,7 @@ public class WebConfiguration {
                     logoutRequestMatcher(new AntPathRequestMatcher("/logout")).
                     logoutSuccessUrl("/login").and().
 
-                exceptionHandling().accessDeniedPage("/404");
+                exceptionHandling().accessDeniedPage("/errorpagge");
 
         return http.build();
     }

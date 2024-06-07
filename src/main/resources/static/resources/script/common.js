@@ -246,7 +246,7 @@ const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,disp
         optionValues.value = JSON.stringify(dataList[index]);
       //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
         optionValues.innerText =  dataList[index][displayProperty] + " --> "+ dataList[index][displayProperty2];
-        if(dataList[index][displayProperty] == selectedValue){
+        if(dataList[index][displayProperty] + " --> "+ dataList[index][displayProperty2] == selectedValue){
             optionValues.selected = true;
             feildid.style.borderBottom = "2px solid green";
         }
@@ -291,8 +291,8 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
      //
      tbody = tableid.children[1];
      tbody.innerHTML = "";
-
-    for(index in dataList){
+//object wise findalla
+    for(let index in dataList){
        
         // create tr node
         tr = document.createElement("tr"); 
@@ -307,7 +307,9 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
              td = document.createElement("td"); 
              tdp = document.createElement("p"); 
             let data = dataList[index][propertyList[pro]];
-           // console.log(propertyList[pro]);
+            //  customers[0][dispalyPropertyList[0]]
+            // customer.customer_code
+            // console.log(propertyList[pro]);
           //  console.log(displayDTList[pro]);
 
             if(displayDTList[pro] == 'text'){
@@ -491,4 +493,152 @@ const getCurrentDate2 = (format,givendate) => {
 
 
     return year + "-" + month + "-" + date ;
+}
+
+const buttonCloseModal = (modalId, refreshForm)=> {
+
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        refreshForm();
+        $(modalId).modal().hide();
+        $(".modal-backdrop").remove();
+    }
+}
+
+const submitmodal = (checkErrors,submitConfirmQuestionlabel,obj,objectQsProperties,url,redirectUrl,refreshTable,refreshForm,modalID) => {
+
+  let errors = checkErrors();
+    if (errors == "") {
+        let submitConfirmMsg = "Are you sure to add following... " +
+            "\n "+ submitConfirmQuestionlabel  + objectQsProperties ;
+        let userResponce = window.confirm(submitConfirmMsg);
+
+        if (userResponce) {
+            let postServieResponce;
+        $.ajax(url, {
+            async: false,
+            type: "POST",
+            data: JSON.stringify(obj),
+            contentType: "application/json",
+            success: function (susResdata, susStatus, ajresob) {
+                postServieResponce = susResdata;
+            },
+            error: function (errRsOb, errStatus, errorMsg) {
+                postServieResponce = errorMsg;
+            }
+
+        });
+
+        if (postServieResponce == "0") {
+
+            alert("Add Successfully..!");
+            window.location.replace(redirectUrl);
+            refreshTable();
+            refreshForm();
+            $(modalID).modal("hide");
+        } else {
+            window.alert("You have following error \n" + postServieResponce);
+        }
+
+    }
+} else {
+    window.alert("You have following error \n" + errors);
+}
+}
+
+const updatemodal = (updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID) =>{
+
+    let updateResponceMsg = "Are you sure to update following "+ updateObj +"..? \n";
+    let errors = checkErrors();
+    if (errors == "") {
+        //
+        let updates = checkUpdate();
+        if (updates == "") {
+
+            window.alert("Nothing updated...! \n ");
+        } else {
+
+            let updateResponce = window.confirm( updateResponceMsg + updates);
+
+            if (updateResponce) {
+                let putResponce;
+
+                $.ajax(url, {
+                    async: false,
+                    type: "PUT", // method delete
+                    data: JSON.stringify(obj), // object
+                    contentType: "application/json",
+                    success: function (susResdata, susStatus, ajresob) {
+                        putResponce = susResdata;
+                    },
+                    error: function (errRsOb, errStatus, errorMsg) {
+                        putResponce = errorMsg;
+                    }
+                });
+
+
+                if (putResponce == "0") {
+                    window.alert("Update Successfully...!");
+                    refreshTable();
+                    refreshForm();
+                    $(modalformID).modal("hide");
+
+
+                } else {
+                    //
+                    window.alert("Fail to update ...! \n " + putResponce);
+                }
+
+            }
+        }
+    } else {
+
+        window.alert("You have following error in your form...! \n " + errors);
+    }
+
+}
+
+const  setIDStyle = (arrayId,style) => {
+    arrayId.forEach((item) =>
+    {item.style.border = style})
+
+    // txtCompanyName.style.border = style;
+    //  txtCompanyNumber.style.border = style;
+    //  txtCompanyEmail.style.border = style;
+}
+
+const setIDValueNull = (arrayID)=> {
+    arrayID.forEach((item)=>{item.value = "";});
+}
+
+let disabledButton = (addbtn, updbtn) => {
+
+    if (addbtn && lggeduserprivilage.ins) {
+        buttonAdd.disabled = false;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "pointer");
+    } else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "not-allowed");
+    }
+
+    if (updbtn && lggeduserprivilage.upd) {
+        buttonUpdate.disabled = false;
+        $("#buttonUpdate").css("pointer-events", "all");
+        $("#buttonUpdate").css("cursor", "pointer");
+    } else {
+        buttonUpdate.disabled = true;
+        $("#buttonUpdate").css("pointer-events", "all");
+        $("#buttonUpdate").css("cursor", "not-allowed");
+    }
+}
+
+const  divInnerFormshow = (elementIdName,value,divId) => {
+    if (JSON.parse(elementIdName.value).name == value) {
+        divId.style.display = "block";
+    } else {
+        divId.style.display = "none";
+    }
 }

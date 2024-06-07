@@ -8,6 +8,7 @@ function loadUI() {
 
     //lggeduserprivilage = {"sel": true , "ins":true , "upd":true , "del":true}
 
+
     //called refreshtable function -- >
     refreshTable();
 
@@ -137,33 +138,12 @@ const refreshEmployeeForm = () => {
 
 
 console.log(lggeduserprivilage);
-   // disabledButton(true,false);
+   disabledButton(true,false);
 
     setStyle("2px solid #cacfe7");
 }
 
-function disabledButton(addbtn , updbtn) {
 
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-
-    if(updbtn && lggeduserprivilage.upd){
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","pointer");
-    }else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","not-allowed");
-    }
-}
 
 //
 const chechErrors = () => {

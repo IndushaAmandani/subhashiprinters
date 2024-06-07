@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
+    <title> Subhashi Printers - Material Received Note Management</title>
+</head>
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+
+<!-- fixed-top-->
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block"> Material Received Note Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Purchase
+                            </li>
+                            <li class="breadcrumb-item active"> Material Received Note
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
+                                                         data-toggle="modal" data-target="#modalPurchaseOrderForm">Add new Material Received Note</a></div>
+            </div>
+        </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableMrn">
+                                                <thead class="table-dark"
+                                                        style="background-color: #152650">
+                                                <tr>
+                                                    <th> #</th>
+                                                    <th> Mrn No</th>
+                                                    <th> Supplier Name</th>
+                                                    <th> Porder No</th>
+                                                    <th> Supplier Invoice No</th>
+                                                    <th> Received Date</th>
+                                                    <th> Net Amount</th>
+                                                    <th> Status</th>
+                                                    <th> Modify</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<footer th:replace = "~{fragment::footerFragment}"></footer>
+
+<div class="modal" tabindex="-1" id="modalPurchaseOrderForm" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> Edit Material Received Note</h2>
+                <button type="button" class="close" aria-label="Close"
+                        onclick="buttonModalCloseMC()">  <span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <!--  Employee form -->
+                <form onsubmit="return false">
+
+                    <!--- Required (Star mark)  -->
+                    <div class="row text-end p-1">
+                            <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
+                            </span>
+                    </div>
+
+                    <!--- Supplier / Required date/  -->
+                    <div class="row mt-1">
+                        <div class="col-6 ">
+                            <div class="row">
+                                <label for="cmbSupplier" class="form-label font-weight-bold col-4">Supplier : <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-8">
+                                    <select id="cmbSupplier" class="form-control" required
+                                            onchange="selectValidator(cmbSupplier,'','mrn','purchase_order_id.supplier_id','oldmrn')"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ">
+                            <div class="row">
+                                <label for="dteReceivedDate" class="form-label font-weight-bold col-6">Received Dates :
+                                    <span
+                                            style="color: red;">*</span></label>
+                                <div class="col-6">
+                                    <input type="date" id="dteReceivedDate" class="form-control" required
+                                           onchange="dateFeildValidator(dteReceivedDate,'','mrn','recieve_date','oldmrn');getValidPOrder()">
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--- Porder / Status  -->
+                    <div class="row mt-1">
+                        <div class="col-6 ">
+                            <div class=" row">
+                                <label for="cmbPurchaseOrder" class="form-label font-weight-bold col-5">Purchase Order :
+                                    <span
+                                            style="color: red;">*</span></label>
+                                <div class="col-7">
+                                    <select id="cmbPurchaseOrder" class="form-control" required
+                                            onchange="selectValidator(cmbPurchaseOrder,'','mrn','purchase_order_id','oldmrn')"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 ">
+                            <div class=" row">
+                                <label for="txtSupplierInvoiceNO" class="form-label font-weight-bold col-5">Invoice No : <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-7">
+                                    <input type="text" id="txtSupplierInvoiceNO" class="form-control" required
+                                           onchange="textFeildValidtor(txtSupplierInvoiceNO,'','mrn','supplier_inovice_no','oldmrn'); getMaterialByPOrder() ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--- Inner form / table -->
+                    <div id="divInnerMaterialPOFrom">
+                        <div class="card p-1 m-2">
+                            <div class="row ">
+                                <div class="col-5">
+
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <label for="cmbMaterial" class="form-label-sm font-weight-bold">
+                                                Material : <span style="color: red;">*</span>
+                                            </label>
+                                            <select id="cmbMaterial" class="form-control form-control-sm"
+                                                    onchange="selectValidator(cmbMaterial,'','mrnHasMaterial','material_id','oldmrnHasMaterial'); getMaterialUnitPrice() "
+                                            ></select>
+                                        </div>
+                                    </div>
+
+                                    <!---  Unit price-->
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <label for="txtUnitPrice" class="form-label font-weight-bold">
+                                                Unit Price (Rs. ) : <span style="color: red;">*</span>
+                                            </label>
+                                            <input type="text" id="txtUnitPrice" class="form-control form-control-sm"
+                                                   onkeyup="textFeildValidtor(txtUnitPrice,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','mrnHasMaterial','purchase_price','oldmrnHasMaterial')"
+                                                   placeholder="Enter Total Amount">
+
+                                        </div>
+                                    </div>
+
+                                    <!---  Quantity -->
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <label for="txtQuantity" class="form-label font-weight-bold">
+                                                Quantity : <span style="color: red;">*</span>
+                                            </label>
+                                            <input type="text" id="txtQuantity" class="form-control form-control-sm"
+                                                   onkeyup="textFeildValidtor(txtQuantity,'^.*$','mrnHasMaterial','quantity','oldmrnHasMaterial'); getLineTotal();"
+                                                   placeholder="Enter Total Amount" disabled ="true">
+
+                                        </div>
+                                    </div>
+
+                                    <!---  Line Price -->
+                                    <div class="row mt-1">
+                                        <div class="col">
+                                            <label for="txtLinePricet" class="form-label  font-weight-bold">
+                                                Line Price (Rs. ) : <span style="color: red;">*</span>
+                                            </label>
+                                            <input type="text" id="txtLinePricet" class=" form-control form-control-sm"
+                                                   onkeyup="textFeildValidtor(txtLinePricet,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','mrnHasMaterial','line_total','oldmrnHasMaterial')"
+                                                   placeholder="Enter Total Amount">
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <!--- Buttons -->
+                                    <div class="row mt-1">
+                                        <div class="col text-end">
+                                            <button type="reset" style="width: 25%; border-radius: 50px;"
+                                                    class="btn bg-info btn-sm font-weight-bold"> Clear
+                                            </button>
+                                            <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                    id="buttonInnerUpdate"
+                                                    class="btn bg-warning font-weight-bold btn-sm"
+                                                    onclick="buttonInnerUpdateMC()"> Update
+                                            </button>
+                                            <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                    id="buttonInnerAdd"
+                                                    class="btn bg-success font-weight-bold btn-sm"
+                                                    onclick="buttonInnerAddMC()"> Add
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-7">
+                                    <table class="table table-hover table-bordered" id="tableInnerMrn">
+                                        <thead class="table-dark" style="background-color: #152650">
+                                        <tr>
+                                            <th> #</th>
+                                            <th> Material Name</th>
+                                            <th> Unit Price</th>
+                                            <th> Qty</th>
+                                            <th> Line Price</th>
+                                            <th> Modify</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--- MRN Total amount  / discount_rate/ tax_rate/ Net Amount-->
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <label for="txtTotalAmount" class="form-label font-weight-bold">
+                                Total Amount (Rs. ) : <span style="color: red;">*</span>
+                            </label>
+                            <input type="text" id="txtTotalAmount" class="form-control"
+                                   onkeyup="textFeildValidtor(txtTotalAmount,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','mrn','total_amount','oldmrn');"
+                                   placeholder="Enter Total Amount">
+
+                        </div>
+<!--                        <div class="col-3">-->
+<!--                            <label for="txtTaxRatio" class="form-label font-weight-bold">-->
+<!--                                Tax Ratio (%) : <span style="color: red;">*</span>-->
+<!--                            </label>-->
+<!--                            <input type="text" id="txtTaxRatio" class="form-control"-->
+<!--                                   onkeyup="textFeildValidtor(txtTaxRatio,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','mrn','total_amount','oldmrn');getmrnAfterTaxamount()"-->
+<!--                                   placeholder="Enter Tax Ratio">-->
+
+<!--                        </div>-->
+                        <div class="col-4">
+                            <label for="txtDiscountRatio" class="form-label font-weight-bold">
+                                Discount Ratio (%) : <span style="color: red;">*</span>
+                            </label>
+                            <input type="text" id="txtDiscountRatio" class="form-control"
+                                   onkeyup="discountedValueFunction(this); "
+                                   placeholder="Enter Discount Ratio" disabled ="false">
+
+                        </div>
+                        <div class="col-4">
+                            <label for="txtNetAmount" class="form-label font-weight-bold">
+                                Net Amount (Rs. ) : <span style="color: red;">*</span>
+                            </label>
+                            <input type="text" id="txtNetAmount" class="form-control"
+                                   onkeyup="textFeildValidtor(txtNetAmount,'^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9})$','mrn','net_amount','oldmrn')"
+                                   placeholder="Enter Net Amount" disabled>
+
+                        </div>
+                    </div>
+
+                    <!-- Note / Status-->
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <label for="txtNote" class="form-label font-weight-bold">
+                                Note :
+                            </label>
+                            <textarea id="txtNote" class="form-control"
+                                      onkeyup="textFeildValidtor(txtNote,'^.*$','mrn','note','oldmrn')"
+                                      placeholder="Enter Note"></textarea>
+                        </div>
+
+                        <div class="col-6 ">
+                            <div class=" row">
+                                <label for="cmbMrnStatus" class="form-label font-weight-bold col-5">Status : <span
+                                        style="color: red;">*</span></label>
+                                <div class="col-7">
+                                    <select id="cmbMrnStatus" class="form-control" required
+                                            onchange="selectValidator(cmbMrnStatus,'','mrn','material_recieve_note_status_id','oldmrn')"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--- Buttons -->
+                    <div class="row mt-2">
+                        <div class="col text-end">
+                            <button type="reset" style="width: 23%; border-radius: 50px;"
+                                    class="btn bg-info font-weight-bold"> Clear
+                            </button>
+                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
+                            </button>
+                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                                    class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+<script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="/mrn.js" type="text/javascript"></script>
+
+</body>
+
+</html>

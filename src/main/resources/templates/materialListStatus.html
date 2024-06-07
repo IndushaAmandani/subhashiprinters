@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
+    <title> Subhashi Printers -  Reports</title>
+</head>
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+
+<!-- fixed-top-->
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Material List Report</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Report
+                            </li>
+                            <li class="breadcrumb-item active">Usable Paper Materials
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row"></div>
+                                    <div class="row mt-2">
+
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableMaterial">
+                                                <thead class="table-dark" style="background-color: #152650">
+                                                <tr>
+                                                    <th> #</th>
+                                                    <th> Name</th>
+                                                    <th>Code </th>
+                                                    <th> Measuring Count(1000 units)</th>
+
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-10"></div>
+                                        <div class="col-2">
+                                            <button class="btn-sm btn-gradient-primary-add" onclick="buttonPrint()">Print Table</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--footer-->
+<footer th:replace = "~{fragment::footerFragment}"></footer>
+
+
+
+<!---->
+
+
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+<script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="/reportMaterial.js" type="text/javascript"></script>
+
+</body>
+</html>

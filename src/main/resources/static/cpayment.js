@@ -29,14 +29,17 @@ const refreshTable = () => {
     let displayPropDataTypeList = ['object', 'object', 'decimal', 'decimal', 'object'];
 
     fillDataIntoTable(tableCustomerPayment, cpayments, displayPropList, displayPropDataTypeList, refillForm, deleteRow, viewRow, true, lggeduserprivilage);
-    for (let index in cpayments ){
+    for (let index in cpayments) {
         tableCustomerPayment.children[1].children[index].children[6].children[0].style.display = "none";
         tableCustomerPayment.children[1].children[index].children[6].children[1].style.display = "none";
 
+        if (cpayments[index].customer_payment_status_id.name == "Completed") {
+            tableCustomerPayment.children[1].children[index].style.backgroundColor = "#6c8c86";
+            tableCustomerPayment.children[1].children[index].style.color = "#0f100f";
+        }
+        $("tableCustomerPayment").dataTable();
     }
-    $("tableCustomerPayment").dataTable();
 }
-
 const refreshCPaymentForm = () => {
     cPayment = new Object();
     oldcPayment = null;
@@ -80,7 +83,7 @@ const refreshCPaymentForm = () => {
     txtPreBalanceAmount.disabled = true;
     txtTotalAmount.disabled = true;
     txtAfterBalanceAmount.disabled = true;
-    txtSPNo.value = "";
+   // txtSPNo.value = "";
     txtTotalAmount.value = "";
     txtPreBalanceAmount.value = "";
     txtPaidAmount.value = "";
@@ -91,9 +94,9 @@ const refreshCPaymentForm = () => {
     txtAccNumber.value = "";
     txtNote.value = "";
     txtTransid.value = "";
-    disabledButton(false, false);
-
-    setStyle("1px solid #cacfe7")
+    disabledSupButton(false, false);
+ const idArray  = [txtPreBalanceAmount,cmbCustomerName,cmbCON,cmbPMethod,cmbPSStatus,txtTotalAmount,txtPreBalanceAmount,txtPaidAmount,txtAfterBalanceAmount,txtBankName,txtBranchName,txtAccountHolder,txtAccNumber,txtNote,txtTransid];
+    setIDStyle(idArray,"1px solid #cacfe7")
 
 }
 
@@ -102,6 +105,19 @@ function getCOListbyCustomers() {
     fillSelectFeild(cmbCON, "Select Customer Order", activeCOrders, "order_code", "");
 }
 
+function disabledSupButton(addbtn, updbtn) {
+
+    if (addbtn && lggeduserprivilage.ins) {
+        buttonAdd.disabled = false;
+        $("buttonAdd").css("pointer-events", "all");
+        $("buttonAdd").css("cursor", "pointer");
+    } else {
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "not-allowed");
+    }
+
+}
 function setValue() {
 
     txtTotalAmount.value = JSON.parse(cmbCON.value).total_amount;
@@ -186,38 +202,6 @@ function showdivBankDetails() {
 //     //     cPayment.customer_payment_status_id = JSON.parse(cmbPSStatus.value);
 //     // }
 // }
-function disabledButton(addbtn, updbtn) {
-
-    if (addbtn && lggeduserprivilage.ins) {
-        buttonAdd.disabled = false;
-        $("buttonAdd").css("pointer-events", "all");
-        $("buttonAdd").css("cursor", "pointer");
-    } else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "not-allowed");
-    }
-
-}
-
-function setStyle(style) {
-    txtPreBalanceAmount.style.border = style;
-    cmbCustomerName.style.border = style;
-    cmbCON.style.border = style;
-    cmbPMethod.style.border = style;
-    cmbPSStatus.style.border = style;
-    txtSPNo.style.border = style;
-    txtTotalAmount.style.border = style;
-    txtPreBalanceAmount.style.border = style;
-    txtPaidAmount.style.border = style;
-    txtAfterBalanceAmount.style.border = style;
-    txtBankName.style.border = style;
-    txtBranchName.style.border = style;
-    txtAccountHolder.style.border = style;
-    txtAccNumber.style.border = style;
-    txtNote.style.border = style;
-    txtTransid.style.border = style;
-}
 
 
 function checkErrors() {
@@ -341,14 +325,10 @@ const deleteRow = (ob, rowno) => {
     }
 }
 
-function buttonModalCloseMC() {
+function buttonCloseModalMC() {
+    buttonCloseModal("#modalCustomerPaymentForm",refreshCPaymentForm);
 
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
 
-    if (userConfirm) {
-        refreshCPaymentForm();
-        $("#modalCustomerPaymentForm").modal("hide");
-    }
 }
 
 

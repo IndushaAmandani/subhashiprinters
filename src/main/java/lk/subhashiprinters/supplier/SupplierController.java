@@ -50,6 +50,11 @@ public class SupplierController {
         return supplierDao.list();
     }
 
+    @GetMapping(value = "/tobepaidlist" , produces = "application/json")
+    public List<Supplier> supplierToBePaidList(){
+        return supplierDao.toBePaidList();
+    }
+
 
     //get object by given id using path variable [ /supplier/getbyid/{id}]
     @GetMapping(value = "/getbyid/{id}" , produces = "application/json")

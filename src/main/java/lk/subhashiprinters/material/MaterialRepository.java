@@ -29,22 +29,22 @@ package lk.subhashiprinters.material;
      @Query("select m from Material m where m.name =?1")
      Material getMaterialByName(String name);
 
-     @Query("select new Material (m.id, m.name, m.code,m.measuring_count) from Material m where m.material_status_id.id=1 and m.id in " +
+     @Query("select new Material (m.id, m.name, m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.id in " +
              "(select shm.material_id.id from SupplierHasMaterial shm where shm.supplier_id.id=?1) ")
      List<Material> getListBySupplier(Integer sid);
 
-     @Query("select new Material (m.id, m.name, m.code,m.measuring_count) from Material m where m.material_status_id.id=1 and m.id in " +
+     @Query("select new Material (m.id, m.name, m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.id in " +
              "(select phm.material_id.id from PurchaseOrderHasMaterial phm where phm.purchase_order_id.id=?1) ")
      List<Material> getListByPOrder(Integer poid);
 
-  @Query("select new Material (m.id, m.name, m.code,m.measuring_count) from Material m where m.material_status_id.id=1 and m.id in " +
+  @Query("select new Material (m.id, m.name, m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.id in " +
           "(select qhm.material_id.id from QuotationHasMaterial qhm where qhm.quatation_id.id=?1) ")
      List<Material> getListByQuotation(Integer qid);
 
-     @Query("select new Material (m.id, m.name, m.code,m.measuring_count) from Material m where m.material_status_id.id=1")
+     @Query("select new Material (m.id, m.name, m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1")
         List<Material> list();
 
 
-     @Query("select new Material(m.id,m.code,m.name,m.measuring_count) from Material m where m.material_status_id.id=1 and m.material_unit_type_id.id=3 and m.material_category_id.id=1")
+     @Query("select new Material(m.id,m.code,m.name,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.material_unit_type_id.id=3 and m.material_category_id.id=1")
      List<Material> getMaterialListbyCategory();
  }

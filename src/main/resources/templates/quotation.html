@@ -1,163 +1,28 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
     <title> Subhashi Printers - Quotation Management</title>
-    <link rel="apple-touch-icon" href="app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/ico/favicon.ico">
-    <link
-            href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
-            rel="stylesheet">
-    <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" type="text/css" href="app-assets/css/vendors.css">
-
-    <link rel="stylesheet" type="text/css" href="resources/fontawesome/css/all.css">
-    <!-- END VENDOR CSS-->
-
-    <link rel="stylesheet" type="text/css" href="app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
-    <link rel="stylesheet" type="text/css" href="app-assets/vendors/css/cryptocoins/cryptocoins.css">
-    <link rel="stylesheet" type="text/css" href="app-assets/css/pages/transactions.css">
-
-    <!-- BEGIN MODERN CSS-->
-    <link rel="stylesheet" type="text/css" href="app-assets/css/app.css">
-    <!-- END MODERN CSS-->
-
-    <link rel="stylesheet" type="text/css" href="app-assets/assets/css/style.css">
-
-    <link rel="stylesheet" type="text/css" href="resources/datatable/css/datatables.min.css">
-    <!-- END Custom CSS-->
 </head>
-
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
       data-menu="vertical-compact-menu" data-col="2-columns">
+
 <!-- fixed-top-->
-<nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color">
-    <div class="navbar-wrapper">
-        <div class="navbar-header d-md-none">
-            <ul class="nav navbar-nav flex-row">
-                <li class="nav-item mobile-menu d-md-none mr-auto">
-                    <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
-                            class="ft-menu font-large-1"></i></a></li>
-                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
-                        class="brand-logo d-none d-md-block" alt="CryptoDash admin logo"
-                        src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
-                                                                            alt=" admin logo sm"
-                                                                            src="../../../app-assets/images/logo/logo-sm.png"></a>
-                </li>
-                <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
-                                                  data-target="#navbar-mobile"><i class="la la-ellipsis-v"> </i></a>
-                </li>
-            </ul>
-        </div>
-        <div class="navbar-container">
-            <div class="collapse navbar-collapse" id="navbar-mobile">
-                <ul class="nav navbar-nav mr-auto float-left">
-                    <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
-                                                              href="#"><i class="ft-menu"> </i></a></li>
-
-                </ul>
-                <ul class="nav navbar-nav mr-auto float-right">
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
-                            <h2> Subhashi Printers</h2>
-                        </a></li>
-
-                </ul>
-                <ul class="nav navbar-nav  float-right">
-                    <!--                    <li class="nav-item d-none d-md-block">-->
-                    <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
-                    <!--                            <i class="fas fa-bell"> </i></a>-->
-                    <!--                    </li>-->
-                    <!--                    <li class="nav-item d-none d-md-block">-->
-                    <!--                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">-->
-                    <!--                            <i class="fa-solid fa-gear"> </i></a>-->
-                    <!--                    </li>-->
-                    <li class="nav-item d-none d-md-block">
-                        <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
-                            <i class="fas fa-power-off"> </i></a>
-                    </li>
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-                </ul>
-
-
-            </div>
-        </div>
-    </div>
-</nav>
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
 
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
-    <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
-                                      href="index.html">
-        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
-        <p class="m-1 text-white" id="hUsername"></p>
-        <p class="m-1  text-white" id="spnRole"></p>
-    </a>
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item "><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
-                    class="menu-title" data-i18n="">Dashboard</span></a>
-            </li>
-            <li class=" nav-item"><a href="#"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
-                                                                                         data-i18n="">Administration</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="employee.html">Employee</a></li>
-                    <li><a class="menu-item" href="user.html">User</a></li>
-                    <li><a class="menu-item" href="privilage.html">Privilage </a></li>
-                </ul>
-            </li>
-            <li class=" nav-item "><a href="#"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
-                                                                                            data-i18n="">Print Order</span></a>
-                <ul class="menu-content ">
-                    <li ><a class="menu-item " href="customer.html">Customer</a></li>
-                    <li><a class="menu-item" href="corder.html">Customer Order </a></li>
-                    <li><a class="menu-item" href="cpayment.html">Customer Payment </a></li>
-                </ul>
-            </li>
-            <li class=" nav-item "><a href="#">
-                <i class="fa-solid fa-print"></i><span class="menu-title"
-                                                       data-i18n="">Production</span></a>
-                <ul class="menu-content">
 
-                    <li ><a class="menu-item " href="product.html">Product</a></li>
-                    <li><a class="menu-item" href="productionOrderConfirm.html">Production Confirmation </a></li>
-                    <li><a class="menu-item" href="dailyProduct.html">Daily Product</a></li>
-                    <li><a class="menu-item" href="material.html">Material</a></li>
-
-                </ul>
-            </li>
-            <li class=" nav-item active ">
-                <a href="#"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
-                                                                           data-i18n="">Purchase</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="supplier.html">Supplier</a></li>
-                    <li><a class="menu-item" href="quotationrequest.html">Quotation Request</a></li>
-                    <li class="active"><a class="menu-item active" href="quotation.html">Quotation </a></li>
-                    <li><a class="menu-item" href="porder.html">Purchase Order </a></li>
-                    <li><a class="menu-item" href="mrn.html">MRN </a></li>
-                    <li><a class="menu-item" href="supplierpayment.html">Supplier Payment </a></li>
-                </ul>
-            </li>
-
-            <li class=" nav-item"><a href="#"><i class="fa-solid fa-list-check"></i><span class="menu-title"
-                                                                                          data-i18n="">Report</span></a>
-                <ul class="menu-content">
-                    <li><a class="menu-item" href="materialListStatus.html">Report 1</a> </li>
-                    <li><a class="menu-item" href="CustomerPayment.html">Report 2</a></li>
-                    <li><a class="menu-item" href="account-login-history.html">Report 3</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</div>
 <div class="app-content content">
     <div class="content-wrapper">
         <div class="content-header row">
@@ -227,24 +92,16 @@
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-
-<footer class="footer footer-static footer-transparent">
-    <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span
-            class="float-md-left d-block d-md-inline-block">Copyright &copy;
-        <script>
-          document.write(new Date().getFullYear())
-        </script> <a class="text-bold-800 grey darken-2" href="https://themeselection.com/"
-                     target="_blank">ThemeSelection </a>, All rights reserved.
-      </span><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block">Hand-crafted & Made with <i
-            class="ft-heart pink"></i></span></p>
-</footer>
+<footer th:replace = "~{fragment::footerFragment}"></footer>
 
 
 <div class="modal" tabindex="-1" id="modalQuotationForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> Quotation Managment</h2>
+                <h2 class="h2"><i class="fas fa-user fx"></i> Quotation Management</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <!--  Quotation form -->
@@ -254,23 +111,6 @@
                     <div class="row text-end p-1">
                             <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
                             </span>
-                    </div>
-
-                    <!--- PO No  -->
-                    <div class="row mt-1">
-                        <div class="col-2"></div>
-                        <div class="col-8">
-                            <div class=" row">
-                                <label for="txtQNo" class="font-weight-bold col-4 col-form-label">Quotation No :
-                                    <span style="color: red;"></span>
-                                </label>
-                                <div class="col-8">
-                                    <input type="text" readonly id="txtQNo" class="form-control" disabled
-                                           value="Quotaton number is auto generated">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2"></div>
                     </div>
 
                     <!--- Supplier / Required date  -->
@@ -437,19 +277,19 @@
 </div>
 
 
-<script src="app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
 
-<script src="app-assets/js/core/app-menu.js" type="text/javascript"></script>
-<script src="app-assets/js/core/app.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
 
 
-<script src="resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
 
-<script src="resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-<script src="resources/script/common.js" type="text/javascript"></script>
-<script src="resources/script/dashboard.js" type="text/javascript"></script>
-<script src="quotation.js" type="text/javascript"></script>
+<script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="/quotation.js" type="text/javascript"></script>
 
 </body>
 

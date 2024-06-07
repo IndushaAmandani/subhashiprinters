@@ -40,12 +40,12 @@ const refreshTable = () => {
     // creat display property data type list
     let displayDatatypeList = ['text', 'object', 'text', 'object', 'text', 'object', 'object', 'object', 'text', 'object'];
     //called filldataintotable function for fill data
-    fillDataIntoTable(tableProduct, products, displayPropertyList, displayDatatypeList,
-        formRefill, rowDelete, rowView, true, lggeduserprivilage);
+    fillDataIntoTable(tableProduct, products, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
     for (let index in products ){
         if (products[index].product_status_id.name == "Not-Active") {
             tableProduct.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableProduct.children[1].children[index].style.color = "#0f100f";
             tableProduct.children[1].children[index].children[11].children[1].disabled = true;
             tableProduct.children[1].children[index].children[11].children[1].style.pointerEvents = "all";
             tableProduct.children[1].children[index].children[11].children[1].style.cursor = "not-allowed";
@@ -55,6 +55,7 @@ const refreshTable = () => {
 
     // need to add jquerty table
     $('#tableProduct').dataTable();
+
 }
 
 //define form refreshProductForm
@@ -143,26 +144,13 @@ product.productHasMaterialList = new Array();
 
     refreshPInnerFormTable();
     refreshMQFormTable();
-    setStyle("1px solid #cacfe7")
+    const productArray = [txtProductname,txtHeight,txtWidth,txtPrice,txtDescription,cmbCustomer,cmbproductCategory,cmbProductStatus,cmbproductSize,cmbpaperTypes,cmbprintColors,cmbpaperColors]
+    setIDStyle(productArray,"1px solid #cacfe7")
     disabledButton(true, false);
 
+    refreshbuttonAddPaperType();
 }
 
-function setStyle(style){
-    txtProductname.style.border = style;
-    txtHeight.style.border = style;
-    txtWidth.style.border = style;
-    txtPrice.style.border = style;
-    txtDescription.style.border = style;
-    cmbprintColors.style.border = style;
-    cmbpaperColors.style.border = style;
-    cmbCustomer.style.border = style;
-    cmbproductCategory.style.border = style;
-    cmbproductSize.style.border = style;
-    cmbpaperTypes.style.border = style;
-    lblRadioSingle.style.border = style;
-    lblRadioDouble.style.border = style;
-}
 
 const buttonMInnerAddMC = (value) => {
     let productcopyset = false;
@@ -295,7 +283,9 @@ const formRefill = (ob, rowno) => {
     fillSelectFeild(cmbprintColors, "Select Print Colors", printColors, "name", product.printcolors_id.name);
     fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", product.papercolors_id.name);
 
-    setStyle("2px dotted green");
+
+    const idArray = [txtProductname,txtHeight,txtWidth,txtPrice,txtDescription,cmbCustomer,cmbproductCategory,cmbProductStatus,cmbproductSize,cmbpaperTypes,cmbprintColors,cmbpaperColors]
+    setIDStyle(idArray,"2px dotted green");
 
 
 
@@ -310,48 +300,7 @@ const formRefill = (ob, rowno) => {
 
 
 
-function setStyle(style) {
 
-    txtProductname.style.border = style;
-    txtHeight.style.border = style;
-    txtWidth.style.border = style;
-
-    txtPrice.style.border = style;
-    txtDescription.style.border = style;
-    // txtDescription.style.border = style;
-    // cmbCustomerCategory.style.borderBottom = style;
-    // cmbCustomerStatus.style.borderBottom = style;
-    cmbCustomer.style.border = style
-    cmbproductCategory.style.border = style
-    cmbProductStatus.style.border = style
-    cmbproductSize.style.border = style
-    cmbpaperTypes.style.border = style
-    cmbprintColors.style.border = style
-    cmbpaperColors.style.border = style
-}
-
-function disabledButton(addbtn , updbtn){
-
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("buttonAdd").css("pointer-events","all");
-        $("buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-    if(updbtn && lggeduserprivilage.upd){
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","pointer");
-    }else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","not-allowed");
-    }
-
-}
 
 
 
@@ -369,6 +318,8 @@ function divInnerPCopyFormshow() {
 
     getPaperType();
 }
+
+
 
 
 //get customized Size values when size is selected as customized size
@@ -617,15 +568,7 @@ function buttonUpdateMC(){
 
 //Modal close
 function buttonModalCloseMC() {
-
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-        refreshProductForm();
-        $("#modalProductForm").modal("hide");
-
-    }
-}
+buttonCloseModal("#modalProductForm",refreshProductForm)}
 
 //Inner Form
 refreshPInnerFormTable = () => {
@@ -689,8 +632,6 @@ const buttonInnerAddMC = (value) => {
 
     if (errors == "") {
         //
-
-
         let productcopyset = false;
 
         for (let index in product.productCopyList) {
@@ -699,7 +640,6 @@ const buttonInnerAddMC = (value) => {
                 productcopyset = true;
                 break;
             }
-
         }
         if (!productcopyset) {
 
@@ -709,7 +649,6 @@ const buttonInnerAddMC = (value) => {
                     + "\n Paper Type : " + productCopy.papertype_id.name
                     + "\n Paper Colors : " + productCopy.papercolors_id.name;
                 let userResponce = window.confirm(confirmMs);
-
 
                 if (userResponce) {
                     product.productCopyList.push(productCopy);
@@ -781,6 +720,10 @@ function refreshMQFormTable() {
     // }
 
     txtQty.value="";
+    txtPaperHeight.value = "";
+    txtPaperWidth.value = "";
+    txtPaperWidth.style.borderBottom = "1px solid #cacfe7";
+    txtPaperHeight.style.borderBottom = "1px solid #cacfe7";
     txtQty.style.borderBottom = "1px solid #cacfe7";
     cmbMaterial.style.borderBottom = "1px solid #cacfe7";
 
@@ -894,4 +837,41 @@ const rowView = (ob,rowind) => {
     // tdpType.innerHTML = printproduct.papertype_id.name ;
     tdPColors.innerHTML = printproduct.papercolors_id.name ;
 
+}
+
+
+const refreshbuttonAddPaperType =() => {
+
+    papertype = new Object();
+
+    productcategories =  getServiceRequest("/productCategory/list");
+fillSelectFeild(cmbproductCategoryPT,"Select Product Category",productcategories,"name","")
+
+    txtPaperTypeName = " ";
+}
+
+
+//Add Eventlisteners to Papertype cancel button
+const cancelPT = document.getElementById('btnAddpaperTypeCancel');
+const divAddPTy = document.getElementById("divAddButtonPaperType");
+cancelPT.addEventListener("click",() => {
+    refreshbuttonAddPaperType();
+    divAddPTy.style.display = "none" ;
+});
+
+
+//Add Eventlistener to Papertype add button
+const addPT = document.getElementById("btnAddpaperTypeSubmit");
+addPT.addEventListener("click",()=>{
+    let serverResponce =  getHTTPServiceRequest("/paperTypes","POST",papertype);
+    if(serverResponce == "0"){
+        alert("Saved Successfully");
+    }else{
+        return("Failed to add ...You have following error..\n" + serverResponce);
+    }
+
+})
+//Add button funtion
+function buttonAddPaperType() {
+    divAddButtonPaperType.style.display = "block" ;
 }

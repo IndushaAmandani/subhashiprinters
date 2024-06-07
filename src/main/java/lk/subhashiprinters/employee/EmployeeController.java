@@ -1,10 +1,14 @@
 package lk.subhashiprinters.employee;
 
 
+import lk.subhashiprinters.userm.User;
+import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+//import  jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +27,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeStatusRepository employeeStatusDao;
+
+    @Autowired
+    private UserRepository userDao;
 
     //create get mapping for get emplpyee ui ---> [ /employee]
     @GetMapping
@@ -109,8 +116,13 @@ public class EmployeeController {
     @PutMapping
     public String updateEmployee(@RequestBody Employee employee){
         //i.	Check privilege for logged user
+      Authentication auth =   SecurityContextHolder.getContext().getAuthentication();
 
         // need to check duplicate columns values
+               Employee extEmployee  = employeeDao.getReferenceById(employee.getId());
+               if(extEmployee == null){
+                   return "Employee update not completed : Employee not availbale";
+               }
         // check nic exist or not
         Employee extEmpByNic = employeeDao.getByNic(employee.getNic());
         if(extEmpByNic != null && employee.getId() != extEmpByNic.getId()){
@@ -124,7 +136,10 @@ public class EmployeeController {
         try {
             //set auto inser value
             employee.setLast_update_datetime(LocalDateTime.now());
-
+             if (employee.getEmployeestatus_id().getName().equals("Resign")|| employee.getEmployeestatus_id().getName().equals("Removed")){
+               User extuser =  userDao.getUserByEmplyee(employee.getId());
+               extuser.setStatus(false);
+            };
             // save operator
             employeeDao.save(employee);
             //Need update dependency module
@@ -136,6 +151,7 @@ public class EmployeeController {
     }
 
     // create delete mapping for delete employee [/employee]
+    //@Transactional
     @DeleteMapping
     public String deleteEmployee(@RequestBody Employee employee){
         //need to check privilage
@@ -153,6 +169,12 @@ public class EmployeeController {
                 employeeDao.save(extEmp);
 
                 //need to update avaible depenence
+                //updating user status
+                  User extUser = userDao.getUserByEmplyee(extEmp.getId());
+                        if(extUser != null){
+                            extUser.setStatus(false);
+                            userDao.save(extUser);}
+
 
                 return "0";
 

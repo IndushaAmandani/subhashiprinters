@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
+    <title>Subhashi Printers - User Management </title>
+</head>
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+
+<!-- fixed-top-->
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
+
+  <div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+          <h3 class="content-header-title mb-0 d-inline-block">User Management</h3>
+          <div class="row breadcrumbs-top d-inline-block">
+            <div class="breadcrumb-wrapper col-12">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">user
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      <!-- Add User Button Open Model -->
+        <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+          <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" data-toggle="modal" data-target="#modalUserForm" >Add
+              new User</a></div>
+        </div>
+      </div>
+      <div class="content-body">
+        <div id="transactions">
+          <div class="transactions-table-tbody">
+
+       
+            <section class="card pull-up">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-12">
+
+                        <table class="table table-hover table-bordered" id="tableUser">
+                            <thead class="table-dark" style="background-color: #152650">
+                            <tr>
+                                <th> # </th>
+                                <th> Employee </th>
+                                <th> Username </th>
+                                <th> Roles </th>
+                                <th> Email </th>
+                                <th> Status </th>
+                                <th> Modify </th>
+                            </tr>
+                        </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<footer th:replace = "~{fragment::footerFragment}"></footer>
+
+
+
+  <div class="modal" tableindex="-1" id="modalUserForm" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h2"> <i class="fas fa-user fx"></i> Edit User</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <!--  User form -->
+              
+                <form onsubmit="return false">
+                  <!-- Required mark -->
+                  <div class="row mt-2">
+                      <span class="font-weight-bold col-4"> Required <span class="text-danger">*</span></span>
+                  </div>
+
+                  <!-- Employee -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Employee :
+                                  <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <select id="selectEmployee" class="form-control" required
+                          onchange="selectValidator(selectEmployee,'','user','employee_id','olduser'); selectEmployeeCH()"></select>
+                      </div>
+                  </div>
+
+                  <!-- User Name -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> User Name :
+                          <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <input type="text" id="textUserName" onkeyup="textFeildValidtor(textUserName,'^(([A-Z][a-z]{3,20}[ ])+([A-Za-z]{3,20}){1}|([A-Za-z]{3,20}))$','user','username','olduser')"
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" placeholder="Enter Username" class="form-control" required>
+                      </div>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Password :
+                          <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <input type="password" id="textPassword" placeholder="Enter Password" class="form-control" onkeyup="textFeildValidtor(textPassword,'^[A-Za-z0-9@#*]{5,15}$','user','password','olduser')" required>
+                      </div>
+                  </div>
+
+                  <!-- Re-Type Password -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Re-Type Password :
+                          <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <input type="password" id="textReTypePassword"  onkeyup="textReTypePasswordValidator()" placeholder="Enter Re-Type Password" class="form-control" required>
+                      </div>
+                  </div>
+
+                  <!-- Email -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Email :
+                          <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <input type="email" id="textEmail" class="form-control" onkeyup="textFeildValidtor(textEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','user','email','olduser');" required>
+                      </div>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Description : </label>
+                      <div class="col-8">
+                          <textarea id="textDescription" placeholder="Enter Description" class="form-control" ></textarea>
+                      </div>
+                  </div>
+
+                  <!-- Roles -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Roles : </label>
+                      <div class="col-8">
+                      </div>
+
+                      <div class="col-4"></div>
+                      <div class="col-8" id="divRoles">
+
+                      </div>
+                  </div>
+
+                  <!-- Status -->
+                  <div class="row mt-2">
+                      <label class="form-label font-weight-bold col-4"> Status :
+                          <span class="text-danger"> * </span></label>
+                      <div class="col-8">
+                          <div class="form-check form-switch">
+                              <input type="checkbox" class="form-check-input" id="chkUserStatus" required checked
+                              onchange="checkboxValidator(chkUserStatus,'','user','status','olduser',true,false,lblUserStatus,'User Account is active','User Account is In-Active')">
+                              <label class="form-check-label fw-bold" id="lblUserStatus"> User Account is Active</label>
+                          </div>
+                      </div>
+                  </div>
+
+
+                  <!-- Buttons -->
+                  <div class="row mt-2">
+                      <div class="col-12 text-end">
+                          <button class="btn btn-info font-weight-bold" style="width: 25%; border-radius: 25px"
+                          onclick="refreshForm()"> Clear </button>
+                          <button class="btn btn-warning font-weight-boldd ms-2 me-2" style="width: 25%; border-radius: 25px" onclick="buttonUpdateMC()"> Update </button>
+                          <button class="btn btn-success font-weight-bold" style="width: 25%; border-radius: 25px"
+                          onclick="buttonSubmitMC()"> Submit </button>
+                      </div>
+                  </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  <!-- BEGIN VENDOR JS-->
+  <script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+  <!-- BEGIN VENDOR JS-->
+  <!-- BEGIN PAGE VENDOR JS-->
+  <!-- END PAGE VENDOR JS-->
+  <!-- BEGIN MODERN JS-->
+  <script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+  <script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+  <script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+  <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+  <script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/resources/script/dashboard.js"></script>
+  <script src="/user.js" type="text/javascript"></script>
+  <!-- END MODERN JS-->
+  <!-- BEGIN PAGE LEVEL JS-->
+  <!-- END PAGE LEVEL JS-->
+</body>
+
+</html>

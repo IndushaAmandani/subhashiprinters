@@ -28,8 +28,8 @@ const refreshTable = ()=>{
 
     for(let index in suppliers){
         if(suppliers[index].supplier_status_id.name == "Removed"){
-            tableSupplier.children[1].children[index].style.backgroundColor = "pink";
-
+            tableSupplier.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableSupplier.children[1].children[index].style.color = "#0f100f";
             tableSupplier.children[1].children[index].children[7].children[1].disabled = true;
             tableSupplier.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             tableSupplier.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
@@ -38,20 +38,6 @@ const refreshTable = ()=>{
     }
 
     $("#tableSupplier").dataTable();
-}
-
-
-// create function for get sales price
-function getSupplyMaterialName(ob){
-    let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id);
-    // console.log(supplyIMaterialList);
-    let materialsName = "";
-
-for(index in supplyIMaterialList ){
-    materialsName = materialsName + supplyIMaterialList[index]['name'] + ","
- //String - poster paper,dimai,
-}
-    return materialsName;
 }
 
 
@@ -75,7 +61,7 @@ const refreshSupplierForm = ()=> {
     txtContactNo.value = "";
     txtEmailAddress.value = "";
 
-    txtCompanyRegno.value = "";
+    // txtCompanyRegno.value = "";
     txtContactPersonName.value = "";
     txtContactPersonMobile.value = "";
     txtBankName.value = "";
@@ -96,28 +82,7 @@ const refreshSupplierForm = ()=> {
 
 }
 
-let disabledButton = (addbtn, updbtn) => {
 
-    if (addbtn && lggeduserprivilage.ins) {
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "pointer");
-    } else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "not-allowed");
-    }
-
-    if (updbtn && lggeduserprivilage.upd) {
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "pointer");
-    } else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "not-allowed");
-    }
-}
 
 function setStyle(style) {
 
@@ -127,7 +92,7 @@ function setStyle(style) {
     txtContactNo.style.borderBottom = style;
     txtEmailAddress.style.borderBottom = style;
     cmbSupplierStatus.style.borderBottom = style;
-    txtCompanyRegno.style.borderBottom = style;
+  //  txtCompanyRegno.style.borderBottom = style;
     txtContactPersonName.style.borderBottom = style;
     txtContactPersonMobile.style.borderBottom = style;
     txtBankName.style.borderBottom = style;
@@ -190,6 +155,18 @@ function buttonRemoveByAll() {
     fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 }
 
+// create function for get sales price
+function getSupplyMaterialName(ob){
+    let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+ob.id);
+    // console.log(supplyIMaterialList);
+    let materialsName = "";
+
+    for(let index in supplyIMaterialList ){
+        materialsName = materialsName + supplyIMaterialList[index]['name'] + ","
+        //String - poster paper,dimai,
+    }
+    return materialsName;
+}
 
 //check available errors in form
 const checkSupplierFormError = ()=>{

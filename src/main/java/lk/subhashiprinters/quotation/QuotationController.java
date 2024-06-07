@@ -66,6 +66,7 @@ public class QuotationController {
     //List returning list of status from repo
     @GetMapping(value = "/listvalid/{sid}/{requireddate}",produces= "application/json")
     public List<Quotation> quotationListByValid(@PathVariable("sid") Integer sid,@PathVariable("requireddate") String requireddate){
+        //since require date retrieve as string have to convert into date type
         return quotationDao.validList(sid, LocalDate.parse(requireddate));
     }
 

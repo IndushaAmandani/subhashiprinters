@@ -50,6 +50,8 @@ public class MRNController {
     }
 
     //get object by given id using path variable [ /purchaseorder/getbyid/{id}]
+
+
     @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
     public MRN getByPathId(@PathVariable("id")Integer id){
         return mrnDao.getReferenceById(id);
@@ -76,6 +78,11 @@ public class MRNController {
         }
     }
 
+@GetMapping(value = "/getnotpaid",produces = "application/json")
+public List<MRN> getnotpaid(){return mrnDao.getnotpaid(); }
+
+
+
     @PostMapping
     @Transactional
     public String inserPorder(@RequestBody PurchaseOrder porder) {
@@ -87,6 +94,7 @@ public class MRNController {
             try {
 
                 porder.setAddeddatetime(LocalDateTime.now());
+              //  addeduser_id is the tyype of User
                 porder.setAdded_user_id(logeduser);
            //     porder.setOrder_no(purchaseOrderDao.getNextPorderNo());
 

@@ -63,13 +63,14 @@ const refreshSPForm = ()=> {
     oldSupplierPayment  = null;
 
     // need to fill data into dropdown element
-    suppliers = getServiceRequest("/supplier/list"); //
-    mrns = getServiceRequest("/mrn/list"); //
+  //  suppliers = getServiceRequest("/supplier/list"); //
+    suppliers = getServiceRequest("/supplier/tobepaidlist");
+    mrns = getServiceRequest("/mrn/getnotpaid"); //
     spstatuses = getServiceRequest("/spstatus/list"); //
     sptypes = getServiceRequest("/sptype/list"); //
 
     fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name","");
-    fillSelectFeild(cmbPMethod,"Select Method>" , sptypes ,"name","Cash");
+    fillSelectFeild(cmbPMethod,"Select Method" , sptypes ,"name","Cash");
     fillSelectFeild(cmbMrn,"Select MRN" , mrns ,"recieve_no","");
     fillSelectFeild(cmbSPStatus,"Select QR Status" , spstatuses ,"name","Paid");
     newSupplierPayment.supplier_payment_status_id = JSON.parse(cmbSPStatus.value);
@@ -90,10 +91,10 @@ const refreshSPForm = ()=> {
     cmbSPStatus.style.borderBottom = "2px solid green";
     cmbPMethod.style.borderBottom = "2px solid green";
 
-    disabledButton(true , false);
+    disabledSPButton(true , false);
 }
 
-let disabledButton = (addbtn , updbtn) => {
+let disabledSPButton = (addbtn , updbtn) => {
 
     if(addbtn && lggeduserprivilage.ins){
         buttonAdd.disabled = false;
@@ -208,13 +209,16 @@ function viewSPRow(rowob,rowind) {
 }
 
 function getMRN() {
-    mrns = getServiceRequest("/mrn/listbysupplier/"+JSON.parse(cmbSupplier.value).id); //
+        mrns = getServiceRequest("/mrn/listbysupplier/"+JSON.parse(cmbSupplier.value).id); //
     fillSelectFeild(cmbMrn,"Select QR Status" , mrns ,"recieve_no","");
 
     txtTotalAmount.value =  parseFloat(JSON.parse(cmbSupplier.value).amount).toFixed(2);
     txtTotalAmount.style.borderBottom = "2px solid green";
     newSupplierPayment.total_amount = txtTotalAmount.value;
 }
+
+
+
 
 function getTotalAmountFormMRN() {
     txtNetAmount.value = parseFloat(JSON.parse(cmbMrn.value).net_amount).toFixed(2);

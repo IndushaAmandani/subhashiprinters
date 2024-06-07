@@ -51,34 +51,14 @@ function refreshdailyProductForm(){
     txtcompletedQuantity.disabled =true;
     txtPreBalanceQuantity.disabled=true;
     let x = 0;
-    setStyle("1px solid #ced4da");
+   const  idArray = [cmbCustomerOrder,cmbProduct,txtTotalQuantity,txtcompletedQuantity,txtPreBalanceQuantity,txtDailyQuantity,txtNewBalanceQuantity]
+    setIDStyle(idArray,"1px solid #ced4da");
     txtNewBalanceQuantity.disabled=true;
     disabledButton(true, false);
 
 }
-function setStyle() {
-    cmbCustomerOrder.style.borderBottom = "1px solid #ced4da" ;
-    cmbProduct.style.borderBottom =  "1px solid #ced4da"
-    txtTotalQuantity.style.borderBottom =  "1px solid #ced4da";
-    txtcompletedQuantity.style.borderBottom = "1px solid #ced4da" ;
-    txtPreBalanceQuantity.style.borderBottom = "1px solid #ced4da" ;
-    txtDailyQuantity.style.borderBottom = "1px solid #ced4da" ;
-    txtNewBalanceQuantity.style.borderBottom = "1px solid #ced4da" ;
-}
 
-function disabledButton(addbtn , updbtn){
 
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("buttonAdd").css("pointer-events","all");
-        $("buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-
-}
 
 function getProductList() {
 

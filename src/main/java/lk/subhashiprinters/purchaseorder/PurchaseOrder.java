@@ -73,8 +73,7 @@ public class PurchaseOrder {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "purchase_order_id" , orphanRemoval = true )
     private List<PurchaseOrderHasMaterial> purchaseOrderHasMaterialList;
 
-    public PurchaseOrder(Integer id, String order_no, LocalDate required_date, BigDecimal total_amount, Quotation quatation_id,
-                     PorderStatus purchase_order_status_id  ) {
+    public PurchaseOrder(Integer id, String order_no, LocalDate required_date, BigDecimal total_amount, Quotation quatation_id, PorderStatus purchase_order_status_id  ) {
         this.id = id;
         this.order_no = order_no;
         this.required_date = required_date;
@@ -83,8 +82,9 @@ public class PurchaseOrder {
         this.purchase_order_status_id = purchase_order_status_id;
 
     }
-    public PurchaseOrder( Integer id,Supplier supplier_id, Quotation quatation_id){
+    public PurchaseOrder( Integer id,String order_no,Supplier supplier_id, Quotation quatation_id){
         this.id = id;
+        this.order_no = order_no;
         this.supplier_id = supplier_id;
         this.quatation_id = quatation_id;
     }

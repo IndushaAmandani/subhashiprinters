@@ -91,45 +91,12 @@ const refreshCustomerForm = () => {
   
     disabledButton(true , false);
 
-    setStyle("1px solid #cacfe7")
+    let customerArray = [txtName,txtMobile,txtCustomerEmail,txtContactPName,txtContactPMobile,txtContactPEmail,txtDescription,cmbCustomerCategory,cmbCustomerStatus]
+    setIDStyle(customerArray,"1px solid #cacfe7");
     
-
     cmbCustomerStatus.style.borderBottom = "1px solid green";
 }
 
-function disabledButton(addbtn , updbtn){
-
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false; 
-        $("buttonAdd").css("pointer-events","all");
-        $("buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-    if(updbtn && lggeduserprivilage.upd){
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","pointer");
-    }else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","not-allowed");
-    }
-
-}
-
-function setUiElementColor(style) {
-    txtFirstname.style.borderBottom = style;
-    txtLastname.style.borderBottom = style;
-    txtNIC.style.borderBottom = style;
-    txtMobile.style.borderBottom = style;
-    cmbCstomerStatus.style.borderBottom = style;
-    cmbCompanyName.style.borderBottom = style;
-    txtContactPName.style.borderBottom = style;
-    txtContactPMobile.style.borderBottom = style;
-}
 
 const  checkErrors = () => {
 
@@ -157,17 +124,17 @@ const  checkErrors = () => {
     }else{
         if(customer.customer_category_id.name == "company"){
 
-            if(customer.company_name == null){
-                errors = errors + "Company name is not entered.. \n "
-            }
+            // if(customer.company_name == null){
+            //     errors = errors + "Company name is not entered.. \n "
+            // }
         
-            if(customer.company_contactnumber == null){
-                errors = errors + "Company Contact Number is not entered.. \n";
-            }
+            // if(customer.company_contactnumber == null){
+            //     errors = errors + "Company Contact Number is not entered.. \n";
+            // }
         
-            if(customer.company_email == null){
-                errors = errors + "Company email is not entered.. \n";
-            }
+            // if(customer.company_email == null){
+            //     errors = errors + "Company email is not entered.. \n";
+            // }
         }
     }
 
@@ -180,53 +147,13 @@ const  checkErrors = () => {
     return errors;
 }
 
-function buttonSubmitMC() {
-//need to check form errors
-    let errors = checkErrors();
-
-    if (errors == "") {
-        let submitConfirmMsg = "Are you sure to add following... " +
-            "\n Customer Full Name : " + customer.customer_name;
-        let userResponce = window.confirm(submitConfirmMsg);
-
-        if (userResponce) {
-            let postServieResponce;
-            $.ajax("/customer", {
-                async: false,
-                type: "POST",
-                data: JSON.stringify(customer),
-                contentType: "application/json",
-                success: function (susResdata, susStatus, ajresob) {
-                    postServieResponce = susResdata;
-                },
-                error: function (errRsOb, errStatus, errorMsg) {
-                    postServieResponce = errorMsg;
-                }
-
-            });
-
-            if (postServieResponce == "0") {
-
-                alert("Add Successfull..!");
-                window.location.replace("/product.html");
-                refreshCustomerTable();
-                refreshCustomerForm();
-                $("#modalCustomerForm").modal("hide");
-            } else {
-                window.alert("You have following error \n" + postServieResponce);
-            }
-
-        }
-    } else {
-        window.alert("You have following error \n" + errors);
-    }
+//(checkEerrors(),submitConfirmQuestion,objectQs0Properties,url,redirectUrl,refreshTable(),refreshForm(),modalID)
+function  buttonSubmitMC(){
+    submitmodal(checkErrors,"Customer Full Name :",customer,customer.customer_name,"/customer","/product",refreshCustomerTable,refreshCustomerForm,"#modalCustomerForm");
 }
 
+
  const formRefill = (ob, rowno) => {
-
-        customer = JSON.parse(JSON.stringify((ob)));
-        oldcustomer = JSON.parse(JSON.stringify((ob)))
-
 
     customer =getServiceRequest("/customer/getbyid/"+ob.id )
         oldcustomer =getServiceRequest("/customer/getbyid?id=" +ob.id)
@@ -261,8 +188,8 @@ function buttonSubmitMC() {
         //fillSelectFeild(cmbCustomerType, "Select Types", types, 'name', customer.customer_type_id.name);
         fillSelectFeild(cmbCustomerStatus, "Select Customer status", customerStatuses, 'name', customer.customerstatus_id.name);
 
-        setStyle("2px dotted green");
-
+     let customerArray = [txtName,txtMobile,txtCustomerEmail,txtContactPName,txtContactPMobile,txtContactPEmail,txtDescription,cmbCustomerCategory,cmbCustomerStatus]
+     setIDStyle(customerArray,"2px dotted green");
         $("#modalCustomerForm").modal("show");
 
         disabledButton(false, true);
@@ -270,21 +197,17 @@ function buttonSubmitMC() {
 
     }
 
-    function setStyle(style) {
-        txtName.style.border = style;
-        txtMobile.style.border = style;
-        txtCustomerEmail.style.border = style;
-        txtContactPName.style.border = style;
-        txtContactPMobile.style.border = style;
-        txtContactPEmail.style.border = style;
+
+
+
+
+
+
+//setstyle
         // txtCompanyName.style.border = style;
       //  txtCompanyNumber.style.border = style;
       //  txtCompanyEmail.style.border = style;
-        txtDescription.style.border = style;
-        cmbCustomerCategory.style.border = style;
-        cmbCustomerStatus.style.borderBottom = style;
 
-    }
 
     const checkUpdate = () => {
         let updates = "";
@@ -329,59 +252,10 @@ function buttonSubmitMC() {
         return updates;
     }
 
-    function buttonUpdateMC() {
-        //
-        let updateResponceMsg = "Are you sure to update following customer..? \n";
-        let errors = checkErrors();
-        if (errors == "") {
-            //
-            let updates = checkUpdate();
-            if (updates == "") {
-
-                window.alert("Nothing updated...! \n ");
-            } else {
-
-                let updateResponce = window.confirm( updateResponceMsg + updates);
-
-                if (updateResponce) {
-                    let putResponce;
-
-                    $.ajax("/customer", {
-                        async: false,
-                        type: "PUT", // method delete
-                        data: JSON.stringify(customer), // object
-                        contentType: "application/json",
-                        success: function (susResdata, susStatus, ajresob) {
-                            putResponce = susResdata;
-                        },
-                        error: function (errRsOb, errStatus, errorMsg) {
-                            putResponce = errorMsg;
-                        }
-                    });
-
-
-                    if (putResponce == "0") {
-                        window.alert("Update Successfully...!");
-                        refreshCustomerTable();
-                        refreshCustomerForm();
-                        $("#modalCustomerForm").modal("hide");
-
-
-                    } else {
-                        //
-                        window.alert("Fail to update ...! \n " + putResponce);
-                    }
-
-                }
-            }
-        } else {
-
-            window.alert("You have following error in your form...! \n " + errors);
-        }
-
-    }
-
-
+function buttonUpdateMC() {
+                    //(updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID)
+    updatemodal("customer",checkErrors,checkUpdate,"/customer",customer,refreshCustomerTable,refreshCustomerForm,"#modalCustomerForm")
+   }
     const rowDelete = (ob, rowno) => {
 
         let deleteMsg = "Are you sure to delete following customer..? \n"
@@ -424,6 +298,7 @@ function buttonSubmitMC() {
 
 function showCompanyForm() {
 
+
    /* if (cmbCustomerCategory.value.toString() == "company") */
     if (JSON.parse(cmbCustomerCategory.value).name == "company") {
         divContactdetails.style.display = "none"
@@ -437,13 +312,8 @@ function showCompanyForm() {
 //divContactdetails
 
 function buttonModalCloseMC() {
+    buttonCloseModal("#modalCustomerForm",refreshCustomerForm);
 
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-        refreshCustomerForm();
-        $("#modalCustomerForm").modal("hide");
-    }
 }
 function validatingNamings() {
     let txtPersonName = txtName.value;
@@ -483,15 +353,6 @@ function validateMobileNumber(){
 
 //View
 
-function buttonModalCloseMCV() {
-
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-
-        $("#modalViewCustomerForm").modal("hide");
-    }
-}
 
 function printRowItemMC() {
     let newWindow = window.open();

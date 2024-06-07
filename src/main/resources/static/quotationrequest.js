@@ -73,7 +73,7 @@ const refreshQRForm = ()=> {
     cmbQRStatus.disabled = true;
 
     // clear input feilds
-    txtQRNo.value = "Quotation Request number is auto generated";
+
     dteRequiredDate.value = "";
     let mindate = new Date();
     let maxDate = new Date();
@@ -90,28 +90,7 @@ const refreshQRForm = ()=> {
     disabledButton(true , false);
 }
 
-let disabledButton = (addbtn , updbtn) => {
 
-    if(addbtn && lggeduserprivilage.ins){
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","pointer");
-    }else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events","all");
-        $("#buttonAdd").css("cursor","not-allowed");
-    }
-
-    if(updbtn && lggeduserprivilage.upd){
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","pointer");
-    }else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events","all");
-        $("#buttonUpdate").css("cursor","not-allowed");
-    }
-}
 
 let setUiElementColor = (style) => {
     cmbSupplier.style.borderBottom = style;
@@ -187,7 +166,7 @@ function reFillItemForm(rowob,rowind) {
     cmbQRStatus.disabled = false;
 
     // clear input feilds
-    txtQRNo.value = newQuotationRequest.request_number;
+
     dteRequiredDate.value = newQuotationRequest.required_date;
     if( newQuotationRequest.note != null)
     txtNote.value = newQuotationRequest.note; else  txtNote.value = "";
@@ -296,3 +275,6 @@ function viewItemRow(rowob,rowind) {
 
 }
 
+function  buttonModalCloseMC (){
+    buttonCloseModal("#modalQuotationRequestForm",refreshQRForm);
+}

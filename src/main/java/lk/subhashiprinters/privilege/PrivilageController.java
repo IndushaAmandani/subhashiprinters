@@ -1,6 +1,7 @@
 //privilage- slect,insrt,updt,updt,deltt
 package lk.subhashiprinters.privilege;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lk.subhashiprinters.privilege.Privilage;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.privilege.PrivilageRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ public class PrivilageController {
     public HashMap<String,Boolean> getPriviledgeByUserModule(@PathVariable("modulename") String modulename){
         //get logged user authentication obj
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.print(authentication.getDetails());
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         HashMap <String,Boolean> userPriv = new HashMap<>();
         if(loggedUser != null){
@@ -119,7 +122,8 @@ if(extPrivilage != null){
 
     }
 
-    @DeleteMapping
+        @DeleteMapping
+
     public String deletePrivilage(@RequestBody Privilage privilage) {
         //need to check privilage for logged user
 

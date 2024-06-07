@@ -63,7 +63,7 @@ function selectEmployeeCH(){
 const  refreshForm = () => {
 
    user =  new Object();
-   olduser = null;
+   olduser = null; //initially old object null then if null check password and retype password
 
    user.roles = new Array();
 
@@ -181,51 +181,29 @@ function buttonSubmitMC() {
 }
 
 const formRefill = (ob,rowno) => {
-console.log("hi");
+
  //user = getServiceRequest("user/getbyid/" + ob.id);
 user = JSON.parse(JSON.stringify(ob));
 olduser = JSON.parse(JSON.stringify(ob));
 
-
- $.ajax('/user/getbyid/'+ob.id,{
-     async: false,
-     dataType:'json',
-     //responce obj -xhr
-     success: function (data,status, xhr){
-         user = data;
-     },
-     error: function (rxhrdata,errorstatus,errorMessge){
-        user = {};
-     }
- })
-
- // $.ajax('/user/getbyid?id='+ob.id,{
-     $.ajax('/user/getbyid/'+ob.id,{
-         async: false,
-         dataType:'json',
-         success: function (data,status, xhr){
-             olduser = data;
-         },
-         error: function (rxhrdata,errorstatus,errorMessge){
-             olduser  = {};
-         }
-     })
-
-
+user.password = null;
 
     // fill data into employee select element
     employeesListwithoutUserAccount.push(ob.employee_id);
-    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number","");
+    fillSelectFeild2(selectEmployee,"Select Employee...",employeesListwithoutUserAccount ,"calling_name","number",ob.employee_id.calling_name+" --> "+ob.employee_id.number);
 
     // empty text feild
     textUserName.value = user.username  ;
-    textPassword.disabled = true;
-    textReTypePassword.disabled= true;
+   // textPassword.disabled = true;
+    selectEmployee.disabled = true;
+    //textReTypePassword.disabled= true;
     textEmail.value = user.email;
 
     user.status = true;
     chkUserStatus.checked = true;
     lblUserStatus.innerText = "User Account is Active";
+
+// update  the check box
 
     $("#modalUserForm").modal("show");
 }
@@ -233,27 +211,36 @@ olduser = JSON.parse(JSON.stringify(ob));
 function checkUpdate(){
     let updates = "";
 
+    if(user.password != null)
+        updates = updates + "User password Changed..\n"
+
     if(user != null && olduser != null){
         updates = updates + "User name is Changed..\n" + olduser.name;
     }
-    if(user.roles.length != olduser.roles.length){
-        updates = updates + "User roles are Changed..\n";
-    }else{
-        let extCount = 0;
-        for(let index in olduser.roles){
-           for(let ind in user.roles){
-            if(olduser.roles[index]['id'] == user.roles[ind]['id']){
-                //convert any dt into data type ;integer
-                extCount = parseInt(extCount) + 1;
-                break;
-            }
-           }
-        }
-        if(user.roles.length != extCount){
-            updates = updates +"User roles are Changed ..\n";
-        }
-    }
+    // if(user.roles.length != olduser.roles.length){
+    //     updates = updates + "User roles are Changed..\n";
+    // }else{
+    //     let extCount = 0;
+    //     for(let index in olduser.roles){
+    //        for(let ind in user.roles){
+    //         if(olduser.roles[index]['id'] == user.roles[ind]['id']){
+    //             //convert any dt into data type ;integer
+    //             extCount = parseInt(extCount) + 1;
+    //             break;
+    //
+    //             // let index = olduser.roles.map(olduser => oldrole.id).indexOf(newrole.id);
+    //             // if (index == -1)
+    //             // updates = updates + "User role is changed"
+    //         }
+    //        }
+    //     }
+    //     if(user.roles.length != extCount){
+    //         updates = updates +"User roles are Changed ..\n";
+    //     }
+    //}
+return updates;
 }
+
 const deleteRow = (ob) => {
 
     let deleteMsg = "Are you sure to delete following User..? \n"
@@ -300,17 +287,20 @@ const checkErrors = () => {
         errors = errors + "User name is not entered.. \n";
     }
     
+
+if(olduser == null){
+
     if(user.password == null){
         errors = errors + "User password is not entered.. \n";
     }
-
     if(textReTypePassword.value == ""){
         errors = errors + "Password Re-type is not entered.. \n";
     }
-    
     if(textReTypePassword.value != textPassword.value){
         errors = errors + "Password Re-type not Matched.. \n";
     }
+}
+
     if(user.email == null){  
         errors = errors + "User email is not entered.. \n";
     }
@@ -332,7 +322,7 @@ function textReTypePasswordValidator(){
 
 function buttonUpdateMC() {
     //
-    let errors = chechErrors();
+    let errors = checkErrors();
     if (errors == "") {
         //
         let updates = checkUpdate();
@@ -371,7 +361,6 @@ function buttonUpdateMC() {
                     //
                     window.alert("Fail to update ...! \n " + putResponce);
                 }
-
             }
         }
     } else {

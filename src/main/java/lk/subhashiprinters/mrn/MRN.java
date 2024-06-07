@@ -35,13 +35,13 @@ public class MRN {
     private LocalDate recieve_date;
 
     @Column(name = "added_date")
-    private LocalDateTime added_date;
+    private LocalDate added_date;
 
     @Column(name = "update_date")
-    private LocalDateTime update_date;
+    private LocalDate update_date;
 
     @Column(name = "delete_date")
-    private LocalDateTime delete_date;
+    private LocalDate delete_date;
 
     @Column(name = "description")
     private String description;
@@ -74,20 +74,28 @@ public class MRN {
     @JoinColumn(name = "added_user_id" ,referencedColumnName = "id")
     private User added_user_id;
 
+    //To enable crud operation change cascade type into  all,remval not allowed
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "material_recieve_note_id" , orphanRemoval = true )
     private List<MRNHasMaterial> mrnHasMaterialList;
 
-public MRN(Integer id,String recieve_no,String supplier_inovice_no,LocalDate recieve_date,BigDecimal net_amount,PurchaseOrder purchase_order_id, MRNStatus material_recieve_note_status_id){
+
+   // mrn.id, mrn.recieve_no, mrn.recieve_date,mrn.net_amount,mrn.purchase_order_id,mrn.material_recieve_note_status_id,mrn.supplier_inovice_no
+public MRN(Integer id,String recieve_no,LocalDate recieve_date,BigDecimal net_amount,PurchaseOrder purchase_order_id, MRNStatus material_recieve_note_status_id,String supplier_inovice_no){
     this.id  =id ;
     this.recieve_no = recieve_no;
-    this.supplier_inovice_no =supplier_inovice_no ;
     this.recieve_date =recieve_date ;
     this.net_amount =net_amount ;
     this.purchase_order_id = purchase_order_id;
     this.material_recieve_note_status_id = material_recieve_note_status_id;
+    this.supplier_inovice_no =supplier_inovice_no ;
 }
 
-
+public MRN(Integer id,String recieve_no,LocalDate recieve_date,BigDecimal net_amount){
+    this.id  =id ;
+    this.recieve_no = recieve_no;
+    this.recieve_date =recieve_date ;
+    this.net_amount =net_amount ;
+}
 
 
 }

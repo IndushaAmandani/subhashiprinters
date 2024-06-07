@@ -31,7 +31,7 @@ const refreshTable = () => {
     for (let index in materials) {
         if (materials[index].material_status_id.name == "Removed") {
             tableMaterial.children[1].children[index].style.backgroundColor = "#ad9393";
-
+            tableMaterial.children[1].children[index].style.color = "#0f100f";
             tableMaterial.children[1].children[index].children[9].children[1].disabled = true;
             tableMaterial.children[1].children[index].children[9].children[1].style.pointerEvents = "all";
             tableMaterial.children[1].children[index].children[9].children[1].style.cursor = "not-allowed";
@@ -77,28 +77,7 @@ const refreshMaterialForm = () => {
 
 }
 
-let disabledButton = (addbtn, updbtn) => {
 
-    if (addbtn && lggeduserprivilage.ins) {
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "pointer");
-    } else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "not-allowed");
-    }
-
-    if (updbtn && lggeduserprivilage.upd) {
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "pointer");
-    } else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "not-allowed");
-    }
-}
 
 function setStyle(style) {
     cmbCategory.style.borderBottom = style;

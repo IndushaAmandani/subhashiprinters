@@ -28,7 +28,7 @@ function refreshtablePendingCOrder() {
         productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Confirmed";
         productionOrderConfirmTable.children[1].children[index].children[5].children[0].style.backgroundColor = "lightblue";
 
-
+// #ffff66
     }
 
     // need to add jquerty table

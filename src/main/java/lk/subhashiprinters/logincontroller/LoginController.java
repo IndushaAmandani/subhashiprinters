@@ -46,7 +46,6 @@ public class LoginController {
     @GetMapping(value = "/login" , params = "error")
     public ModelAndView loginErrorUI(@RequestParam("error") String error){
         ModelAndView loginui = new ModelAndView();
-
         loginui.setViewName("login.html");
         return loginui;
     }
@@ -54,14 +53,15 @@ public class LoginController {
     @GetMapping(value = {"/dashboard", "/"})
     public ModelAndView dashboardUI(){
         ModelAndView dashboardui = new ModelAndView();
+        //ModelAndView dashboardui = new ModelAndView(redirect:/dashboard);
         dashboardui.setViewName("dashboard.html");
         return dashboardui;
     }
 
- @GetMapping(value = "/error")
+    @GetMapping(value = "/errorpagge")
     public ModelAndView accessdDenidUI(){
         ModelAndView accessdenidui = new ModelAndView();
-     accessdenidui.setViewName("404.html");
+        accessdenidui.setViewName("404.html");
         return accessdenidui;
     }
 

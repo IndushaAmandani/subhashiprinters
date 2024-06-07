@@ -71,7 +71,7 @@ const refreshQForm = () => {
     fillSelectFeild(cmbQStatus, "Select Status", quotationstatuses, "name", "Valid", true);
     quotation.quatation_status_id = JSON.parse(cmbQStatus.value);
 
-    txtQNo.value = "Quotation Number is auto generated";
+
     txtNote.value = "";
     dteReceivedDate.value = "";
     dteValidDate.value = "";
@@ -98,29 +98,6 @@ const refreshQForm = () => {
     refreshInnerFormTable();
 }
 
-let disabledButton = (addbtn, updbtn) => {
-
-    if (addbtn && lggeduserprivilage.ins) {
-        buttonAdd.disabled = false;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "pointer");
-    } else {
-        buttonAdd.disabled = true;
-        $("#buttonAdd").css("pointer-events", "all");
-        $("#buttonAdd").css("cursor", "not-allowed");
-    }
-
-    if (updbtn && lggeduserprivilage.upd) {
-        buttonUpdate.disabled = false;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "pointer");
-    } else {
-        buttonUpdate.disabled = true;
-        $("#buttonUpdate").css("pointer-events", "all");
-        $("#buttonUpdate").css("cursor", "not-allowed");
-    }
-}
-
 function setStyle(style) {
     cmbSupplier.style.borderBottom = style;
     cmbQRequest.style.borderBottom = style;
@@ -128,7 +105,7 @@ function setStyle(style) {
     txtNote.style.borderBottom = style;
     dteReceivedDate.style.borderBottom = style;
     dteValidDate.style.borderBottom = style;
-    txtQNo.style.borderBottom = style;
+
 
 }
 
@@ -384,7 +361,7 @@ const formReFill = (ob, rowno) => {
     if (quotation.note != null)
         txtNote.value = quotation.note; else txtNote.value = "";
 
-    txtQNo.value = quotation.number;
+
     dteReceivedDate.value = quotation.recieve_date
     dteValidDate.value = quotation.valid_period
 

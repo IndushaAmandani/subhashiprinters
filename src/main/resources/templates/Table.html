@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables</title>
+    <link rel="apple-touch-icon" href="/app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/ico/favicon.ico">
+    <link
+        href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
+        rel="stylesheet">
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/vendors.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/charts/chartist.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/charts/chartist-plugin-tooltip.css">
+    <!-- END VENDOR CSS-->
+    <!-- BEGIN MODERN CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+    <!-- END MODERN CSS-->
+    <!-- BEGIN Page Level CSS-->
+    <link rel="stylesheet" type="text/css"
+        href="/app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/cryptocoins/cryptocoins.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/timeline.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/dashboard-ico.css">
+    <!-- END Page Level CSS-->
+    <!-- BEGIN Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    <!-- END Custom CSS-->
+</head>
+
+<body style="background-color: rgb(118, 141, 245);">
+    <!-- Material Table -->
+<!--    <div class="row">-->
+<!--        <div id="recent-transactions" class="col-12">-->
+<!--            <h6 class="my-2"> 01) Material List Report</h6>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">-->
+<!--                    <div class="table-responsive">-->
+<!--                        <table id="recent-orders" class="table table-hover table-xl mb-0">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th class="border-top-0">Material Code</th>-->
+<!--                                    <th class="border-top-0">Material Name</th>-->
+<!--                                    <th class="border-top-0">Material Unit Type</th>-->
+<!--                                    <th class="border-top-0">Minimal Inventory</th>-->
+<!--                                    <th class="border-top-0">Current Inventory</th>-->
+<!--                                    <th class="border-top-0">Ready to use Inventory</th>-->
+
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">M00001</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">A4 80Gsm</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a class="mb-0 btn-sm btn btn-outline-success round"> Paper </a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">20</td>-->
+<!--                                    <td class="font-medium-1 mr-1">580</td>-->
+<!--                                    <td class="font-medium-1 mr-1">560</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">M00002</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">A3 80Gsm</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a class="mb-0 btn-sm btn btn-outline-success round"> Paper </a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">10</td>-->
+<!--                                    <td class="font-medium-1 mr-1">322</td>-->
+<!--                                    <td class="font-medium-1 mr-1">312</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">M00003</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">RGB Cartridge</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a class="mb-0 btn-sm btn btn-outline-red round"> Ink </a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">2</td>-->
+<!--                                    <td class="font-medium-1 mr-1 red">1</td>-->
+<!--                                    <td class="font-medium-1 mr-1 red">0</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">M00004</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Hard Board</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a class="mb-0 btn-sm btn btn-outline-red round"> Paper </a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">15</td>-->
+<!--                                    <td class="font-medium-1 mr-1 red">14</td>-->
+<!--                                    <td class="font-medium-1 mr-1 red">0</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">M00005</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">CMYK Cartridge</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a class="mb-0 btn-sm btn btn-outline-success round"> Ink </a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">5</td>-->
+<!--                                    <td class="font-medium-1 mr-1">13</td>-->
+<!--                                    <td class="font-medium-1 mr-1">8</td>-->
+<!--                                </tr>-->
+
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;/ Material Table &ndash;&gt;-->
+
+<!--    <hr style="border-width: 3px; border-color: black">-->
+
+<!--    &lt;!&ndash; Product Table &ndash;&gt;-->
+<!--    <div class="row">-->
+<!--        <div id="recent-transactions" class="col-12">-->
+<!--            <h6 class="my-2"> 02) Monthly Product Report </h6>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">-->
+<!--                    <div class="table-responsive">-->
+<!--                        <table id="recent-orders" class="table table-hover table-xl mb-0">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th class="border-top-0">Product No.</th>-->
+<!--                                    <th class="border-top-0">Product Name</th>-->
+<!--                                    <th class="border-top-0">Customer Name</th>-->
+<!--                                    <th class="border-top-0">Total No. Of Orders</th>-->
+<!--                                    <th class="border-top-0">Total Amount</th>-->
+
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00001</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Wedding Card</td>-->
+<!--                                    <td class="font-medium-1 mr-1">Kasun Chanaka</td>-->
+<!--                                    <td class="font-medium-1 mr-1">1</td>-->
+<!--                                    <td class="font-medium-1 mr-1">320</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00002</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Book Covers</td>-->
+<!--                                    <td class="font-medium-1 mr-1">Pahasara Publications</td>-->
+<!--                                    <td class="font-medium-1 mr-1">25</td>-->
+<!--                                    <td class="font-medium-1 mr-1">1150</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00003</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Book Binding</td>-->
+<!--                                    <td class="font-medium-1 mr-1">Upul Kariyawasam</td>-->
+<!--                                    <td class="font-medium-1 mr-1">3</td>-->
+<!--                                    <td class="font-medium-1 mr-1">120</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00004</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Wedding Card</td>-->
+<!--                                    <td class="font-medium-1 mr-1">Asoka Wedding Planners</td>-->
+<!--                                    <td class="font-medium-1 mr-1">4</td>-->
+<!--                                    <td class="font-medium-1 mr-1">840</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00005</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Hand Bills</td>-->
+<!--                                    <td class="font-medium-1 mr-1">Nana Sevana Institute</td>-->
+<!--                                    <td class="font-medium-1 mr-1">15</td>-->
+<!--                                    <td class="font-medium-1 mr-1">4500</td>-->
+<!--                                </tr>-->
+
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;/ Product Table &ndash;&gt;-->
+
+<!--    <hr style="border-width: 3px; border-color: black">-->
+
+<!--    &lt;!&ndash; Monthly Sales of Orders Table &ndash;&gt;-->
+<!--    <div class="row">-->
+<!--        <div id="recent-transactions" class="col-12">-->
+<!--            <h6 class="my-2"> 03) Monthly Sales Of Orderss Report </h6>-->
+<!--            <div class="card">-->
+<!--                <div class="card-content">-->
+<!--                    <div class="table-responsive">-->
+<!--                        <table id="recent-orders" class="table table-hover table-xl mb-0">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th class="border-top-0">Order No.</th>-->
+<!--                                    <th class="border-top-0">Product No.</th>-->
+<!--                                    <th class="border-top-0">Customer Name</th>-->
+<!--                                    <th class="border-top-0">Amount Of Product</th>-->
+<!--                                    <th class="border-top-0">Order Payment Status</th>-->
+<!--                                    <th class="border-top-0 text-right">Full Payment Amount</th>-->
+
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">O00001</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00001</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Kasun Chanaka</td>-->
+<!--                                    <td class="font-medium-1 mr-1">320</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Fully Paid</a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1 text-right">16000</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">O00002</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00002</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Pahasara Publications</td>-->
+<!--                                    <td class="font-medium-1 mr-1">60</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a href="#" class="mb-0 btn-sm btn btn-outline-warning round">Advanced</a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1 text-right">9000</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">O00003</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00003</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Upul Kariyawasam</td>-->
+<!--                                    <td class="font-medium-1 mr-1">110</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Fully Paid</a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1 text-right">50000</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">O00004</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00004</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Asoka Wedding Planners</td>-->
+<!--                                    <td class="font-medium-1 mr-1">150</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a href="#" class="mb-0 btn-sm btn btn-outline-success round">Fully Paid</a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1 text-right">18750</td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">O00005</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-truncate">-->
+<!--                                        <i class="font-medium-1 mr-1">P00005</i>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1">Nana Sevana Institute</td>-->
+<!--                                    <td class="font-medium-1 mr-1">1350</td>-->
+<!--                                    <td class="font-medium-1 mr-1">-->
+<!--                                        <a href="#" class="mb-0 btn-sm btn btn-outline-red round">Not Paid</a>-->
+<!--                                    </td>-->
+<!--                                    <td class="font-medium-1 mr-1 text-right">6750</td>-->
+<!--                                </tr>-->
+
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;/ Monthly Sales of Orders Table &ndash;&gt;-->
+
+</body>
+
+</html>
