@@ -148,7 +148,7 @@ product.productHasMaterialList = new Array();
     setIDStyle(productArray,"1px solid #cacfe7")
     disabledButton(true, false);
 
-    refreshbuttonAddPaperType();
+
 }
 
 
@@ -308,12 +308,8 @@ const formRefill = (ob, rowno) => {
 function divInnerPCopyFormshow() {
     if (JSON.parse(cmbproductCategory.value).name == "Bill Book") {
         divInnerPCopyForm.style.display = "block";
-
-
     } else {
         divInnerPCopyForm.style.display = "none";
-
-
     }
 
     getPaperType();
@@ -568,7 +564,8 @@ function buttonUpdateMC(){
 
 //Modal close
 function buttonModalCloseMC() {
-buttonCloseModal("#modalProductForm",refreshProductForm)}
+buttonCloseModal("#modalProductForm",refreshProductForm)
+}
 
 //Inner Form
 refreshPInnerFormTable = () => {
@@ -803,14 +800,10 @@ function buttondisabling() {
 
 //View
 
-function buttonModalCloseMCV() {
 
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalViewProductForm",refreshProductForm);
 
-    if (userConfirm) {
-
-        $("#modalViewCustomerForm").modal("hide");
-    }
 }
 
 function printRowItemMC() {
@@ -819,7 +812,7 @@ function printRowItemMC() {
     setTimeout(function () {
         newWindow.print();
         newWindow.close();
-    },1000);
+    },12000);
 }
 
 const rowView = (ob,rowind) => {
@@ -843,11 +836,14 @@ const rowView = (ob,rowind) => {
 const refreshbuttonAddPaperType =() => {
 
     papertype = new Object();
-
+    oldpapertype = null;
     productcategories =  getServiceRequest("/productCategory/list");
-fillSelectFeild(cmbproductCategoryPT,"Select Product Category",productcategories,"name","")
-
-    txtPaperTypeName = " ";
+cmbproductCategoryPT.disabled = true;
+    fillSelectFeild(cmbproductCategoryPT, "Select Product Category", productcategories, "name", product.product_category_id.name)
+papertype.product_category_id = JSON.parse(cmbproductCategoryPT.value);
+    txtpapertypename.value = "";
+   // txtpapertypename.borderBottom.style = "1px solid #cacfe7";
+  //  cmbproductCategoryPT.borderBottom.style = "1px solid #cacfe7";
 }
 
 
@@ -863,15 +859,45 @@ cancelPT.addEventListener("click",() => {
 //Add Eventlistener to Papertype add button
 const addPT = document.getElementById("btnAddpaperTypeSubmit");
 addPT.addEventListener("click",()=>{
-    let serverResponce =  getHTTPServiceRequest("/paperTypes","POST",papertype);
-    if(serverResponce == "0"){
-        alert("Saved Successfully");
-    }else{
-        return("Failed to add ...You have following error..\n" + serverResponce);
-    }
+  let  errors = checkaddPTErrors();
+    if(errors != ""){
+       return "You have following errors :\n" +errors ;
+       refreshbuttonAddPaperType();
+        divAddButtonPaperType.style.display = "block";
+    }else {
+        let serverResponce = getHTTPServiceRequest("/paperTypes", "POST", papertype);
+        if (serverResponce == "0") {
 
+            alert("Saved Successfully");
+            let paperTypesByCategory = getServiceRequest("/paperTypes/getbyCategory/" + JSON.parse(cmbproductCategory.value).id);
+            fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypesByCategory, "name", "");
+            refreshbuttonAddPaperType();
+            divAddButtonPaperType.style.display = "block";
+        } else {
+            return alert("Failed to add ...You have following error..\n" + serverResponce);
+        }
+    }
 })
-//Add button funtion
-function buttonAddPaperType() {
-    divAddButtonPaperType.style.display = "block" ;
+
+const checkaddPTErrors = () =>{
+let errors = "";
+    if(papertype.name == null){
+        errors = errors + "Paper Type Name is not entered.."
+    }
+    return errors;
 }
+
+//Add button function
+function buttonAddPaperType() {
+        divAddButtonPaperType.style.display = "block" ;
+        refreshbuttonAddPaperType();
+}
+
+function enbleAddPTypeButton(){
+  let addbtn = document.getElementById('addPaperType')
+    if (!product.product_category_id) {
+        addbtn.disabled = true;
+    } else{
+    addbtn.disabled=false;}
+}
+

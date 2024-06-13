@@ -37,7 +37,7 @@ public class WebConfiguration {
                 formLogin().
                     loginPage("/login"). // login page URL
                     failureUrl("/login?error=usernamepassorderror").
-                    defaultSuccessUrl("/dashboard",true). // login success URL
+                    defaultSuccessUrl("/dashboard",true). // login success URL//alwasys to redirecting to login page
                     usernameParameter("username"). // username paarameter name
                     passwordParameter("password").// password [arameter name
                 and().

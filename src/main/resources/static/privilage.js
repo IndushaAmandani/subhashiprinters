@@ -303,6 +303,6 @@ function printRowItemMC() {
     setTimeout(function () {
         newWindow.print();
          newWindow.close();
-    },1000);
+    },5000);
 }
 

@@ -121,7 +121,7 @@ public class QuotationController {
             }
 
         } else {
-            return "Quotation insert Not completed : You don't have permissing";
+            return "Quotation insert Not completed : You don't have permission";
         }
 
     }
@@ -144,6 +144,10 @@ public class QuotationController {
                 quotation.setUpdated_date(LocalDateTime.now());
                 quotation.setUpdateuser_id(logeduser);
 
+       if ( quotation.getQuatation_status_id().getId() == 2 || quotation.getQuatation_status_id().getId() ==3 )
+           extQuotation.getQuatation_request_id().setQuatation_req_status_id(qrStatusDao.getReferenceById(4));
+
+           // extQuotationqrStatusDao.getReferenceById(4));
 
                 for (QuotationHasMaterial qhm : quotation.getQuotationHasMaterialList()) {
                     qhm.setQuatation_id(quotation);
@@ -156,7 +160,7 @@ public class QuotationController {
             }
 
         } else {
-            return "Quotation Update Not completed : You don't have permissing";
+            return "Quotation Update Not completed : You don't have permission";
         }
 
 
@@ -173,7 +177,7 @@ public class QuotationController {
             Quotation extQuotation = quotationDao.getReferenceById(porder.getId());
 
             if(extQuotation == null){
-                return "Quotation Delete Not completed : Purchase order doesn't exsites..!";
+                return "Quotation Delete Not completed : Purchase order doesn't exsits..!";
             }
             try {
 
@@ -192,7 +196,7 @@ public class QuotationController {
             }
 
         } else {
-            return "Quotation Delete Not completed : You don't have permissing";
+            return "Quotation Delete Not completed : You don't have permission";
         }
 
 

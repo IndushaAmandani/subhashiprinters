@@ -547,9 +547,9 @@ const submitmodal = (checkErrors,submitConfirmQuestionlabel,obj,objectQsProperti
 }
 }
 
-const updatemodal = (updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID) =>{
+const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID) =>{
 
-    let updateResponceMsg = "Are you sure to update following "+ updateObj +"..? \n";
+    let updateResponceMsg = "Are you sure to update following "+ updateObjName +"..? \n";
     let errors = checkErrors();
     if (errors == "") {
         //
@@ -579,7 +579,7 @@ const updatemodal = (updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refr
 
 
                 if (putResponce == "0") {
-                    window.alert("Update Successfully...!");
+                    window.alert(updateObjName +" update Successfully...!");
                     refreshTable();
                     refreshForm();
                     $(modalformID).modal("hide");
@@ -587,7 +587,7 @@ const updatemodal = (updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refr
 
                 } else {
                     //
-                    window.alert("Fail to update ...! \n " + putResponce);
+                    window.alert(updateObjName + " fail to update ...! \n " + putResponce);
                 }
 
             }
@@ -600,8 +600,10 @@ const updatemodal = (updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refr
 }
 
 const  setIDStyle = (arrayId,style) => {
-    arrayId.forEach((item) =>
-    {item.style.border = style})
+    arrayId.forEach(
+        (item) =>
+    {item.style.border = style}
+    )
 
     // txtCompanyName.style.border = style;
     //  txtCompanyNumber.style.border = style;

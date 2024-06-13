@@ -249,16 +249,36 @@ function reFillItemForm(rowob,rowind) {
      cmbSupplierStatus.style.borderBottom = "2px solid green";
      cmbSupplierStatus.disabled = false;
 
+    const  idAarray = [txtSupplierName,txtEmailAddress,txtContactNo,txtContactPersonName,txtContactPersonMobile,txtSupplierAddress];
     //  clear input feilds
-    txtSupplierName.value = newSupplier.name;
+    txtSupplierName.value = newSupplier.company_name;
     txtSupplierName.style.borderBottom = "1px solid green";
-    txtEmailAddress.value = newSupplier.email;
+    txtEmailAddress.value = newSupplier.company_email;
     txtEmailAddress.style.borderBottom = "1px solid green";
-    txtContactNo.value = newSupplier.contactno;
+    txtContactNo.value = newSupplier.company_contact_no;
     txtContactNo.style.borderBottom = "1px solid green";
+    txtContactPersonName.value = newSupplier.contact_person_name;
+    txtContactPersonName.style.borderBottom = "1px solid green";
+    txtContactPersonMobile.value= newSupplier.contact_person_number;
+    txtContactPersonMobile.style.borderBottom = "1px solid green";
+    txtSupplierAddress.value = newSupplier.address;
+    txtSupplierAddress.style.borderBottom = "1px solid green";
+    txtBankName.value = newSupplier.bank_name;
+    txtBankBranchName.value = newSupplier.branch_name;
+    txtBankAccountNumber.value = newSupplier.account_number;
+    txtBankAccountHolderName.value = newSupplier.account_holder_name;
+  //      const idBankArray = [txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName];
+    // const objvalue = [bank_name,branch_name,account_number,account_holder_name];
 
-
+            if(newSupplier.bank_name ) {
+                txtBankName.value = newSupplier.bank_name;
+                txtBankBranchName.value = newSupplier.branch_name;
+                txtBankAccountNumber.value = newSupplier.account_number;
+                txtBankAccountHolderName.value = newSupplier.account_holder_name;
+            }
+ setIDStyle(idAarray,"1px solid green");
     $("#modalSupplierForm").modal("show");
+disabledButton(false,true);
 }
 
 
@@ -267,32 +287,32 @@ const checkSupplierFormUpdates = () =>{
 
     if(oldSupplier != null && newSupplier != null){
 
-        if(newSupplier.name != oldSupplier.name){
-            updates = updates + "Supplier Name is changed " + oldSupplier.name + " into " + newSupplier.name + "\n";
+        if(newSupplier.company_name != oldSupplier.company_name){
+            updates = updates + "Supplier Name is changed " + oldSupplier.company_name + " into " + newSupplier.company_name + "\n";
         }
 
-        if(newSupplier.contactno != oldSupplier.contactno){
-            updates = updates + "Supplier Contact No is changed " + oldSupplier.contactno + " into " + newSupplier.contactno + "\n";
+        if(newSupplier.company_contact_no != oldSupplier.company_contact_no){
+            updates = updates + "Supplier Contact No is changed " + oldSupplier.company_contact_no + " into " + newSupplier.company_contact_no + "\n";
         }
 
-        if(newSupplier.email != oldSupplier.email){
-            updates = updates + "Supplier Email is changed " + oldSupplier.email + " into " + newSupplier.email + "\n";
+        if(newSupplier.company_email != oldSupplier.company_email){
+            updates = updates + "Supplier Email is changed " + oldSupplier.company_email + " into " + newSupplier.company_email + "\n";
         }
 
-        if(newSupplier.supplierstatus_id.name != oldSupplier.supplierstatus_id.name){
-            updates = updates + "Supplier Status is changed " + oldSupplier.supplierstatus_id.name + " into " + newSupplier.supplierstatus_id.name + "\n";
+        if(newSupplier.supplier_status_id.name != oldSupplier.supplier_status_id.name){
+            updates = updates + "Supplier Status is changed " + oldSupplier.supplier_status_id.name + " into " + newSupplier.supplier_status_id.name + "\n";
         }
 
 
-        if(newSupplier.materialList.length != oldSupplier.itemList.length){
+        if(newSupplier.materialList.length != oldSupplier.materialList.length){
             updates = updates + "Supply Item is changed "+ "\n";
         }else {
             let extitem = 0;
 
             for( i=0; i< newSupplier.materialList.length ; i++){
-                for (let l=0; l< oldSupplier.itemList.length ; l++){
+                for (let l=0; l< oldSupplier.materialList.length ; l++){
 
-                    if(newSupplier.materialList[i].id == oldSupplier.itemList[l].id ){
+                    if(newSupplier.materialList[i].id == oldSupplier.materialList[i].id ){
                         extitem = parseInt(extitem) + 1;
                     }
                 }
@@ -309,37 +329,47 @@ const checkSupplierFormUpdates = () =>{
 }
 
 //function for update button
-function buttonSupplierUpdate() {
-
-    let formeErrors = checkSupplierFormError();
-    if( formeErrors == ""){
-        let formUpdates = checkSupplierFormUpdates();
-        if(formUpdates == ""){
-            window.alert("Nothing updated...!");
-        }else {
-
-            let userUpdConfirmation = window.confirm("Are you sure to update following changers..? \n"+ formUpdates);
-
-            if(userUpdConfirmation){
-                let serverUpdResponce = getHTTPRequestService("/supplier" , "PUT" , newSupplier);
-                if(serverUpdResponce == "0"){
-                    window.alert("Supplier Update Successfully...");
-                    refreshTable();
-                    refreshSupplierForm();
-                    $("#supplierAddModal").modal("hide");
-
-                }else {
-                    window.alert("Supplier Update Not Successfully you have server error...\n" + serverUpdResponce);
-                }
-
-            }
-
-
-        }
-    }else {
-        window.alert("form has following erros \n" + formeErrors);
-    }
+function buttonUpdateMC(){
+    updatemodal("newSupplier",checkSupplierFormError,checkSupplierFormUpdates,"/supplier",newSupplier,refreshTable,refreshSupplierForm,"#modalSupplierForm");
 }
+
+//Add eventlistener to bank detail add b
+let supBankdetails =  document.getElementById("SupplierBankDetails");
+supBankdetails.addEventListener("click", () =>{
+    cardSupBankDetails.style.display = "block";
+})
+//function for update button
+// function buttonSupplierUpdate() {
+//
+//     let formeErrors = checkSupplierFormError();
+//     if( formeErrors == ""){
+//         let formUpdates = checkSupplierFormUpdates();
+//         if(formUpdates == ""){
+//             window.alert("Nothing updated...!");
+//         }else {
+//
+//             let userUpdConfirmation = window.confirm("Are you sure to update following changers..? \n"+ formUpdates);
+//
+//             if(userUpdConfirmation){
+//                 let serverUpdResponce = getHTTPRequestService("/supplier" , "PUT" , newSupplier);
+//                 if(serverUpdResponce == "0"){
+//                     window.alert("Supplier Update Successfully...");
+//                     refreshTable();
+//                     refreshSupplierForm();
+//                     $("#supplierAddModal").modal("hide");
+//
+//                 }else {
+//                     window.alert("Supplier Update Not Successfully you have server error...\n" + serverUpdResponce);
+//                 }
+//
+//             }
+//
+//
+//         }
+//     }else {
+//         window.alert("form has following erros \n" + formeErrors);
+//     }
+// }
 
 
 //create function for delete row
@@ -373,20 +403,9 @@ function viewItemRow(rowob,rowind) {
 
 }
 
-$('#myModal').modal({
-    keyboard: false
-})
 
+function buttonModalCloseMCSup() {
+    buttonCloseModal("#modalSupplierForm",refreshSupplierForm);
 
-function buttonModalCloseMC() {
-
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
-
-    if (userConfirm) {
-        refreshSupplierForm();
-        $("#modalSupplierForm").modal("hide");
-        $("#modalSupplierForm").modal({
-            keyboard: false
-        })
-    }
 }
+

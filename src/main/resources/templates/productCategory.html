@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
+    <title>Subhashi Printers - Product Category </title>
+</head>
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+
+<!-- fixed-top-->
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Product Category Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Support Modules
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableProductCategory">
+                                                <thead class="table-dark" style="background-color: #152650">
+                                                <tr>
+                                                    <th> # </th>
+                                                    <th> Name </th>
+                                                    <th> Price </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+<div class="modal" id="modalProductCategoryForm" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> Product Category Management</h2>
+                <button type="button" class="close"  aria-label="Close"onclick="buttonModalClosePCMC()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body">
+                <!--  Product Category form -->
+                <form onsubmit="return false">
+
+                    <!--- Required (Star mark)  -->
+                    <div class="row text-end p-1">
+              <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
+              </span>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer th:replace = "~{fragment::footerFragment}"></footer>
+
+<!--- Buttons -->
+<div class="row mt-2">
+    <div class="col text-end">
+        <button type="reset" style="width: 23%; border-radius: 50px;"
+                class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
+        </button>
+        <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
+        </button>
+        <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
+        </button>
+    </div>
+</div>
+
+</form>
+
+
+</div>
+
+
+</div>
+</div>
+
+
+</body>
+</html>

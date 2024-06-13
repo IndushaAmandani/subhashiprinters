@@ -24,7 +24,7 @@ const refreshTable = () => {
 
 
     for (let index in porders) {
-        if (porders[index].purchase_order_status_id.name == "Removed") {
+        if ((porders[index].purchase_order_status_id.name == "Removed") || (porders[index].purchase_order_status_id.name == "Cancelled" )) {
             tablePurchaseOrder.children[1].children[index].style.backgroundColor = "#a99e9e";
             tablePurchaseOrder.children[1].children[index].children[8].children[1].disabled = true;
             tablePurchaseOrder.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
@@ -60,12 +60,12 @@ const refreshPOForm = () => {
     purchaseorder.purchaseOrderHasMaterialList = new Array();
 
     //create arrys for get data for fill select ellement
-    suppliers = getServiceRequest("/supplier/list");
-    quotations = getServiceRequest("/quotation/listall");
+    supplierslist = getServiceRequest("/supplier/list");
+    quotationslist = getServiceRequest("/quotation/listall");
     porderstatuses = getServiceRequest("/porderstatus/list");
     cmbSupplier.disabled = false;
-    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
-    fillSelectFeild(cmbQuotation, "Select Quotation", quotations, "number");
+    fillSelectFeild(cmbSupplier, "Select Supplier", supplierslist, "company_name");
+    fillSelectFeild(cmbQuotation, "Select Quotation", quotationslist, "number");
     cmbQuotation.disabled = true;
     fillSelectFeild(cmbPOStatus, "Select Status", porderstatuses, "name", "Ordered", true);
     purchaseorder.purchase_order_status_id = JSON.parse(cmbPOStatus.value);
@@ -380,7 +380,7 @@ const rowDelete = (ob, rowno) => {
 
     let deleteMsg = "Are you sure to delete following Purchase order..?" +
         "\n Purchase order no : " + ob.order_no +
-        "\n Supplier : " + ob.supplier_id.company_name +
+        "\n Supplier : " + ob.supplier_id.req_no +
         +"\n Quotation : " + ob.quatation_id.number
         + "\n Required Date : " + ob.required_date
         + "\n Total Amount : " + ob.total_amount;
@@ -415,10 +415,8 @@ const formReFill = (ob, rowno) => {
     txtTotalAmount.value = purchaseorder.total_amount;
     dteRequiredDate.value = purchaseorder.required_date
 
-    quotations = getServiceRequest("/quotation/listall");
-
-    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", purchaseorder.supplier_id.company_name);
-    fillSelectFeild(cmbQuotation, "Select Quotation", quotations, "number", purchaseorder.quatation_id.number);
+    fillSelectFeild(cmbSupplier, "Select Supplier", supplierslist, "company_name", purchaseorder.supplier_id.company_name);
+    fillSelectFeild(cmbQuotation, "Select Quotation", quotationslist, "number", purchaseorder.quatation_id.number);
     cmbSupplier.disabled = true;
     cmbQuotation.disabled = true;
     fillSelectFeild(cmbPOStatus, "Select Status", porderstatuses, "name", purchaseorder.purchase_order_status_id.name, true);

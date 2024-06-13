@@ -100,7 +100,7 @@ public class PurchaseOrderController {
             }
 
         } else {
-            return "Purchase order insert Not completed : You don't have permissing";
+            return "Purchase order insert Not completed : You don't have permission";
         }
 
     }
@@ -122,8 +122,6 @@ public class PurchaseOrderController {
 
                 porder.setUpdatedateitme(LocalDateTime.now());
                 porder.setUpdate_user_id(logeduser);
-
-
                 for (PurchaseOrderHasMaterial pohi : porder.getPurchaseOrderHasMaterialList()) {
                     pohi.setPurchase_order_id(porder);
                 }

@@ -52,8 +52,14 @@ public class LoginController {
 
     @GetMapping(value = {"/dashboard", "/"})
     public ModelAndView dashboardUI(){
+
+        //Get logged user authountication obj
+        Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
+
         ModelAndView dashboardui = new ModelAndView();
         //ModelAndView dashboardui = new ModelAndView(redirect:/dashboard);
+        //add obj
+        dashboardui.addObject("loggedusername",auth.getName());
         dashboardui.setViewName("dashboard.html");
         return dashboardui;
     }

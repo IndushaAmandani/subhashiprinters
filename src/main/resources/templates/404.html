@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Subhashi Printers : 404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 Error</title>
+    <link rel="stylesheet" type="text/css" href="/resources/fontawesome/css/all.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+
+        .lock {
+            font-size: 8.5rem;
+         color: rgb(30, 48, 80);; /* You can change the color as needed */
+            margin-bottom: 50px;
+        }
+
+        .message {
+            text-align: center;
+        }
+
+        .message h1 {
+            font-size: 10rem; /* Makes the 403 error code very large */
+            margin: 0;
+            color: #ff0000; /* You can change the color as needed */
+        }
+
+        .message h2 {
+            font-size: 2rem;
+            margin: 20px 0;
+            color:rgb(30, 48, 80);
+        }
+
+        .message p {
+            font-size: 1.5rem;
+        }
+
+        .message a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .message a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2> You don't have access, please turn back to <a href="/dashboard"> mainwindow </a> </h2>
+<div class="message">
+    <div class="lock"><i class="fas fa-lock fa-fade"></i></div>
+    <h1>403</h1>
+    <h2>Access to this page is restricted</h2>
+    <p>Please turn to <a href="/dashboard">mainwindow</a></p>
+</div>
 </body>
 </html>

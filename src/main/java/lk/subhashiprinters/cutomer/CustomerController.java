@@ -89,6 +89,9 @@ public class CustomerController {
 
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
+
+    //if we use queryparam --> @GetMapping (value = "/getbyid",param={"id","",*})
+    //                                             (@Requestparam)in UI /customer/ getbyid?id=1
     @GetMapping(value = "/getbyid/{id}", produces = "application/json")
     public Customer getReferenceById(@PathVariable("id") Integer id) {return customerDao.getReferenceById(id);}
     @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")

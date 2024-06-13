@@ -69,9 +69,9 @@ const refreshMrnForm = () => {
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
     fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no");
     // cmbPurchaseOrder.disabled = true;
-    mrnstatuses = getServiceRequest("/mrnstatus/list")
+    mrnstatuses = getServiceRequest("/mrnstatus/list");
+
     fillSelectFeild(cmbMrnStatus, "Select Status", mrnstatuses, "name", "Received", true);
-    mrn.material_recieve_note_status_id = JSON.parse(cmbMrnStatus.value);
     cmbMrnStatus.style.borderBottom = "1px solid #ced4da";
 
 
@@ -444,9 +444,9 @@ function buttonSubmitMC() {
         //
 
         // need to get user confirmation
-        let confirmMs = "Are you sure to add following purchase order details \n"
-            + "\n Supplier : " + mrn.supplier_id.company_name
-            + "\n Quotation : " + mrn.quatation_id.number
+        let confirmMs = "Are you sure to add following mrn details \n"
+            + "\n Supplier : " + ob.purchase_order_id.supplier_id.company_name
+            + "\n Quotation : " + ob.purchase_order_id.quatation_id.number
             + "\n Required Date : " + mrn.recieve_date
             + "\n Total Amount : " + mrn.total_amount;
         let userResponce = window.confirm(confirmMs);
@@ -481,11 +481,10 @@ const rowView = (ob, rowno) => {
 //
 const rowDelete = (ob, rowno) => {
 
-    let deleteMsg = "Are you sure to delete following Purchase order..?" +
-        "\n Purchase order no : " + ob.order_no +
-        "\n Supplier : " + ob.callingname +
-        +"\n Quotation : " + ob.quatation_id.number
-        + "\n Required Date : " + ob.recieve_date
+    let deleteMsg = "Are you sure to add following mrn details \n"
+        + "\n Supplier : " + ob.purchase_order_id.supplier_id.company_name
+        + "\n Quotation : " + ob.purchase_order_id.quatation_id.number
+        + "\n Required Date : " +ob.recieve_date
         + "\n Total Amount : " + ob.total_amount;
 
     let deleteUserResponce = window.confirm(deleteMsg);
@@ -494,6 +493,7 @@ const rowDelete = (ob, rowno) => {
         let serverResponce = getHTTPServiceRequest("/mrn", "DELETE", ob);
 
         if (serverResponce == "0") {
+
             alert("Delete Successfully...!");
             refreshTable();
         } else {
@@ -510,24 +510,31 @@ const formReFill = (ob, rowno) => {
     oldmrn = getServiceRequest("/mrn/getbyid/" + ob.id);
     // set value into feilds
 
-    if (mrn.note != null)
-        txtNote.value = mrn.note; else txtNote.value = "";
-
-    txtPONo.value = mrn.order_no;
-    txtTotalAmount.value = mrn.total_amount;
-    dteReceivedDate.value = mrn.recieve_date;
+    if (mrn.note != null){
+        txtNote.value = mrn.note;
+    txtNote.style.borderBottom = "2px dotted green";
+}else txtNote.value = "";
 
 
-    quotations = getServiceRequest("/quotation/listall");
 
+     txtTotalAmount.value = mrn.total_amount;
+    // dteReceivedDate.value = mrn.recieve_date;
+
+    suppliers = getServiceRequest("/supplier/list");
+    porderlist = getServiceRequest("/purchaseorder/list");
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", mrn.purchase_order_id.supplier_id.company_name);
-    fillSelectFeild(cmbPurchaseOrder, "Select Quotation", quotations, "number", mrn.purchase_order_id.order_no);
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order",porderlist , "number", mrn.purchase_order_id.order_no);
     cmbSupplier.disabled = true;
     cmbPurchaseOrder.disabled = true;
-    fillSelectFeild(cmbPurchaseOrder, "Select Status", porderstatuses, "name", mrn.purchase_order_status_id.name, true);
-    cmbPOStatus.disabled = false;
-    //  let mrnArray = {cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtTaxRatio,txtDiscountRatio,txtNetAmount,txtNote,cmbMrnStatus}
-    // setIDStyle(mrnArray,"1px doted #ced4da");
+    dteReceivedDate.value = mrn.recieve_date;
+    cmbPurchaseOrder.value = mrn.purchase_order_id.order_no;
+    txtSupplierInvoiceNO.value = mrn.supplier_inovice_no;
+    txtDiscountRatio.value = mrn.discount_rate;
+    txtNetAmount.value = mrn.net_amount;
+
+
+     let mrnArray = {cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus}
+    setIDStyle(mrnArray,"2px dotted green");
 
 
     if (mrn.note == null)

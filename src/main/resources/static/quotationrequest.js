@@ -27,8 +27,11 @@ const refreshTable = ()=>{
     fillDataIntoTable(tableQuotationRequest,quotationrequests,displayPropertyList,dpDataTypeList,reFillItemForm , deleteItemRow , viewItemRow, true, lggeduserprivilage);
 
     for(let index in quotationrequests){
+        tableQuotationRequest.children[1].children[index].children[5].children[0].style.display = "none";
+        tableQuotationRequest.children[1].children[index].children[5].children[2].style.display = "none";
+
         if(quotationrequests[index].quatation_req_status_id.name == "Removed"){
-            tableQuotationRequest.children[1].children[index].style.backgroundColor = "pink";
+            tableQuotationRequest.children[1].children[index].style.backgroundColor = "#ad9393";
 
             tableQuotationRequest.children[1].children[index].children[5].children[1].disabled = true;
             tableQuotationRequest.children[1].children[index].children[5].children[1].style.pointerEvents = "all";
@@ -151,97 +154,99 @@ function buttonQRSave() {
         }
     }
 }
+// Since when the date change can't handel the status
+    function reFillItemForm(){};
 
-//form refill function
-function reFillItemForm(rowob,rowind) {
-
-
-
-    newQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
-    oldQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
-
-  fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name",newQuotationRequest.supplier_id.company_name);
-
-    fillSelectFeild(cmbQRStatus,"Select QR Status" , qrStatuses ,"name",newQuotationRequest.quatation_req_status_id.name);
-    cmbQRStatus.disabled = false;
-
-    // clear input feilds
-
-    dteRequiredDate.value = newQuotationRequest.required_date;
-    if( newQuotationRequest.note != null)
-    txtNote.value = newQuotationRequest.note; else  txtNote.value = "";
-
-    setUiElementColor("1px solid green");
-
-    if( newQuotationRequest.note == null)
-        txtNote.style.borderBottom = "1px solid #ced4da";
-    disabledButton(false , true);
-    $("#modalQuotationRequestForm").modal("show");
-}
-
-
-const checkQRFormUpdates = () =>{
-
-    let updates = "";
-
-    if(newQuotationRequest != null && oldQuotationRequest != null){
-
-        if(newQuotationRequest.required_date != oldQuotationRequest.required_date){
-            updates = updates + "Require Date  is changed " +  oldQuotationRequest.required_date + " into " + newQuotationRequest.required_date + "\n";
-        }
-
-        if(newQuotationRequest.note != oldQuotationRequest.note){
-            updates = updates + "Quotation Request Note No is changed " + oldQuotationRequest.note + " into " + newQuotationRequest.note + "\n";
-        }
-
-        if(newQuotationRequest.supplier_id.id != oldQuotationRequest.supplier_id.id){
-            updates = updates + "Supplier  is changed " + oldQuotationRequest.supplier_id.company_name + " into " + newQuotationRequest.supplier_id.company_name + "\n";
-        }
-
-        if(newQuotationRequest.quatation_req_status_id.name != oldQuotationRequest.quatation_req_status_id.name){
-            updates = updates + "Supplier Status is changed " + oldQuotationRequest.quatation_req_status_id.name + " into " + newQuotationRequest.quatation_req_status_id.name + "\n";
-        }
-
-    }
-
-
-    return updates;
-}
-
-//function for update button
-function buttonQRUpdate() {
-    $("#modalQuotationRequestForm").modal("hide");
-   let formeErrors = checkQRFormError();
-    if( formeErrors == ""){
-        let formUpdates = checkQRFormUpdates();
-        if(formUpdates == ""){
-            window.alert("Nothing updated...!");
-        }else {
-
-            let userUpdConfirmation = window.confirm("Are you sure to update following changers..? \n"+ formUpdates);
-
-            if(userUpdConfirmation){
-                let serverUpdResponce = getHTTPServiceRequest("/quotationrequest" , "PUT" , newQuotationRequest);
-                if(serverUpdResponce == "0"){
-                    $("#supplierAddModal").modal("hide");
-                    window.alert("Quotation Request Update Successfully...");
-                    refreshTable();
-                    refreshQRForm();
-
-
-                }else {
-                    window.alert("Quotation Request Update Not Successfully you have server error...\n" + serverUpdResponce);
-                }
-
-            }
-
-
-        }
-    }else {
-        window.alert("form has following erros \n" + formeErrors);
-    }
-}
-
+// //form refill function
+// function reFillItemForm(rowob,rowind) {
+//
+//
+//
+//     newQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
+//     oldQuotationRequest = getServiceRequest("/quotationrequest/getbyid/"+rowob.id);
+//
+//   fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name",newQuotationRequest.supplier_id.company_name);
+//
+//     fillSelectFeild(cmbQRStatus,"Select QR Status" , qrStatuses ,"name",newQuotationRequest.quatation_req_status_id.name);
+//     cmbQRStatus.disabled = true;
+//
+//     // clear input feilds
+//
+//     dteRequiredDate.value = newQuotationRequest.required_date;
+//     if( newQuotationRequest.note != null)
+//     txtNote.value = newQuotationRequest.note; else  txtNote.value = "";
+//
+//     setUiElementColor("1px solid green");
+//
+//     if( newQuotationRequest.note == null)
+//         txtNote.style.borderBottom = "1px solid #ced4da";
+//     disabledButton(false , true);
+//     $("#modalQuotationRequestForm").modal("show");
+// }
+//
+//
+// const checkQRFormUpdates = () =>{
+//
+//     let updates = "";
+//
+//     if(newQuotationRequest != null && oldQuotationRequest != null){
+//
+//         if(newQuotationRequest.required_date != oldQuotationRequest.required_date){
+//             updates = updates + "Require Date  is changed " +  oldQuotationRequest.required_date + " into " + newQuotationRequest.required_date + "\n";
+//         }
+//
+//         if(newQuotationRequest.note != oldQuotationRequest.note){
+//             updates = updates + "Quotation Request Note No is changed " + oldQuotationRequest.note + " into " + newQuotationRequest.note + "\n";
+//         }
+//
+//         if(newQuotationRequest.supplier_id.id != oldQuotationRequest.supplier_id.id){
+//             updates = updates + "Supplier  is changed " + oldQuotationRequest.supplier_id.company_name + " into " + newQuotationRequest.supplier_id.company_name + "\n";
+//         }
+//
+//         if(newQuotationRequest.quatation_req_status_id.name != oldQuotationRequest.quatation_req_status_id.name){
+//             updates = updates + "Supplier Status is changed " + oldQuotationRequest.quatation_req_status_id.name + " into " + newQuotationRequest.quatation_req_status_id.name + "\n";
+//         }
+//
+//     }
+//
+//
+//     return updates;
+// }
+//
+// //function for update button
+// function buttonQRUpdate() {
+//     $("#modalQuotationRequestForm").modal("hide");
+//    let formeErrors = checkQRFormError();
+//     if( formeErrors == ""){
+//         let formUpdates = checkQRFormUpdates();
+//         if(formUpdates == ""){
+//             window.alert("Nothing updated...!");
+//         }else {
+//
+//             let userUpdConfirmation = window.confirm("Are you sure to update following changers..? \n"+ formUpdates);
+//
+//             if(userUpdConfirmation){
+//                 let serverUpdResponce = getHTTPServiceRequest("/quotationrequest" , "PUT" , newQuotationRequest);
+//                 if(serverUpdResponce == "0"){
+//                     $("#supplierAddModal").modal("hide");
+//                     window.alert("Quotation Request Update Successfully...");
+//                     refreshTable();
+//                     refreshQRForm();
+//
+//
+//                 }else {
+//                     window.alert("Quotation Request Update Not Successfully you have server error...\n" + serverUpdResponce);
+//                 }
+//
+//             }
+//
+//
+//         }
+//     }else {
+//         window.alert("form has following erros \n" + formeErrors);
+//     }
+// }
+//
 
 //create function for delete row
 function deleteItemRow(ob) {

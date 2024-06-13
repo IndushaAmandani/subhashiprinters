@@ -2,6 +2,8 @@ package lk.subhashiprinters.supplierpayment;
 
 
 import lk.subhashiprinters.mrn.MRN;
+import lk.subhashiprinters.mrn.MRNRepository;
+import lk.subhashiprinters.mrn.MRNStatusRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequest;
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.userm.User;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +34,11 @@ public class SupplierPaymentController {
     @Autowired
     private PrivilageController privilegeController;
 
+    @Autowired
+    private MRNRepository mrnDao;
+
+    @Autowired
+    private MRNStatusRepository mrnstatusDao;
 
 
     //get quotationrequest UI [/quotationrequest]
@@ -47,7 +55,7 @@ public class SupplierPaymentController {
 
     // get mapping for get quotationrequest selected columns details [/quotationrequest/findall]
     @GetMapping(value = "/findall", produces = "application/json")
-    public List<SupplierPayment> quotationrequestFindAll(){
+    public List<SupplierPayment> supplierPaymentFindAll(){
         //need to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
@@ -75,40 +83,44 @@ public class SupplierPaymentController {
 
     //post mapping for insert item [/item - post]
     @PostMapping
-    public String insertSuppler(@RequestBody QuotationRequest quotationrequest){
+    public String insertSupplier(@RequestBody SupplierPayment supplierPayment){
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Quotationrequest Insert Not completed : You don't have permissing";
+            return "Supplier Payemnt Insert Not completed : You don't have permission";
         }
-
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"SupplierPayment");
 
         if(loggedUser != null && userPiriv.get("ins")){
             // user has privilage for insert item
 
             try {
                 // set auto set value
-          quotationrequest.setAdded_date(LocalDateTime.now());
-                // item.setItemcode("00003");
-       //      quotationrequest.setRequest_number(quotationrequestDao.getNextQuotationrequestRegNo());
-             quotationrequest.setAdded_user_id(loggedUser);
+          supplierPayment.setAdded_date(LocalDateTime.now());
+          supplierPayment.setAdded_user_id(loggedUser);
+          supplierPayment.setBill_no(supplierpaymentDao.getNextSupplierPaymentID());
 
                 //do the requeired operation
-         //       quotationrequestDao.save(quotationrequest);
-
+                MRN extmrn =   mrnDao.getReferenceById( supplierPayment.getMaterial_recieve_note_id().getId());
+                  if(supplierPayment.getSupplier_payment_status_id().getId() == 1){
+                      extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
+                      mrnDao.save(extmrn);
+                  }else if (supplierPayment.getSupplier_payment_status_id().getId() == 2){
+                      extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(2));
+                      mrnDao.save(extmrn);
+                  }
                 return "0";
             }catch (Exception ex){
-                return "Quotationrequest Insert Not completed : " + ex.getMessage();
+                return "Supplier Payment Insert Not completed : " + ex.getMessage();
             }
 
 
         }
         else {
-            return "Quotationrequest Insert Not completed : You don't have permissing";
+            return "Supplier Payment  Insert Not completed : You don't have permission";
         }
 
 
@@ -151,31 +163,35 @@ public class SupplierPaymentController {
 
 
 
-    //delete mapping for delete quotationrequest [/quotationrequest - delete]
+    //delete mapping for delete supplierPayment [/quotationrequest - delete]
     @DeleteMapping
-    public String deleteQuotationrequest(@RequestBody QuotationRequest quotationrequest){
+    public String deleteSypplierPayment(@RequestBody SupplierPayment supplierPayment){
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Quotationrequest Delete Not completed : You don't have permissing";
+            return "SupplierPayment Delete Not completed : You don't have permission";
         }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Quotationrequest");
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"SupplierPayment");
 
         if(loggedUser != null && userPiriv.get("del")){
 
-            QuotationRequest extQR = quotationrequestDao.getReferenceById(quotationrequest.getId());
-            if(extQR == null ){
-                return "Quotationrequest Delete Not completed : Quotationrequest not available";
+            SupplierPayment extSup = supplierpaymentDao.getReferenceById(supplierPayment.getId());
+            if(extSup == null ){
+                return "Supplier Payment Delete Not completed : Supplier Payment not available";
             }
 
             try {
-                extQR.setQuatation_req_status_id(quotationrequestStatusDao.getReferenceById(4));
-             extQR.setDelete_date(LocalDateTime.now());
-                quotationrequestDao.save(extQR);
+
+               //if supplier payment is deleted
+
+                extSup.setDelete_date(LocalDateTime.now());
+                extSup.setDelete_user_id(loggedUser);
+
+
                 return "0";
             }catch (Exception exception){
                 return "Quotationrequest Delete Not completed : " + exception.getMessage();
@@ -184,7 +200,7 @@ public class SupplierPaymentController {
             return "Quotationrequest Delete Not completed : You don't have permissing";
         }
     }
-
-
 */
+
+
 }

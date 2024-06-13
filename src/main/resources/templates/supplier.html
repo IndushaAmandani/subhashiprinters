@@ -97,9 +97,8 @@
                 <button
                         type="button"
                         class="close"
-
                         aria-label="Close"
-                        onclick="buttonModalCloseMC()">
+                        onclick="buttonModalCloseMCSup()">
                     <span aria-hidden="true">&times;</span>
                 </button>
 
@@ -164,11 +163,11 @@
                         <!--Contact Person Mobile -->
                         <div class="col">
                             <label for="txtContactPersonMobile" class="form-label font-weight-bold">
-                                Contact Person Mobile : <span style="color: red;"></span>
+                                Contact Person Number : <span style="color: red;"></span>
                             </label>
                             <input type="text" id="txtContactPersonMobile" class="form-control form-control-sm"
                                    onkeyup="textFeildValidtor(txtContactPersonMobile,'^[0][7][01245678][0-9]{7}$','newSupplier','contact_person_number','oldSupplier')"
-                                   placeholder="Enter Contact Person Mobile">
+                                   placeholder="Enter Contact Person Number">
                             <div class="form-text"> Ex: 0776352445</div>
                         </div>
                     </div>
@@ -206,7 +205,15 @@
 
                     </div>
 
-                    <div class ="card mt-1">
+                    <button
+                            type="submit"
+                            style="width: 23%; border-radius: 50px"
+                            id="SupplierBankDetails"
+                            class="btn bg-info fw-bold">
+                         Bank Details
+                    </button>
+
+                    <div class ="card mt-1" id="cardSupBankDetails" style="display: none" >
                         <div class="card-header"><h2>Supplier Bank Details</h2> </div>
                         <div class="card-body">
                             <!--- Bank Name / Bank  Branch Name -->
@@ -256,7 +263,7 @@
 
                     <div class="card mt-1">
                         <div class="card-header">
-                           <h2> Supplier Suppplier Material</h2>
+                           <h2> Supplier - Material List</h2>
                         </div>
                         <div class="card-body">
 

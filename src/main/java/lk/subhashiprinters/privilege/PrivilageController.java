@@ -69,11 +69,10 @@ public class PrivilageController {
 
 
 
-    @GetMapping(value = "/findall", produces = "application/json")
-    public List<Privilage> findAll() {
-        return privilageDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
+    @GetMapping(value = "/findall",produces = "application/json")
+    public List<Privilage> findAll(){
+        return privilageDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
-
 
     @PostMapping
     public  String addPriviledge(@RequestBody Privilage privilage){
