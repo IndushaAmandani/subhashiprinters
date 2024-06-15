@@ -28,7 +28,7 @@ public class CustomerController {
 
 
     @Autowired//link required repository 
-    private CustomerRepository customerDao;
+        private CustomerRepository customerDao;
 
 
     @Autowired//link required repository 

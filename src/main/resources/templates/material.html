@@ -125,24 +125,94 @@
                 <!--  Measuring Count/Category/Unit Type-->
 
                     <div class="row mt-2">
-                        <!-- Measuring Count -->
-                        <div class="col-4">
-                            <label for="txtMeasuringCount" class="form-label font-weight-bold ">Measuring Count : <span
-                                    style="color: red;">*</span></label>
-                            <input type="text"  id="txtMeasuringCount" class="form-control form-control-sm" placeholder="Enter Measuring Count"
-                                   onkeyup="textFeildValidtor(txtMeasuringCount,'^[0-9]{1,2}[.]{0,1}[0-9]{0,3}$','material','measuring_count','oldmaterial')"       >
-                        </div>
+
                         <!-- Category -->
                         <div class="col-4 position-relative">
                             <label for="cmbCategory" class="form-label font-weight-bold ">Category : <span
                                     style="color: red;">*</span></label>
 
                                 <select id="cmbCategory" class="form-control form-control-sm" required
-                                        onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory(),showPaperSize()">
+                                        onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory(),showPaperSize(),enbleAddPTITypeButton();refreshbuttonAddPaperType()">
                                 </select>
                         </div>
-                        <!-- Unit Type  -->
+                        <!--Sub Category-->
                         <div class="col-4 position-relative">
+                            <label  class="form-label font-weight-bold ">  Sub Categories: <span
+                                    style="color: red;">*</span></label>
+                            <select id="cmbSubCategory" class="form-control form-control-sm" required
+                                    onchange="selectValidator(cmbSubCategory,'','material','paper_ink_type_id','oldmaterial')">
+                            </select>
+                        </div>
+
+                        <div class="col position-relative" id="addPaperInkType" style="display: none" >
+                            <label  class="form-label font-weight-bold ">Add Sub Category : </label>
+                            <div class="row">
+                            <button type="button" style="width: 25%;border-radius: 50px;"
+                                    id="buttonMSubAdd"
+                                    class="btn bg-success font-weight-bold btn-sm"> Add
+                            </button>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div id="divAddButtonPaperInkType" style="display: none"   ><!-- style css-->
+                        <!-- Card Start -->
+                        <div class="card p-1 m-1">
+                            <!--  bill book - Header-->
+                            <div class="row mt-1  p-1 text-start">
+                                <h3>New Paper/Ink Category : </h3>
+                            </div>
+                            <!--  - Inner form / Inner Table-->
+                            <div class="row ">
+                                <!-- ## @@ Second Inner Form @@ ##-->
+                                <div class="col">
+                                    <!-- Name-->
+                                    <div  class=" mt-1">
+                                        <label class= "form-label font-weight-bold"> Name</label>
+                                        <input type="text" id="txtPtItname"
+                                               onkeyup="textFeildValidtor(txtPtItname,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','paperInkType','name','oldpaperInkType')"
+                                               class="form-control">
+                                    </div>
+                                    <!--Product Category-->
+                                    <div  class=" mt-1">
+                                        <label  class="form-label font-weight-bold">Material Category particular for the Sub Category : <span
+                                                style="color: red;">*</span></label>
+                                        <select id="cmbMaterialCategory" class="form-control" required
+                                                onchange="selectValidator(cmbMaterialCategory,'','paperInkType','material_category_id','oldpaperInkType');">
+                                        </select>
+                                    </div>
+                                    <!--- Buttons -->
+                                    <div class="row mt-1">
+                                        <div class="col text-end">
+                                            <button  class="btn bg-info btn-sm font-weight-bold" style="width: 25%; border-radius: 50px" type="button" id ="btnAddpaperTypeSubmit" >Submit</button>
+
+                                            <button  class="btn bg-success font-weight-bold btn-sm" style="width: 25%;border-radius: 50px" type="reset" id ="btnAddpaperTypeCancel" >Cancel</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--  Measuring Count/Unit Type-->
+
+                    <div class="row mt-2">
+                        <!-- Measuring Count -->
+                        <div class="col-6">
+                            <label for="txtMeasuringCount" class="form-label font-weight-bold ">Measuring Count : <span
+                                    style="color: red;">*</span></label>
+                            <input type="text"  id="txtMeasuringCount" class="form-control form-control-sm" placeholder="Enter Measuring Count"
+                                   onkeyup="textFeildValidtor(txtMeasuringCount,'^[0-9]{1,2}[.]{0,1}[0-9]{0,3}$','material','measuring_count','oldmaterial')"       >
+                        </div>
+
+                        <!-- Unit Type  -->
+                        <div class="col-6 position-relative">
                             <label  class="form-label font-weight-bold ">Unit Type : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbUnitType" class="form-control form-control-sm" required

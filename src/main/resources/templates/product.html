@@ -62,8 +62,6 @@
                                                     <th> Product Size</th>
                                                     <th> Single or Double</th>
                                                     <th> Category</th>
-                                                    <th> Paper Colors</th>
-                                                    <th> Print Colors</th>
                                                     <th> Price</th>
                                                     <th> Status</th>
                                                     <th> Modify</th>
@@ -110,19 +108,6 @@
               <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
               </span>
                     </div>
-
-<!--                    &lt;!&ndash;- Product Code  &ndash;&gt;-->
-<!--                    <div class="row mt-2">-->
-<!--                        <label for="txtCodeNo" class="font-weight-bold col-4 col-form-label">Product Code :-->
-<!--                            <span style="color: red;">*</span>-->
-<!--                        </label>-->
-<!--                        <div class="col">-->
-<!--                            <input type="text" readonly id="txtCodeNo" class="form-control" disabled-->
-<!--                                   value="Product Code is auto generated">-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-
                     <!--- Customer name  -->
                     <div class="row mt-2">
                         <div class="col">
@@ -147,16 +132,91 @@
                     <div class="row mt-2">
                         <!-- Product Category -->
                         <div class="col">
+                            <div class="col-10">
                             <label for="cmbproductCategory" class="form-label font-weight-bold">Product Category : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbproductCategory" class="form-control" required
-                                    onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct'); divInnerPCopyFormshow();getP_SizeByPCategory(); enbleAddPTypeButton();refreshbuttonAddPaperType()">
+                                    onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct'); divInnerPCopyFormshow();getP_SizeByPCategory(); enbleAddPTypeButton();">
                             </select>
-
+                            </div>
+                            <div class="col-2" style="padding: 0px">
+                                <button id="addProductCategory" type="button" style="margin-top: 32px; margin-right: 25px" class="btn bg-info btn-sm font-weight-bold" onclick="buttonAddProductCategory()">
+                                    Add Product Category
+                                </button>
+                            </div>
                         </div>
 
-                       
                     </div>
+                        <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@ Product Category add button form @@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+
+                    <div id="divAddButtonProductCategory"   ><!-- style css-->
+                        <!-- Card Start -->
+                        <div class="card p-1 m-1">
+                            <!--  bill book - Header-->
+                            <div class="row mt-1  p-1 text-start">
+                                <h3>New Product Category : </h3>
+                            </div>
+                            <!--  - Inner form / Inner Table-->
+                            <div class="row ">
+                                <!-- ## @@ Second Inner Form @@ ##-->
+                                <div class="col">
+                                    <!-- Product Categoty-->
+                                    <div  class=" mt-1">
+                                        <label class= "form-label font-weight-bold"> Name</label>
+                                        <input type="text" id="txtproductcategoryname"
+                                               onkeyup="textFeildValidtor(txtproductcategoryname,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','productCategory','name','oldproductCategory')"
+                                               class="form-control">
+                                    </div>
+                                    <!--Paper Type-->
+                                    <div  class=" mt-1">
+                                        <label  class="form-label font-weight-bold">Paper Type particular for the category : <span
+                                                style="color: red;">*</span></label>
+                                        <select id="cmbpaperInkTypes" class="form-control" required
+                                                onchange="selectValidator(cmbpaperInkTypes,'','productCategory','','oldproductCategory');">
+                                        </select>
+                                    </div>
+                                    <!--- Buttons -->
+                                    <div class="row mt-1">
+                                        <div class="col text-end">
+                                            <button  class="btn bg-info btn-sm font-weight-bold" style="width: 25%; border-radius: 50px" type="button" id ="btnAddpaperTypeSubmit" >Submit</button>
+
+                                            <button  class="btn bg-success font-weight-bold btn-sm" style="width: 25%;border-radius: 50px" type="reset" id ="btnAddpaperTypeCancel" >Cancel</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ## @@ Inner Table - P @@ ##-->
+                                <div class="col-7">
+                                    <section class="card pull-up">
+                                        <div class="card-content">
+                                            <div class="card-body">
+
+                                                <table class="table table-hover table-bordered"
+                                                       id="tableInkorPaperTypeforCategory">
+                                                    <thead class="table-dark" style="background-color: #27344d">
+                                                    <tr>
+                                                        <th> #</th>
+                                                        <th> Paper Type</th>
+
+                                                        <th> Modify</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                        <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@End@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
 
 
                     <!-- ######## Product category - bill book - Inner form ######## -->
@@ -178,18 +238,18 @@
                                             : <span
                                                     style="color: red;">*</span></label>
                                         <select id="cmbPcopypaperTypes" class="form-control" required
-                                                onchange="selectValidator(cmbPcopypaperTypes,'','productCopy','papertype_id','oldprodctCopy');selectInnerpaperColors()">
+                                                onchange="selectValidator(cmbPcopypaperTypes,'','productCopy','paper_type_id','oldprodctCopy')">
 
                                         </select>
 
                                     </div>
                                     <!--Papaer Colors-->
                                     <div id="innerPaperColor">
-                                        <label for="cmbPcopypaperColors" class="form-label font-weight-bold">Paper
+                                        <label for="cmbPcopyprintColors" class="form-label font-weight-bold">Ink Types
                                             Colors : <span
                                                     style="color: red;">*</span></label>
-                                        <select id="cmbPcopypaperColors" class="form-control" required
-                                                onchange="selectValidator(cmbPcopypaperColors,'','productCopy','papercolors_id','oldprodctCopy')">
+                                        <select id="cmbPcopyprintColors" class="form-control" required
+                                                onchange="selectValidator(cmbPcopyprintColors,'','productCopy','ink_type_id','oldprodctCopy')">
 
                                         </select>
 
@@ -225,7 +285,7 @@
                                                     <tr>
                                                         <th> #</th>
                                                         <th> Paper Type</th>
-                                                        <th> Paper Color</th>
+                                                        <th> Print Color</th>
                                                         <th> Modify</th>
                                                     </tr>
                                                     </thead>
@@ -240,7 +300,7 @@
                         </div>
                     </div>
 
-                  
+
                     <!-- ######### Single or Double Side /  Image######## -->
 
                     <!-- Single or Double Side-->
@@ -314,78 +374,7 @@
                                 <div class="form-text"> Ex: 2/2.5  inches</div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Paper Types /Print Colors /Paper Colors-->
-                    <div class="row mt-2">
-                        <!-- Paper Types-->
-                        <div class="col-4 d-flex">
-                            <div class="col-10">
-                            <label for="cmbpaperTypes" class="form-label font-weight-bold">Paper Types : <span
-                                    style="color: red;">*</span></label>
-                            <select id="cmbpaperTypes" class="form-control" required
-                                    onchange="selectValidator(cmbpaperTypes,'','product','papertype_id','oldproduct');selectpaperColors();">
-                            </select>
-                            </div>
-
-                            <div class="col-2" style="padding: 0px">
-                                <button id="addPaperType" type="button" style="margin-top: 32px; margin-right: 25px"   class="btn bg-info btn-sm font-weight-bold" disabled onclick="buttonAddPaperType()">
-                                    Add
-                                </button>
-
-
-                            </div>
                         </div>
-                        <!-- Paper Colors-->
-                        <div class="col-4">
-                            <label for="cmbpaperColors" class="form-label font-weight-bold">Paper Colors : <span
-                                    style="color: red;">*</span></label>
-                            <select id="cmbpaperColors" class="form-control" required
-                                    onchange="selectValidator(cmbpaperColors,'','product','papercolors_id','oldproduct')">
-                            </select>
-                        </div>
-                        <!-- Print Colors -->
-                        <div class="col-4">
-                            <label for="cmbprintColors" class="form-label font-weight-bold">Print Colors : <span
-                                    style="color: red;">*</span></label>
-                            <select id="cmbprintColors" class="form-control" required
-                                    onchange="selectValidator(cmbprintColors,'','product','printcolors_id','oldproduct');">
-                            </select>
-                        </div>
-                    </div>
-<!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@ Paper type add button form @@@@@@@@@@@@@@@@@@@@@@@@@@-->
-<div id="divAddButtonPaperType" style="display: none">
-    <!-- Card Start -->
-    <div class="card p-1 m-1">
-        <div class="row">
-            <div class="col-6">
-            <label  class="form-label font-weight-bold">Product Category : <span
-                    style="color: red;">*</span></label>
-            <select id="cmbproductCategoryPT" class="form-control" required
-                    onchange="selectValidator(cmbproductCategoryPT,'','papertype','product_category_id','oldPapertype');">
-                </select>
-            </div>
-            <div class="col-6">
-                <label class= "form-label font-weight-bold"> Paper Type Name</label>
-                <input type="text" id="txtpapertypename"
-                       onkeyup="textFeildValidtor(txtpapertypename,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','papertype','name','oldpapertype')"
-                       class="form-control">
-
-
-            </div>
-        </div>
-
-        <div class="row mt-1">
-            <div class="col text-end">
-           <button  class="btn bg-info btn-sm font-weight-bold" style="width: 25%; border-radius: 50px" type="button" id ="btnAddpaperTypeSubmit" >Submit</button>
-
-            <button class="btn bg-success font-weight-bold btn-sm" style="width: 25%;border-radius: 50px" type="button" id ="btnAddpaperTypeCancel" >Cancel</button>
-            </div>
-        </div>
-        </div>
-</div>
-
-
-<!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@End@@@@@@@@@@@@@@@@@@@@@@@@@@-->
 
 
 
@@ -393,7 +382,7 @@
                     <!--@@@@@@@@@@@@@@@@@@@@@@@@@@ Start - Second Inner @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                     <!-- ########   Material - Inner form ######## -->
 
-                    <div id="divInnerMateialForm"><!-- style css-->
+                    <div id="divInnerMateialForm"   ><!-- style css-->
                         <!-- Card Start -->
                         <div class="card p-1 m-1">
                             <!--  bill book - Header-->
@@ -403,42 +392,15 @@
                             <!--  bill book - Inner form / Inner Table-->
                             <div class="row ">
                                 <!-- ## @@ Second Inner Form @@ ##-->
-                                <div class="col-5">
+                                <div class="col">
                                     <!-- Materil type-->
                                     <div id="innerMaterialtype">
                                         <label for="cmbMaterial" class="form-label font-weight-bold">Material : <span
                                                 style="color: red;">*</span></label>
                                         <select id="cmbMaterial" class="form-control" required
                                                 onchange="selectValidator(cmbMaterial,'','productHasMaterial','material_id','oldproductHasMaterial')">
-
                                         </select>
-
                                     </div>
-
-                                    <!--  ####### Sizes #######-->
-                                    <div class="row mt-1">
-                                        <!-- Height-->
-                                        <div class="col" >
-                                            <label for="txtPaperHeight" class="form-label font-weight-bold">
-                                                Paper Height : <span style="color: red;">*</span>
-                                            </label>
-                                            <input type="text" id="txtPaperHeight" placeholder="Ex: 2 " required
-                                                   onkeyup="textFeildValidtor(txtPaperHeight,'^(([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})|([1-9]{1}[.]{0,1}[0-9]{0,2}))$','material','height','oldmaterial')"
-                                                   class="form-control">
-                                            <div class="form-text"> Ex:10cm</div>
-                                        </div>
-                                        <!-- Width-->
-                                        <div class="col">
-                                            <label for="txtPaperWidth" class="form-label font-weight-bold">
-                                                Paper Width: <span style="color: red;">*</span>
-                                            </label>
-                                            <input type="text" id="txtPaperWidth" placeholder="Ex: 2 " required
-                                                   onkeyup="textFeildValidtor(txtPaperWidth,'^([1-6][0-9]{0,1}[.]{0,1}[0-9]{0,2})$','material','width','oldmaterial')"
-                                                   class="form-control">
-                                            <div class="form-text"> Ex: 10cm</div>
-                                        </div>
-                                    </div>
-
                                     <!--Quantity-->
                                     <div id="innerQuantity" class=" mt-1">
                                         <label for="txtQty" class="form-label font-weight-bold">

@@ -72,21 +72,10 @@ public class Product {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer_id;
 
-    @ManyToOne
-    @JoinColumn(name = "papercolors_id", referencedColumnName = "id")
-    private PaperColors papercolors_id;
 
     @ManyToOne
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
     private ProductCategory product_category_id;
-
-    @ManyToOne
-    @JoinColumn(name = "printcolors_id", referencedColumnName = "id")
-    private PrintColors printcolors_id;
-
-    @ManyToOne
-    @JoinColumn(name = " papertype_id", referencedColumnName = "id")
-    private PaperTypes papertype_id;
 
     @ManyToOne
     @JoinColumn(name = "product_size_id", referencedColumnName = "id")
@@ -110,7 +99,7 @@ public class Product {
 
 
 
-public Product(Integer id, String product_code, String p_name, BigDecimal price, String single_or_double, ProductCategoryController.ProductStatus product_status_id, Customer customer_id, PaperColors papercolors_id, ProductCategory product_category_id, PrintColors printcolors_id, ProductSize product_size_id){
+public Product(Integer id, String product_code, String p_name, BigDecimal price, String single_or_double, ProductCategoryController.ProductStatus product_status_id, Customer customer_id, ProductCategory product_category_id, ProductSize product_size_id){
     this.id = id;
     this.product_code = product_code;
     this.customer_id = customer_id;
@@ -118,8 +107,6 @@ public Product(Integer id, String product_code, String p_name, BigDecimal price,
     this.product_size_id = product_size_id;
     this.single_or_double = single_or_double;
     this.product_category_id  = product_category_id;
-    this.papercolors_id = papercolors_id;
-    this.printcolors_id = printcolors_id;
     this.price = price;
     this.product_status_id = product_status_id;
 

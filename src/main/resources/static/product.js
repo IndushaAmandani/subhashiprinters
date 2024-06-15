@@ -36,9 +36,9 @@ const refreshTable = () => {
          }
      })*/
     //create display proporty list
-    let displayPropertyList = ['product_code', 'customer_id.customer_name', 'p_name', 'product_size_id.name', 'single_or_double', 'product_category_id.name', 'papercolors_id.name', 'printcolors_id.name', 'price', 'product_status_id.name'];
+    let displayPropertyList = ['product_code', 'customer_id.customer_name', 'p_name', 'product_size_id.name', 'single_or_double', 'product_category_id.name', 'price', 'product_status_id.name'];
     // creat display property data type list
-    let displayDatatypeList = ['text', 'object', 'text', 'object', 'text', 'object', 'object', 'object', 'text', 'object'];
+    let displayDatatypeList = ['text', 'object', 'text', 'object', 'text', 'object', 'text', 'object'];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableProduct, products, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
@@ -46,9 +46,9 @@ const refreshTable = () => {
         if (products[index].product_status_id.name == "Not-Active") {
             tableProduct.children[1].children[index].style.backgroundColor = "#ad9393";
             tableProduct.children[1].children[index].style.color = "#0f100f";
-            tableProduct.children[1].children[index].children[11].children[1].disabled = true;
-            tableProduct.children[1].children[index].children[11].children[1].style.pointerEvents = "all";
-            tableProduct.children[1].children[index].children[11].children[1].style.cursor = "not-allowed";
+            tableProduct.children[1].children[index].children[9].children[1].disabled = true;
+            tableProduct.children[1].children[index].children[9].children[1].style.pointerEvents = "all";
+            tableProduct.children[1].children[index].children[9].children[1].style.cursor = "not-allowed";
 
         }
     }
@@ -67,6 +67,12 @@ refreshProductForm = () => {
     product.productCopyList = new Array();
 
 product.productHasMaterialList = new Array();
+
+    // ######################Customers ##########################
+    customers = getServiceRequest("/customer/list")
+    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", "");
+
+
 // ###################productCategory#########################
     // productCategory = [{ id: 1, name: "Label" }, { id: 2, name: "Posters" }];
     productcategories = new Array();
@@ -114,25 +120,9 @@ product.productHasMaterialList = new Array();
     })
     fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", "");
 
-    // ######################Paper Types ##########################
-    paperTypes = getServiceRequest("/paperTypes/list")
-    cmbpaperTypes.disabled = true;
-    fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypes, "name", "");
 
-    // ######################Paper Colors ##########################
-    paperColors = getServiceRequest("/paperColors/list")
-    cmbpaperColors.disabled = true;
-    fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", "");
 
-    // ######################Customers ##########################
-    customers = getServiceRequest("/customer/list")
-    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", "");
-
-    // ###################### PrintColors ##########################
-    printColors = getServiceRequest("/printColors/list")
-    fillSelectFeild(cmbprintColors, "Select Print Colors", printColors, "name", "");
-  // // ###################### PaperSide  ##########################
-
+ // // ###################### PaperSide  ##########################
 
     txtProductname.value="";
     txtHeight.value="";
@@ -330,23 +320,15 @@ function showCustomizedproductSize() {
 
 // //genepaperTypes according to the Category
 function getPaperType() {
-    let paperTypesByCategory = getServiceRequest("/paperTypes/getbyCategory/" + JSON.parse(cmbproductCategory.value).id);
+    let paperTypesByCategory = getServiceRequest("/paperInkTypes/getbyCategory/" + JSON.parse(cmbproductCategory.value).id);
     fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypesByCategory, "name", "");
     fillSelectFeild(cmbPcopypaperTypes, "Select Paper Type", paperTypesByCategory, "name", "");
 }
 
 //json.parse --> creating java object and filteering by id using .id
-//Set paper colors
-function selectpaperColors() {
-    let paperColorsByPaperType = getServiceRequest("/paperColors/getbyPType/" + JSON.parse(cmbpaperTypes.value).id);
-    fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColorsByPaperType, "name", "");
-}
 
 
-function selectInnerpaperColors() {
-    let paperColorsByPaperType = getServiceRequest("/paperColors/getbyPType/" + JSON.parse(cmbPcopypaperTypes.value).id);
-    fillSelectFeild(cmbPcopypaperColors, "Select Paper Colors", paperColorsByPaperType, "name", "");
-}
+
 // generating prodct Size according to the Category main form
 function getP_SizeByPCategory() {
 
@@ -828,76 +810,8 @@ const rowView = (ob,rowind) => {
        tdPSizeHeight.innerHTML=printproduct.product_size_id.height;
 
     // tdpType.innerHTML = printproduct.papertype_id.name ;
-    tdPColors.innerHTML = printproduct.papercolors_id.name ;
+ //   tdPColors.innerHTML = printproduct.papercolors_id.name ;
 
 }
 
-
-const refreshbuttonAddPaperType =() => {
-
-    papertype = new Object();
-    oldpapertype = null;
-    productcategories =  getServiceRequest("/productCategory/list");
-cmbproductCategoryPT.disabled = true;
-    fillSelectFeild(cmbproductCategoryPT, "Select Product Category", productcategories, "name", product.product_category_id.name)
-papertype.product_category_id = JSON.parse(cmbproductCategoryPT.value);
-    txtpapertypename.value = "";
-   // txtpapertypename.borderBottom.style = "1px solid #cacfe7";
-  //  cmbproductCategoryPT.borderBottom.style = "1px solid #cacfe7";
-}
-
-
-//Add Eventlisteners to Papertype cancel button
-const cancelPT = document.getElementById('btnAddpaperTypeCancel');
-const divAddPTy = document.getElementById("divAddButtonPaperType");
-cancelPT.addEventListener("click",() => {
-    refreshbuttonAddPaperType();
-    divAddPTy.style.display = "none" ;
-});
-
-
-//Add Eventlistener to Papertype add button
-const addPT = document.getElementById("btnAddpaperTypeSubmit");
-addPT.addEventListener("click",()=>{
-  let  errors = checkaddPTErrors();
-    if(errors != ""){
-       return "You have following errors :\n" +errors ;
-       refreshbuttonAddPaperType();
-        divAddButtonPaperType.style.display = "block";
-    }else {
-        let serverResponce = getHTTPServiceRequest("/paperTypes", "POST", papertype);
-        if (serverResponce == "0") {
-
-            alert("Saved Successfully");
-            let paperTypesByCategory = getServiceRequest("/paperTypes/getbyCategory/" + JSON.parse(cmbproductCategory.value).id);
-            fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypesByCategory, "name", "");
-            refreshbuttonAddPaperType();
-            divAddButtonPaperType.style.display = "block";
-        } else {
-            return alert("Failed to add ...You have following error..\n" + serverResponce);
-        }
-    }
-})
-
-const checkaddPTErrors = () =>{
-let errors = "";
-    if(papertype.name == null){
-        errors = errors + "Paper Type Name is not entered.."
-    }
-    return errors;
-}
-
-//Add button function
-function buttonAddPaperType() {
-        divAddButtonPaperType.style.display = "block" ;
-        refreshbuttonAddPaperType();
-}
-
-function enbleAddPTypeButton(){
-  let addbtn = document.getElementById('addPaperType')
-    if (!product.product_category_id) {
-        addbtn.disabled = true;
-    } else{
-    addbtn.disabled=false;}
-}
 

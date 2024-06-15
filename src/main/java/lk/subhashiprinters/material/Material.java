@@ -74,6 +74,10 @@ private MaterialStatus material_status_id ;
 @JoinColumn(name ="material_unit_type_id",referencedColumnName = "id")
 private MaterialUnitType material_unit_type_id ;
 
+@ManyToOne
+@JoinColumn(name ="paper_ink_type_id",referencedColumnName = "id")
+private PaperInkTypes paper_ink_type_id ;
+
 
 
 //m.id, m.name, m.code,m.measuring_count,m.width,m.height,m.material_category_id, m.material_unit_type_id, m.material_status_id

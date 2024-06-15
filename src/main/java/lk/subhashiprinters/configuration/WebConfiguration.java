@@ -28,7 +28,7 @@ public class WebConfiguration {
                 antMatchers("/user/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/privilage/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
-                antMatchers("/paperTypes/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
+                antMatchers("/paperInkTypes/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
                 antMatchers("/material/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/dailyProduct/**","/CustomerOrder/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","CASHIER").
