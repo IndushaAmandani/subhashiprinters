@@ -69,8 +69,12 @@ const refreshSupplierForm = ()=> {
     txtBankAccountNumber.value = "";
     txtBankAccountHolderName.value = "";
 
-    setStyle("1px solid #ced4da");
-    cmbSupplierStatus.style.borderBottom = "2px solid green";
+
+
+    let supplierArray = [txtSupplierName,txtSupplierAddress,txtSupplierNote,txtContactNo,txtEmailAddress,cmbSupplierStatus,txtContactPersonName,txtContactPersonMobile,txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName]
+setIDStyle(supplierArray,"1px solid #ced4da");
+
+    cmbSupplierStatus.style.borderBottom = "1px solid green";
 
     disabledButton(true, false);
     newSupplier.materialList = new Array();
@@ -84,23 +88,6 @@ const refreshSupplierForm = ()=> {
 
 
 
-function setStyle(style) {
-
-    txtSupplierName.style.borderBottom = style;
-    txtSupplierAddress.style.borderBottom = style;
-    txtSupplierNote.style.borderBottom = style;
-    txtContactNo.style.borderBottom = style;
-    txtEmailAddress.style.borderBottom = style;
-    cmbSupplierStatus.style.borderBottom = style;
-  //  txtCompanyRegno.style.borderBottom = style;
-    txtContactPersonName.style.borderBottom = style;
-    txtContactPersonMobile.style.borderBottom = style;
-    txtBankName.style.borderBottom = style;
-    txtBankBranchName.style.borderBottom = style;
-    txtBankAccountNumber.style.borderBottom = style;
-    txtBankAccountHolderName.style.borderBottom = style;
-
-}
 
 
 function buttonAddByOne() {
@@ -249,26 +236,18 @@ function reFillItemForm(rowob,rowind) {
      cmbSupplierStatus.style.borderBottom = "2px solid green";
      cmbSupplierStatus.disabled = false;
 
-    const  idAarray = [txtSupplierName,txtEmailAddress,txtContactNo,txtContactPersonName,txtContactPersonMobile,txtSupplierAddress];
     //  clear input feilds
     txtSupplierName.value = newSupplier.company_name;
-    txtSupplierName.style.borderBottom = "1px solid green";
     txtEmailAddress.value = newSupplier.company_email;
-    txtEmailAddress.style.borderBottom = "1px solid green";
     txtContactNo.value = newSupplier.company_contact_no;
-    txtContactNo.style.borderBottom = "1px solid green";
     txtContactPersonName.value = newSupplier.contact_person_name;
-    txtContactPersonName.style.borderBottom = "1px solid green";
     txtContactPersonMobile.value= newSupplier.contact_person_number;
-    txtContactPersonMobile.style.borderBottom = "1px solid green";
     txtSupplierAddress.value = newSupplier.address;
-    txtSupplierAddress.style.borderBottom = "1px solid green";
     txtBankName.value = newSupplier.bank_name;
     txtBankBranchName.value = newSupplier.branch_name;
     txtBankAccountNumber.value = newSupplier.account_number;
     txtBankAccountHolderName.value = newSupplier.account_holder_name;
-  //      const idBankArray = [txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName];
-    // const objvalue = [bank_name,branch_name,account_number,account_holder_name];
+
 
             if(newSupplier.bank_name ) {
                 txtBankName.value = newSupplier.bank_name;
@@ -276,7 +255,10 @@ function reFillItemForm(rowob,rowind) {
                 txtBankAccountNumber.value = newSupplier.account_number;
                 txtBankAccountHolderName.value = newSupplier.account_holder_name;
             }
- setIDStyle(idAarray,"1px solid green");
+
+
+    let supplierArray = [txtSupplierName,txtSupplierAddress,txtSupplierNote,txtContactNo,txtEmailAddress,cmbSupplierStatus,txtContactPersonName,txtContactPersonMobile,txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName]
+ setIDStyle(supplierArray,"1px dotted green");
     $("#modalSupplierForm").modal("show");
 disabledButton(false,true);
 }
@@ -395,11 +377,30 @@ function deleteItemRow(ob) {
 }
 
 
-function viewItemRow(rowob,rowind) {
+function viewItemRow(rowob) {
 
-    let printItem = getServiceRequest("/item/getbyid/"+rowob.id);
+    $("#modalViewSupplierForm").modal("show");
+    let printItem = getServiceRequest("/supplier/getbyid/"+rowob.id);
 
-    tdItemCode.innerText = printItem.itemcode;
+
+    tdSCode.innerText = printItem.reg_no;
+    tdSName.innerText = printItem.company_name;
+    tdSMobile.innerText = printItem.contact_person_number;
+
+
+
+        let supplyIMaterialList = getServiceRequest("/material/listbysupplier/"+rowob.id);
+    // console.log(supplyIMaterialList);
+    function materialList() {
+        let materialsName = "";
+
+        for (let index in supplyIMaterialList) {
+            materialsName = materialsName + supplyIMaterialList[index]['name'] + ","
+            //String - poster paper,dimai,
+        }
+        return materialsName;
+    }
+    tdM.innerText = materialList();
 
 }
 
@@ -408,4 +409,10 @@ function buttonModalCloseMCSup() {
     buttonCloseModal("#modalSupplierForm",refreshSupplierForm);
 
 }
+
+ function buttonModalCloseMMCVM(){
+    buttonCloseVModal("#modalViewSupplierForm");
+ }
+
+
 

@@ -22,7 +22,7 @@ function refreshtablePendingCOrder() {
     fillDataIntoTable(productionOrderConfirmTable, productoinOrders, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
     for (let index in productoinOrders) {
-        productionOrderConfirmTable.children[1].children[index].children[5].children[2].style.display = "none";
+            productionOrderConfirmTable.children[1].children[index].children[5].children[2].style.display = "none";
         productionOrderConfirmTable.children[1].children[index].children[5].children[1].style.display = "none";
         productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Confirmed";
         productionOrderConfirmTable.children[1].children[index].children[5].children[0].innerHTML = "Confirmed";
@@ -73,7 +73,7 @@ const formRefill = (ob, rowno) => {
 
 
     pOrders = getServiceRequest("/productoinOrderConfirm/getbyid/" + ob.id);
-
+    console.log(pOrders)
     pStatuses = getServiceRequest("/productionStatus/list");
     fillSelectFeild(cmbOrderStatus,"Select Statuses",pStatuses,"name","Accepted","")
     pOrders.production_status_id = JSON.parse(cmbOrderStatus.value);
@@ -106,6 +106,19 @@ const formRefill = (ob, rowno) => {
             allMaerials.push(allMat);
         }
     }
+
+    // for (let index in pOrders.customerOrderHasProductList){
+    //     let requiredMaterials = pOrders.customerOrderHasProductList[index].product_id.productHasMaterialList;
+    //     console.log(requiredMaterials)
+    //     for(let matInd in requiredMaterials){
+    //         let allMat = new Object();
+    //         allMat.material_id = requiredMaterials[matInd].material_id;
+    //         allMat.required_quantity = parseFloat(requiredMaterials[matInd].quantity) * parseFloat(pOrders.customerOrderHasProductList[index].order_qty);
+    //         allMaerials.push(allMat);
+    //     }
+    // }
+
+
 
 
     let displayPropList = ['material_id.name','required_quantity',];

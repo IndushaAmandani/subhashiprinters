@@ -249,7 +249,7 @@ const innerRowDelete = (innerob, rowind) => {
     if (innserdeleteUserResponce) {
 
         quotation.quotationHasMaterialList.splice(rowind, 1)
-        alert("Romve Successfully...!");
+        alert("Removed Successfully...!");
         refreshInnerFormTable();
 
     }
@@ -487,4 +487,8 @@ function buttonUpdateMC() {
         alert("You have following error in your form... \n" + errors);
     }
 
+}
+
+function buttonModalCloseMC(){
+    buttonCloseModal("#modalQuotationForm",refreshQForm);
 }

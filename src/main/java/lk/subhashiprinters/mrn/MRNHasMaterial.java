@@ -27,7 +27,7 @@ public class MRNHasMaterial {
     private BigDecimal purchase_price;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private BigDecimal quantity;
 
     @Column(name = "line_total")
     private BigDecimal line_total;

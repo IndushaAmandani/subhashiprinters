@@ -1,6 +1,7 @@
 package lk.subhashiprinters.mrn;
 
 
+import lk.subhashiprinters.material.*;
 import lk.subhashiprinters.mrn.MRN;
 import lk.subhashiprinters.mrn.MRNRepository;
 import lk.subhashiprinters.mrn.MRNStatusRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class MRNController {
 
     @Autowired
     private MRNRepository mrnDao;
+
+    @Autowired
+    private MaterialRepository daoMaterial;
 
     @Autowired
     private MRNStatusRepository mrnStatusDao;
@@ -49,6 +54,12 @@ public class MRNController {
 
     @Autowired
     private UserRepository userDao;
+
+    @Autowired
+    private  MaterialInventoryRepository inventoryDao;
+
+    @Autowired
+    private InventoryStatusRepository inventoryStatusDao;
 
     //
     @GetMapping
@@ -111,13 +122,49 @@ public class MRNController {
                 mrn.setAdded_user_id(loggedUser);
                 mrn.setAdded_date(LocalDate.now());
                 mrn.setRecieve_no(mrnDao.getNextMRNno());
-                PurchaseOrder extporder = pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
-                extporder.setPurchase_order_status_id(porderStatusDao.getReferenceById(2));
                 for (MRNHasMaterial mrnhM : mrn.getMrnHasMaterialList()) {
                     mrnhM.setMaterial_recieve_note_id(mrn);
                 }
+
+              MRN newMrn  =  mrnDao.save(mrn);
+
+                PurchaseOrder extporder = pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
+                extporder.setPurchase_order_status_id(porderStatusDao.getReferenceById(2));
+
+                for (PurchaseOrderHasMaterial pohm : extporder.getPurchaseOrderHasMaterialList()) {
+                    pohm.setPurchase_order_id(extporder);
+                }
                 pOrderDao.save(extporder);
-                mrnDao.save(mrn);
+
+                //update Inventory
+                for (MRNHasMaterial mrnhM : newMrn.getMrnHasMaterialList()) {
+                    Material material = daoMaterial.getReferenceById(mrnhM.getMaterial_id().getId());
+                    material.setUnit_price(mrnhM.getPurchase_price());
+                    daoMaterial.save(material);
+
+                    MaterialInventory extinventory = inventoryDao.getByMaterial(material.getId());
+                        if(extinventory != null){
+                            extinventory.setAvaqty(extinventory.getAvaqty().add(mrnhM.getQuantity()));
+                            extinventory.setTotalqty(extinventory.getTotalqty().add(mrnhM.getQuantity()));
+                            extinventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
+                            inventoryDao.save(extinventory);
+                        }else{
+                            MaterialInventory newInventory = new MaterialInventory();
+                            newInventory.setMaterial_id(material);
+                            newInventory.setAvaqty(mrnhM.getQuantity());
+                            newInventory.setTotalqty(mrnhM.getQuantity());
+                            newInventory.setRemoveqty(BigDecimal.ZERO);
+                            newInventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
+                            inventoryDao.save(newInventory);
+                        }
+                    //change product prices
+
+
+
+
+
+                }
+
                 return "0";
 
             } catch (Exception e) {

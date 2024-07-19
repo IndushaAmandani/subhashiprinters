@@ -50,11 +50,7 @@ public class EmployeeController {
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
     @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
-    public Employee getEmployeeByPVId(
-            @PathVariable("id") Integer id
-    ){
-        return employeeDao.getReferenceById(id);
-    }
+    public Employee getEmployeeByPVId(@PathVariable("id") Integer id){return employeeDao.getReferenceById(id);}
 
     //get mapping service for get employee by given Query param id [ /employee/getbyid?id=1]
     @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")

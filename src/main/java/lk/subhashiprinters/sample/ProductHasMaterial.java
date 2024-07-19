@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -31,6 +32,9 @@ public class ProductHasMaterial {
 
     @Column(name = "quantity")
     private  Integer quantity;
+
+    @Column(name = "unit_cost")
+    private BigDecimal unit_cost;
 
 }
 //@JsonIgnore

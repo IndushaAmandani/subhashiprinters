@@ -26,4 +26,6 @@ public class RoleController {
     public List<Role> roleListByUser(@RequestParam("userid")Integer userid){
         return roleDao.getRoleByUser(userid);
     }
+
+
 }

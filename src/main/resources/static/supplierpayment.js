@@ -210,7 +210,7 @@ function viewSPRow(rowob,rowind) {
 
 function getMRN() {
         mrns = getServiceRequest("/mrn/listbysupplier/"+JSON.parse(cmbSupplier.value).id); //
-    fillSelectFeild(cmbMrn,"Select QR Status" , mrns ,"recieve_no","");
+    fillSelectFeild(cmbMrn,"Select MRN Status" , mrns ,"recieve_no","");
 
     txtTotalAmount.value =  parseFloat(JSON.parse(cmbSupplier.value).amount).toFixed(2);
     txtTotalAmount.style.borderBottom = "2px solid green";

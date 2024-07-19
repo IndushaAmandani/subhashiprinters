@@ -94,12 +94,13 @@ public class SupplierPayment implements Serializable {
     private User delete_user_id;
 
     public SupplierPayment(Integer id, String bill_no, BigDecimal total_amount , BigDecimal paid_amount,
-                           BigDecimal balance_amount , Supplier supplier_id, MRN material_recieve_note_id, SPaymentType supplier_payment_type_id, SPaymentStatus supplier_payment_status_id){
+                           BigDecimal balance_amount, LocalDateTime added_date , Supplier supplier_id, MRN material_recieve_note_id, SPaymentType supplier_payment_type_id, SPaymentStatus supplier_payment_status_id){
         this.id = id;
         this.bill_no = bill_no;
         this.total_amount = total_amount;
         this.paid_amount = paid_amount;
         this.balance_amount = balance_amount;
+        this.added_date = added_date;
         this.supplier_id = supplier_id;
         this.material_recieve_note_id = material_recieve_note_id;
         this.supplier_payment_type_id = supplier_payment_type_id;

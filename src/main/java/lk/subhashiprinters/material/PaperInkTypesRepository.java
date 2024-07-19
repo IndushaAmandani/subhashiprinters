@@ -18,4 +18,9 @@ PaperInkTypes getPITbyMaterialCategoryandName(Integer materialCategoryid, String
     @Query("select pty from PaperInkTypes pty where pty.material_category_id.id=?1")
     List<PaperInkTypes> getByMCategory(Integer materialCategoryid);
 
+    @Query("select pty from PaperInkTypes pty where pty.material_category_id.id=1")
+    List<PaperInkTypes> getPITByPaperCategory();
+    @Query("select pty from PaperInkTypes pty where pty.material_category_id.id=2")
+    List<PaperInkTypes> getPITByInkCategory();
+
 }

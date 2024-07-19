@@ -69,10 +69,11 @@ const refreshMrnForm = () => {
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
     fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no");
     // cmbPurchaseOrder.disabled = true;
-    mrnstatuses = getServiceRequest("/mrnstatus/list");
+        mrnstatuses = getServiceRequest("/mrnstatus/list");
 
     fillSelectFeild(cmbMrnStatus, "Select Status", mrnstatuses, "name", "Received", true);
-    cmbMrnStatus.style.borderBottom = "1px solid #ced4da";
+    mrn.material_recieve_note_status_id = JSON.parse(cmbMrnStatus.value);
+    cmbMrnStatus.style.borderBottom = "1px solid green";
 
 
     txtTotalAmount.value = "";
@@ -90,7 +91,7 @@ const refreshMrnForm = () => {
     currentDateForMax.setDate(currentDateForMax.getDate());
     dteReceivedDate.max = getCurrentDate2("date", currentDateForMax);
 
-    let mrnArray = [cmbSupplier, cmbPurchaseOrder, dteReceivedDate, txtSupplierInvoiceNO, txtTotalAmount, txtDiscountRatio, txtNetAmount, txtNote, cmbMrnStatus];
+    let mrnArray = [cmbSupplier, cmbPurchaseOrder, dteReceivedDate, txtSupplierInvoiceNO, txtTotalAmount, txtDiscountRatio, txtNetAmount, txtNote];
     setIDStyle(mrnArray, "1px solid #ced4da");
 
 
@@ -395,7 +396,7 @@ const innerRowDelete = (innerob, rowind) => {
     if (innserdeleteUserResponce) {
 
         mrn.purchaseOrderHasMaterialList.splice(rowind, 1)
-        alert("Romve Successfully...!");
+        alert("Remove Successfully...!");
         refreshInnerFormTable();
 
     }
@@ -409,11 +410,11 @@ const innerRowView = () => {
 const checkErrors = () => {
     let errors = "";
 
-    if (mrn.supplier_id == null) {
+    if (mrn.purchase_order_id.supplier_id.id == null) {
         errors = errors + "Supplier Not Selected \n";
 
     }
-    if (mrn.quatation_id == null) {
+    if (mrn.purchase_order_id.quatation_id.id == null) {
         errors = errors + "Quotation  Not Selected \n";
 
     }
@@ -427,7 +428,7 @@ const checkErrors = () => {
         errors = errors + "Total Amount Not entered \n";
 
     }
-    if (mrn.purchaseOrderHasMaterialList.length == 0) {
+    if (mrn.mrnHasMaterialList.length == 0) {
         errors = errors + "Material Not selected \n";
 
     }
@@ -445,8 +446,8 @@ function buttonSubmitMC() {
 
         // need to get user confirmation
         let confirmMs = "Are you sure to add following mrn details \n"
-            + "\n Supplier : " + ob.purchase_order_id.supplier_id.company_name
-            + "\n Quotation : " + ob.purchase_order_id.quatation_id.number
+            + "\n Supplier : " + mrn.purchase_order_id.supplier_id.company_name
+            + "\n Quotation : " + mrn.purchase_order_id.quatation_id.number
             + "\n Required Date : " + mrn.recieve_date
             + "\n Total Amount : " + mrn.total_amount;
         let userResponce = window.confirm(confirmMs);
@@ -470,7 +471,7 @@ function buttonSubmitMC() {
 }
 
 function buttonClearMC() {
-    refreshForm();
+    refreshUForm();
 }
 
 //
@@ -487,7 +488,7 @@ const rowDelete = (ob, rowno) => {
         + "\n Required Date : " +ob.recieve_date
         + "\n Total Amount : " + ob.total_amount;
 
-    let deleteUserResponce = window.confirm(deleteMsg);
+    let deleteUserResponce = window.confirm(deleteMsg);3
 
     if (deleteUserResponce) {
         let serverResponce = getHTTPServiceRequest("/mrn", "DELETE", ob);
@@ -515,25 +516,23 @@ const formReFill = (ob, rowno) => {
     txtNote.style.borderBottom = "2px dotted green";
 }else txtNote.value = "";
 
-
-
      txtTotalAmount.value = mrn.total_amount;
     // dteReceivedDate.value = mrn.recieve_date;
 
-    suppliers = getServiceRequest("/supplier/list");
-    porderlist = getServiceRequest("/purchaseorder/list");
+    // suppliers = getServiceRequest("/supplier/list");
+    // porderlist = getServiceRequest("/purchaseorder/list");
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", mrn.purchase_order_id.supplier_id.company_name);
-    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order",porderlist , "number", mrn.purchase_order_id.order_no);
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order",porderlist , "order_no", mrn.purchase_order_id.order_no);
     cmbSupplier.disabled = true;
     cmbPurchaseOrder.disabled = true;
     dteReceivedDate.value = mrn.recieve_date;
-    cmbPurchaseOrder.value = mrn.purchase_order_id.order_no;
+        // cmbPurchaseOrder.value = mrn.purchase_order_id.order_no;
     txtSupplierInvoiceNO.value = mrn.supplier_inovice_no;
     txtDiscountRatio.value = mrn.discount_rate;
     txtNetAmount.value = mrn.net_amount;
 
 
-     let mrnArray = {cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus}
+     let mrnArray = [cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus];
     setIDStyle(mrnArray,"2px dotted green");
 
 
@@ -633,19 +632,19 @@ function buttonUpdateMC() {
 
 }
 
-function getPObysupplier() {
-    //quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
+// function getPObysupplier() {
+//     quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
 //    mrn = getServiceRequest("/purchaseorder/getPObySupplierid/" + JSON.parse(cmbSupplier.value).id) ;
 // fillSelectFeild(cmbPurchaseOrder,"Select Purchase Order",mrn,"order_no");
 //     cmbPurchaseOrder.disabled = false;
-
-}
+//
+// }
 
 
 function getValidPOrder() {
-    // poderbyrecieveddate = getServiceRequest("/purchaseorder/pOrdervalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteReceivedDate.value);
-    // fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", poderbyrecieveddate, "");
-    // cmbPurchaseOrder.disabled = false;
+    poderbyrecieveddate = getServiceRequest("/purchaseorder/pOrdervalid/" + JSON.parse(cmbSupplier.value).id);
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", poderbyrecieveddate, "order_no");
+    cmbPurchaseOrder.disabled = false;
 }
 
 function buttonModalCloseMC() {

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController //make it available the services to front end and back end
-@RequestMapping(value = "/materialInventory") // class level mapping
+@RequestMapping(value = "/inventory") // class level mapping
 public class MaterialInventoryController {
 
     @Autowired //linked required repository
@@ -45,7 +46,7 @@ public class MaterialInventoryController {
         ModelAndView materialUI = new ModelAndView();
         if(loggedUser != null && userPiriv.get("sel")){
             // set material to material html
-            materialUI.setViewName("material.html");
+            materialUI.setViewName("inventory.html");
             // returning ui
             return materialUI;
         }else {
@@ -61,25 +62,25 @@ public class MaterialInventoryController {
 
 
     // get mapping for get material selected columns details [/material/findall]
-//    @GetMapping(value = "/findall", produces = "application/json")
-//    public List<Material> materialFindAll(){
-//        //need to check logged user privilage
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if(authentication instanceof AnonymousAuthenticationToken){
-//            return null;
-//        }
-//
-//        // get logged user authentication object
-//        User loggedUser = userDao.findUserByUsername(authentication.getName());
-//        // check privilage for add operation
-//        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"");
-//
-//        if(loggedUser != null && userPiriv.get("sel"))
-//            //  return materialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-//            return materialDao.findAll();
-//        else
-//            return null;
-//    }
+    @GetMapping(value = "/list", produces = "application/json")
+    public List<MaterialInventory> materialInventoryList(){
+        //need to check logged user privilage
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken){
+            return null;
+        }
+
+        // get logged user authentication object
+        User loggedUser = userDao.findUserByUsername(authentication.getName());
+        // check privilage for add operation
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Material");
+
+        if(loggedUser != null && userPiriv.get("sel"))
+            //  return materialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            return materialInventoryDao.findAll();
+        else
+            return null;
+    }
 
 
 @GetMapping(value ="/bymaterial/{matid}",produces = "application/json")

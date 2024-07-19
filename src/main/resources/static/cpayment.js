@@ -37,8 +37,9 @@ const refreshTable = () => {
             tableCustomerPayment.children[1].children[index].style.backgroundColor = "#6c8c86";
             tableCustomerPayment.children[1].children[index].style.color = "#0f100f";
         }
-        $("tableCustomerPayment").dataTable();
+
     }
+    $('#tableCustomerPayment').dataTable();
 }
 const refreshCPaymentForm = () => {
     cPayment = new Object();

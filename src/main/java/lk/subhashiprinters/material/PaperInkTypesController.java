@@ -41,6 +41,14 @@ public class PaperInkTypesController {
     public List<PaperInkTypes> getbyMCategory(@PathVariable("mcid") Integer mcid) {
         return paperinkTypesDao.getByMCategory(mcid);
     }
+    @GetMapping(value = "/paper", produces = "application/json")
+    public List<PaperInkTypes> getPITByPaperCategory() {
+        return paperinkTypesDao.getPITByPaperCategory();
+    }
+    @GetMapping(value = "/ink", produces = "application/json")
+    public List<PaperInkTypes> getPITByInkCategory() {
+        return paperinkTypesDao.getPITByInkCategory();
+    }
 
    @PostMapping
   public String AddPaperInkType(@RequestBody PaperInkTypes paperinkTypes) {

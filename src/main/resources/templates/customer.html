@@ -40,7 +40,7 @@
             <div class="btn-group float-md-right">
               <a
                 class="btn-gradient-primary-add btn-sm white"
-                data-toggle="modal"
+                data-toggle="modal" id="btnAddNew"
                 data-target="#modalCustomerForm"
                 >Add new customer</a>
             </div>
@@ -430,7 +430,7 @@
               class="close"
               data-dismiss="modal"
               aria-label="Close"
-              onclick="buttonModalCloseMCV()"
+              onclick="buttonModalCloseMMCVM()"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -485,9 +485,9 @@
     </div>
 
     <!-- BEGIN VENDOR JS-->
-<script src="resources/script/common.js"></script>
+
 <script src="resources/script/dashboard.js"></script>
-<script src="customer.js"></script>
+
     <script
       src="/app-assets/vendors/js/vendors.min.js"
       type="text/javascript"

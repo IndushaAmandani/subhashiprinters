@@ -14,8 +14,8 @@ function loadUI() {
 
 //called refreshEmployeeForm function -- >
     refreshEmployeeForm();
-
-    dteDOB.addEventListener("change",checkDoB())
+    let dob = document.getElementById("dteDOB")
+    dob.addEventListener("change",checkDoB())
 
 }
 
@@ -42,13 +42,37 @@ const refreshTable = () =>{
     let displayDatatypeList = ['text', 'text','text','text','text','object'];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableEmployee,employees,displayPropertyList,displayDatatypeList,formRefill , rowDelete , rowView,true,lggeduserprivilage);
+    for (let index in employees ){
+        if (employees[index].employeestatus_id.name == "Resign") {
+            tableEmployee.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableEmployee.children[1].children[index].style.color = "#0f100f";
+            tableEmployee.children[1].children[index].children[7].children[1].disabled = true;
+            tableEmployee.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
+            tableEmployee.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+
+        }
+    }
+
     // need to add jquerty table
     $('#tableEmployee').dataTable();
 
 }
 
 
-const rowView = () => {}
+const rowView = (ob) => {
+    $("#modalViewEmployeeForm").modal("show");
+
+     //creting html form or table and name those td in following
+
+    tdfullname.innerText   = ob.fullname;
+    tdCName.innerText = ob.calling_name;
+    tdnic.innerText = ob.nic;
+    tddob.innerText = ob.dob;
+    tdMobile.innerText = ob.mobile;
+    tdland.innerText = ob.land;
+    tdaddress.innerText = ob.address;
+
+}
 
 
 //create function for refresh Form
@@ -131,7 +155,13 @@ const refreshEmployeeForm = () => {
     lblRadioFemale.style.color = "black";  
     radioMale.checked = false;
     radioFemale.checked = false;
-    
+
+    //photo reset
+    employee.emp_photo = null;
+    employee.emp_photo_name = "";
+    employeeImage.src = "resources/images/user_photo/user.png";
+    txtempPhoto.value = "";
+    empFilePhoto.files = null;
 
 
     dteAssigndate.value = getCurrentDate();
@@ -263,6 +293,15 @@ const formRefill = (ob, rowno) => {
         }
     })
 
+    //refill photo
+    if(employee.emp_photo == null){
+        employeeImage.src = "resources/images/user_photo/user.png";
+        txtempPhoto.value = "";
+    }else{
+        employeeImage.src = atob(employee.emp_photo);
+        txtempPhoto.value = employee.emp_photo_name;
+    }
+
     // set value into  feilds
 
     txtFullname.value = employee.fullname;
@@ -273,6 +312,7 @@ const formRefill = (ob, rowno) => {
     txtAddress.value = employee.address;
     txtMobile.value = employee.mobile;
     txtLand.value = employee.land;
+    
 
     //Optional calue checking
     if(employee.land != undefined )
@@ -327,6 +367,14 @@ function setStyle(style) {
 
 }
 
+//photo settings
+document.getElementById("btnClearImage").addEventListener("click", ()=>{
+    employee.emp_photo = null;
+    employee.emp_photo_name = "";
+    employeeImage.src = "resources/images/user_photo/user.png";
+    txtempPhoto.value = "";
+    empFilePhoto.files = null;
+})
 
 ///
 const checkUpdate = () => {
@@ -361,6 +409,10 @@ const checkUpdate = () => {
 
         if (employee.employeestatus_id.name != oldemployee.employeestatus_id.name) {
             updates = updates + "Employee status is Changed \n";
+        }
+
+        if((employee.emp_photo) != (oldemployee.emp_photo)){
+            updates = updates + "Employee image is Changed \n";
         }
 
     }
@@ -491,13 +543,15 @@ function checkDoB(){
 }
 //buttonModalCloseMC( "#modalEmployeeForm",refreshEmployeeForm());
 
-    function buttonModalCloseMC() {
-      let userConfirm = window.confirm("Are you sure to close the Modal...?");
-      if (userConfirm) {
-        refreshEmployeeForm();
-         $("#modalEmployeeForm").modal("hide");
-         
-      }
-  }
+
+
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalEmployeeForm",refreshEmployeeForm);
+
+}
+
+function buttonModalCloseMCVM(){
+    buttonCloseVModal("#modalViewEmployeeForm");
+}
 
 

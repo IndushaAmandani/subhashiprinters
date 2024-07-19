@@ -4,6 +4,7 @@ import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,7 +79,7 @@ public class MaterialController {
 
         if(loggedUser != null && userPiriv.get("sel"))
             //  return materialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-            return materialDao.findAll();
+            return materialDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
         else
             return null;
     }
@@ -119,6 +120,9 @@ public class MaterialController {
 
 @GetMapping(value ="/getMaterialListbycategory",produces = "application/json")
 public List<Material> getMaterialListbyCategory(){return materialDao.getMaterialListbyCategory();};
+
+    @GetMapping(value ="/listbySubCAtegory/{subid}",produces = "application/json")
+    public List<Material> getMaterialListbySubCategory(@PathVariable("subid")Integer subid){return materialDao.getMaterialListbySubCategory(subid);};
 
 
     //post mapping for insert material [/material - post]

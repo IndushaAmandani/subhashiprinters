@@ -57,10 +57,10 @@ public class PurchaseOrderController {
         return purchaseOrderDao.getPorderbySupplier(id);
     }
 
-    @GetMapping(value = "/pOrdervalid/{sid}/{recieveDate}",produces = "application/json")
-    public List<PurchaseOrder> getvalidPobysidrDate(@PathVariable("sid")Integer sid ,@PathVariable("recieveDate")String recieveDate){
+    @GetMapping(value = "/pOrdervalid/{sid}",produces = "application/json")
+    public List<PurchaseOrder> getvalidPobysidrDate(@PathVariable("sid")Integer sid){
         //since require date retrieve as string have to convert into date type
-        return purchaseOrderDao.getValidPobySupplierRecieveDate(sid,LocalDate.parse(recieveDate));
+        return purchaseOrderDao.getValidPobySupplier(sid);
     }
 
     @GetMapping(value ="/findall",produces = "application/json")

@@ -4,7 +4,7 @@
 <head th:replace = "~{fragment :: headFragment}">
     <title>Subhashi Printers - Employee</title>
 </head>
-<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expan   ded fixed-navbar" data-open="click"
   data-menu="vertical-compact-menu" data-col="2-columns">
 
 <!-- fixed-top-->
@@ -19,7 +19,7 @@
   <div class="app-content content">
     <div class="content-wrapper">
       <div class="content-header row">
-        <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+        <div class="content-header-left col-md-8 col-12 mb-2 ">
           <h3 class="content-header-title mb-0 d-inline-block">Employee Management</h3>
           <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
@@ -32,16 +32,18 @@
             </div>
           </div>
         </div>
-        <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-secondary btn-sm white" data-toggle="modal" data-target="#modalEmployeeForm">Add
-              new Employee</a></div>
+          <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+              <div class="btn-group float-md-right">
+                  <a class="btn-gradient-primary-add btn-sm white"
+                          data-toggle="modal"
+                          data-target="#modalEmployeeForm">Add new Employee</a>
+              </div>
         </div>
       </div>
       <div class="content-body">
         <div id="transactions">
           <div class="transactions-table-tbody">
 
-       
             <section class="card pull-up">
               <div class="card-content">
                 <div class="card-body">
@@ -91,14 +93,18 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"> <i class="fas fa-user fx"></i> Edit Employee</h2>
+                <h2 class="h2"> <i class="fas fa-user fx"></i> Employee Management</h2>
+
                 <button
                 type="button"
                 class="close"
                 data-dismiss="modal"
                 aria-label="Close"
                 onclick="buttonModalCloseMC()"
-                ></button>
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
             </div>
             <div class="modal-body">
                 <!--  Employee form -->
@@ -110,17 +116,17 @@
                             </span>
                     </div>
 
-                    <!--- Emp No  -->
-                    <div class="row mt-2">
-                        <label for="txtEmpNo" class="font-weight-bold col-4 col-form-label">Employee No :
-                            <span style="color: red;">*</span>
-                        </label>
-                        <div class="col-8">
-                            <input type="text" readonly id="txtEmpNo" class="form-control" disabled
-                                   value="Employee number is auto generated">
-                        </div>
+<!--                    &lt;!&ndash;- Emp No  &ndash;&gt;-->
+<!--                    <div class="row mt-2">-->
+<!--                        <label for="txtEmpNo" class="font-weight-bold col-4 col-form-label">Employee No :-->
+<!--                            <span style="color: red;">*</span>-->
+<!--                        </label>-->
+<!--                        <div class="col-8">-->
+<!--                            <input type="text" readonly id="txtEmpNo" class="form-control" disabled-->
+<!--                                   value="Employee number is auto generated">-->
+<!--                        </div>-->
 
-                    </div>
+<!--                    </div>-->
 
                     <!--- Fullname  -->
                     <div class="row mt-2">
@@ -259,8 +265,12 @@
                         </div>
                         <!-- Employee Photo -->
                         <div class="col">
-                            <label for="formFilePhoto" class="form-label font-weight-bold">Employee Photo : </label>
-                            <input class="form-control" type="file" id="formFilePhoto" >
+                            <label for="empFilePhoto" class="form-label font-weight-bold">Employee Photo : </label>
+                            <button type="button" id="btnSelectImage" class="btn bg-success font-weight-bold btn-sm" onclick="empFilePhoto.click()"> Select Image </button>
+                            <button type="button" id="btnClearImage"  class="btn bg-info btn-sm font-weight-bold"> Clear Image </button>
+                            <img src="resources/images/user_photo/user.png" style="width: 65px; height: 75px" id="employeeImage" alt="employee.png">
+                            <input type="text" disabled class="mt-1 form-control" id="txtempPhoto">
+                            <input class="form-control d-none" type="file" id="empFilePhoto" onchange="fileValidator(empFilePhoto,'employee','emp_photo','emp_photo_name','oldemployee',employeeImage,txtempPhoto)">
                         </div>
                     </div>
 
@@ -335,8 +345,77 @@
     </div>
 </div>
 
+<!--View Modal-->
+<div
+        class="modal"
+        tabindex="-1"
+        id="modalViewEmployeeForm"
+        data-backdrop="static"
+        data-keyboard="false"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> View Employee Details</h2>
+                <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onclick="buttonModalCloseMCVM()"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table
+                        class="table table-striped table-bordered"
+                        id="tablePrintEmployee"
+                >
+                    <tr>
+                        <th>Employee Fullname</th>
+                        <td id="tdfullname"></td>
+                    </tr>
+                    <tr>
+                        <th>Calling Name</th>
+                        <td id="tdCName"></td>
+                    </tr>
+                    <tr>
+                        <th>NIC </th>
+                        <td id="tdnic"></td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth</th>
+                        <td id="tddob"></td>
+                    </tr>
+                    <tr>
+                        <th>Mobile</th>
+                        <td id="tdMobile"></td>
+                    </tr>
+                    <tr>
+                        <th>Land Number </th>
+                        <td id="tdland"></td>
+                    </tr>
+                    <tr>
+                        <th>Address </th>
+                        <td id="tdaddress"></td>
+                    </tr>
 
-
+                </table>
+            </div>
+<!--            <div class="modal-footer">-->
+<!--                <div class="btn-group float-md-right">-->
+<!--                    <a-->
+<!--                            class="btn-gradient-primary-add btn-sm white"-->
+<!--                            onclick="printRowItemMC()"-->
+<!--                    >-->
+<!--                        Print-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
 
 
   <!-- BEGIN VENDOR JS-->

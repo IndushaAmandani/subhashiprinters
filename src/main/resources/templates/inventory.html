@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!--Head-->
+<head th:replace = "~{fragment :: headFragment}">
+    <title>Subhashi Printers - Inventory </title>
+</head>
+
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
+
+<!-- fixed-top-->
+<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--SideBar-->
+<!--//                <thead class="table-dark" style="background-color: #152650">-->
+<div th:replace ="~{fragment :: sideBarFragment}"></div>
+
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block"> Inventory Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Support Modules
+                            </li>
+                        </ol>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableInventory">
+                                                <thead class="table-dark" style="background-color: #152650">
+                                                <tr>
+                                                    <th> # </th>
+                                                    <th> Material Name </th>
+                                                    <th> Total Quantity </th>
+                                                    <th> Available Quantity </th>
+                                                    <th> Remove Quantity </th>
+                                                    <th> Inventory Status </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+<footer th:replace = "~{fragment::footerFragment}"></footer>
+
+<!-- BEGIN VENDOR JS-->
+<script src="resources/script/common.js"></script>
+<script src="resources/script/dashboard.js"></script>
+
+<script
+        src="/app-assets/vendors/js/vendors.min.js"
+        type="text/javascript"
+></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN MODERN JS-->
+<script
+        src="/app-assets/js/core/app-menu.js"
+        type="text/javascript"
+></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+<script
+        src="/resources/datatable/js/datatables.min.js"
+        type="text/javascript"
+></script>
+
+<script
+        src="/resources/bootstrap/js/bootstrap.bundle.min.js"
+        type="text/javascript"
+></script>
+
+<script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/inventory.js" type="text/javascript"></script>

@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaperInkTypes {
     @Id //primary key
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-  private Integer   id;
+    private Integer id;
+
     @Column(name = "name")
-    private  String name;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "material_category_id", referencedColumnName = "id")

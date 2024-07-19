@@ -147,7 +147,7 @@ const  checkErrors = () => {
     return errors;
 }
 
-//(checkEerrors(),submitConfirmQuestion,objectQs0Properties,url,redirectUrl,refreshTable(),refreshForm(),modalID)
+//(checkEerrors(),submitConfirmQuestion,objectQs0Properties,url,redirectUrl,refreshTable(),refreshUForm(),modalID)
 function  buttonSubmitMC(){
     submitmodal(checkErrors,"Customer Full Name :",customer,customer.customer_name,"/customer","/product",refreshCustomerTable,refreshCustomerForm,"#modalCustomerForm");
 }
@@ -158,6 +158,7 @@ function  buttonSubmitMC(){
     customer =getServiceRequest("/customer/getbyid/"+ob.id )
         oldcustomer =getServiceRequest("/customer/getbyid?id=" +ob.id)
 
+     console.log("11111")
 
         //set value into fields
         txtName.value = customer.customer_name;
@@ -190,7 +191,10 @@ function  buttonSubmitMC(){
 
      let customerArray = [txtName,txtMobile,txtCustomerEmail,txtContactPName,txtContactPMobile,txtContactPEmail,txtDescription,cmbCustomerCategory,cmbCustomerStatus]
      setIDStyle(customerArray,"2px dotted green");
-        $("#modalCustomerForm").modal("show");
+
+
+       // showModal("#modalCustomerForm");
+     btnAddNew.click();
 
         disabledButton(false, true);
 
@@ -253,7 +257,7 @@ function  buttonSubmitMC(){
     }
 
 function buttonUpdateMC() {
-                    //(updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID)
+                    //(updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshUForm,modalformID)
     updatemodal("customer",checkErrors,checkUpdate,"/customer",customer,refreshCustomerTable,refreshCustomerForm,"#modalCustomerForm")
    }
     const rowDelete = (ob, rowno) => {
@@ -315,6 +319,11 @@ function buttonModalCloseMC() {
     buttonCloseModal("#modalCustomerForm",refreshCustomerForm);
 
 }
+
+function buttonModalCloseMMCVM(){
+    buttonCloseVModal("#modalViewCustomerForm");
+
+}
 function validatingNamings() {
     let txtPersonName = txtName.value;
     let txtComName = txtCompanyName.value;
@@ -356,11 +365,16 @@ function validateMobileNumber(){
 
 function printRowItemMC() {
     let newWindow = window.open();
+    // <script>
+    //         // Avoid using about:blank by setting a valid URL from the start
+    //         window.location.href = 'https://example.com';
+    //     </script>
     newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Customer Details</h2>" + "<div>"+tablePrintCustomer.outerHTML +"</div>");
     setTimeout(function () {
         newWindow.print();
         newWindow.close();
-    },1000);
+
+    },10000);
 }
 
 const rowView = (ob,rowind) => {

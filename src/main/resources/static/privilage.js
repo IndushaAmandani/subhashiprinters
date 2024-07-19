@@ -181,7 +181,9 @@ function buttonModalCloseMC() {
     buttonCloseModal("#modalAddPrivilageForm",refreshPrivilageForm)
 }
 
-
+ function buttonModalCloseMMCVM(){
+    buttonCloseVModal("#modalViewPrivilageForm");
+}
 
 function buttonSubmit() {
     //  need to check form errors
@@ -299,10 +301,10 @@ function buttonUpdat() {
 
 function printRowItemMC() {
     let newWindow = window.open();
-    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Privilage Details</h2>" + "<div>"+tablePrintPrivilage.outerHTML +"</div>");
+    newWindow.document.write("<title>Details</title>"+"<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>"+"<h2>Privilage Details</h2>" + "<div>"+tablePrintPrivilage.outerHTML +"</div>");
     setTimeout(function () {
         newWindow.print();
          newWindow.close();
-    },5000);
+    },100000);
 }
 

@@ -95,7 +95,7 @@
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> Product Management</h2>
+                <h2 class="h2"> Edit Product </h2>
                 <button type="button" class="close"  aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <!-- Body -->
@@ -116,6 +116,11 @@
                             <select id="cmbCustomer" class="form-control" required
                                     onchange="selectValidator(cmbCustomer,'','product','customer_id','oldproduct');"></select>
                         </div>
+                        <div class="col-2" style="padding: 0px">
+                            <button id="divAddButtonCustomerM " type="button" style="margin-top: 32px; margin-right: 25px"   class="btn bg-info btn-sm font-weight-bold"  onclick="buttonAddCustomerP()">
+                                Add
+                            </button>
+                        </div>
                     </div>
 
                     <!--- P name  -->
@@ -131,93 +136,19 @@
                     <!--  Product Category -->
                     <div class="row mt-2">
                         <!-- Product Category -->
-                        <div class="col">
-                            <div class="col-10">
+                            <div class="col-8">
                             <label for="cmbproductCategory" class="form-label font-weight-bold">Product Category : <span
                                     style="color: red;">*</span></label>
-                            <select id="cmbproductCategory" class="form-control" required
-                                    onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct'); divInnerPCopyFormshow();getP_SizeByPCategory(); enbleAddPTypeButton();">
-                            </select>
+                                <select id="cmbproductCategory" class="form-control" required
+                                        onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct');">
+                                </select>
                             </div>
-                            <div class="col-2" style="padding: 0px">
-                                <button id="addProductCategory" type="button" style="margin-top: 32px; margin-right: 25px" class="btn bg-info btn-sm font-weight-bold" onclick="buttonAddProductCategory()">
-                                    Add Product Category
-                                </button>
-                            </div>
+                        <div class="col-2" style="padding: 0px">
+                            <button id="divAddButtonProductCategory " type="button" style="margin-top: 32px; margin-right: 25px"   class="btn bg-info btn-sm font-weight-bold"  onclick="buttonAddProductCategory()">
+                                Add
+                            </button>
                         </div>
-
                     </div>
-                        <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@ Product Category add button form @@@@@@@@@@@@@@@@@@@@@@@@@@-->
-
-
-                    <div id="divAddButtonProductCategory"   ><!-- style css-->
-                        <!-- Card Start -->
-                        <div class="card p-1 m-1">
-                            <!--  bill book - Header-->
-                            <div class="row mt-1  p-1 text-start">
-                                <h3>New Product Category : </h3>
-                            </div>
-                            <!--  - Inner form / Inner Table-->
-                            <div class="row ">
-                                <!-- ## @@ Second Inner Form @@ ##-->
-                                <div class="col">
-                                    <!-- Product Categoty-->
-                                    <div  class=" mt-1">
-                                        <label class= "form-label font-weight-bold"> Name</label>
-                                        <input type="text" id="txtproductcategoryname"
-                                               onkeyup="textFeildValidtor(txtproductcategoryname,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','productCategory','name','oldproductCategory')"
-                                               class="form-control">
-                                    </div>
-                                    <!--Paper Type-->
-                                    <div  class=" mt-1">
-                                        <label  class="form-label font-weight-bold">Paper Type particular for the category : <span
-                                                style="color: red;">*</span></label>
-                                        <select id="cmbpaperInkTypes" class="form-control" required
-                                                onchange="selectValidator(cmbpaperInkTypes,'','productCategory','','oldproductCategory');">
-                                        </select>
-                                    </div>
-                                    <!--- Buttons -->
-                                    <div class="row mt-1">
-                                        <div class="col text-end">
-                                            <button  class="btn bg-info btn-sm font-weight-bold" style="width: 25%; border-radius: 50px" type="button" id ="btnAddpaperTypeSubmit" >Submit</button>
-
-                                            <button  class="btn bg-success font-weight-bold btn-sm" style="width: 25%;border-radius: 50px" type="reset" id ="btnAddpaperTypeCancel" >Cancel</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- ## @@ Inner Table - P @@ ##-->
-                                <div class="col-7">
-                                    <section class="card pull-up">
-                                        <div class="card-content">
-                                            <div class="card-body">
-
-                                                <table class="table table-hover table-bordered"
-                                                       id="tableInkorPaperTypeforCategory">
-                                                    <thead class="table-dark" style="background-color: #27344d">
-                                                    <tr>
-                                                        <th> #</th>
-                                                        <th> Paper Type</th>
-
-                                                        <th> Modify</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody></tbody>
-                                                </table>
-
-                                            </div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                        <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@End@@@@@@@@@@@@@@@@@@@@@@@@@@-->
-
-
 
                     <!-- ######## Product category - bill book - Inner form ######## -->
 
@@ -243,10 +174,9 @@
                                         </select>
 
                                     </div>
-                                    <!--Papaer Colors-->
+                                    <!--Print Colors-->
                                     <div id="innerPaperColor">
-                                        <label for="cmbPcopyprintColors" class="form-label font-weight-bold">Ink Types
-                                            Colors : <span
+                                        <label for="cmbPcopyprintColors" class="form-label font-weight-bold">Ink Types : <span
                                                     style="color: red;">*</span></label>
                                         <select id="cmbPcopyprintColors" class="form-control" required
                                                 onchange="selectValidator(cmbPcopyprintColors,'','productCopy','ink_type_id','oldprodctCopy')">
@@ -300,7 +230,6 @@
                         </div>
                     </div>
 
-
                     <!-- ######### Single or Double Side /  Image######## -->
 
                     <!-- Single or Double Side-->
@@ -348,9 +277,9 @@
                                 onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomizedproductSize()">
                         </select>
                     </div>
-                    </div>
+                     </div>
 
-                      <!--  ####### Customized Sizes #######-->
+                                                   <!--  ####### Customized Sizes #######-->
                       <div id="divproductSize" style="display: none">
                         <div class="row mt-2">
                             <!-- Height-->
@@ -394,10 +323,18 @@
                                 <!-- ## @@ Second Inner Form @@ ##-->
                                 <div class="col">
                                     <!-- Materil type-->
+                                    <div id="innerSubcateroy">
+                                        <label for="cmbsubCategory" class="form-label font-weight-bold">Selected Sub Category : <span
+                                                style="color: red;">*</span></label>
+                                        <select id="cmbsubCategory" class="form-control" required
+                                                onchange="selectValidator(cmbsubCategory,'','productHasMaterial','','oldproductHasMaterial');selectMaterial();">
+                                        </select>
+                                    </div>
+                                    <!-- Materil type-->
                                     <div id="innerMaterialtype">
                                         <label for="cmbMaterial" class="form-label font-weight-bold">Material : <span
                                                 style="color: red;">*</span></label>
-                                        <select id="cmbMaterial" class="form-control" required
+                                        <select id="cmbMaterial" class="form-control"
                                                 onchange="selectValidator(cmbMaterial,'','productHasMaterial','material_id','oldproductHasMaterial')">
                                         </select>
                                     </div>
@@ -407,13 +344,9 @@
                                             Quantity: <span style="color: red;">*</span>
                                         </label>
                                         <input type="text" id="txtQty" class="form-control" required
-                                               onkeyup="textFeildValidtor(txtQty,'^[1-9][0-9]{1,5}$','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
+                                               onkeyup="textFeildValidtor(txtQty,'','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
                                                placeholder="Enter Material Quantity">
                                     </div>
-
-
-
-
                                     <!--- Buttons -->
                                     <div class="row mt-1">
                                         <div class="col text-end">
@@ -425,7 +358,7 @@
                                             <!--                                                    class="btn bg-warning font-weight-bold btn-sm"-->
                                             <!--                                                    onclick="buttonMInnerUpdateMC()"> Update-->
                                             <!--                                            </button>-->
-                                            <button type="submit" style="width: 25%;border-radius: 50px;"
+                                            <button type="button" style="width: 25%;border-radius: 50px;"
                                                     id="buttonMInnerAdd"
                                                     class="btn bg-success font-weight-bold btn-sm"
                                                     onclick="buttonMInnerAddMC()"> Add
@@ -468,22 +401,24 @@
                         <!--  Photo-->
                         <div class="col-6 ">
 
-                                <label for="formFilePhoto" class="form-label font-weight-bold ">
-                                    Image :
-                                </label>
-                                <input style="width:100px" type="file" id="formFilePhoto" class="form-control col  font-weight-bold"
-                                       onchange="fileFieldValidator(formFilePhoto,'','product','image','oldproduct',productImage)">
-
-                                <img src="" style="width: 150px; height: 100px" id="productImage" alt="product.png">
+                            <!-- Product Photo -->
+                            <div class="col">
+                                <label for="pFilePhoto" class="form-label font-weight-bold">Product Photo : </label>
+                                <button type="button" id="btnSelectImage" class="btn bg-success font-weight-bold btn-sm" onclick="pFilePhoto.click()"> Select Image </button>
+                                <button type="button" id="btnClearImage"  class="btn bg-info btn-sm font-weight-bold"> Clear Image </button>
+                                <img src="resources/images/product_photo/label_2.png" style="width: 65px; height: 75px" id="productImage" alt="product.png">
+                                <input type="text" disabled class="mt-1 form-control" id="txtproductPhoto">
+                                <input class="form-control d-none" type="file" id="pFilePhoto" onchange="fileValidator(pFilePhoto,'product','image','product_photo_name','oldproduct',productImage,txtproductPhoto)">
+                            </div>
 
                         </div>
                         <!-- Price-->
                         <div class="col-6">
-                            <label for="txtPrice" class="form-label font-weight-bold">
+                            <label for="txtPrice" class="form-label font-weight-bold" >
                                 Price : <span style="color: red;">*</span>
                             </label>
-                            <input type="text" id="txtPrice" class="form-control" required
-                                   onkeyup="textFeildValidtor(txtPrice,'^[1-9]{1}[0-9]{1,5}[.][0-9]{2}$','product','price','oldproduct')">
+                            <input type="text" id="txtPrice" class="form-control" disabled
+                                   onkeyup="textFeildValidtor(txtPrice,'^[1-9]{1}[0-9]{1,5}[.][0-9]{2}$','product','price','oldproduct') ">
                             <div class="form-text"> Ex:10.03 </div>
                         </div>
 
@@ -493,16 +428,6 @@
 
                     <div class="row mt-2">
 
-
-                        <!--Description-->
-                        <div class="col">
-                            <label for="txtDescription" class="form-label font-weight-bold">
-                                Product Description :
-                            </label>
-                            <textarea id="txtDescription" class="form-control"
-                                      onkeyup="textFeildValidtor(txtDescription,'^.*$','product','description','oldproduct')"
-                                      placeholder="Enter Description"></textarea>
-                        </div>
                         <!--Product Status -->
                         <div class="col-6">
                             <label for="cmbProductStatus" class="form-label font-weight-bold">Product Status : <span
@@ -511,6 +436,15 @@
                                     onchange="selectValidator(cmbProductStatus,'','product','product_status_id','oldproduct')">
 
                             </select>
+                        </div>
+                        <!--Description-->
+                        <div class="col">
+                            <label for="txtDescription" class="form-label font-weight-bold">
+                                Product Description :
+                            </label>
+                            <textarea id="txtDescription" class="form-control"
+                                      onkeyup="textFeildValidtor(txtDescription,'^.*$','product','description','oldproduct')"
+                                      placeholder="Enter Description"></textarea>
                         </div>
                     </div>
 
@@ -545,8 +479,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="h2"><i class="fas fa-user fx"></i> View Product </h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" aria-label="Close"
+                        onclick="buttonModalCloseMMCVM()"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <table class="table table-striped table-bordered" id="tablePrintProduct">
@@ -559,25 +493,23 @@
                         <td id="tdCName"></td>
                     </tr>
                     <tr>
-                        <th>Product Size</th>
-                        <td id="tdPSize"></td>
+                        <th>Product Category</th>
+                        <td id="tdPCategory"></td>
                     </tr>
                     <tr>
-                        <th>Product Size - Width</th>
-                        <td id="tdPSizeWidth"></td>
+                        <th>Price</th>
+                        <td id="tdPrice"></td>
                     </tr>
                     <tr>
                         <th>Product Size - Height</th>
                         <td id="tdPSizeHeight"></td>
                     </tr>
                     <tr>
-                        <th>Paper Type</th>
-                        <td id="tdpType"></td>
+                        <th>Product Size - Width</th>
+                        <td id="tdPSizeWidth"></td>
                     </tr>
-                    <tr>
-                        <th>Print Color</th>
-                        <td id="tdPColors"></td>
-                    </tr>
+
+
 
 
                 </table>

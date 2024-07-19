@@ -45,6 +45,9 @@ public class Product {
     @Column(name = "image")
     private byte[] image;
 
+    @Column(name ="product_photo_name")
+    private  String product_photo_name;
+
     @Column(name = "price")
     private BigDecimal price;
 
@@ -66,7 +69,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "product_status_id", referencedColumnName = "id")
-    private ProductCategoryController.ProductStatus product_status_id;
+    private ProductStatus product_status_id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
@@ -94,12 +97,11 @@ public class Product {
     private List<ProductCopy> productCopyList;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy ="product_id", orphanRemoval = true)
-    @JsonIgnore
     private List<ProductHasMaterial> productHasMaterialList;
 
 
 
-public Product(Integer id, String product_code, String p_name, BigDecimal price, String single_or_double, ProductCategoryController.ProductStatus product_status_id, Customer customer_id, ProductCategory product_category_id, ProductSize product_size_id){
+public Product(Integer id, String product_code, String p_name, BigDecimal price, String single_or_double, ProductStatus product_status_id, Customer customer_id, ProductCategory product_category_id, ProductSize product_size_id){
     this.id = id;
     this.product_code = product_code;
     this.customer_id = customer_id;

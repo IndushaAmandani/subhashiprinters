@@ -1,14 +1,26 @@
 package lk.subhashiprinters.sample;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
+import lk.subhashiprinters.corder.CustomerOrder;
+import lk.subhashiprinters.corder.CustomerOrderHasMaterial;
+import lk.subhashiprinters.corder.CustomerOrderHasProduct;
+import lk.subhashiprinters.material.MaterialInventory;
+import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.userm.User;
+import lk.subhashiprinters.userm.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.*;
 
@@ -19,29 +31,97 @@ import javax.persistence.*;
 public class ProductCategoryController {
   @Autowired
   // linked required repostiory
-    private ProductCategoryRepository productCategoryDao ; 
+    private ProductCategoryRepository productCategoryDao ;
 
-   //productCategory/list
-  @GetMapping(value = "list",produces = "application/json")
-  public List<ProductCategory> productCategoryList(){
+  @Autowired
+  private UserRepository userDao;
+    @Autowired
+    private PrivilageController privilegeController;
+
+  @GetMapping
+    public ModelAndView pcategoryUI(){
+      ModelAndView pcategoryui = new ModelAndView();
+        pcategoryui.setViewName("productCategory.html");
+        return pcategoryui;
+  }
+
+    //productCategory/list
+    @GetMapping(value = "/list",produces = "application/json")
+    public List<ProductCategory> productCategoryList(){
         return productCategoryDao.findAll();
     }
 
 
-    @Entity //map into persistenet object
-    @Table(name = "product_status") // mapping for table
-    @Data //For getters and setters
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ProductStatus {
-        @Id
-        @GeneratedValue(strategy =  GenerationType.IDENTITY)
-        @Column(name = "id")
-        private Integer id ;
+  @PostMapping
+  public  String addpCategory(@RequestBody ProductCategory productCategory){
+        //checking logged user priviledge
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if(auth instanceof AnonymousAuthenticationToken){
+          return "Product Category Insert Not completed : You don't have permission";
+      }
 
-        @Column(name = "name")
-        private String name;
+      // get logged user authentication object
+      User loggedUser = userDao.findUserByUsername(auth.getName());
+      // check privilage for add operation
+      HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"ProductCategory");
 
+      if(loggedUser != null && userPiriv.get("ins")){
+          // user has privilage for insert item
+
+          ProductCategory extProductCategory = productCategoryDao.getPCategorybyid(productCategory.getId());
+          if(extProductCategory != null){
+              return "ProdutCategory Not completed : Given Product Category Already exist!";
+          }
+
+          try {
+
+              productCategoryDao.save(productCategory);
+
+              return "0";
+          }catch (Exception ex){
+              return "Product Category Insert Not completed : " + ex.getMessage();
+          }
+
+
+      }
+      else {
+          return "Product Category Insert Insert Not completed : You don't have permission";
+      }
+
+  }
+
+@DeleteMapping
+    public  String deleteCategory(@RequestBody ProductCategory productCategory) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth instanceof AnonymousAuthenticationToken) {
+        return "Product Category Delete Not completed : You don't have permission";
     }
+
+    User loggedUser = userDao.findUserByUsername(auth.getName());
+    HashMap<String, Boolean> userPriviledge = privilegeController.getPriviledgeByUserModule(loggedUser.getUsername(), "ProductCategory");
+
+
+    if (loggedUser != null && userPriviledge.get("del")) {
+
+        ProductCategory extPcategory = productCategoryDao.getReferenceById(productCategory.getId());
+
+        if (extPcategory == null) {
+            return "Product Category delete not completed : Doesn't Exist !";
+        }
+        try {
+            productCategoryDao.delete(extPcategory);
+            return "0";
+        } catch (Exception e) {
+            return "Product Category delete not completed " + e.getMessage();
+        }
+
+    } else {
+        return "Product Category delete not completed : You don't have permission ";
+    }
+}
+
+
+
+
 }
 

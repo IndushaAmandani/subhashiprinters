@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "productcopy")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCopy {
+public class    ProductCopy {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,6 @@ public class ProductCopy {
     private PaperInkTypes paper_type_id;
 
     @ManyToOne(optional = false)
-    @JsonIgnore
     @JoinColumn(name = "ink_type_id" ,referencedColumnName = "id")
     private PaperInkTypes ink_type_id;
 }

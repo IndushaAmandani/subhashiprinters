@@ -1,11 +1,11 @@
 
 window.addEventListener('load',ev => {
 
-    loggedUserPrivilage = getServiceRequest("/userprivilage/bymodule?modulename=User");
+    lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=User");
 
     refreshTable();
 
-    refreshForm();
+    refreshUForm();
 
 })
 
@@ -19,10 +19,11 @@ const refreshTable = () =>{
     let displayPropertyList = ['employee_id.calling_name' , 'username' , 'password' ,'email','status'];
     let dPDTList = ['object' , 'text' ,getUserRole ,'text','text' ];
 
-    fillDataIntoTable(tableUser,users,displayPropertyList, dPDTList, formRefill , deleteRow , viewRow , true , loggedUserPrivilage);
+    fillDataIntoTable(tableUser,users,displayPropertyList, dPDTList, formRefill , deleteRow , viewRow , true , lggeduserprivilage);
 
     for(let index in users){
         tableUser.children[1].children[index].children[5].children[0].style.color = "red";
+        tableUser.children[1].children[index].children[6].children[2].style.display = "none";
     }
 
     $('#tableUser').dataTable();
@@ -60,7 +61,7 @@ function selectEmployeeCH(){
     textFeildValidtor(textEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','user','email','olduser');
 }
 
-const  refreshForm = () => {
+const  refreshUForm = () => {
 
    user =  new Object();
    olduser = null; //initially old object null then if null check password and retype password
@@ -130,6 +131,9 @@ const  refreshForm = () => {
     user.status = true;
     chkUserStatus.checked = true;
     lblUserStatus.innerText = "User Account is Active";
+
+    disabledButton(true,false);
+
  
 }
 
@@ -164,7 +168,7 @@ function buttonSubmitMC() {
 
             alert("Add Successfull..!");
             refreshTable();
-            refreshForm();
+            refreshUForm();
             $("#modalUserForm").modal("hide");
         }else {
             window.alert("You have following error \n" + postServieResponce);
@@ -186,6 +190,7 @@ const formRefill = (ob,rowno) => {
 user = JSON.parse(JSON.stringify(ob));
 olduser = JSON.parse(JSON.stringify(ob));
 
+
 user.password = null;
 
     // fill data into employee select element
@@ -203,9 +208,119 @@ user.password = null;
     chkUserStatus.checked = true;
     lblUserStatus.innerText = "User Account is Active";
 
-// update  the check box
+    //refilling role list
+    let roleList = getServiceRequest("/role/list");
+    let extroleList = getServiceRequest("/role/listbyuser?userid=" + user.id);
+    divRoles.innerHTML = "";
+    if(user.roles != null) {
+        for (ind in extroleList) {
+            for (let index in roleList) {
 
+                let rolediv = document.createElement('div')
+                rolediv.classList.add('form-check');
+
+                let checkBox = document.createElement('input');
+                checkBox.type = "checkbox";
+                checkBox.classList.add("form-check-input");
+                checkBox.value = index;
+
+                // divroles = document.createElement('div');
+                //  inputCheckbox = document.createElement('input');
+                // inputLabel = document.createElement('label');
+                // divRoles.appendchild(divroles);
+                // divRoles.appendchild(inputCheckbox);
+                // divRoles.appendchild(inputLabel);
+                // inputLabel.innerHTML = "Manager" ;
+
+                let chkLabel = document.createElement('label');
+                chkLabel.innerText = roleList[index]['name'];
+                if (extroleList[ind]['name'] == roleList[index]['name']) {
+                    checkBox.checked = true;
+                }
+
+                checkBox.onchange = function () {
+
+                    if (checkBox.checked) {
+                        user.roles.push(roleList[this.value]);
+                    } else {
+                        for (let ind in user.roles) {
+                            if (user.roles[ind]['id'] == roleList[checkBox.value]['id']) {
+                                user.roles.splice(ind, 1);
+                            }
+                        }
+                    }
+
+                }
+
+                chkLabel.classList.add("form-check-label");
+                chkLabel.classList.add("font-weight-bold");
+                //margin start
+                chkLabel.classList.add("ms-2");
+
+                rolediv.appendChild(checkBox);
+                rolediv.appendChild(chkLabel);
+                divRoles.appendChild(rolediv);
+
+
+            }
+        }
+    }else {
+        for (let index in roleList) {
+
+            let rolediv = document.createElement('div')
+            rolediv.classList.add('form-check');
+
+            let checkBox = document.createElement('input');
+            checkBox.type = "checkbox";
+            checkBox.classList.add("form-check-input");
+            checkBox.value = index;
+
+
+            // divroles = document.createElement('div');
+            //  inputCheckbox = document.createElement('input');
+            // inputLabel = document.createElement('label');
+            // divRoles.appendchild(divroles);
+            // divRoles.appendchild(inputCheckbox);
+            // divRoles.appendchild(inputLabel);
+            // inputLabel.innerHTML = "Manager" ;
+
+            let chkLabel = document.createElement('label');
+            chkLabel.innerText = roleList[index]['name'];
+            if (extroleList[ind]['name'] == roleList[index]['name']) {
+                checkBox.checked = true;
+            }
+
+            checkBox.onchange = function () {
+
+                if (checkBox.checked) {
+                    user.roles.push(roleList[this.value]);
+                } else {
+                    for (let ind in user.roles) {
+                        if (user.roles[ind]['id'] == roleList[checkBox.value]['id']) {
+                            user.roles.splice(ind, 1);
+                        }
+                    }
+                }
+
+            }
+
+            chkLabel.classList.add("form-check-label");
+            chkLabel.classList.add("font-weight-bold");
+            //margin start
+            chkLabel.classList.add("ms-2");
+
+            rolediv.appendChild(checkBox);
+            rolediv.appendChild(chkLabel);
+            divRoles.appendChild(rolediv);
+
+
+        }
+    }
+
+// update  the check box
     $("#modalUserForm").modal("show");
+    disabledButton(false,true);
+
 }
 
 function checkUpdate(){
@@ -214,30 +329,30 @@ function checkUpdate(){
     if(user.password != null)
         updates = updates + "User password Changed..\n"
 
-    if(user != null && olduser != null){
+    if(user.username != null && olduser.username != null){
         updates = updates + "User name is Changed..\n" + olduser.name;
     }
-    // if(user.roles.length != olduser.roles.length){
-    //     updates = updates + "User roles are Changed..\n";
-    // }else{
-    //     let extCount = 0;
-    //     for(let index in olduser.roles){
-    //        for(let ind in user.roles){
-    //         if(olduser.roles[index]['id'] == user.roles[ind]['id']){
-    //             //convert any dt into data type ;integer
-    //             extCount = parseInt(extCount) + 1;
-    //             break;
-    //
-    //             // let index = olduser.roles.map(olduser => oldrole.id).indexOf(newrole.id);
-    //             // if (index == -1)
-    //             // updates = updates + "User role is changed"
-    //         }
-    //        }
-    //     }
-    //     if(user.roles.length != extCount){
-    //         updates = updates +"User roles are Changed ..\n";
-    //     }
-    //}
+    if(user.roles.length != olduser.roles.length){
+        updates = updates + "User roles are Changed..\n";
+    }else{
+        let extCount = 0;
+        for(let index in olduser.roles){
+           for(let ind in user.roles){
+            if(olduser.roles[index]['id'] == user.roles[ind]['id']){
+                //convert any dt into data type ;integer
+                extCount = parseInt(extCount) + 1;
+                break;
+
+                // let index = olduser.roles.map(olduser => oldrole.id).indexOf(newrole.id);
+                // if (index == -1)
+                // updates = updates + "User role is changed"
+            }
+           }
+        }
+        if(user.roles.length != extCount){
+            updates = updates +"User roles are Changed ..\n";
+        }
+    }
 return updates;
 }
 
@@ -353,8 +468,8 @@ function buttonUpdateMC() {
                 if (putResponce == "0") {
                     window.alert("Update Successfully...!");
                     refreshTable();
-                    refreshForm();
-                    $('#modalUserForm').modal("hide");
+                    refreshUForm();
+                    $('#modalUserForm').modal('hide');
 
 
                 } else {
@@ -367,6 +482,11 @@ function buttonUpdateMC() {
 
         window.alert("You have following error in your form...! \n " + errors);
     }
+
+}
+
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalUserForm",refreshUForm);
 
 }
 

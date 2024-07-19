@@ -50,7 +50,7 @@ const clearTableStyle = (tableid) => {
 }
 
 //Files as Photos
-const fileFieldValidator = (fieldid,pattern,object,property,oldobject) => {
+const fileFieldValidator = (fieldid,object,property,oldobject) => {
     let ob = window[object];
     let oldob = window[oldobject];
 
@@ -76,6 +76,28 @@ filereader.readAsDataURL(fieldid.files[0]);
 
 
 }
+
+//Validator for photo - new
+const fileValidator = (fieldid,object,property1,property2,oldobject,previewId,nameFieldId) => {
+
+    if(fieldid.value != ""){
+        let file = fieldid.files[0];
+        nameFieldId.value =file['name'];
+        window[object][property2] = file['name'];
+
+        let fileReader = new FileReader();
+        //file object is passed for the function
+        fileReader.onload = function (e){
+            previewId.src = e.target.result;
+            window[object][property1] = btoa(e.target.result);
+        }
+//after rading url then it triggers the onload
+        fileReader.readAsDataURL(file);
+        return;
+    }
+}
+
+
 // ok
 const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
 
@@ -111,6 +133,8 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
          }
         
  }
+
+
 
  // comman validatior for radio buttons
  const redioFeildValidator = (feildid,pattern,object,property,lblid1,lblid2) => {
@@ -495,6 +519,15 @@ const getCurrentDate2 = (format,givendate) => {
     return year + "-" + month + "-" + date ;
 }
 
+const showModal = (modalId) => {/*
+
+    let div = document.createElement("div");
+
+    div.className = 'modal-backdrop show';
+    $('body').append(div);*/
+    $(modalId).modal().show();
+
+}
 const buttonCloseModal = (modalId, refreshForm)=> {
 
     let userConfirm = window.confirm("Are you sure to close the Modal...?");
@@ -504,6 +537,16 @@ const buttonCloseModal = (modalId, refreshForm)=> {
         $(modalId).modal().hide();
         $(".modal-backdrop").remove();
     }
+}
+
+const   buttonCloseVModal = (modalId) => {
+    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+
+    if (userConfirm) {
+        $(modalId).modal('hide');
+        $(".modal-backdrop").remove();
+    }
+
 }
 
 const submitmodal = (checkErrors,submitConfirmQuestionlabel,obj,objectQsProperties,url,redirectUrl,refreshTable,refreshForm,modalID) => {

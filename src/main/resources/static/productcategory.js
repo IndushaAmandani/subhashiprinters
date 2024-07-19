@@ -5,7 +5,7 @@ window.addEventListener('load', loadUI);
 function loadUI() {
 
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=ProductCategory");
-    console.log(lggeduserprivilage);
+
     //lggeduserprivilage = {"sel": true , "ins":true , "upd":true , "del":true}
 
     //called refreshtable function
@@ -19,6 +19,28 @@ function loadUI() {
 
 function refreshProductCategoryTable(){
 
+    //create array for product category
+    pcategory = new Array();
+    pcategory= getServiceRequest("/productCategory/list");
+
+    //create display property list
+    let dispalyPropertyList = ['name','profit_rate','production_cost'];
+    //Property type list
+    let dispalyPropertyDTList = ['text', 'decimal','decimal'];
+
+    //called filldataintotable function for fill data
+    fillDataIntoTable(tablePcategory,pcategory,dispalyPropertyList,dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+
+    for(let index in pcategory){
+        tablePcategory.children[1].children[index].children[4].children[0].style.display = "none";
+        tablePcategory.children[1].children[index].children[4].children[2].style.display = "none";
+
+    }
+
+
+    // need to add jquerty table
+    $('#tablePcategory').dataTable();
+
 }
 
 function refreshProductCategoryForm(){
@@ -26,18 +48,212 @@ productCategory = new Object();
     oldproductCategory = null;
 
 
+    const idArray = [txtproductcategoryname,txtProfitRate,txtproductionCost];
+    setIDStyle(idArray,"1px solid #ced4da");
+
+    txtproductcategoryname.value = "";
+    txtProfitRate.value = 0.00;
+    txtproductionCost.value=0.00;
+
+
+
 }
 
-function refreshInnerPChasMaterialForm(){
-    pCategoryHasMaterial = new Object();
-    oldpCategoryHasMaterial = null;
+
+
+
+function formRefill(){
+
+}
+function rowDelete(ob){
+
+let deleteMsg  = "Are you sure want to delete Product Category..?"  +
+   " \n Category Name : " + ob.name ;
+
+let  deleteResponce  = window.confirm(deleteMsg);
+
+    if(deleteResponce){
+        let serverResponse = getHTTPServiceRequest("/productCategory","Delete",ob);
+
+        if(serverResponse == "0"){
+            alert("Delete Successfully");
+            refreshProductCategoryTable();
+        }else{
+            alert("Fail to delete : You have following error... \n" + serverResponse);
+        }
+    }
+
 }
 
-function buttonModalClosePCMC(){
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+const addSelectedValue = () => {
+    // Get the selected value from the dropdown
+    const selectedItemString = document.getElementById("inputPaperInkTypes").value;
+    if (selectedItemString == 'Select User Role') {
+        inputUserRoles.classList.add('is-invalid');
+    } else {
+        // Parse the JSON string to an object
+        const selectedItem = JSON.parse(selectedItemString);
+        inputUserRoles.classList.remove('is-valid');
 
-    if (userConfirm) {
+        //checking if the value in selected Item already in
+        const isFound = assignedUserRoles.some(element => {
+            if (element.name === selectedItem.name) {
+                return true;
+            } else {
+                return false;
+            }
+        });
 
-        $("#modalProductCategoryForm").modal("hide");
+        if (!isFound) {
+            //Adding the object to the assignedUserRoles Array list
+            assignedUserRoles.push(selectedItem);
+            user.assignedroles = assignedUserRoles;
+            // Create a new button into variable
+            const newButton = document.createElement("button");
+            newButton.innerText = selectedItem.name + " ";
+            newButton.innerHTML = newButton.innerHTML + '<i class="fa-solid fa-xmark"></i>';
+            newButton.value = selectedItem.name;
+            newButton.style.margin = '2px';
+            newButton.style.borderRadius = '5px';
+            newButton.title = 'Click on Role to Remove'; //adding title to display on mouse hover
+            newButton.id = selectedItem.name;
+            newButton.addEventListener("click", function () {
+                this.remove();
+                assignedUserRoles = assignedUserRoles.filter(objEl =>
+                    objEl.name !== (this.value)
+                );
+                inputUserRoles.classList.remove('is-invalid');
+                //console.log(assignedUserRoles);
+                user.assignedroles = assignedUserRoles;
+
+            });
+            // Append the new button to the container
+            document.getElementById("buttonContainer").appendChild(newButton);
+
+        } else {
+            inputUserRoles.classList.add('is-invalid');
+        }
     }
 }
+
+
+//Event listner to run on chage of roles select list
+inputUserRoles.addEventListener("change", function () {
+    onChangeRoleSelect();
+});
+
+const onChangeRoleSelect = () => {
+    //disabling firstElement 'Select a roll option'
+    inputUserRoles.firstElementChild.disabled = true;
+    //taking value of the selected role that set as a ob converted into string
+    const selectedItemString = document.getElementById("inputUserRoles").value;
+    //changing it back to an object
+    const selectedListItem = JSON.parse(selectedItemString);
+    //console.log(selectedItem)
+    //searching that is selected object avalable in assignedRoles array as existing value.
+    const isFounded = assignedUserRoles.some(element => {
+        if (element.name === selectedListItem.name) {
+            //returns true if it founded
+            return true;
+        }//returns false if it not founded
+        return false;
+    });
+    //checking the isFounded or not
+    if (isFounded) {
+        //changing the classList to appear as invalid
+        inputUserRoles.classList.remove('is-valid');
+        inputUserRoles.classList.add('is-invalid');
+    } else {
+        //Chaning the classList to appear as valid
+        inputUserRoles.classList.add('is-valid');
+        inputUserRoles.classList.remove('is-invalid');
+    }
+}
+
+
+function rowView(){
+
+}
+// let  checkid = document.getElementById("txtProfitRate");
+// checkid.addEventListener("keyup", () => {
+//
+function profitratevalidator(){
+       let regP = new RegExp("^[1-9][0-9]{1,2}| [1-9][0-9][.][0-9]{2}$");
+
+        if(regP.test(txtProfitRate.value)) {
+            if (parseFloat(txtProfitRate.value) > 100.00) {
+
+                txtProfitRate.value = null;
+                txtProfitRate.style.borderBottom = "2px solid red";
+                productCategory.profit_rate = null;
+            } else {
+                txtProfitRate.style.borderBottom = "2px solid green"
+                productCategory.profit_rate = parseFloat(txtProfitRate.value);
+            }
+        }else {
+            txtProfitRate.value = null;
+            txtProfitRate.style.borderBottom = "2px solid red";
+            productCategory.profit_rate = null;
+        }
+}
+
+function buttonModalClosePCMC() {
+    buttonCloseModal("#modalProductCategoryForm",refreshProductCategoryForm);
+
+}
+
+
+let submitbtn = document.getElementById("btnAddProductCategorySubmit");
+submitbtn.addEventListener('click',()=>{
+    let errors = checkPCategoryformErrors();
+    if(errors != ""){
+        window.alert("You have following errors " + errors);
+    }else {
+
+        let userConfrimation = "Are you sure to add add following Product category ?" +
+            "\nProduct Category Name : " + productCategory.name +
+            "\nProfit Rate : " + productCategory.profit_rate +
+            "\nProduction Cost : " + productCategory.production_cost ;
+
+        let userResponse = window.confirm(userConfrimation);
+
+        if(userResponse){
+            let serverResponse = getHTTPServiceRequest("/productCategory","POST",productCategory);
+            if(serverResponse == "0"){
+                refreshProductCategoryForm();
+                refreshProductCategoryTable();
+                window.alert("Product Category insert Succesfully !");
+                $("#modalProductCategoryForm").modal("hide");
+
+            }
+            else {
+                window.alert("Product Category insert not successfull ; You have following errors \n" + serverResponse )
+            }
+        }
+
+
+    }
+
+})
+
+ function checkPCategoryformErrors(){
+
+    let formerror = "";
+
+    if(productCategory.name == null){
+        formerror = formerror + "Please enter Product Category name ..!\n";
+    }
+    if(productCategory.profit_rate == null){
+        formerror = formerror + "Please enter Profit Rate ..!\n";
+    }
+    if(productCategory.production_cost == null){
+        formerror = formerror + "Please enter Production Cost ..!\n"
+    }
+    return formerror;
+ }
+
+let cancelbtn = document.getElementById("btnProductCategoryCancel");
+cancelbtn.addEventListener("click",()=> {
+    refreshProductCategoryForm();
+    $("#modalProductCategoryForm").modal("hide");
+})

@@ -1,10 +1,7 @@
 //privilage- slect,insrt,updt,updt,deltt
 package lk.subhashiprinters.privilege;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import lk.subhashiprinters.privilege.Privilage;
 import lk.subhashiprinters.userm.User;
-import lk.subhashiprinters.privilege.PrivilageRepository;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -37,7 +34,7 @@ public class PrivilageController {
 
 //get privilage by logged user given module name
     @GetMapping(value = "/bymodule/{modulename}")
-    public HashMap<String,Boolean> getPriviledgeByUserModule(@PathVariable("modulename") String modulename){
+    public HashMap<String,Boolean> getPriviledgeByUserModule(@PathVariable("modulename") String modulename, String productCategory){
         //get logged user authentication obj
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.print(authentication.getDetails());

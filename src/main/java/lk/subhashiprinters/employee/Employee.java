@@ -76,6 +76,12 @@ public class Employee {
     @JoinColumn(name = "civilstatus_id" ,referencedColumnName = "id")//
     private Civilstatus civilstatus_id;
 
+    @Column(name ="emp_photo_name")
+            private  String emp_photo_name;
+
+    @Column(name = "emp_photo")
+         private byte[]   emp_photo;
+
    // constrouctor function for find all
     public Employee(Integer id, String calling_name, String number, String fullname, String nic, String mobile, String email, Employeestatus employeestatus_id){
       this.id = id;

@@ -17,7 +17,7 @@ public class ProductStatusController {
 
     //List returning list of status from repo
     @GetMapping(value = "/list",produces= "application/json")
-    public List<ProductCategoryController.ProductStatus> productStatusList(){
+    public List<ProductStatus> productStatusList(){
         return productStatusDao.findAll();
     }
 
