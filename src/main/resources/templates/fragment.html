@@ -1,11 +1,16 @@
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div th:fragment="sideBarFragment" class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
+<div th:fragment="sideBarFragment"
+     class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
     <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
                                       href="dashboard.html">
+
+        <!--        <p class="m-1 text-white" id="hUsername"></p>-->
+        <!--        <p class="m-1  text-white" id="spnRole"></p>-->
         <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
-        <p class="m-1 text-white" id="hUsername"></p>
-        <p class="m-1  text-white" id="spnRole"></p>
+        <a class="m-1  ml-2 text-white" href="#" id="loggedUserName" >UsrName</a>
+<!--        <a class="m-1  text-white" href="#" id="loggeduserRole">Role</a>-->
+
     </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" nav-item"><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
@@ -20,9 +25,10 @@
                 </ul>
             </li>
             <li class=" nav-item "><a href="/"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
-                                                                                            data-i18n="">Print Order</span></a>
+                                                                                            data-i18n="">Order Registration</span></a>
                 <ul class="menu-content ">
-                    <li ><a class="menu-item " href="/customer">Customer</a></li>
+                    <li><a class="menu-item " href="/customer">Customer</a></li>
+                    <li><a class="menu-item " href="/product">Product</a></li>
                     <li><a class="menu-item" href="/customerOrder">Customer Order </a></li>
                     <li><a class="menu-item" href="/cpayment">Customer Payment </a></li>
                 </ul>
@@ -31,17 +37,15 @@
                 <i class="fa-solid fa-print"></i><span class="menu-title"
                                                        data-i18n="">Production</span></a>
                 <ul class="menu-content">
-
-                    <li><a class="menu-item " href="/product">Product</a></li>
                     <li><a class="menu-item" href="/productoinOrderConfirm">Production Confirmation </a></li>
                     <li><a class="menu-item" href="/dailyProduct">Daily Product</a></li>
-                    <li><a class="menu-item" href="/material">Material</a></li>
+
 
                 </ul>
             </li>
             <li class=" nav-item ">
                 <a href="/"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
-                                                                           data-i18n="">Purchase</span></a>
+                                                                           data-i18n="">Supplier</span></a>
                 <ul class="menu-content">
                     <li><a class="menu-item" href="/supplier">Supplier</a></li>
                     <li><a class="menu-item" href="/quotationrequest">Quotation Request</a></li>
@@ -49,17 +53,17 @@
                     <li><a class="menu-item" href="/purchaseorder">Purchase Order </a></li>
                     <li><a class="menu-item" href="/mrn">MRN </a></li>
                     <li><a class="menu-item" href="/supplierpayment">Supplier Payment </a></li>
+                    <li><a class="menu-item" href="/material">Material</a></li>
                 </ul>
             </li>
             <!--fa-tasks-->
             <li class=" nav-item ">
                 <a href="/"><i class="fa fa-plus-square"></i><span class="menu-title"
-                                                                           data-i18n="">Support Modules</span></a>
+                                                                   data-i18n="">Support Modules</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/productCategory">Product Category</a></li>
+
                     <li><a class="menu-item" href="/inventory">Inventory</a></li>
-                    <li><a class="menu-item" href="/ui">Quotation </a></li>
-                    <li><a class="menu-item" href="/ui">UI </a></li>
+                    <li><a class="menu-item" href="/productCategory">Product Category</a></li>
 
                 </ul>
             </li>
@@ -67,7 +71,7 @@
             <li class=" nav-item"><a href="/"><i class="fa-solid fa-list-check"></i><span class="menu-title"
                                                                                           data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/mateialListStatusReport">Report 1</a> </li>
+                    <li><a class="menu-item" href="/mateialListStatusReport">Report 1</a></li>
                     <li><a class="menu-item" href="/customerPaymentreport">Report 2</a></li>
                     <li><a class="menu-item" href="/samplechart">Report 3</a></li>
                 </ul>
@@ -75,6 +79,7 @@
 
         </ul>
     </div>
+
 </div>
 <!--Head-->
 <head th:fragment="headFragment">
@@ -106,10 +111,14 @@
 
     <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
     <!-- END Custom CSS-->
+
+
+
 </head>
 
 <!--Navbar-->
-<nav  th:fragment="navBarFragment"class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color">
+<nav th:fragment="navBarFragment"
+     class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-light navbar-bg-color">
     <div class="navbar-wrapper">
         <div class="navbar-header d-md-none">
             <ul class="nav navbar-nav flex-row">
@@ -146,6 +155,12 @@
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
                             <i class="fas fa-bell"> </i></a>
                     </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link nav-menu-main menu-toggle hidden-xs"
+                           data-toggle="modal" data-target="#modalUserSettingForm" onclick="refreshProfileEditForm()">
+                            <i class="fas fa-gear"> </i>
+                        </a>
+                    </li>
                     </li>
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#" onclick="logoutMC()">
@@ -156,13 +171,141 @@
                 </ul>
 
 
+
             </div>
         </div>
     </div>
 </nav>
 
+
+<!--User Change mOddel-->
+<!--User Setting -->
+<div class="modal" th:fragment="settingmodal" id="modalUserSettingForm" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-header">
+                <h2 class="h2"><i class="fas fa-user fx"></i> User Setting Management</h2>
+                <button type="button" class="close" aria-label="Close" data-dismiss="modal"
+                        onclick="buttonModalCloseLogUMC()"><span
+                        aria-hidden="true">x</span></button>
+            </div>
+            <!-- Body -->
+            <div class="modal-body">
+                <!--   form -->
+                <form onsubmit="return false">
+                    <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@ User Setting form @@@@@@@@@@@@@@@@@@@@@@@@@@-->
+                    <div id="divUserSetting"><!-- style css-->
+                        <!-- Card Start -->
+                        <div class="card p-1 m-1 form-group">
+                            <!--  - Inner form / Inner Table-->
+                            <div class="row ">
+                                <!-- ## @@ Second Inner Form @@ ##-->
+                                <div class="col">
+                                    <!--  Photo-->
+                                    <div class=" row mt-2">
+                                        <div class="col-4">
+                                            <label for="empFilePhoto" class="form-label font-weight-bold">Employee Photo
+                                                : </label>
+                                            <img src="resources/images/user_photo/user.png"
+                                                 style="width: 65px; height: 75px" id="employeeImage"
+                                                 alt="employee.png">
+                                            <input type="text" disabled class="mt-1 form-control" id="txtempPhoto">
+                                        </div>
+                                        <div class="col-5">
+                                            <button type="button" id="btnSelectImage"
+                                                    class="btn bg-success font-weight-bold btn-sm"
+                                                    onclick="empFilePhoto.click()"> Select Image
+                                            </button>
+
+                                            <button type="button" id="btnClearImage"
+                                                    class="btn bg-info btn-sm font-weight-bold"> Clear Image
+                                            </button>
+
+                                            <input class="form-control d-none" type="file" id="empFilePhoto"
+                                                   onchange="fileValidator(empFilePhoto,'currentLoggedUser','userphoto','','oldcurrentLoggedUser',employeeImage,txtempPhoto)">
+                                        </div>
+                                    </div>
+
+
+                                    <div class=" mt-1">
+                                        <input type="file"
+                                               accept="image/*" value="1" name="image" class="form-control-file" style="display: none;">
+                                    </div>
+
+                                    <!-- User Name -->
+                                    <div class="row mt-2">
+                                        <label class="form-label font-weight-bold col-4"> User Name :
+                                            <span class="text-danger"> * </span></label>
+                                        <div class="col-8">
+                                            <input type="text" id="textUserName"
+                                                   onkeyup="textFeildValidtor(textUserName,'^(([A-Z][a-z]{3,20}[ ])+([A-Za-z]{3,20}){1}|([A-Za-z]{3,20}))$','currentLoggedUser','username','oldcurrentLoggedUser')"
+                                                   data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                   placeholder="Enter Username" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="row mt-2">
+                                        <label class="form-label font-weight-bold col-4"> Password :
+                                            <span class="text-danger"> * </span></label>
+                                        <div class="col-8">
+                                            <input type="password" id="textPassword" placeholder="Enter Password"
+                                                   class="form-control"
+                                                   onkeyup="textFeildValidtor(textPassword,'^[A-Za-z0-9@#*]{5,15}$','currentLoggedUser','password','oldcurrentLoggedUser')">
+                                        </div>
+                                    </div>
+
+                                    <!-- Re-Type Password -->
+                                    <div class="row mt-2">
+                                        <label class="form-label font-weight-bold col-4"> Re-Type Password :
+                                            <span class="text-danger"> * </span></label>
+                                        <div class="col-8">
+                                            <input type="password" id="textReTypePassword"
+                                                   onkeyup="textReTypePasswordValidator()"
+                                                   placeholder="Enter Re-Type Password" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="row mt-2">
+                                        <label class="form-label font-weight-bold col-4"> Email :
+                                            <span class="text-danger"> * </span></label>
+                                        <div class="col-8">
+                                            <input type="email" id="textEmail" class="form-control"
+                                                   onkeyup="textFeildValidtor(textEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','currentLoggedUser','email','oldcurrentLoggedUser');">
+                                        </div>
+                                    </div>
+                                    <!-- Submit buttton-->
+                                    <div class="row mt-2">
+                                        <div class="col-4">
+                                            <button type="button" class="btn btn-dark text-nowrap"
+                                                    onclick="submitUserSetting()">Change Settings
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <!--                    @@@@@@@@@@@@@@@@@@@@@@@@@@End@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--User Change mOddel-->
+
 <!--Footer-->
-<footer  th:fragment = "footerFragment" class="footer footer-static footer-transparent">
+<footer th:fragment="footerFragment" class="footer footer-static footer-transparent">
     <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
         <span class="float-md-left d-block d-md-inline-block"
         >Copyright &copy;
@@ -174,4 +317,6 @@
     >Hand-crafted & Made with <i class="ft-heart pink"></i
     ></span>
     </p>
+    <script src="/resources/script/common.js" type="text/javascript"></script>
+    <script src="/resources/script/dashboard.js" type="text/javascript"></script>
 </footer>

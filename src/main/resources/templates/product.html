@@ -35,7 +35,7 @@
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
                 <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal"
+                                                         data-toggle="modal" id="btnAddNew"
                                                          data-target="#modalProductForm">Add
                     new product</a></div>
             </div>
@@ -90,13 +90,13 @@
 <footer th:replace = "~{fragment::footerFragment}"></footer>
 
 
-<div class="modal" id="modalProductForm" data-backdrop="static" data-keyboard="false">
+<div class="modal" id="modalProductForm" data-backdrop="static" data-keyboard="false"  >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Header -->
             <div class="modal-header">
                 <h2 class="h2"> Edit Product </h2>
-                <button type="button" class="close"  aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <!-- Body -->
             <div class="modal-body">
@@ -140,7 +140,7 @@
                             <label for="cmbproductCategory" class="form-label font-weight-bold">Product Category : <span
                                     style="color: red;">*</span></label>
                                 <select id="cmbproductCategory" class="form-control" required
-                                        onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct');">
+                                        onchange="selectValidator(cmbproductCategory,'','product','product_category_id','oldproduct');getP_SizeByPCategory();">
                                 </select>
                             </div>
                         <div class="col-2" style="padding: 0px">
@@ -175,26 +175,26 @@
 
                                     </div>
                                     <!--Print Colors-->
-                                    <div id="innerPaperColor">
-                                        <label for="cmbPcopyprintColors" class="form-label font-weight-bold">Ink Types : <span
-                                                    style="color: red;">*</span></label>
-                                        <select id="cmbPcopyprintColors" class="form-control" required
-                                                onchange="selectValidator(cmbPcopyprintColors,'','productCopy','ink_type_id','oldprodctCopy')">
+<!--                                    <div id="innerPaperColor">-->
+<!--                                        <label for="cmbPcopyprintColors" class="form-label font-weight-bold">Ink Types : <span-->
+<!--                                                    style="color: red;">*</span></label>-->
+<!--                                        <select id="cmbPcopyprintColors" class="form-control" required-->
+<!--                                                onchange="selectValidator(cmbPcopyprintColors,'','productCopy','ink_type_id','oldprodctCopy');">-->
 
-                                        </select>
+<!--                                        </select>-->
 
-                                    </div>
-                                    <!--- Buttons -->
+<!--                                    </div>-->
+<!--                                    - Buttons-->
                                     <div class="row mt-1">
                                         <div class="col text-end">
                                             <button type="reset" style="width: 25%; border-radius: 50px;"
                                                     class="btn bg-info btn-sm font-weight-bold"> Clear
                                             </button>
-                                            <button type="submit" style="width: 25%;border-radius: 50px;"
-                                                    id="buttonInnerUpdate"
-                                                    class="btn bg-warning font-weight-bold btn-sm"
-                                                    onclick="buttonInnerUpdateMC()"> Update
-                                            </button>
+<!--                                            <button type="submit" style="width: 25%;border-radius: 50px;"-->
+<!--                                                    id="buttonInnerUpdate"-->
+<!--                                                    class="btn bg-warning font-weight-bold btn-sm"-->
+<!--                                                    onclick="buttonInnerUpdateMC()"> Update-->
+<!--                                            </button>-->
                                             <button type="submit" style="width: 25%;border-radius: 50px;"
                                                     id="buttonInnerAdd"
                                                     class="btn bg-success font-weight-bold btn-sm"
@@ -214,8 +214,7 @@
                                                     <thead class="table-dark" style="background-color: #27344d">
                                                     <tr>
                                                         <th> #</th>
-                                                        <th> Paper Type</th>
-                                                        <th> Print Color</th>
+                                                        <th> Paper Types</th>
                                                         <th> Modify</th>
                                                     </tr>
                                                     </thead>
@@ -274,7 +273,7 @@
                         <label for="cmbproductSize" class="form-label font-weight-bold">Product Size : <span
                                 style="color: red;">*</span></label>
                         <select id="cmbproductSize" class="form-control" required
-                                onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomizedproductSize()">
+                                onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomized       productSize()">
                         </select>
                     </div>
                      </div>
@@ -311,7 +310,7 @@
                     <!--@@@@@@@@@@@@@@@@@@@@@@@@@@ Start - Second Inner @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
                     <!-- ########   Material - Inner form ######## -->
 
-                    <div id="divInnerMateialForm"   ><!-- style css-->
+                    <div id="divInnerMateialForm"  style = "display :none" ><!-- style css-->
                         <!-- Card Start -->
                         <div class="card p-1 m-1">
                             <!--  bill book - Header-->
@@ -332,10 +331,10 @@
                                     </div>
                                     <!-- Materil type-->
                                     <div id="innerMaterialtype">
-                                        <label for="cmbMaterial" class="form-label font-weight-bold">Material : <span
+                                        <label for="cmbMaterial" class="form-label font-weight-bold"  >Material : <span
                                                 style="color: red;">*</span></label>
                                         <select id="cmbMaterial" class="form-control"
-                                                onchange="selectValidator(cmbMaterial,'','productHasMaterial','material_id','oldproductHasMaterial')">
+                                                onchange="selectValidator(cmbMaterial,'','productHasMaterial','material_id','oldproductHasMaterial');quantityEntry()">
                                         </select>
                                     </div>
                                     <!--Quantity-->
@@ -343,14 +342,16 @@
                                         <label for="txtQty" class="form-label font-weight-bold">
                                             Quantity: <span style="color: red;">*</span>
                                         </label>
-                                        <input type="text" id="txtQty" class="form-control" required
-                                               onkeyup="textFeildValidtor(txtQty,'','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
+                                        <input type="text" id="txtQty" class="form-control" disabled
+                                               onkeyup="textFeildValidtor(txtQty,'^([1-9][0-9]{0,1}[.][0-9]|[1-9]|[0-9][.][1-9]|)$','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
                                                placeholder="Enter Material Quantity">
+
+
                                     </div>
                                     <!--- Buttons -->
                                     <div class="row mt-1">
                                         <div class="col text-end">
-                                            <button type="reset" style="width: 25%; border-radius: 50px;"
+                                            <button type="button" style="width: 25%; border-radius: 50px;"
                                                     class="btn bg-info btn-sm font-weight-bold"  onclick="buttonMInnerClearMC()"> Clear
                                             </button>
                                             <!--                                            <button type="submit" style="width: 25%;border-radius: 50px;"-->
@@ -359,7 +360,7 @@
                                             <!--                                                    onclick="buttonMInnerUpdateMC()"> Update-->
                                             <!--                                            </button>-->
                                             <button type="button" style="width: 25%;border-radius: 50px;"
-                                                    id="buttonMInnerAdd"
+                                                    id="buttonMInnerAdd"  disabled
                                                     class="btn bg-success font-weight-bold btn-sm"
                                                     onclick="buttonMInnerAddMC()"> Add
                                             </button>
@@ -414,6 +415,8 @@
                         </div>
                         <!-- Price-->
                         <div class="col-6">
+
+
                             <label for="txtPrice" class="form-label font-weight-bold" >
                                 Price : <span style="color: red;">*</span>
                             </label>
@@ -451,13 +454,13 @@
                     <!--- Buttons -->
                     <div class="row mt-2">
                         <div class="col text-end">
-                            <button type="reset" style="width: 23%; border-radius: 50px;"
-                                    class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
+                            <button type="button" style="width: 23%; border-radius: 50px;"
+                                    class="btn bg-info font-weight-bold"  onclick="buttonClearMC()"> Clear
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                     class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
                             </button>
                         </div>

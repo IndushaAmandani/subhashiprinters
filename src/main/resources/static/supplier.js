@@ -4,8 +4,6 @@ window.addEventListener("load", refreshUI);
 /// browser refresh function
 function refreshUI() {
 
-    $('[data-toggle="tooltip"]').tooltip();
-
     // get loged user privilage for item module
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Supplier");
 
@@ -259,7 +257,7 @@ function reFillItemForm(rowob,rowind) {
 
     let supplierArray = [txtSupplierName,txtSupplierAddress,txtSupplierNote,txtContactNo,txtEmailAddress,cmbSupplierStatus,txtContactPersonName,txtContactPersonMobile,txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName]
  setIDStyle(supplierArray,"1px dotted green");
-    $("#modalSupplierForm").modal("show");
+    btnAddNew.click();
 disabledButton(false,true);
 }
 

@@ -10,6 +10,7 @@ import lk.subhashiprinters.corder.CustomerOrderHasMaterial;
 import lk.subhashiprinters.corder.CustomerOrderHasProduct;
 import lk.subhashiprinters.material.MaterialInventory;
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.purchaseorder.PurchaseOrder;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import lombok.AllArgsConstructor;
@@ -51,7 +52,10 @@ public class ProductCategoryController {
         return productCategoryDao.findAll();
     }
 
-
+    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
+    public ProductCategory getByPathId(@PathVariable("id")Integer id){
+        return productCategoryDao.getReferenceById(id);
+    }
   @PostMapping
   public  String addpCategory(@RequestBody ProductCategory productCategory){
         //checking logged user priviledge
@@ -88,6 +92,36 @@ public class ProductCategoryController {
           return "Product Category Insert Insert Not completed : You don't have permission";
       }
 
+  }
+
+
+  @PutMapping
+  public  String updateCategory(@RequestBody ProductCategory productCategory) {
+      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+      if (auth instanceof AnonymousAuthenticationToken) {
+          return "Product Category Update Not completed : You don't have permission";
+      }
+
+      User loggedUser = userDao.findUserByUsername(auth.getName());
+      HashMap<String, Boolean> userPriviledge = privilegeController.getPriviledgeByUserModule(loggedUser.getUsername(), "ProductCategory");
+
+
+      if (userPriviledge != null && userPriviledge.get("upd")) {
+          ProductCategory extProductCat = productCategoryDao.getReferenceById(productCategory.getId());
+
+//          if (extProductCat == null) {
+//              return "Product Category delete not completed : Doesn't Exist !";
+//          }
+//          try{
+//              productCategoryDao.save(extProductCat);
+//          } catch (Exception e) {
+//              return "Product Category delete not completed " + e.getMessage();
+//          }
+
+      } else {
+          return "Product Category delete not completed : You don't have permission ";
+      }
+      return null;
   }
 
 @DeleteMapping

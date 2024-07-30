@@ -340,7 +340,7 @@ const formRefill = (ob, rowno) => {
     if(employee.land == undefined )
         txtLand.style.borderBottom = "2px solid #ced4da";
 
-    $('#modalEmployeeForm').modal("show");
+    btnAddNew.click();
 
     disabledButton(false , true);
 

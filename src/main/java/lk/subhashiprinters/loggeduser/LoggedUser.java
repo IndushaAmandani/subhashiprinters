@@ -17,6 +17,7 @@ public class LoggedUser {
 
     private String photoname;
     private String photopath;
+    private byte[] userphoto;
 
 
 }

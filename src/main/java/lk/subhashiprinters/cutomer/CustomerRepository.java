@@ -18,8 +18,8 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
         @Query("select c from Customer c where c.customer_email = ?1")
         Customer findCustomerByEmail(String email);
     
-    
-        @Query(value = "SELECT lpad(max(c.customercode)+1,5,'0') FROM subhashiprinters.customer as c;" ,nativeQuery = true)
+    //00001
+        @Query(value = "SELECT concat('CUS',lpad(substring(max(c.customercode),4)+1,6,'0'))  FROM subhashiprinters.customer as c;" ,nativeQuery = true)
         String nextCustomerNumber();
 
         @Query("select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 order by c.id DESC ")

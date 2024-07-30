@@ -1,17 +1,15 @@
 package lk.subhashiprinters.sample;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import lk.subhashiprinters.material.PaperInkTypes;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Entity // convert class into persisten  entity
 @Table(name = "product_category") //mapping  into table productcategory
@@ -35,6 +33,10 @@ public class  ProductCategory {
     private BigDecimal production_cost;
 
 
+    //??Changes it is going to happen like entity manager operatons (merge,refresh,remove) in customer order will propagate/spread to COHasP entity also
+    @ManyToMany // User and Role tables do have many-to-many relationship
+    @JoinTable(name = "paper_ink_type_has_product_category" , joinColumns = @JoinColumn(name = "product_category_id"), inverseJoinColumns = @JoinColumn(name = "paper_ink_type_id"))
+    private Set<PaperInkTypes> assignedPIT;
 
 
 

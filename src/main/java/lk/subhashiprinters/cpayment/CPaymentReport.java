@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class CPaymentReport {
 
     private String date;
-
     private String totalamount;
     private String cpaymentcount ;
 

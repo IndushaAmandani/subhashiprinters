@@ -75,6 +75,8 @@ const refreshQRForm = ()=> {
 
     cmbQRStatus.disabled = true;
 
+
+
     // clear input feilds
 
     dteRequiredDate.value = "";
@@ -87,21 +89,25 @@ const refreshQRForm = ()=> {
     dteRequiredDate.min = getCurrentDate2("date",mindate);
     txtNote.value = "";
 
-    setUiElementColor("1px solid #ced4da");
+    qrarray  =[cmbSupplier,cmbQRStatus,dteRequiredDate,txtNote]
+    setIDStyle(qrarray,"1px solid #ced4da");
     cmbQRStatus.style.borderBottom = "2px solid green";
 
-    disabledButton(true , false);
+    disabledQRButton(true,false);
 }
 
+ const  disabledQRButton = (addbtn, updbtn) =>{
+     if (addbtn && lggeduserprivilage.ins) {
+         buttonAdd.disabled = false;
+         $("#buttonAdd").css("pointer-events", "all");
+         $("#buttonAdd").css("cursor", "pointer");
+     } else {
+         buttonAdd.disabled = true;
+         $("#buttonAdd").css("pointer-events", "all");
+         $("#buttonAdd").css("cursor", "not-allowed");
+     }
+ }
 
-
-let setUiElementColor = (style) => {
-    cmbSupplier.style.borderBottom = style;
-    cmbQRStatus.style.borderBottom = style;
-    dteRequiredDate.style.borderBottom = style;
-    txtNote.style.borderBottom = style;
-
-}
 
 //check available errors in form
 const checkQRFormError = ()=>{
@@ -283,3 +289,7 @@ function viewItemRow(rowob,rowind) {
 function  buttonModalCloseMC (){
     buttonCloseModal("#modalQuotationRequestForm",refreshQRForm);
 }
+
+ function buttonMClear(){
+     refreshQRForm();
+ }

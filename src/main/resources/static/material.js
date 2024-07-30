@@ -22,19 +22,22 @@ const refreshTable = () => {
     materials = getServiceRequest("/material/findall");
 //m.id, m.name, m.code,m.measuring_count,m.width,m.height,m.material_category_id, m.material_unit_type_id, m.material_status_id
     //create display proporty list
-    let displayPropertyList = ['code','name', 'measuring_count','width','height', 'material_category_id.name', 'material_unit_type_id.name', 'material_status_id.name'];
+    let displayPropertyList = ['code','name', 'material_category_id.name','width','height', 'material_unit_type_id.name', 'material_status_id.name'];
     // creat display property data type list
-    let displayDatatypeList = ['text', 'text', 'text','text','text', 'object', 'object', 'object'];
+    let displayDatatypeList = ['text', 'text','object',getWidth,getHeight, 'object', 'object'];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableMaterial, materials, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
 
+
+
     for (let index in materials) {
+        tableMaterial.children[1].children[index].children[8].children[2].style.display = "none";
         if (materials[index].material_status_id.name == "Removed") {
             tableMaterial.children[1].children[index].style.backgroundColor = "#ad9393";
             tableMaterial.children[1].children[index].style.color = "#0f100f";
-            tableMaterial.children[1].children[index].children[9].children[1].disabled = true;
-            tableMaterial.children[1].children[index].children[9].children[1].style.pointerEvents = "all";
-            tableMaterial.children[1].children[index].children[9].children[1].style.cursor = "not-allowed";
+            tableMaterial.children[1].children[index].children[8].children[1].disabled = true;
+            tableMaterial.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
+            tableMaterial.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
 
         }
     }
@@ -43,7 +46,26 @@ const refreshTable = () => {
     $('#tableMaterial').dataTable();
 }
 
+const  getWidth = (ob) => {
+    if(ob.width > 0 && ob.width!=null ){
+        return  parseFloat(ob.width).toFixed(2) + "cm";
+    }
+    else {
+        return  "-";
+    }
+}
+const  getHeight = (ob) => {
+    if(ob.height > 0 && ob.height!=null){
+        return parseFloat(ob.height).toFixed(2) + "cm";
+    }
+    else {
+        return  "-";
+    }
+
+}
+
 const rowView = () => {
+
 }
 
 // functon for refresh form
@@ -67,18 +89,18 @@ fillSelectFeild(cmbSubCategory,"Select Sub Category",paperinkTypes,"name");
 
     txtDescription.value = "";
     txtMaterialName.value = "";
-    txtMeasuringCount.value = "";
+   // txtMeasuringCount.value = "";
 
     if(cmbCategory){
         txtPaperHeight.value="";
         txtPaperWidth.value="";
-        txtPaperHeight.style.borderBottom ="2px solid green";
-        txtPaperWidth.style.borderBottom ="2px solid green";
+        txtPaperHeight.style.borderBottom ="2px solid #cacfe7";
+        txtPaperWidth.style.borderBottom ="2px solid #cacfe7";
 
     }
 
-
-    setStyle("1px solid #cacfe7");
+ materialIDArray = [cmbCategory,cmbSubCategory,cmbUnitType,cmbMaterialStatus,txtDescription,txtMaterialName]
+    setIDStyle(materialIDArray,"1px solid #cacfe7");
     cmbMaterialStatus.style.borderBottom = "2px solid green";
 
     disabledButton(true, false);
@@ -88,15 +110,7 @@ fillSelectFeild(cmbSubCategory,"Select Sub Category",paperinkTypes,"name");
 
 
 
-function setStyle(style) {
-    cmbCategory.style.borderBottom = style;
-    cmbUnitType.style.borderBottom = style;
-    cmbMaterialStatus.style.borderBottom = style;
-    txtDescription.style.borderBottom = style;
-    txtMaterialName.style.borderBottom = style;
-    txtMeasuringCount.style.borderBottom = style;
 
-}
 
 //check available errors in form
 const checkMFormError = ()=>{
@@ -111,10 +125,10 @@ const checkMFormError = ()=>{
         formerror = formerror + "Please Select Category..! \n";
 
     }
-    if( material.measuring_count == null){
-        formerror = formerror + "Please Enter Measuring Count..! \n";
-
-    }
+    // if( material.measuring_count == null){
+    //     formerror = formerror + "Please Enter Measuring Count..! \n";
+    //
+    // }
 
     if( material.material_unit_type_id == null){
         formerror = formerror + "Please Select Unit Type..! \n";
@@ -170,27 +184,34 @@ function formRefill(rowob,rowind) {
     fillSelectFeild(cmbCategory, "Select Category", materialcategories, "name",material.material_category_id.name);
     fillSelectFeild(cmbUnitType, "Select Unit Type", unittypes, "name",material.material_unit_type_id.name);
     fillSelectFeild(cmbMaterialStatus, "Select Status", materialstatuses, "name", material.material_status_id.name , false);
+  fillSelectFeild(cmbSubCategory,"Select Sub Category",paperinkTypes,"name",material.paper_ink_type_id.name);
 
-  //  fillSelectFeild(cmbSubCategory,"Select Sub Category",paperinkTypes,"name",material.paper);
-
-    txtMCNo.value =  material.code;
+    document.getElementById("divAddButtonPaperInkType").style.display = "block";
 
     if(material.description != null)
     txtDescription.value = material.description ; else txtDescription.value = "";
 
      txtMaterialName.value = material.name ;
-    txtMeasuringCount.value = material.measuring_count ;
+   // txtMeasuringCount.value = material.measuring_count ;
 
-    setStyle("1px solid green");
+    if(material.width != null && material.height != null){
+        txtPaperHeight.value = material.height;
+        txtPaperWidth.value = material.width;
+    }
+
+    materialIDArray = [cmbCategory,cmbSubCategory,cmbUnitType,cmbMaterialStatus,txtDescription,txtMaterialName];
+
+    setIDStyle(materialIDArray,"2px dotted green");
 
 
     if( material.description == null)
-        txtDescription.style.borderBottom = "1px solid #ced4da";
+        txtDescription.style.border = "1px solid #ced4da";
 
+    btnAddNew.click();
     disabledButton(false , true);
 
 
-    $("#modalMaterialForm").modal("show");
+
 }
 
 
@@ -216,9 +237,9 @@ const checkMFormUpdates = () =>{
             updates = updates + "Material Category is changed " + oldmaterial.material_category_id.name + " into " + material.material_category_id.name + "\n";
         }
 
-        if(material.measuring_count != oldmaterial.measuring_count){
-            updates = updates + "Material Measuring Count is changed " + oldmaterial.measuring_count + " into " + material.measuring_count + "\n";
-        }
+        // if(material.measuring_count != oldmaterial.measuring_count){
+        //     updates = updates + "Material Measuring Count is changed " + oldmaterial.measuring_count + " into " + material.measuring_count + "\n";
+        // }
 
         if(material.material_unit_type_id.id != oldmaterial.material_unit_type_id.id){
             updates = updates + "Material Unit Type is changed " + oldmaterial.material_unit_type_id.name + " into " + material.material_unit_type_id.name + "\n";
@@ -301,14 +322,25 @@ function showPaperSize(){
 }
 //Get material unit type by its category
 function getMaterialUnitTypeByMCategory(){
+if(JSON.parse(cmbCategory.value).id == 1 ) {
+    let materialtypeByCategory = getServiceRequest("/materialUnitType/getByMCategory/" + JSON.parse(cmbCategory.value).id);
+    fillSelectFeild(cmbUnitType, "Select Material Type", materialtypeByCategory, "name", "Pieces")
+}else if(JSON.parse(cmbCategory.value).id == 2){
+    let materialtypeByCategory = getServiceRequest("/materialUnitType/getByMCategory/" + JSON.parse(cmbCategory.value).id);
+    fillSelectFeild(cmbUnitType, "Select Material Type", materialtypeByCategory, "name", "ML")
+}else{
+    let materialtypeByCategory = getServiceRequest("/materialUnitType/getByMCategory/" + JSON.parse(cmbCategory.value).id);
+    fillSelectFeild(cmbUnitType, "Select Material Type", materialtypeByCategory, "name", "Pieces")
 
-   let materialtypeByCategory=  getServiceRequest( "/materialUnitType/getByMCategory/"+ JSON.parse(cmbCategory.value).id);
-    fillSelectFeild(cmbUnitType,"Select Material Type",materialtypeByCategory,"name","")
+}
+    let paperTypesByMCategory = getServiceRequest("/paperInkTypes/getbyCategory/" + JSON.parse(cmbCategory.value).id);
+    fillSelectFeild(cmbSubCategory, "Select Sub Category", paperTypesByMCategory, "name", "");
+
 }
 
 // buttonMSubAdd
 const Addbutton = document.getElementById("buttonMSubAdd");
-Addbutton.addEventListener("click",() => {
+Addbutton.addEventListener('click',() => {
     document.getElementById("divAddButtonPaperInkType").style.display = "block";
     refreshbuttonAddPaperType();
 })
@@ -323,13 +355,15 @@ const refreshbuttonAddPaperType =() => {
     txtPtItname.value = "";
     txtPtItname.style.borderBottom= "1px solid #cacfe7";
       cmbMaterialCategory.style.borderBottom = "1px solid #cacfe7";
+
+
 }
 
 
 //Add Eventlisteners to Papertype cancel button
 const cancelPT = document.getElementById('btnAddpaperTypeCancel');
 const divAddPTy = document.getElementById("divAddButtonPaperType");
-cancelPT.addEventListener("click",() => {
+cancelPT.addEventListener('click',() => {
     refreshbuttonAddPaperType();
     divAddPTy.style.display = "none" ;
 });
@@ -337,7 +371,7 @@ cancelPT.addEventListener("click",() => {
 
 //Add Eventlistener to Papertype add button
 const addPT = document.getElementById("btnAddpaperTypeSubmit");
-addPT.addEventListener("click",()=>{
+addPT.addEventListener('click',()=>{
 
     let  errors = checkaddPTErrors();
     if(errors != ""){
@@ -349,10 +383,12 @@ addPT.addEventListener("click",()=>{
         if (serverResponce == "0") {
 
             alert("Saved Successfully");
-            let paperTypesByMCategory = getServiceRequest("/paperInkTypes/getbyMCategory/" + JSON.parse(cmbCategory.value).id);
-            fillSelectFeild(cmbSubCategory, "Select Sub Category", paperTypesByMCategory, "name", "");
             refreshbuttonAddPaperType();
+
             divAddButtonPaperInkType.style.display = "none";
+            let paperTypesByMCategory = getServiceRequest("/paperInkTypes/getbyCategory/" + JSON.parse(cmbCategory.value).id);
+            fillSelectFeild(cmbSubCategory, "Select Sub Category", paperTypesByMCategory, "name", "");
+
         } else {
             return alert("Failed to add ...You have following error..\n" + serverResponce);
         }
@@ -375,4 +411,8 @@ function enbleAddPTITypeButton(){
         addbtn.style.display = "none";
     } else{
         addbtn.style.display = "block"}
+}
+
+function buttonMClear(){
+    refreshMaterialForm();
 }

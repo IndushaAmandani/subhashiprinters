@@ -6,6 +6,7 @@ import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 //import  jakarta.transaction.Transactional;
@@ -27,6 +28,9 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeStatusRepository employeeStatusDao;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userDao;
@@ -90,12 +94,22 @@ public class EmployeeController {
         try {
             //set auto inser value
             //employee.setNumber("00004");
-            employee.setNumber(employeeDao.nextEmployeeNumer());
+            String nextEmpNumber = employeeDao.nextEmployeeNumer();
+            employee.setNumber(nextEmpNumber);
             employee.setAdded_datetime(LocalDateTime.now());
-
             // save operator
             employeeDao.save(employee);
-           
+
+            Employee newlySavedEmp = employeeDao.findByNumber(nextEmpNumber);
+            User createuseraccount = new User();
+            createuseraccount.setEmployee_id(newlySavedEmp);
+            createuseraccount.setUsername(newlySavedEmp.getCalling_name()+newlySavedEmp.getNumber());
+            createuseraccount.setPassword(bCryptPasswordEncoder.encode(newlySavedEmp.getNic()));
+            createuseraccount.setEmail(newlySavedEmp.getEmail());
+            createuseraccount.setStatus(true);
+            createuseraccount.setUserphoto(newlySavedEmp.getEmp_photo());
+            //save neewly created user
+            userDao.save(createuseraccount);
 
             //Need update dependency module
 
@@ -132,10 +146,13 @@ public class EmployeeController {
         try {
             //set auto inser value
             employee.setLast_update_datetime(LocalDateTime.now());
+            User extuser =  userDao.getUserByEmplyee(employee.getId());
              if (employee.getEmployeestatus_id().getName().equals("Resign")|| employee.getEmployeestatus_id().getName().equals("Removed")){
-               User extuser =  userDao.getUserByEmplyee(employee.getId());
                extuser.setStatus(false);
             };
+             extuser.setUserphoto(employee.getEmp_photo());
+             extuser.setUpdatedatetime(LocalDateTime.now());
+             userDao.save(extuser);
             // save operator
             employeeDao.save(employee);
             //Need update dependency module

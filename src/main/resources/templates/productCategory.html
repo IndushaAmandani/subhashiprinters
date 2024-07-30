@@ -36,7 +36,7 @@
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
                 <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal"
+                                                         data-toggle="modal" id="btnAddNew"
                                                          data-target="#modalProductCategoryForm">Add
                     new Category</a></div>
             </div>
@@ -92,7 +92,7 @@
             <!-- Header -->
             <div class="modal-header">
                 <h2 class="h2"><i class="fas fa-user fx"></i> Product Category Management</h2>
-                <button type="button" class="close" aria-label="Close" onclick="buttonModalClosePCMC()"><span
+                <button type="button" class="close" aria-label="Close" data-dismiss="modal" onclick="buttonModalClosePCMC()"><span
                         aria-hidden="true">&times;</span></button>
             </div>
             <!-- Body -->
@@ -125,7 +125,7 @@
                                         <label class="form-label font-weight-bold"> Name <span
                                                 style="color: red;">*</span></label>
                                         <input type="text" id="txtproductcategoryname"
-                                               onkeyup="textFeildValidtor(txtproductcategoryname,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','productCategory','name','oldproductCategory');"
+                                               onkeyup="textFeildValidtor(txtproductcategoryname,'^(([A-Za-z]{3,20})|(([A-Za-z]{3,20}[ ])+([A-Za-z]{3,20}){1}))$','productCategory','name','oldproductCategory');"
                                                class="form-control">
                                     </div>
                                     <!--Profit Rate-->
@@ -147,40 +147,38 @@
 
 
                                     <!-- Product Category -->
-
                                     <div class="row mt-2 gy-2 d-flex justify-content-between">
                                         <div class="col-6">
                                             <div class="row">
-                                                <div class="col-4">
-                                                    <label for="inputPaperInkTypes" class="orm-label font-weight-bold">
-                                                        Paper Ink Types : <span class="text-danger">*</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-6">
+                                                <label for="inputPaperInkTypes" class="orm-label font-weight-bold">
+                                                    Paper Ink Types : <span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="row d-flex ">
+                                                <div class="col-8">
                                                     <select type="select" class="form-control"
-                                                            placeholder="Select Ink Paper Types " id="inputPaperInkTypes"
+                                                            placeholder="Select Ink Paper Types "
+                                                            id="inputPaperInkTypes"
                                                             onchange="">
                                                     </select>
-
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-4">
                                                     <button type="button" class="btn btn-dark text-nowrap"
-                                                            onclick="addSelectedValue()">Add Roles
+                                                            onclick="addSelectedValue()">Add
                                                     </button>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-5">
-                                            <div class="row d-flex justify-content-start">
-                                                <div class="col-4">
-                                                    <label id="inputAssignedRolesLabel" class="form-label fw-bold">
-                                                        Assigned Roles : <span class="text-danger">*</span>
-                                                    </label>
-                                                </div>
-                                                <div class="col-7">
-                                                    <div id="buttonContainer">
-                                                        <!-- Newly created buttons will be appended here -->
-                                                    </div>
+                                            <div class="row">
+                                                <label id="inputAssignedPaperInkTypes" class="form-label fw-bold">
+                                                    Assigned Paper Ink Types : <span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="row d-flex">
+                                                <div id="buttonContainer">
+                                                    <!-- Newly created buttons will be appended here -->
                                                 </div>
                                             </div>
                                         </div>
@@ -190,18 +188,22 @@
                                     <!--- Buttons -->
                                     <div class="row mt-1">
                                         <div class="col text-end">
-                                            <button class="btn bg-info btn-sm font-weight-bold"
-                                                    style="width: 25%; border-radius: 50px" type="button"
-                                                    id="btnAddProductCategorySubmit">Submit
+                                            <button type="reset" style="width: 23%; border-radius: 50px;"
+                                                    class="btn bg-info font-weight-bold" onclick="buttonClearMC()">
+                                                Clear
                                             </button>
-
-                                            <button class="btn bg-success font-weight-bold btn-sm"
-                                                    style="width: 25%;border-radius: 50px" type="reset"
-                                                    id="btnProductCategoryCancel">Cancel
+                                            <button type="submit" style="width: 23%;border-radius: 50px;"
+                                                    id="buttonUpdate"
+                                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()">
+                                                Update
                                             </button>
-
+                                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                                                    class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()">
+                                                Add
+                                            </button>
                                         </div>
                                     </div>
+
                                 </div>
 
 
@@ -245,20 +247,6 @@
 
 <footer th:replace="~{fragment::footerFragment}"></footer>
 
-<!--- Buttons -->
-<div class="row mt-2">
-    <div class="col text-end">
-        <button type="reset" style="width: 23%; border-radius: 50px;"
-                class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
-        </button>
-        <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
-                class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
-        </button>
-        <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
-        </button>
-    </div>
-</div>
 
 </form>
 

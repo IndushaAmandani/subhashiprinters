@@ -12,6 +12,8 @@
 <nav th:replace ="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
+<!--Use Setting Feagment-->
+<div th:replace = "~{fragment :: settingmodal}"></div>
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
@@ -37,7 +39,7 @@
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
                 <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal" data-target="#modalPurchaseOrderForm">Add new Material Received Note</a></div>
+                                                         data-toggle="modal" id="btnAddNew" data-target="#modalPurchaseOrderForm">Add new Material Received Note</a></div>
             </div>
         </div>
         <div class="content-body">

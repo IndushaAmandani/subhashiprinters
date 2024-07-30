@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory,Integer> {
 
 
-    @Query(value = "select new ProductCategory(pc.id,pc.name,pc.profit_rate,pc.production_cost) from ProductCategory pc order by pc.id desc")
+    @Query(value = "select pc from ProductCategory pc order by pc.id desc")
     List<ProductCategory> findAll();
 
 

@@ -84,14 +84,14 @@ public class Material {
 
 //m.id, m.name, m.code,m.measuring_count,m.width,m.height,m.material_category_id, m.material_unit_type_id, m.material_status_id
 
-    public Material(Integer id, String name, String code, BigDecimal measuring_count, BigDecimal width, BigDecimal height, MaterialCategory material_category_id, MaterialStatus material_status_id, MaterialUnitType material_unit_type_id) {
+    public Material(Integer id, String name, String code, BigDecimal measuring_count,MaterialCategory material_category_id, BigDecimal width, BigDecimal height, MaterialStatus material_status_id, MaterialUnitType material_unit_type_id) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.measuring_count = measuring_count;
+        this.material_category_id = material_category_id;
         this.width = width;
         this.height = height;
-        this.material_category_id = material_category_id;
         this.material_unit_type_id = material_unit_type_id;
         this.material_status_id = material_status_id;
 

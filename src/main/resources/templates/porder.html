@@ -8,9 +8,12 @@
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
       data-menu="vertical-compact-menu" data-col="2-columns">
 
-<!--  fixed-top
+<!--  fixed-top-->
 <nav th:replace ="~{fragment :: navBarFragment}"></nav>
-////////////////////////////////////////////////////////////////////////////-->
+
+<!--Use Setting Feagment-->
+<div th:replace = "~{fragment :: settingmodal}"></div>
+
 
 <div th:replace ="~{fragment :: sideBarFragment}"></div>
 <!--SideBar-->
@@ -37,7 +40,7 @@
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
                 <div class="btn-group float-md-right"><a  class="btn-gradient-primary-add btn-sm white"
-                                                         data-toggle="modal" data-target="#modalPurchaseOrderForm">Add New Purchase Order</a></div>
+                                                         data-toggle="modal" id="btnAddNew" data-target="#modalPurchaseOrderForm">Add New Purchase Order</a></div>
             </div>
         </div>
         <div class="content-body">
@@ -58,7 +61,7 @@
                                                     <th> #</th>
                                                     <th> Order No</th>
                                                     <th> Suppler Name</th>
-                                                    <th> Quotaton no</th>
+                                                    <th> Quotation no</th>
                                                     <th> Required Date</th>
                                                     <th> Order Material</th>
                                                     <th> Total Amount</th>
@@ -99,7 +102,7 @@
                 <button
                         type="button"
                         class="close"
-
+                        data-dismiss="modal"
                         aria-label="Close"
                         onclick="buttonModalCloseMC()">   <span aria-hidden="true">&times;</span></button>
 
@@ -218,8 +221,8 @@
                                             Quantity : <span style="color: red;">*</span>
                                         </label>
                                         <input type="text" id="txtQuantity" class="form-control "
-                                               onkeyup="textFeildValidtor(txtQuantity,'^.*$','purchaseOrderHasIMatrial','quantity','oldPurchaseOrderHasIMatrial'); getLineTotal();"
-                                               placeholder="Enter Total Amount">
+                                                   onkeyup="textFeildValidtor(txtQuantity,'^([1-9][0-9]{0,5})$','purchaseOrderHasIMatrial','quantity','oldPurchaseOrderHasIMatrial'); getLineTotal();"
+                                               placeholder="Enter Quantity (pieces/ml)">
 
                                     </div>
                                 </div>
@@ -241,15 +244,15 @@
                                 <!--- Buttons -->
                                 <div class="row mt-1">
                                     <div class="col text-end">
-                                        <button type="reset" style="width: 25%; border-radius: 50px;"
-                                                class="btn bg-info btn-sm font-weight-bold"> Clear
+                                        <button type="button" style="width: 25%; border-radius: 50px;"
+                                                class="btn bg-info btn-sm font-weight-bold" onclick="buttonInnerClearMC()"> Clear
                                         </button>
-                                        <button type="submit" style="width: 25%;border-radius: 50px;"
+                                        <button type="button" style="width: 25%;border-radius: 50px;"
                                                 id="buttonInnerUpdate"
                                                 class="btn bg-warning font-weight-bold btn-sm"
                                                 onclick="buttonInnerUpdateMC()"> Update
                                         </button>
-                                        <button type="submit" style="width: 25%;border-radius: 50px;"
+                                        <button type="button" style="width: 25%;border-radius: 50px;"
                                                 id="buttonInnerAdd"
                                                 class="btn bg-success font-weight-bold btn-sm"
                                                 onclick="buttonInnerAddMC()"> Add
@@ -285,7 +288,7 @@
                             </div>
                             <div class="col-7">
                                 <table class="table table-hover table-bordered" id="tablePOMaterial">
-                                    <thead class="table-dark" style="background-color: #0f68e5">
+                                    <thead class="table-dark" style="background-color:  #152650">
                                     <tr>
                                         <th> #</th>
                                         <th> Material Name</th>
@@ -306,13 +309,13 @@
                     <!--- Buttons -->
                     <div class="row mt-2">
                         <div class="col text-end">
-                            <button type="reset" style="width: 23%; border-radius: 50px;"
+                            <button type="button" style="width: 23%; border-radius: 50px;"
                                     class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                     class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
                             </button>
                         </div>
@@ -335,8 +338,6 @@
 
 <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-<script src="/resources/script/common.js" type="text/javascript"></script>
-<script src="/resources/script/dashboard.js" type="text/javascript"></script>
 <script src="/porder.js" type="text/javascript"></script>
 
 </body>

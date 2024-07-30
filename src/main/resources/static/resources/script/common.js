@@ -1,4 +1,4 @@
-//privilage- slect,insrt,updt,updt,deltt
+// privilage- slect,insrt,updt,updt,deltt
 function getServiceRequest(url) {
 
     let responceDate;
@@ -45,7 +45,7 @@ function getHTTPServiceRequest(url , method , data) {
 const clearTableStyle = (tableid) => {
     for (let index = 0; index < tableEmployeeD.children[1].children.length; index++) {
         tableid.children[1].children[index].style.backgroundColor = "white";
-        
+
       }
 }
 
@@ -456,6 +456,153 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
     }
 }
 
+const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
+                           modifyFunction,deleteFunction,redirectFunction, buttonvisibility=true,userPrivilage) => {
+
+    //
+    tbody = tableid.children[1];
+    tbody.innerHTML = "";
+//object wise findalla
+    for(let index in dataList){
+
+        // create tr node
+        tr = document.createElement("tr");
+        //create td node
+        tdind = document.createElement("td");
+        //create automatic index to each row which SHOW IN UI
+        tdind.innerText = parseInt(index) + 1;
+        tr.appendChild(tdind);
+
+        for(pro in propertyList){
+            //create td node
+            td = document.createElement("td");
+            tdp = document.createElement("p");
+            let data = dataList[index][propertyList[pro]];
+            //  customers[0][dispalyPropertyList[0]]
+            // customer.customer_code
+            // console.log(propertyList[pro]);
+            //  console.log(displayDTList[pro]);
+
+            if(displayDTList[pro] == 'text'){
+                if(data == null){
+                    td.innerText = "-";
+                }else{
+                    tdp.innerText = data;
+                    td.appendChild(tdp);
+                }
+            } else if(displayDTList[pro] == 'decimal'){
+                if(data == null) {
+                    td.innerText = "-";
+                }else {
+                    td.innerText=parseFloat(data).toFixed(2)
+                }
+            }
+            else if(displayDTList[pro] == 'object'){
+
+                // console.log(propertyList[pro]);
+                tdp.innerText = getDataFromObject(dataList[index],propertyList[pro]);
+                td.appendChild(tdp);
+
+            } else if(displayDTList[pro] == 'yearbydate'){
+                if(data == null){
+                    td.innerText = "-";
+                }else{
+                    td.innerText = new Date(data).getFullYear();
+                }
+            } else if(displayDTList[pro] == 'imagearray'){
+                //create img node
+                let img = document.createElement('img'); // DOM
+                img.style.width = '50px';
+                img.style.height = '50px';
+                if(data == null){
+                    img.src = "res/images/sort_asc.png";
+                }else{
+                    img.src = atob(data);
+                }
+                td.appendChild(img);
+            }else{
+                // td.innerText = displayDTList[pro](dataList[index]);
+                tdp.innerHTML =  displayDTList[pro](dataList[index]);
+                td.appendChild(tdp);
+            }
+
+
+            tr.appendChild(td);
+        }
+
+        //Create td for add modify buttons
+        tdB = document.createElement("td");
+        tdB.classList.add('modifyCol');
+
+        //Create buttons
+        btnEdit = document.createElement("button");
+        btnEdit.style.pointerEvents = "all";
+        btnEdit.classList.add('btn');
+        btnEdit.classList.add('btn-sm');
+        btnEdit.onclick = function(){
+            // alert("edit");
+            let indx = this.parentNode.parentNode.firstChild.innerHTML;
+            modifyFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+        }
+
+        btnDelete = document.createElement("button");
+        btnDelete.style.pointerEvents = "all";
+        btnDelete.classList.add('btn');
+        btnDelete.classList.add('btn-sm');
+
+        btnDelete.classList.add('ms-1');
+        btnDelete.classList.add('me-1');
+        btnDelete.onclick = function(){
+            //alert("Delete");
+            let indx = this.parentNode.parentNode.firstChild.innerHTML;
+            deleteFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+        }
+
+        btnView = document.createElement("button");
+        btnView.classList.add('btn');
+        btnView.classList.add('btn-sm');
+        btnView.onclick = function(){
+            // alert("redirect");
+            let indx = this.parentNode.parentNode.firstChild.innerHTML;
+            redirectFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+        }
+
+        btnEdit.innerHTML = "<i class='fas fa-edit'></i>";
+        btnDelete.innerHTML = "<i class='fa-solid fa-trash-can'></i>";
+        btnView.innerHTML = "<i class='fa-solid fa-arrow-right-from-file'></i>";
+
+
+
+        if(buttonvisibility){
+
+            if(userPrivilage.upd){
+                btnEdit.disabled = false;
+                btnEdit.style.cursor = "pointer";
+            }else {
+                btnEdit.disabled = true;
+                btnEdit.style.cursor = "not-allowed";
+            }
+
+            if(userPrivilage.del){
+                btnDelete.disabled = false;
+                btnDelete.style.cursor = "pointer";
+            }else {
+                btnDelete.disabled = true;
+                btnDelete.style.cursor = "not-allowed";
+            }
+
+            tdB.appendChild(btnEdit);
+            tdB.appendChild(btnDelete);
+            tdB.appendChild(btnView);
+            tr.appendChild(tdB);
+        }
+
+
+        tbody.appendChild(tr);
+
+    }
+}
+
 const getDataFromObject = (ob , path) => {
     console.log(ob);
     console.log(path);
@@ -534,8 +681,8 @@ const buttonCloseModal = (modalId, refreshForm)=> {
 
     if (userConfirm) {
         refreshForm();
-        $(modalId).modal().hide();
-        $(".modal-backdrop").remove();
+       // $(modalId).modal().hide();
+      //  $(".modal-backdrop").remove();
     }
 }
 
@@ -625,7 +772,7 @@ const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,
                     window.alert(updateObjName +" update Successfully...!");
                     refreshTable();
                     refreshForm();
-                    $(modalformID).modal("hide");
+
 
 
                 } else {

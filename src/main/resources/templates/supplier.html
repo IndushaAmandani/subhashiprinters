@@ -1,103 +1,104 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 
-<head th:replace = "~{fragment :: headFragment}">
+<head th:replace="~{fragment :: headFragment}">
     <title> Subhashi Printers -Supplier Management</title>
 </head>
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
       data-menu="vertical-compact-menu" data-col="2-columns">
 
 <!-- fixed-top-->
-<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<nav th:replace="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div th:replace ="~{fragment :: sideBarFragment}"></div>
+<div th:replace="~{fragment :: sideBarFragment}"></div>
 
-  <div class="app-content content">
+<div class="app-content content">
     <div class="content-wrapper">
-      <div class="content-header row">
-        <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Supplier Management</h3>
-          <div class="row breadcrumbs-top d-inline-block">
-            <div class="breadcrumb-wrapper col-12">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item active">Purchase
-                </li>
-                  <li class="breadcrumb-item active">Supplier
-                  </li>
-              </ol>
-            </div>
-          </div>
-        </div>
-        <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-          <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
-                                                   data-toggle="modal" data-target="#modalSupplierForm">Add new Supplier</a></div>
-        </div>
-      </div>
-      <div class="content-body">
-        <div id="transactions">
-          <div class="transactions-table-tbody">
-
-       
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-12">
-
-                        <table class="table table-hover table-bordered" id="tableSupplier" >
-                            <thead class="table-dark" style="background-color: #152650">
-                                <tr>
-                                    <th> # </th>
-                                    <th> Reg No </th>
-                                    <th> Name </th>
-                                    <th> Email </th>
-                                    <th> Contact No </th>
-                                    <th> Supply Material </th>
-                                    <th> Status </th>
-                                    <th> Modify </th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
+                <h3 class="content-header-title mb-0 d-inline-block">Supplier Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Purchase
+                            </li>
+                            <li class="breadcrumb-item active">Supplier
+                            </li>
+                        </ol>
                     </div>
-
-
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </section>
-
-           
-          </div>
+            </div>
+            <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
+                                                         data-toggle="modal" id="btnAddNew"
+                                                         data-target="#modalSupplierForm">Add new Supplier</a></div>
+            </div>
         </div>
-      </div>
+        <div class="content-body">
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableSupplier">
+                                                <thead class="table-dark" style="background-color: #152650">
+                                                <tr>
+                                                    <th> #</th>
+                                                    <th> Reg No</th>
+                                                    <th> Name</th>
+                                                    <th> Email</th>
+                                                    <th> Contact No</th>
+                                                    <th> Supply Material</th>
+                                                    <th> Status</th>
+                                                    <th> Modify</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- ////////////////////////////////////////////////////////////////////////////-->
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-<footer th:replace = "~{fragment::footerFragment}"></footer>
+<footer th:replace="~{fragment::footerFragment}"></footer>
 
 
-
-  <div class="modal" tabindex="-1" id="modalSupplierForm" data-backdrop="static" data-keyboard="false">
+<div class="modal" tabindex="-1" id="modalSupplierForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"> <i class="fas fa-user fx"></i> Edit Supplier</h2>
+                <h2 class="h2"><i class="fas fa-user fx"></i> Edit Supplier</h2>
                 <button
                         type="button"
                         class="close"
                         aria-label="Close"
+                        data-dismiss="modal"
                         onclick="buttonModalCloseMCSup()">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -119,19 +120,20 @@
                         <div class="col-4">
                             <label for="txtSupplierName" class="form-label font-weight-bold">Supplier Name : <span
                                     style="color: red;">*</span></label>
-                            <input type="text"   id="txtSupplierName" class="form-control form-control-sm" required
-                                   onkeyup="textFeildValidtor(txtSupplierName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','company_name','oldSupplier')"
-                                       placeholder="Enter Supplier Name">
-                            <div class="form-text"> Ex: Abc Aency</div>
+                            <!--  ^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+$-->
+                            <input type="text" id="txtSupplierName" class="form-control form-control-sm" required
+                                   onkeyup="textFeildValidtor(txtSupplierName,'^(([A-Za-z0-9]{3,20})|([A-Za-z0-9]{3,20}[ ]{0,1})+([A-Za-z0-9]{3,20})+))$','newSupplier','company_name','oldSupplier')"
+                                   placeholder="Enter Supplier Name">
+                            <div class="form-text"> Ex: Abc Aency/ABC/XYo2</div>
                         </div>
 
                         <!--Contact No-->
-                        <div class="col-4" >
+                        <div class="col-4">
                             <label for="txtContactNo" class="form-label font-weight-bold">Contact No : <span
                                     style="color: red;">*</span></label>
                             <input type="text" id="txtContactNo" class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtContactNo,'^[0][1-9][1-9][0-9]{7}$','newSupplier','company_contact_no','oldSupplier')"
-                                   placeholder="Enter Contact No" required >
+                                   onkeyup="textFeildValidtor(txtContactNo,'^[0][12345689][1-9][0-9]{7}$','newSupplier','company_contact_no','oldSupplier')"
+                                   placeholder="Enter Contact No" required>
                             <div class="form-text"> Ex: 0112325652</div>
                         </div>
 
@@ -140,12 +142,13 @@
                             <label for="txtEmailAddress" class="form-label font-weight-bold">
                                 Email Address : <span style="color: red;">*</span>
                             </label>
-                            <input type="email" id="txtEmailAddress" placeholder="Enter Email Address"  required class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','newSupplier','company_email','oldSupplier')"  >
+                            <input type="email" id="txtEmailAddress" placeholder="Enter Email Address" required
+                                   class="form-control form-control-sm"
+                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','newSupplier','company_email','oldSupplier')">
                             <div class="form-text"> Ex: example@gmail.com</div>
                         </div>
 
-                    </div>  
+                    </div>
 
                     <!--- Contact No /Email/   -->
                     <div class="row mt-1">
@@ -157,7 +160,7 @@
                             </label>
                             <input type="text" id="txtContactPersonName" class="form-control form-control-sm"
                                    placeholder="EnterContact Person Name"
-                                   onkeyup="textFeildValidtor(txtContactPersonName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','contact_person_name','oldSupplier')" >
+                                   onkeyup="textFeildValidtor(txtContactPersonName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','contact_person_name','oldSupplier')">
                             <div class="form-text"> Ex: Sampath Perera</div>
                         </div>
                         <!--Contact Person Mobile -->
@@ -172,7 +175,7 @@
                         </div>
                     </div>
 
-                <!--  Note /Status/ Supplier Address -->
+                    <!--  Note /Status/ Supplier Address -->
                     <div class="row mt-1">
                         <!--Status-->
                         <div class="col-4">
@@ -206,15 +209,15 @@
                     </div>
 
                     <button
-                            type="submit"
+                            type="button"
                             style="width: 23%; border-radius: 50px"
                             id="SupplierBankDetails"
                             class="btn bg-info fw-bold">
-                         Bank Details
+                        Bank Details
                     </button>
 
-                    <div class ="card mt-1" id="cardSupBankDetails" style="display: none" >
-                        <div class="card-header"><h2>Supplier Bank Details</h2> </div>
+                    <div class="card mt-1" id="cardSupBankDetails" style="display: none">
+                        <div class="card-header"><h2>Supplier Bank Details</h2></div>
                         <div class="card-body">
                             <!--- Bank Name / Bank  Branch Name -->
                             <div class="row mt-1">
@@ -223,17 +226,18 @@
                                             style="color: red;"></span></label>
                                     <input type="text" id="txtBankName" class="form-control form-control-sm"
                                            onkeyup="textFeildValidtor(txtBankName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','bank_name','oldSupplier')"
-                                           placeholder="Enter Bank Name"  >
+                                           placeholder="Enter Bank Name">
                                     <div class="form-text"> Ex: BOC</div>
 
                                 </div>
 
                                 <div class="col">
-                                    <label for="txtBankBranchName" class="form-label font-weight-bold">Bank Branch Name : <span
-                                            style="color: red;"></span></label>
+                                    <label for="txtBankBranchName" class="form-label font-weight-bold">Bank Branch Name
+                                        : <span
+                                                style="color: red;"></span></label>
                                     <input type="text" id="txtBankBranchName" class="form-control form-control-sm"
                                            onkeyup="textFeildValidtor(txtBankBranchName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','branch_name','oldSupplier')"
-                                           placeholder="Enter Bank Branch Name"  >
+                                           placeholder="Enter Bank Branch Name">
                                     <div class="form-text"> Ex: Piliyandala</div>
                                 </div>
                             </div>
@@ -241,20 +245,23 @@
                             <div class="row mt-1">
 
                                 <div class="col">
-                                    <label for="txtBankAccountNumber" class="form-label font-weight-bold">Bank Account Number : <span
-                                            style="color: red;"></span></label>
+                                    <label for="txtBankAccountNumber" class="form-label font-weight-bold">Bank Account
+                                        Number : <span
+                                                style="color: red;"></span></label>
                                     <input type="text" id="txtBankAccountNumber" class="form-control form-control-sm"
                                            onkeyup="textFeildValidtor(txtBankAccountNumber,'^[0-9]{6,20}$','newSupplier','account_number','oldSupplier')"
-                                           placeholder="Enter Bank Account Number"  >
+                                           placeholder="Enter Bank Account Number">
                                     <div class="form-text"> Ex: 0125698</div>
                                 </div>
 
                                 <div class="col">
-                                    <label for="txtBankAccountHolderName" class="form-label font-weight-bold">Bank Account Holder Name : <span
-                                            style="color: red;"></span></label>
-                                    <input type="text" id="txtBankAccountHolderName" class="form-control form-control-sm"
+                                    <label for="txtBankAccountHolderName" class="form-label font-weight-bold">Bank
+                                        Account Holder Name : <span
+                                                style="color: red;"></span></label>
+                                    <input type="text" id="txtBankAccountHolderName"
+                                           class="form-control form-control-sm"
                                            onkeyup="textFeildValidtor(txtBankAccountHolderName,'^(([A-Z][a-z]{0,16}[ ]{0,1})+([A-Z][a-z]{0,16})+)$','newSupplier','account_holder_name','oldSupplier')"
-                                           placeholder="Enter Bank Account Holder Name"  >
+                                           placeholder="Enter Bank Account Holder Name">
                                     <div class="form-text"> Ex: APB Samapath</div>
                                 </div>
                             </div>
@@ -263,7 +270,7 @@
 
                     <div class="card mt-1">
                         <div class="card-header">
-                           <h2> Supplier - Material List</h2>
+                            <h2> Supplier - Material List</h2>
                         </div>
                         <div class="card-body">
 
@@ -271,27 +278,32 @@
                             <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-4">
-                                    <select class="form-select" id="selectMaterial" multiple aria-label="multiple select example" >
+                                    <select class="form-select  w-100 h-100  " id="selectMaterial" multiple
+                                            aria-label="multiple select example">
                                     </select>
                                 </div>
                                 <div class="col-2">
                                     <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonAddByOne()"> > </button>
+                                        <button type="button" class="btn fw-bold" onclick="buttonAddByOne()"> ></button>
                                     </div>
 
                                     <div class="row">
-                                        <button  type="button" class="btn fw-bold" onclick="buttonAddByAll()"> >> </button>
+                                        <button type="button" class="btn fw-bold" onclick="buttonAddByAll()"> >>
+                                        </button>
                                     </div>
 
                                     <div class="row">
-                                        <button type="button" class="btn fw-bold"  onclick="buttonRemoveByOne()"> < </button>
+                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByOne()"> <
+                                        </button>
                                     </div>
                                     <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByAll()"> << </button>
+                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByAll()"> <<
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <select class="form-select"  id="selectSelectedItem" multiple aria-label="multiple select example">
+                                    <select class="form-select  w-100 h-100 " id="selectSelectedItem" multiple
+                                            aria-label="multiple select example">
 
                                     </select>
                                 </div>
@@ -306,11 +318,14 @@
                     <div class="row mt-2">
                         <div class="col text-end">
                             <button type="reset" style="width: 23%; border-radius: 50px;"
-                                    class="btn bg-info font-weight-bold"> Clear </button>
+                                    class="btn bg-info font-weight-bold"> Clear
+                            </button>
                             <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
-                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update </button>
+                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
+                            </button>
                             <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                                    class="btn bg-success font-weight-bold" onclick="buttonSupplierSave()"> Add </button>
+                                    class="btn bg-success font-weight-bold" onclick="buttonSupplierSave()"> Add
+                            </button>
                         </div>
                     </div>
 
@@ -372,20 +387,19 @@
 </div>
 
 
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
 
-  <script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
-
-  <script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
-  <script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
 
 
-  <script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
 
-  <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-  <script src="/resources/script/common.js" type="text/javascript"></script>
-  <script src="/resources/script/dashboard.js" type="text/javascript"></script>
-  <script src="/supplier.js" type="text/javascript"></script>
+<script src="/resources/script/common.js" type="text/javascript"></script>
+<script src="/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="/supplier.js" type="text/javascript"></script>
 
 </body>
 

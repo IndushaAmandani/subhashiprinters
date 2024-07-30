@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
 <!--Head-->
-<head th:replace = "~{fragment :: headFragment}"></head>
+<head th:replace="~{fragment :: headFragment}"></head>
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
       data-menu="vertical-compact-menu" data-col="2-columns">
 
 <!-- fixed-top-->
-<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<nav th:replace="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
+<!--Use Setting Feagment-->
+<div th:replace = "~{fragment :: settingmodal}"></div>
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div th:replace ="~{fragment :: sideBarFragment}"></div>
+<div th:replace="~{fragment :: sideBarFragment}"></div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
@@ -29,7 +31,7 @@
         </div>
 
 
-<!--        ###########-->
+        <!--        ###########-->
 
 
         <div class="main">
@@ -53,12 +55,14 @@
 
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
-                                                            <i class="align-middle" data-feather="truck" ></i>
-                                                            <img src="/app-assets/images/pages/customer.jpeg" height="225" width="245" alt="customerimg" style="display:block ">
+                                                            <i class="align-middle" data-feather="truck"></i>
+                                                            <img src="/app-assets/images/pages/customer.jpeg"
+                                                                 height="225" width="245" alt="customerimg"
+                                                                 style="display:block ">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h1  class="mt-1 mb-3" id="activeCCount"></h1>
+                                                <h1 class="mt-1 mb-3" id="activeCCount"></h1>
                                             </div>
 
                                         </div>
@@ -74,7 +78,9 @@
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
                                                             <i class="align-middle" data-feather="users"></i>
-                                                            <img src="/app-assets/images/pages/In-ProgressOrders.jpeg" height="220" width="245" alt="inprogressimg" style="display:block ">
+                                                            <img src="/app-assets/images/pages/In-ProgressOrders.jpeg"
+                                                                 height="220" width="245" alt="inprogressimg"
+                                                                 style="display:block ">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -93,7 +99,9 @@
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
                                                             <i class="align-middle" data-feather="dollar-sign"></i>
-                                                            <img src="/app-assets/images/pages/Print-Management.jpg" height="225" width="245" alt="printMngimg" style="display:block ">
+                                                            <img src="/app-assets/images/pages/Print-Management.jpg"
+                                                                 height="225" width="245" alt="printMngimg"
+                                                                 style="display:block ">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -112,7 +120,9 @@
                                                     <div class="col-auto">
                                                         <div class="stat text-primary">
                                                             <i class="align-middle" data-feather="shopping-cart"></i>
-                                                            <img src="/app-assets/images/pages/purchse_ordr_mangmnt_systm.jpg" height="225" width="250" alt="printMngimg" style="display:block ">
+                                                            <img src="/app-assets/images/pages/purchse_ordr_mangmnt_systm.jpg"
+                                                                 height="225" width="250" alt="printMngimg"
+                                                                 style="display:block ">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -126,163 +136,173 @@
                     </div>
                 </div>
 
-<!--                <div class="row">-->
-<!--                    <div class="col-6" style="margin-right: 10px;">-->
-<!--                        <div class="container-fluid mt-lg-5" style="height: 800px">-->
-<!--                            <div class="card" style="height: 450px; width: 600px; " id="carousalcard2">-->
+                <!--                <div class="row">-->
+                <!--                    <div class="col-6" style="margin-right: 10px;">-->
+                <!--                        <div class="container-fluid mt-lg-5" style="height: 800px">-->
+                <!--                            <div class="card" style="height: 450px; width: 600px; " id="carousalcard2">-->
 
-<!--                                <div id="carouselAnalyzer" class="carousel carousel-dark slide" data-bs-ride="carousel">-->
-<!--                                    <div class="carousel-indicators">-->
-<!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
-<!--                                    </div>-->
-<!--                                    <div class="carousel-inner">-->
-<!--                                        <div class="carousel-item active" data-bs-interval="10000">-->
-<!--                                            <img src="img/analyzers/heamatology.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
+                <!--                                <div id="carouselAnalyzer" class="carousel carousel-dark slide" data-bs-ride="carousel">-->
+                <!--                                    <div class="carousel-indicators">-->
+                <!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
+                <!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
+                <!--                                        <button type="button" data-bs-target="#carouselAnalyzer" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
+                <!--                                    </div>-->
+                <!--                                    <div class="carousel-inner">-->
+                <!--                                        <div class="carousel-item active" data-bs-interval="10000">-->
+                <!--                                            <img src="img/analyzers/heamatology.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
 
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="carousel-item" data-bs-interval="2000">-->
-<!--                                            <img src="img/analyzers/biochemistry.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="carousel-item" data-bs-interval="2000">-->
+                <!--                                            <img src="img/analyzers/biochemistry.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
 
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="carousel-item">-->
-<!--                                            <img src="img/analyzers/bloodgas.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnalyzer" data-bs-slide="prev">-->
-<!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Previous</span>-->
-<!--                                    </button>-->
-<!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselAnalyzer" data-bs-slide="next">-->
-<!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Next</span>-->
-<!--                                    </button>-->
-<!--                                </div>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="carousel-item">-->
+                <!--                                            <img src="img/analyzers/bloodgas.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselAnalyzer" data-bs-slide="prev">-->
+                <!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+                <!--                                        <span class="visually-hidden">Previous</span>-->
+                <!--                                    </button>-->
+                <!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselAnalyzer" data-bs-slide="next">-->
+                <!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+                <!--                                        <span class="visually-hidden">Next</span>-->
+                <!--                                    </button>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+
+                <!--                    <div class="col-1"></div>-->
+                <!--                    <div class="col-4" style="margin-right: 10px;">-->
+                <!--                        <div class="container-fluid mt-lg-5" style="height: 800px">-->
+                <!--                            <div class="card" style="height: 450px; width: 400px; " id="carousalcard">-->
+
+                <!--                                <div id="carouselReagent" class="carousel carousel-dark slide" data-bs-ride="carousel">-->
+                <!--                                    <div class="carousel-indicators">-->
+                <!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
+                <!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
+                <!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
+                <!--                                    </div>-->
+                <!--                                    <div class="carousel-inner">-->
+                <!--                                        <div class="carousel-item active" data-bs-interval="10000">-->
+                <!--                                            <img src="img/reagents/OSR6295.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
+
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="carousel-item" data-bs-interval="2000">-->
+                <!--                                            <img src="img/reagents/cali.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
+
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="carousel-item">-->
+                <!--                                            <img src="img/reagents/reagent.jpg" class="d-block w-100" alt="...">-->
+                <!--                                            <div class="carousel-caption d-none d-md-block">-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselReagent" data-bs-slide="prev">-->
+                <!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+                <!--                                        <span class="visually-hidden">Previous</span>-->
+                <!--                                    </button>-->
+                <!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselReagent" data-bs-slide="next">-->
+                <!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+                <!--                                        <span class="visually-hidden">Next</span>-->
+                <!--                                    </button>-->
+                <!--                                </div>-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+
+
+                <!--    SIt Password CHnage view modal -->
+                <!--model for view for Password Change-->
+<!--                <div class="modal fade" id="passwordViewModel" tabindex="-1" role="dialog"-->
+<!--                     aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--                    <div class="modal-dialog" role="document">-->
+<!--                        <div class="modal-content">-->
+<!--                            <div class="modal-header">-->
+<!--                                <h3 class="modal-title" id="exampleModalLabel">Change Password</h3>-->
+<!--                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">-->
+<!--                                    <span aria-hidden="true">&times;</span>-->
+<!--                                </button>-->
 <!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+<!--                            <div class="modal-body">-->
+<!--                                <div class="row">-->
+<!--                                    &lt;!&ndash;Current Password&ndash;&gt;-->
+<!--                                    <div class="col mt-2">-->
+<!--                                        <label for="currentPassword" class="form-label fw-bold">-->
+<!--                                            Current Password:-->
+<!--                                            <span style="color: red;">*</span></label>-->
 
-<!--                    <div class="col-1"></div>-->
-<!--                    <div class="col-4" style="margin-right: 10px;">-->
-<!--                        <div class="container-fluid mt-lg-5" style="height: 800px">-->
-<!--                            <div class="card" style="height: 450px; width: 400px; " id="carousalcard">-->
-
-<!--                                <div id="carouselReagent" class="carousel carousel-dark slide" data-bs-ride="carousel">-->
-<!--                                    <div class="carousel-indicators">-->
-<!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselReagent" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
-<!--                                    </div>-->
-<!--                                    <div class="carousel-inner">-->
-<!--                                        <div class="carousel-item active" data-bs-interval="10000">-->
-<!--                                            <img src="img/reagents/OSR6295.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
-
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="carousel-item" data-bs-interval="2000">-->
-<!--                                            <img src="img/reagents/cali.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
-
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="carousel-item">-->
-<!--                                            <img src="img/reagents/reagent.jpg" class="d-block w-100" alt="...">-->
-<!--                                            <div class="carousel-caption d-none d-md-block">-->
-<!--                                            </div>-->
+<!--                                        <div class="input-group mt-2">-->
+<!--                                            <div><label for="currentPassword" class="input-group-text fw-bold"-->
+<!--                                                        style="width: 50px; height: 40px;"> <i-->
+<!--                                                    class="fa-solid fa-lock"></i>-->
+<!--                                            </label></div>-->
+<!--                                            <input class="form-control" type="password"-->
+<!--                                                   id="currentPassword" style="width: 120px;"-->
+<!--                                                   placeholder="  Enter Current Password" required>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
-<!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselReagent" data-bs-slide="prev">-->
-<!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Previous</span>-->
-<!--                                    </button>-->
-<!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselReagent" data-bs-slide="next">-->
-<!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Next</span>-->
-<!--                                    </button>-->
 <!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    &lt;!&ndash;New Password&ndash;&gt;-->
+<!--                                    <div class="col mt-2">-->
+<!--                                        <label for="newPassword" class="form-label fw-bold">-->
+<!--                                            New Password:-->
+<!--                                            <span style="color: red;">*</span></label>-->
+
+<!--                                        <div class="input-group mt-2">-->
+<!--                                            <div><label for="newPassword" class="input-group-text fw-bold"-->
+<!--                                                        style="width: 50px; height: 40px;"> <i-->
+<!--                                                    class="fa-solid fa-lock"></i>-->
+<!--                                            </label></div>-->
+<!--                                            <input class="form-control" type="password"-->
+<!--                                                   id="newPassword" style="width: 120px;"-->
+<!--                                                   placeholder="  Enter New Password" required>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="row">-->
+<!--                                    &lt;!&ndash;Confirm Password&ndash;&gt;-->
+<!--                                    <div class="col mt-2">-->
+<!--                                        <label for="confirmPassword" class="form-label fw-bold">-->
+<!--                                            Confirm Password:-->
+<!--                                            <span style="color: red;">*</span></label>-->
+
+<!--                                        <div class="input-group mt-2">-->
+<!--                                            <div><label for="confirmPassword" class="input-group-text fw-bold"-->
+<!--                                                        style="width: 50px; height: 40px;"> <i-->
+<!--                                                    class="fa-solid fa-lock"></i>-->
+<!--                                            </label></div>-->
+<!--                                            <input class="form-control" type="password"-->
+<!--                                                   id="confirmPassword" style="width: 120px;"-->
+<!--                                                   placeholder="Confirm Password" required>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <br>-->
+<!--                                <button type="button" onclick="changePassword()" class="btn btn-success me-1"> Change-->
+<!--                                </button>-->
+
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
 
-                <!--model for view for Password Change-->
-                <div class="modal fade" id="passwordViewModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title" id="exampleModalLabel">Change Password</h3>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <!--Current Password-->
-                                    <div class="col mt-2">
-                                        <label for="currentPassword" class="form-label fw-bold">
-                                            Current Password:
-                                            <span style="color: red;">*</span></label>
-
-                                        <div class="input-group mt-2">
-                                            <div><label for="currentPassword" class="input-group-text fw-bold"
-                                                        style="width: 50px; height: 40px;"> <i class="fa-solid fa-lock"></i>
-                                            </label></div>
-                                            <input class="form-control"  type="password"
-                                                   id="currentPassword" style="width: 120px;" placeholder="  Enter Current Password" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <!--New Password-->
-                                    <div class="col mt-2">
-                                        <label for="newPassword" class="form-label fw-bold">
-                                            New Password:
-                                            <span style="color: red;">*</span></label>
-
-                                        <div class="input-group mt-2">
-                                            <div><label for="newPassword" class="input-group-text fw-bold"
-                                                        style="width: 50px; height: 40px;"> <i class="fa-solid fa-lock"></i>
-                                            </label></div>
-                                            <input class="form-control" type="password"
-                                                   id="newPassword" style="width: 120px;" placeholder="  Enter New Password" required>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <!--Confirm Password-->
-                                    <div class="col mt-2">
-                                        <label for="confirmPassword" class="form-label fw-bold">
-                                            Confirm Password:
-                                            <span style="color: red;">*</span></label>
-
-                                        <div class="input-group mt-2">
-                                            <div><label for="confirmPassword" class="input-group-text fw-bold"
-                                                        style="width: 50px; height: 40px;"> <i class="fa-solid fa-lock"></i>
-                                            </label></div>
-                                            <input class="form-control" type="password"
-                                                   id="confirmPassword" style="width: 120px;" placeholder="Confirm Password" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <button type="button" onclick="changePassword()" class="btn btn-success me-1"> Change</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+                <!--   SIt Password CHnage view modal -->
 
             </main>
 
@@ -294,16 +314,16 @@
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-<footer th:replace = "~{fragment::footerFragment}"></footer>
-<script src="js/app.js"></script>
+<footer th:replace="~{fragment::footerFragment}"></footer>
 
-<script>
-    let hactiveCCount = getServiceRequest("/customer/getActiveCustomerCount");
-    activeCCount.innerText = hactiveCCount.id;
 
-    let hcustomerOrder = getServiceRequest("/customerOrder/pendingOrders");
-    pendingCOCount.innerText = hcustomerOrder.id;
-</script>
+<!--<script src="js/app.js">-->
+<!--    let hactiveCCount = getServiceRequest("/customer/getActiveCustomerCount");-->
+<!--    activeCCount.innerText = hactiveCCount.id;-->
+
+<!--    let hcustomerOrder = getServiceRequest("/customerOrder/pendingOrders");-->
+<!--    pendingCOCount.innerText = hcustomerOrder.id;-->
+<!--</script>-->
 
 <script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
 
@@ -316,8 +336,6 @@
 <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
 
-<script src="/resources/script/common.js" type="text/javascript"></script>
-<script src="/resources/script/dashboard.js" type="text/javascript"></script>
 
 </body>
 </html>

@@ -125,6 +125,8 @@ public List<Material> getMaterialListbyCategory(){return materialDao.getMaterial
     public List<Material> getMaterialListbySubCategory(@PathVariable("subid")Integer subid){return materialDao.getMaterialListbySubCategory(subid);};
 
 
+    @GetMapping(value = "/listbyProductCategory/{pcid}",produces = "application/json")
+public List<Material> getMaterialListbyProductCategory(@PathVariable("pcid") Integer pcid){return materialDao.getMaterialListbyProductCategory(pcid);}
     //post mapping for insert material [/material - post]
     @PostMapping
     public String insertMaterial(@RequestBody Material material){

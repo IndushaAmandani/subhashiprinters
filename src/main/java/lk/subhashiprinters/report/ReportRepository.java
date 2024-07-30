@@ -26,5 +26,7 @@ public interface ReportRepository extends JpaRepository<Employee, Integer> {
         "group by year(c.added_date);",nativeQuery = true)
       String[][] getPaymentReportAnnualy(String sdate,String edate);
 
+
+//@Query(value = "select year (s.added_date)")
     
 }

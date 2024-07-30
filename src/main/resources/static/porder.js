@@ -24,6 +24,7 @@ const refreshTable = () => {
 
 
     for (let index in porders) {
+        tablePurchaseOrder.children[1].children[index].children[8].children[2].style.display = "none";
         if ((porders[index].purchase_order_status_id.name == "Removed") || (porders[index].purchase_order_status_id.name == "Cancelled" )) {
             tablePurchaseOrder.children[1].children[index].style.backgroundColor = "#a99e9e";
             tablePurchaseOrder.children[1].children[index].children[8].children[1].disabled = true;
@@ -428,7 +429,7 @@ const formReFill = (ob, rowno) => {
         txtNote.style.borderBottom = "2px solid rgb(118, 118, 118)";
 
     disabledButton(false, true);
-    $("#modalPurchaseOrderForm").modal("show");
+    btnAddNew.click();
 
     refreshInnerFormTable();
 }
@@ -500,10 +501,10 @@ function buttonUpdateMC() {
                 //server responce
                 let updateServerResponce = getHTTPServiceRequest("/purchaseorder", "PUT", purchaseorder);
                 if (updateServerResponce == "0") {
-                    alert("update Successfully....!")
+                    alert("update Successfully....!");
+                    $("#modalPurchaseOrderForm").modal().hide();
                     refreshTable();
                     refreshPOForm();
-                    $("#modalPurchaseOrderForm").modal("hide");
                 } else {
                     alert("Update Not Compete : " + updateServerResponce);
                 }
@@ -522,4 +523,8 @@ function buttonUpdateMC() {
 
 function buttonModalCloseMC() {
     buttonCloseModal("#modalPurchaseOrderForm",refreshPOForm);
+}
+
+function buttonInnerClearMC(){
+    refreshInnerFormTable();
 }

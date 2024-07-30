@@ -29,8 +29,6 @@ public class    ProductCopy {
     @JoinColumn(name = "paper_type_id" ,referencedColumnName = "id")
     private PaperInkTypes paper_type_id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ink_type_id" ,referencedColumnName = "id")
-    private PaperInkTypes ink_type_id;
+
 }
 //@JsonIgnore

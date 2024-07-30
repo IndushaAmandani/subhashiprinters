@@ -18,6 +18,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     //find employee by given email
     Employee findEmployeeByEmail(String email);
 
+    Employee findByNumber(String number);
+
 
     @Query(value = "SELECT lpad(max(e.number)+1,5,'0') FROM subhashiprinters.employee as e;" ,nativeQuery = true)
     String nextEmployeeNumer();

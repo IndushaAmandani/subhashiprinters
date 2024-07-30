@@ -158,7 +158,7 @@ function  buttonSubmitMC(){
     customer =getServiceRequest("/customer/getbyid/"+ob.id )
         oldcustomer =getServiceRequest("/customer/getbyid?id=" +ob.id)
 
-     console.log("11111")
+
 
         //set value into fields
         txtName.value = customer.customer_name;

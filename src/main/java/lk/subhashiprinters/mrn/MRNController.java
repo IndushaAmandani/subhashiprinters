@@ -103,6 +103,10 @@ public class MRNController {
         return mrnDao.getnotpaid();
     }
 
+    @GetMapping(value ="/listbysupplier/{supid}",produces = "application/json")
+    public List<MRN> getMRNlistbySupplier(@PathVariable("supid") Integer supid){return  mrnDao.getSupplierList(supid);}
+
+
 
     //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     //        User logeduser = userDao.findUserByUsername(authentication.getName());

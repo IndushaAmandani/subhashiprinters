@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Base64;
 import java.util.HashMap;
 
 @RestController
@@ -24,6 +24,8 @@ public class LoginController {
 
     @Autowired
     private PrivilageController privilageController;
+
+
 
 
     @GetMapping(value = "/login")
@@ -55,11 +57,15 @@ public class LoginController {
 
         //Get logged user authountication obj
         Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
-
+        User loggedUser = userDao.findUserByUsername(auth.getName());
         ModelAndView dashboardui = new ModelAndView();
         //ModelAndView dashboardui = new ModelAndView(redirect:/dashboard);
         //add obj
-        dashboardui.addObject("loggedusername",auth.getName());
+     dashboardui.addObject("loggedusername",auth.getName());
+//        dashboardui.addObject("loguserrole",logedUser.ge);
+//        dashboardui.addObject("loguserrole",loggedUser.getUpdatedatetime());
+//
+  //     dashboardui.addObject("loggeduserphoto",loggedUser.getUserphoto());
         dashboardui.setViewName("dashboard.html");
         return dashboardui;
     }
@@ -111,6 +117,8 @@ public class LoginController {
             loggedUser.setPhotoname(loggedExtUser.getPhotoname());
             loggedUser.setPhotopath(loggedExtUser.getPhotopath());
 
+            loggedUser.setUserphoto(loggedExtUser.getUserphoto());
+
             return loggedUser;
 
         }else {
@@ -120,4 +128,21 @@ public class LoginController {
 
     }
 
+
 }
+
+/*import java.util.Base64;
+
+public class UserPhotoHandler {
+    public static void main(String[] args) {
+        // Example of loggedExtUser with photo as byte array
+        byte[] userPhotoBytes = loggedExtUser.getUserphoto();
+
+        // Encode byte array to Base64 string
+        String userPhotoBase64 = Base64.getEncoder().encodeToString(userPhotoBytes);
+
+        // Set the Base64 string as the user photo
+        loggedUser.setUserphoto(userPhotoBase64);
+    }
+}
+*/

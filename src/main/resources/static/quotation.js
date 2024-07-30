@@ -20,18 +20,29 @@ const refreshTable = () => {
     let displayPropList = ['number', 'quatation_request_id.supplier_id.company_name', 'quatation_request_id.request_number', 'recieve_date', 'valid_period', 'quatation_status_id.name'];
     let disPPDTypeList = ['text', 'object', 'object', 'text', 'text', 'object'];
 
-    fillDataIntoTable(tableQuotation, quotations, displayPropList, disPPDTypeList, formReFill, rowDelete, rowView, true, lggeduserprivilage);
+    fillDataIntoTable2(tableQuotation, quotations, displayPropList, disPPDTypeList, formReFill, rowDelete, rowView, true, lggeduserprivilage);
 
 
     for (let index in quotations) {
-        if (quotations[index].quatation_status_id.name == "Removed") {
-            tableQuotation.children[1].children[index].style.backgroundColor = "#ad9393";
+        // tableQuotation.children[1].children[index].children[7].children[2].style.display = "none";
+        if(((quotations[index].quatation_status_id.name == "Removed") || (quotations[index].quatation_status_id.name == "Valid")) && (quotations[index].valid_period < getCurrentDate())){
 
+            // tableQuotation.children[1].children[index].style.backgroundColor = "#ad9393";
+            tableQuotation.children[1].children[index].style.display = "none";
+            // tableQuotation.children[1].children[index].children[7].children[1].disabled = true;
+            // tableQuotation.children[1].children[index].children[7].children[0].disabled = true;
+            // tableQuotation.children[1].children[index].children[7].children[2].disabled = true;
+            // tableQuotation.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
+            // tableQuotation.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+
+        }else if(quotations[index].quatation_status_id.name == "Removed"){
+            tableQuotation.children[1].children[index].style.backgroundColor = "#ad9393";
             tableQuotation.children[1].children[index].children[7].children[1].disabled = true;
             tableQuotation.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             tableQuotation.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
 
         }
+
     }
 
     $('#tableQuotation').dataTable();
@@ -214,8 +225,8 @@ const innreFormReFill = (innerob, rowind) => {
     txtUnitPrice.value = quotationHasIMatrial.purchase_price;
 
 
-    cmbMaterial.style.borderBottom = "2px solid  green";
-    txtUnitPrice.style.borderBottom = "2px solid  green";
+    cmbMaterial.style.borderBottom = "2px solid  #ced4d";
+    txtUnitPrice.style.borderBottom = "2px dotted  green";
 
     buttonInnerUpdate.disabled = true;
     buttonInnerAdd.disabled = true;
@@ -301,10 +312,11 @@ function buttonSubmitMC() {
             let serverResponce = getHTTPServiceRequest("/quotation", "POST", quotation)
             if (serverResponce == "0") {
                 alert("Save Succecfully...!");
-                refreshTable();
-                refreshQForm();
+
                 // need to close modal
                 $("#modalQuotationForm").modal("hide");
+                refreshTable();
+                refreshQForm();
             } else {
                 alert("Fail to add, You have following error... \n" + serverResponce);
             }
@@ -322,7 +334,7 @@ function buttonClearMC() {
 
 //
 const rowView = (ob, rowno) => {
-
+    window.location.replace("/purchaseorder");
 }
 
 //
@@ -343,6 +355,7 @@ const rowDelete = (ob, rowno) => {
         if (serverResponce == "0") {
             alert("Delete Successfully...!");
             refreshTable();
+            buttonInnerUpdate.disabled = false;
         } else {
             alert("Fail to Delete, You have following error... \n" + serverResponce);
         }
@@ -397,7 +410,7 @@ const formReFill = (ob, rowno) => {
         txtNote.style.borderBottom = "2px solid rgb(118, 118, 118)";
 
     disabledButton(false, true);
-    $("#modalQuotationForm").modal("show");
+    btnAddNew.click();
 
     refreshInnerFormTable();
 }
@@ -491,4 +504,8 @@ function buttonUpdateMC() {
 
 function buttonModalCloseMC(){
     buttonCloseModal("#modalQuotationForm",refreshQForm);
+}
+
+function  buttonMInnerClearMC(){
+    refreshInnerFormTable();
 }

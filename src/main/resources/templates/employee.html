@@ -35,7 +35,7 @@
           <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
               <div class="btn-group float-md-right">
                   <a class="btn-gradient-primary-add btn-sm white"
-                          data-toggle="modal"
+                          data-toggle="modal" id="btnAddNew"
                           data-target="#modalEmployeeForm">Add new Employee</a>
               </div>
         </div>
@@ -206,8 +206,8 @@
                             <label for="dteDOB" class="form-label font-weight-bold">
                                 Employee DOB : <span style="color: red;">*</span>
                             </label>
-                            <input type="date" id="dteDOB" class="form-control" required
-                            onchange="dateFeildValidator(dteDOB,'','employee','dob','oldemployee')">
+                            <input type="date" id="dteDOB" class="form-control" disabled
+                            onchange="dateFeildValidator(dteDOB,'','employee','dob','oldemployee');">
 
                         </div>
                     </div>

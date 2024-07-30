@@ -42,6 +42,9 @@ public class User {
    @Column(name = "photopath")
    private String photopath;
 
+   @Column(name = "userphoto")
+   private byte[] userphoto;
+
    @Column(name = "status")
    private Boolean status;
 

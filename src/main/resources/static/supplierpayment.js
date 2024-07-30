@@ -72,14 +72,17 @@ const refreshSPForm = ()=> {
     fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name","");
     fillSelectFeild(cmbPMethod,"Select Method" , sptypes ,"name","Cash");
     fillSelectFeild(cmbMrn,"Select MRN" , mrns ,"recieve_no","");
-    fillSelectFeild(cmbSPStatus,"Select QR Status" , spstatuses ,"name","Paid");
+    fillSelectFeild(cmbSPStatus,"Select Payment Status" , spstatuses ,"name","");
+
     newSupplierPayment.supplier_payment_status_id = JSON.parse(cmbSPStatus.value);
     newSupplierPayment.supplier_payment_type_id = JSON.parse(cmbPMethod.value);
+    newSupplierPayment.supplier_payment_status_id = (cmbSPStatus.value);
+    newSupplierPayment.supplier_payment_type_id = (cmbPMethod.value);
 
-    cmbSPStatus.disabled = true;
+
 
     // clear input feilds
-    txtSPNo.value = "Supplier Payment Bill number is auto generated";
+    // txtSPNo.value = "Supplier Payment Bill number is auto generated";
 
     txtNetAmount.value ="";
     txtTotalAmount.value ="";
@@ -87,7 +90,8 @@ const refreshSPForm = ()=> {
     txtBalanceAmount.value ="";
     txtNote.value = "";
 
-    setUiElementColor("1px solid #ced4da");
+    setSupplierArray = [cmbSPStatus,cmbPMethod,cmbSupplier,cmbMrn,txtNetAmount,txtTotalAmount,txtPaidAmount,txtBalanceAmount,txtNote]
+    setIDStyle(setSupplierArray,"1px solid #ced4da")
     cmbSPStatus.style.borderBottom = "2px solid green";
     cmbPMethod.style.borderBottom = "2px solid green";
 
@@ -117,20 +121,10 @@ let disabledSPButton = (addbtn , updbtn) => {
     }*/
 }
 
-let setUiElementColor = (style) => {
 
-    txtSPNo.style.borderBottom = style;
-    cmbSPStatus.style.borderBottom = style;
-    cmbPMethod.style.borderBottom = style;
-    cmbSupplier.style.borderBottom = style;
-    cmbMrn.style.borderBottom = style;
-    txtNetAmount.style.borderBottom = style;
-    txtTotalAmount.style.borderBottom = style;
-    txtPaidAmount.style.borderBottom = style;
-    txtBalanceAmount.style.borderBottom = style;
-    txtNote.style.borderBottom = style;
+setSupplierArray = [cmbSPStatus,cmbPMethod,cmbSupplier,cmbMrn,txtNetAmount,txtTotalAmount,txtPaidAmount,txtBalanceAmount,txtNote]
 
-}
+
 
 //check available errors in form
 const checkSPFormError = ()=>{
@@ -178,7 +172,7 @@ function buttonSPSave() {
             //call post services
             let serverResponce = getHTTPServiceRequest("/supplierpayment" , "POST" , newSupplierPayment);
             if(serverResponce == "0"){
-                $("#modalQuotationRequestForm").modal("hide");
+                $("#modalSupplierPaymentForm").modal("hide");
                 refreshTable();
                 refreshSPForm();
                 window.alert("Supplier Payment Insert Successfully...");
@@ -209,9 +203,9 @@ function viewSPRow(rowob,rowind) {
 }
 
 function getMRN() {
+    cmbMrn.disabled = false;
         mrns = getServiceRequest("/mrn/listbysupplier/"+JSON.parse(cmbSupplier.value).id); //
     fillSelectFeild(cmbMrn,"Select MRN Status" , mrns ,"recieve_no","");
-
     txtTotalAmount.value =  parseFloat(JSON.parse(cmbSupplier.value).amount).toFixed(2);
     txtTotalAmount.style.borderBottom = "2px solid green";
     newSupplierPayment.total_amount = txtTotalAmount.value;
@@ -222,7 +216,7 @@ function getMRN() {
 
 function getTotalAmountFormMRN() {
     txtNetAmount.value = parseFloat(JSON.parse(cmbMrn.value).net_amount).toFixed(2);
-    txtTotalAmount.value = (parseFloat(  txtTotalAmount.value) + parseFloat( txtNetAmount.value)).toFixed(2)
+    txtTotalAmount.value = (parseFloat( txtTotalAmount.value) + parseFloat( txtNetAmount.value)).toFixed(2)
     txtNetAmount.style.borderBottom = "2px solid green";
     txtTotalAmount.style.borderBottom = "2px solid green";
 
@@ -240,6 +234,18 @@ function getSPBalanceAmount() {
             txtPaidAmount.style.borderBottom = "2px solid green";
             newSupplierPayment.paid_amount = txtPaidAmount.value;
             newSupplierPayment.balance_amount = txtBalanceAmount.value;
+
+            if((txtBalanceAmount.value = "0") || (txtBalanceAmount.value = "0.00")){
+                cmbSPStatus.value = "Full paid";
+                cmbSPStatus.style.borderBottom = "2px solid green";
+                newSupplierPayment.supplier_payment_status_id = cmbSPStatus.value;
+
+
+            }else{
+                cmbSPStatus.value = "Half paid";
+                cmbSPStatus.style.borderBottom = "2px solid green";
+                newSupplierPayment.supplier_payment_status_id = cmbSPStatus.value;
+            }
         }else {
             txtBalanceAmount.value ="";
             txtBalanceAmount.style.borderBottom = "2px solid  #ced4da";
@@ -255,5 +261,11 @@ function getSPBalanceAmount() {
         newSupplierPayment.balance_amount = null;
     }
 
+
+}
+
+
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalSupplierPaymentForm",refreshSPForm);
 
 }

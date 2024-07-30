@@ -32,23 +32,21 @@ public class PaperInkTypesController {
 
 
     //[getCategoryby]paperTypes/getbyCategory/
-//    @GetMapping(value = "/getbyCategory/{ptid}", produces = "application/json")
-//    public List<PaperInkTypes> getByCategoryId(@PathVariable("ptid") Integer ptid) {
-//        return paperinkTypesDao.getByProductCategory(ptid);
-//    }
+    @GetMapping(value = "/getbyCategory/{mtid}", produces = "application/json")
+    public List<PaperInkTypes> getByCategoryId(@PathVariable("mtid") Integer mtid) {
+        return paperinkTypesDao.getByMroductCategory(mtid);
+    }
 // [getCategoryby]paperTypes/getbyCategory/
-    @GetMapping(value = "/getbyMCategory/{mcid}", produces = "application/json")
-    public List<PaperInkTypes> getbyMCategory(@PathVariable("mcid") Integer mcid) {
-        return paperinkTypesDao.getByMCategory(mcid);
-    }
-    @GetMapping(value = "/paper", produces = "application/json")
-    public List<PaperInkTypes> getPITByPaperCategory() {
-        return paperinkTypesDao.getPITByPaperCategory();
-    }
-    @GetMapping(value = "/ink", produces = "application/json")
-    public List<PaperInkTypes> getPITByInkCategory() {
-        return paperinkTypesDao.getPITByInkCategory();
-    }
+//    @GetMapping(value = "/getbyMCategory/{mcid}", produces = "application/json")
+//    public List<PaperInkTypes> getbyMCategory(@PathVariable("mcid") Integer mcid) {
+//        return paperinkTypesDao.getByMCategory(mcid);
+//    }
+    @GetMapping(value ="/getPaperByProductCategory/{pcid}",produces = "application/json")
+    public List<PaperInkTypes> getPaperByProductCategory(@PathVariable("pcid")Integer pcid){
+        return paperinkTypesDao.getPaperByProductCategory(pcid);}
+    @GetMapping(value ="/getInkByProductCategory/{pcid}",produces = "application/json")
+    public List<PaperInkTypes> getInkByProductCategory(@PathVariable("pcid")Integer pcid){return paperinkTypesDao.getInkByProductCategory(pcid);}
+
 
    @PostMapping
   public String AddPaperInkType(@RequestBody PaperInkTypes paperinkTypes) {

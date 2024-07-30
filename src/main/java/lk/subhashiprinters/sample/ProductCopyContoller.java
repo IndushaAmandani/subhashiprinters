@@ -1,5 +1,7 @@
 package lk.subhashiprinters.sample;
 
+import lk.subhashiprinters.material.PaperInkTypes;
+import lk.subhashiprinters.material.PaperInkTypesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ public class ProductCopyContoller {
     @Autowired
     private ProductCopyRepository productCopyDao;
 
+
     //get object by given id using path variable [ /productCopy/getbyid/{id}]
     @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
     public ProductCopy getByPathId(@PathVariable("id")Integer id){
@@ -26,5 +29,6 @@ public class ProductCopyContoller {
     public List<ProductCopy> productCopyfindAll(){
         return productCopyDao.findAll();
     }
+
 
 }
