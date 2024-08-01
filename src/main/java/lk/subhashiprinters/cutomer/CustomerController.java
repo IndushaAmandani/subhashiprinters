@@ -81,6 +81,9 @@ public class CustomerController {
         return customerDao.listAll();
     }
 
+    @GetMapping(value = "/getCustomerbyCOSatus",produces = "application/json")
+    public List<Customer> getCustomerbyCOStatus(){return customerDao.getCustomerbyCOStatus();}
+
     //dashboard [active customer count]
     @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
     public Customer getbyActiveCustomer() {

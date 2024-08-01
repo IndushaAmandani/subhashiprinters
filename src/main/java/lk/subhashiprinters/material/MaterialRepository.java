@@ -48,7 +48,7 @@ package lk.subhashiprinters.material;
      @Query("select new Material(m.id,m.code,m.name,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.material_unit_type_id.id=3 and m.material_category_id.id=1")
      List<Material> getMaterialListbyCategory();
 
-     @Query("select new Material(m.id,m.name,m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.paper_ink_type_id.id=?1")
+     @Query("select new Material(m.id,m.name,m.code,m.unit_price,m.width,m.height) from Material m where m.material_status_id.id=1 and m.paper_ink_type_id.id=?1")
      List<Material> getMaterialListbySubCategory(Integer subid);
 
      @Query("select new Material(m.id,m.name,m.code,m.measuring_count,m.width,m.height) from Material m where m.material_status_id.id=1 and m.paper_ink_type_id.id in (select pithpc.paper_ink_type_id.id from PaperInkTypeHasProductCategory pithpc where pithpc.product_category_id.id=?1)")

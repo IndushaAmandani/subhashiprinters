@@ -32,5 +32,8 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
         @Query(value = "select c from Customer c where c.id=?1")
         Customer getReferenceById(Integer id);
 
+        @Query(value= "select new Customer(c.id,c.customer_name) from Customer c where c.id in (select co.customer_id.id from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2)")
+          List <Customer> getCustomerbyCOStatus();
+
 }
  

@@ -4,8 +4,12 @@ package lk.subhashiprinters.supplierpayment;
 import lk.subhashiprinters.mrn.MRN;
 import lk.subhashiprinters.mrn.MRNRepository;
 import lk.subhashiprinters.mrn.MRNStatusRepository;
+import lk.subhashiprinters.purchaseorder.POrderStatusRepository;
+import lk.subhashiprinters.purchaseorder.PurchaseOrder;
+import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequest;
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.supplier.SupplierRepository;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +32,8 @@ public class SupplierPaymentController {
 
     @Autowired // for create instance
     private SupplierPaymentRepository supplierpaymentDao;
+    @Autowired
+    private SupplierRepository supplierDao;
 
     @Autowired
     private UserRepository userDao;
@@ -40,10 +47,16 @@ public class SupplierPaymentController {
     @Autowired
     private MRNStatusRepository mrnstatusDao;
 
+    @Autowired
+    private PurchaseOrderRepository porderDao;
+
+    @Autowired
+    private POrderStatusRepository porderStatusDao;
+
 
     //get quotationrequest UI [/quotationrequest]
     @GetMapping
-    public ModelAndView supplierpaymentUI(){
+    public ModelAndView supplierpaymentUI() {
         ModelAndView supplierpaymentView = new ModelAndView();
         supplierpaymentView.setViewName("supplierpayment.html");
 
@@ -51,25 +64,28 @@ public class SupplierPaymentController {
     }
 
 
-
+    @GetMapping(value = "/getbyid/{id}", produces = "application/json")
+    public SupplierPayment getByPathId(@PathVariable("id") Integer id) {
+        return supplierpaymentDao.getReferenceById(id);
+    }
 
     // get mapping for get quotationrequest selected columns details [/quotationrequest/findall]
     @GetMapping(value = "/findall", produces = "application/json")
-    public List<SupplierPayment> supplierPaymentFindAll(){
+    public List<SupplierPayment> supplierPaymentFindAll() {
         //need to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return null;
         }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"SupplierPayment");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "SupplierPayment");
 
-        if(loggedUser != null && userPiriv.get("sel"))
+        if (loggedUser != null && userPiriv.get("sel"))
             return supplierpaymentDao.findAll();
-        else{
+        else {
             List<SupplierPayment> supplierPaymentList = new ArrayList<>();
             return supplierPaymentList;
         }
@@ -77,49 +93,49 @@ public class SupplierPaymentController {
     }
 
 
-
-
-
-
     //post mapping for insert item [/item - post]
     @PostMapping
-    public String insertSupplier(@RequestBody SupplierPayment supplierPayment){
+    public String insertSupplier(@RequestBody SupplierPayment supplierPayment) {
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return "Supplier Payemnt Insert Not completed : You don't have permission";
         }
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"SupplierPayment");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "SupplierPayment");
 
-        if(loggedUser != null && userPiriv.get("ins")){
+        if (loggedUser != null && userPiriv.get("ins")) {
             // user has privilage for insert item
 
             try {
                 // set auto set value
-          supplierPayment.setAdded_date(LocalDateTime.now());
-          supplierPayment.setAdded_user_id(loggedUser);
-          supplierPayment.setBill_no(supplierpaymentDao.getNextSupplierPaymentID());
+                supplierPayment.setAdded_date(LocalDateTime.now());
+                supplierPayment.setAdded_user_id(loggedUser);
+                supplierPayment.setBill_no(supplierpaymentDao.getNextSupplierPaymentID());
+
 
                 //do the requeired operation
-                MRN extmrn =   mrnDao.getReferenceById( supplierPayment.getMaterial_recieve_note_id().getId());
-                  if(supplierPayment.getSupplier_payment_status_id().getId() == 1){
-                      extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
-                      mrnDao.save(extmrn);
-                  }else if (supplierPayment.getSupplier_payment_status_id().getId() == 2){
-                      extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(2));
-                      mrnDao.save(extmrn);
-                  }
+                MRN extmrn = mrnDao.getReferenceById(supplierPayment.getMaterial_recieve_note_id().getId());
+                PurchaseOrder extPorder = porderDao.getReferenceById(extmrn.getPurchase_order_id().getId());
+                if (supplierPayment.getSupplier_payment_status_id().getId() == 1) {
+                    extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(2));
+                    extPorder.setPurchase_order_status_id(porderStatusDao.getReferenceById(5));
+                } else if (supplierPayment.getSupplier_payment_status_id().getId() == 2) {
+                    extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
+                }
+                BigDecimal paidamountMRN = extmrn.getPaidamount().add(supplierPayment.getPaid_amount());
+                extmrn.setPaidamount(paidamountMRN);
+                porderDao.save(extPorder);
+                mrnDao.save(extmrn);
                 return "0";
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 return "Supplier Payment Insert Not completed : " + ex.getMessage();
             }
 
 
-        }
-        else {
+        } else {
             return "Supplier Payment  Insert Not completed : You don't have permission";
         }
 

@@ -2,6 +2,7 @@ package lk.subhashiprinters.report;
 
 
 
+import lk.subhashiprinters.corder.CustomerOrderPReport;
 import lk.subhashiprinters.cpayment.CPaymentReport;
 import lk.subhashiprinters.report.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,41 @@ return paymentReportsList;
 
 
 
+//XXXXXXXXXXXXXXXXXXXXXXXXXX
+//getServiceRequest("customerOrderPatternReport/bysdateedate/ "+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
 
 
+    @GetMapping(value ="customerOrderPatternReport/bysdateedate/{sdate}/{edate}/{type}",produces ="application/json")
+    public List<CustomerOrderPReport> getCOrderbySDateEDate(@PathVariable("sdate") String sdate ,@PathVariable("edate") String edate,@PathVariable("type")String type) {
 
+        String[][] reportDataList = new String[100][4];
+        if(type.equals("Monthly"))
+            reportDataList = reportRepository.getPaymentReportMonthly(sdate, edate);
+        if(type.equals("Annualy"))
+            reportDataList = reportRepository.getPaymentReportAnnualy(sdate, edate);
+        List<CustomerOrderPReport> cOrderReportList  = new ArrayList<>();
+
+        for (int i = 0; i < reportDataList.length; i++) {
+            CustomerOrderPReport customerOrderPReport = new CustomerOrderPReport();
+            if(type.equals("Annualy"))
+                customerOrderPReport.setDate(reportDataList[i][0]);
+            else
+                customerOrderPReport.setDate(reportDataList[i][0] + "-" + reportDataList[i][1]);
+
+            customerOrderPReport.setCpaymentcount(reportDataList[i][2]);
+            customerOrderPReport.setTotalamount(reportDataList[i][3]);
+
+
+            cOrderReportList.add(customerOrderPReport);
+        }
+
+        return cOrderReportList;
     }
+
+
+
+
+}
 
 //
 //    @GetMapping(value ="/customerPaymentreport/bysdateedate",params ={"sdate","edate"},produces ="application/json"){
@@ -63,7 +95,6 @@ return paymentReportsList;
 //            return reportRepository.getPaymentReport(sdate,edate);
 //        }
 //    }
-
 
 
 

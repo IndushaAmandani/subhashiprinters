@@ -24,4 +24,7 @@ public interface MRNRepository extends JpaRepository<MRN, Integer> {
     List <MRN> getSupplierList(Integer supid);
 
 
+
+//    @Query("SELECT e FROM Employee e  ORDER BY e.employee_status_id.id desc/asc ")
+//  public List<Employee> getAllEmployeesASC(Integer currentUserEmpID);
 }

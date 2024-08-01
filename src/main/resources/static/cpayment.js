@@ -45,7 +45,7 @@ const refreshCPaymentForm = () => {
     cPayment = new Object();
     oldcPayment = null;
 
-
+    ///customer/getCustomerbyCOSatus
     customers = getServiceRequest("/customer/list")
     fillSelectFeild(cmbCustomerName, "Select Customer", customers, "customer_name", "");
 

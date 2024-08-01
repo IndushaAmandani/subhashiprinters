@@ -23,14 +23,14 @@ public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
     @Query(value = "SELECT concat('SUP',lpad(substring(max(s.reg_no),4)+1 , 7 ,'0')) FROM subhashiprinters.supplier as s;",nativeQuery = true)
     String getNextSupplierRegNo();
 
-    @Query("select  new Supplier(s.id, s.reg_no, s.company_name,s.amount) from Supplier s where s.supplier_status_id.id=1 order by s.id     desc")
+    @Query("select  new Supplier(s.id, s.reg_no, s.company_name,s.amount) from Supplier s where s.supplier_status_id.id=1 order by s.id desc")
     List<Supplier> list();
 
 
     
 
     @Query("select  new Supplier(s.id, s.reg_no, s.company_name,s.amount) from Supplier s where s.supplier_status_id.id=1 and " +
-            "s.id in (select po.supplier_id.id from PurchaseOrder po where po.id in (select mrn.purchase_order_id.id from MRN mrn where mrn.material_recieve_note_status_id.id=1))")
+            "s.id in (select po.supplier_id.id from PurchaseOrder po where po.id in (select mrn.purchase_order_id.id from MRN mrn where mrn.material_recieve_note_status_id.id=1 or mrn.material_recieve_note_status_id.id=2))")
     List<Supplier> toBePaidList();
 
 

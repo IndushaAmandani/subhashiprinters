@@ -16,7 +16,8 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     List<ProductCategory> findAll();
 
 
-    @Query(value = "select pcid from ProductCategory pcid where pcid.id=?1")
-   ProductCategory getPCategorybyid(Integer pcid);
+
+    @Query(value = "select pcid from ProductCategory pcid where pcid.name=?1")
+   ProductCategory getPCategorybyName(String pcname);
 
 }

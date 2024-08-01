@@ -13,6 +13,7 @@ import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,7 +92,7 @@ public class MRNController {
         HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Mrn");
 
         if (loggedUser != null && userPiriv.get("sel"))
-            return mrnDao.findAll();
+            return mrnDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
         else {
             List<MRN> mrnArrayList = new ArrayList<>();
             return mrnArrayList;

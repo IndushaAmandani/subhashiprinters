@@ -7,6 +7,8 @@ function loadUi() {
     // get loged user privilage for item module
     lggeduserprivilage = getServiceRequest("/userprivilage/bymodule?modulename=Mrn");
 
+    lggeduserprivilage.del = false;
+
     refreshTable();
     console.log("Hii")
     refreshMrnForm();
@@ -20,18 +22,19 @@ const refreshTable = () => {
     mrns = getServiceRequest("/mrn/findall");
 
     let displayPropList = ['recieve_no', 'purchase_order_id.supplier_id.company_name', 'purchase_order_id.order_no', 'supplier_inovice_no', 'recieve_date', 'net_amount', 'material_recieve_note_status_id.name'];
-    let disPPDTypeList = ['text', 'object', 'object', 'text', 'text', 'text', 'object'];
+    let disPPDTypeList = ['text', 'object', 'object', 'text', 'text', 'decimal', 'object'];
 
     fillDataIntoTable(tableMrn, mrns, displayPropList, disPPDTypeList, formReFill, rowDelete, rowView, true, lggeduserprivilage);
 
-
+    //start by 1 - children
     for (let index in mrns) {
+            tableMrn.children[1].children[index].children[8].children[1].style.display = "none";
+            tableMrn.children[1].children[index].children[8].children[0].style.display = "none";
         if (mrns[index].material_recieve_note_status_id.name == "Removed") {
             tableMrn.children[1].children[index].style.backgroundColor = "pink";
-
-            tableMrn.children[1].children[index].children[7].children[1].disabled = true;
-            tableMrn.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
-            tableMrn.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+            tableMrn.children[1].children[index].children[8].children[1].disabled = true;
+            tableMrn.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
+            tableMrn.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
 
         }
     }
@@ -56,6 +59,7 @@ function getMaterilasName(ob) {
 // functon for refresh form
 const refreshMrnForm = () => {
 
+    document.getElementById("mrnModalBody").style.pointerEvents="auto";
     //create new object with it's old object(duplicatie object)
     mrn = new Object();
     oldmrn = null;
@@ -67,7 +71,7 @@ const refreshMrnForm = () => {
     porderlist = getServiceRequest("/purchaseorder/list");
     cmbPurchaseOrder.disabled = true;
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
-    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no");
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no","",true);
     // cmbPurchaseOrder.disabled = true;
         mrnstatuses = getServiceRequest("/mrnstatus/list");
 
@@ -80,6 +84,7 @@ const refreshMrnForm = () => {
     txtTotalAmount.disabled = true;
     txtNote.value = "";
     dteReceivedDate.value = "";
+    txtSupplierInvoiceNO.value = "";
 
 
     let currentDateForMin = new Date();
@@ -204,11 +209,40 @@ function getMaterialUnitPrice() {
 
 }
 
+document.getElementById("txtQuantity").addEventListener('keyup', ()=> {
+
+    if (txtQuantity.value != 0) {
+        let regpattern = new RegExp("^([1-9][0-9]{0,5})$");
+
+        if (regpattern.test(txtQuantity.value)) {
+            pOrderhasMaterial = getServiceRequest("/PorderHasMaterial/getMaterialbyPordr/" + JSON.parse(cmbPurchaseOrder.value).id + "/" + JSON.parse(cmbMaterial.value).id);
+           if((txtQuantity.value)> (pOrderhasMaterial.quantity)){
+               txtQuantity.style.borderBottom = "2px solid red";
+               mrnHasMaterial.quantity = null;
+               buttonInnerAdd.disabled = true;
+               buttonInnerUpdate.disabled = true;
+           }else{
+               mrnHasMaterial.quantity = parseInt(txtQuantity.value);
+               txtQuantity.style.borderBottom = "2px solid green";
+               buttonInnerAdd.disabled = false;
+               buttonInnerUpdate.disabled = false;
+               getLineTotal();
+           }
+        }
+
+    }else{
+        txtQuantity.style.borderBottom = "2px solid red";
+        mrnHasMaterial.quantity = null;
+        buttonInnerAdd.disabled = true;
+        buttonInnerUpdate.disabled = true;
+    }
+})
+
 function getLineTotal() {
 
     if (txtQuantity.value != 0) {
 
-        let regpattern = new RegExp("^[0-9]{1,4}$");
+        let regpattern = new RegExp("^([1-9][0-9]{0,5})$");
 
         if (regpattern.test(txtQuantity.value)) {
             txtLinePricet.value = (parseFloat(txtQuantity.value) * parseFloat(txtUnitPrice.value)).toFixed(2);
@@ -242,13 +276,13 @@ function discountedValueFunction(field) {
     let netAmountField = document.getElementById("txtNetAmount");
     if ((discountValue != "null") || (discountValue != "")) {
         //set regex pattern to variable
-        let regpattern = new RegExp("^[0-9]||[1][0]$");
+        let regpattern = new RegExp("^(([0-9]{1,2}[.][0-9]{2})|([0-9]{1,2}))$");
         //check discount value with regex pattern
         if (regpattern.test(discountValue)) {
             mrn.discount_rate = discountValue;
             field.style.borderBottom = "2px solid green";
-            netAmountField.value = parseFloat(totalAmountField.value) - ((parseFloat(totalAmountField.value) * discountValue) / 100);
-            mrn.net_amount = parseFloat(totalAmountField.value) - ((parseFloat(totalAmountField.value) * discountValue) / 100);
+            netAmountField.value = (parseFloat(totalAmountField.value) - ((parseFloat(totalAmountField.value) * discountValue) / 100)).toFixed(2);
+            mrn.net_amount = (parseFloat(totalAmountField.value) - ((parseFloat(totalAmountField.value) * discountValue) / 100)).toFixed(2);
             netAmountField.style.borderBottom = "2px solid green";
         } else {
             mrn.discount_rate = null;
@@ -428,6 +462,10 @@ const checkErrors = () => {
         errors = errors + "Total Amount Not entered \n";
 
     }
+    if (mrn.net_amount == null) {
+        errors = errors + "Net Amount Not entered \n";
+
+    }
     if (mrn.mrnHasMaterialList.length == 0) {
         errors = errors + "Material Not selected \n";
 
@@ -449,16 +487,16 @@ function buttonSubmitMC() {
             + "\n Supplier : " + mrn.purchase_order_id.supplier_id.company_name
             + "\n Quotation : " + mrn.purchase_order_id.quatation_id.number
             + "\n Required Date : " + mrn.recieve_date
-            + "\n Total Amount : " + mrn.total_amount;
+            + "\n Net Amount : " + mrn.net_amount;
         let userResponce = window.confirm(confirmMs);
         if (userResponce) {
             let serverResponce = getHTTPServiceRequest("/mrn", "POST", mrn)
             if (serverResponce == "0") {
                 alert("Save Succecfully...!");
                 refreshTable();
-                refreshPOForm();
+                refreshMrnForm();
                 // need to close modal
-                $("#modalPurchaseOrderForm").modal("hide");
+                $("#modalMRNForm").modal("hide");
             } else {
                 alert("Fail to add, You have following error... \n" + serverResponce);
             }
@@ -474,10 +512,7 @@ function buttonClearMC() {
     refreshUForm();
 }
 
-//
-const rowView = (ob, rowno) => {
 
-}
 
 //
 const rowDelete = (ob, rowno) => {
@@ -523,6 +558,7 @@ const formReFill = (ob, rowno) => {
     // porderlist = getServiceRequest("/purchaseorder/list");
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", mrn.purchase_order_id.supplier_id.company_name);
     fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order",porderlist , "order_no", mrn.purchase_order_id.order_no);
+    fillSelectFeild(cmbMrnStatus, "Select Status", mrnstatuses, "name", mrn.material_recieve_note_status_id, true);
     cmbSupplier.disabled = true;
     cmbPurchaseOrder.disabled = true;
     dteReceivedDate.value = mrn.recieve_date;
@@ -540,7 +576,7 @@ const formReFill = (ob, rowno) => {
         txtNote.style.borderBottom = "2px solid rgb(118, 118, 118)";
 
     disabledButton(false, true);
-    $("#modalPurchaseOrderForm").modal("show");
+    btnAddNew.click();
 
     refreshInnerFormTable();
 }
@@ -640,18 +676,29 @@ function buttonUpdateMC() {
 //
 // }
 
+//
+const rowView = (ob, rowno) => {
+
+    formReFill(ob,rowno);
+    let mrnArray = [cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus];
+    setIDStyle(mrnArray,"2px solid #ced4da");
+    document.getElementById("mrnModalBody").style.pointerEvents="none";
+}
 
 function getValidPOrder() {
+
     poderbyrecieveddate = getServiceRequest("/purchaseorder/pOrdervalid/" + JSON.parse(cmbSupplier.value).id);
     fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", poderbyrecieveddate, "order_no");
     cmbPurchaseOrder.disabled = false;
 }
 
 function buttonModalCloseMC() {
-    buttonCloseModal("#modalPurchaseOrderForm", refreshMrnForm);
+    buttonCloseModal("#modalMRNForm", refreshMrnForm);
 }
 
-
+function buttonMInnerClearMC(){
+    refreshInnerFormTable();
+}
 /**
  * Line Number          Functions
  * 3                    loadui

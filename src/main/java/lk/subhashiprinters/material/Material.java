@@ -98,11 +98,11 @@ public class Material {
 
     }
 
-    public Material(Integer id, String name, String code, BigDecimal measuring_count, BigDecimal width, BigDecimal height) {
+    public Material(Integer id, String name, String code, BigDecimal unit_price, BigDecimal width, BigDecimal height) {
         this.id = id;
         this.name = name;
         this.code = code;
-        this.measuring_count = measuring_count;
+        this.unit_price = unit_price;
         this.width = width;
         this.height = height;
 

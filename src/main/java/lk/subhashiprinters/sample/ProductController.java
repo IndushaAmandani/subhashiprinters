@@ -104,7 +104,7 @@ public class ProductController {
         User logeduser = userDao.findUserByUsername(authentication.getName());
         HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(authentication.getName(), "Product");
         if (userPrive != null && userPrive.get("ins")) {
-            System.out.println(logeduser);
+
             try {
 
                 product.setAdded_date(LocalDateTime.now());

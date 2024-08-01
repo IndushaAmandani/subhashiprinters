@@ -45,7 +45,12 @@ filterPaperInkType.addEventListener( 'change', ()=>{
             divInnerMateialForm.style.display = "block"
         }
 
-
+        if(JSON.parse(cmbproductCategory.value).name == "Poster"){
+            radioSingle.checked = "true"
+            product.single_or_double = radioSingle.value;
+            lblRadioSingle.style.color = 'green';
+            radioDouble.disabled = true;
+        }
 
 
 
@@ -164,7 +169,7 @@ refreshProductForm = () => {
     txtWidth.value = "";
     //  productImage.value = "";
 
-    txtPrice.value = "";
+    txtTotalPrice.value = "";
     txtDescription.value = "";
 
     //photo reset
@@ -173,16 +178,48 @@ refreshProductForm = () => {
     productImage.src = "resources/images/product_photo/label_2.jpg";
     txtproductPhoto.value = "";
     pFilePhoto.files = null;
+    lblRadioDouble.disabled = false;
+    lblRadioDouble.checked = false
+    lblRadioDouble.style.color = "black";
+    lblRadioSingle.style.color = "black";
+    lblRadioSingle.checked = false;
 
     refreshPInnerFormTable();
     refreshMQFormTable();
-    const productArray = [txtProductname, txtPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
+    const productArray = [txtProductname, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
     setIDStyle(productArray, "1px solid #cacfe7")
     disabledButton(true, false);
 
 
 }
 
+
+document.getElementById("txtHeight").addEventListener('keyup',()=>{
+     let txtHeightRegP = new RegExp("^(([1-9][0-9]{0,1}[.][0-9])|([1-9]|[1-9][0-9]{0,1}))$")
+    if(txtHeightRegP.test(txtHeight.value)){
+        product.height = parseFloat(txtHeight.value).toFixed(2);
+        txtHeight.style.borderBottom = "2px solid green";
+    }else{
+
+        product.height = null;
+        txtHeight.valule ="";
+        txtHeight.style.borderBottom = "2px solid red";
+    }
+})
+
+
+document.getElementById("txtWidth").addEventListener('keyup',()=>{
+    let txttxtWidthRegP = new RegExp("^(([1-9][0-9]{0,1}[.][0-9])|([1-9]|[1-9][0-9]{0,1}))$")
+    if(txttxtWidthRegP.test(txtWidth.value)){
+        product.width = parseFloat(txtWidth.value).toFixed(2);
+        txtWidth.style.borderBottom = "2px solid green";
+    }else{
+
+        product.width = null;
+        txtWidth.valule ="";
+        txtWidth.style.borderBottom = "2px solid red";
+    }
+})
 
 const buttonMInnerAddMC = (value) => {
     let productMset = false;
@@ -197,7 +234,7 @@ const buttonMInnerAddMC = (value) => {
 
     }
 
-    let pCcount = product.productCopyList.length + 1;
+    let pCcount = product.productCopyList.length + 2;
     //  paper_ink_type_id
     let countPaper = 0;
     for (let index in product.producthasMaterial) {
@@ -217,18 +254,21 @@ const buttonMInnerAddMC = (value) => {
 
         let confirmMs = "Are you sure to add following Product Details \n"
             + "\n Material : " + productHasMaterial.material_id.name
-            + "\n Quantity : " + productHasMaterial.quantity;
+            + "\n Quantity : " + productHasMaterial.quantity
+            + "\n Unit Price : " + productHasMaterial.material_id.unit_price;
         let userResponce = window.confirm(confirmMs);
 
 
         if (userResponce) {
-            for (const phm of product.productHasMaterialList) {
-                phm.unit_cost = (parseFloat(phm.material_id.unit_price) / parseFloat(phm.material_id.measuring_count)) * parseFloat(phm.quantity);
-
-            }
+            productHasMaterial.unit_cost = productHasMaterial.material_id.unit_price;
+            // for (const phm of product.productHasMaterialList) {
+            //     phm.unit_cost = (parseFloat(phm.material_id.unit_price) / parseFloat(phm.material_id.measuring_count)) * parseFloat(phm.quantity);
+            //
+            // }
             product.productHasMaterialList.push(productHasMaterial);
             alert("Save Succecfully...!");
             refreshMQFormTable();
+            generateTotalPrice();
 
         }
 
@@ -320,7 +360,7 @@ const formRefill = (ob, rowno) => {
     txtHeight.value = product.height
     txtWidth.value = product.width
 
-    txtPrice.value = product.price
+    txtTotalPrice.value = product.price
     txtDescription.value = product.description
     // productImage.src =atob(product.image);
 
@@ -339,7 +379,7 @@ const formRefill = (ob, rowno) => {
     //  fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", product.papercolors_id.name);
 
 
-    const idArray = [txtProductname, txtHeight, txtWidth, txtPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
+    const idArray = [txtProductname, txtHeight, txtWidth, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
     setIDStyle(idArray, "2px dotted green");
 
 
@@ -642,6 +682,9 @@ function checkErrorz() {
 
 }
 
+function buttonClearPMC(){
+    refreshPInnerFormTable();
+}
 const buttonInnerAddMC = (value) => {
     // need to check form errors n required field
     let errors = checkErrorz();
@@ -670,7 +713,8 @@ const buttonInnerAddMC = (value) => {
                     product.productCopyList.push(productCopy);
                     alert("Save Succecfully...!");
                     refreshPInnerFormTable();
-                    divInnerMateialForm.style.display = "block"
+                    divInnerMateialForm.style.display = "block";
+
                 }
 
             } else {
@@ -723,7 +767,7 @@ function refreshMQFormTable() {
 
     /* inner Form */
     productHasMaterial = new Object();
-    productHasMaterial.unit_cost = 0.00;
+  //  productHasMaterial.unit_cost = 0.00;
     oldproductHasMaterial = null;
     papertypeinktypes = getServiceRequest("/paperInkTypes/list")
     fillSelectFeild(cmbsubCategory, "Select Sub Category", papertypeinktypes, "name", "");
@@ -748,14 +792,14 @@ function refreshMQFormTable() {
 
 //   Innere Table
     let displayPropList = ['material_id.name', 'quantity'];
-    let disPPDTypeList = ['object', 'text'];
+    let disPPDTypeList = ['object', 'decimal'];
     let innerlogedUserPrivilage = {sel: true, ins: true, upd: true, del: true};
 
-    let productMprice = 0.00;
-    for (const phm of product.productHasMaterialList) {
-        productMprice = parseFloat(productMprice) + parseFloat(phm.unit_cost);
-        console.log(productMprice);
-    }
+   // let productMprice = 0.00;
+    // for (const phm of product.productHasMaterialList) {
+    //     productMprice = parseFloat(productMprice) + parseFloat(phm.unit_cost);
+    //     console.log(productMprice);
+    // }
 
     fillDataIntoTable(tableMateiralQuantity, product.productHasMaterialList, displayPropList, disPPDTypeList, innerFormMReFill, innerMRowDelete, innerMRowView, true, innerlogedUserPrivilage);
 
@@ -766,18 +810,15 @@ function refreshMQFormTable() {
 
     }
 
-    if (cmbproductCategory.value != "") {
-        let productPrice = (parseFloat(productMprice) + (parseFloat(productMprice) * (parseFloat(product.product_category_id.profit_rate) / 100))).toFixed(2);
-        console.log(productPrice);
-        txtPrice.value = productPrice;
-        product.price = productPrice;
-    }
-
     buttonMInnerAdd.disabled = true;
 
 }
 
+
 //Material - Inner form
+document.getElementById("cmbsubCategory").addEventListener('change',()=> {
+    selectMaterial()
+})
 function selectMaterial() {
 
     // if(product.product_category_id.name !== "Bill Book"){
@@ -786,6 +827,7 @@ function selectMaterial() {
             cmbMaterial.disabled = false;
             materialsBySC = getServiceRequest("/material/listbySubCAtegory/" + JSON.parse(cmbsubCategory.value).id);
             fillSelectFeild(cmbMaterial, "Select Material", materialsBySC, "name", "");
+            cmbMaterial.style.borderBottom = "2px solid #cacfe7";
 
         } else {
         getMaterial = getServiceRequest("/material/list")
@@ -842,6 +884,7 @@ const innerFormMReFill = (innerob, rowind) => {
 
     buttonMInnerAdd.disabled = true;
 
+
 }
 const innerMRowDelete = (innerob, rowind) => {
 
@@ -856,6 +899,7 @@ const innerMRowDelete = (innerob, rowind) => {
         product.productHasMaterialList.splice(rowind, 1)
         alert("Remove Successfully...!");
         refreshMQFormTable();
+        generateTotalPrice();
     }
 }
 const innerMRowView = () => {
@@ -889,32 +933,22 @@ const rowView = (ob, rowind) => {
     tdPCode.innerHTML = printproduct.product_code;
     tdCName.innerHTML = printproduct.customer_id.customer_name;
     tdPCategory.innerHTML = printproduct.product_category_id.name;
+
     tdPrice.innerHTML = printproduct.price;
     tdPSizeHeight.innerHTML = printproduct.product_size_id.height
     tdPSizeWidth.innerHTML = printproduct.product_size_id.width;
 
 }
 
-function buttonAddProductCategory() {
-    window.location.href = "http://localhost:8080/productCategory";
-
-}
-
-function buttonAddCustomerP() {
-    window.location.href = "http://localhost:8080/customer";
-    setTimeout(function () {
-        $("modalCustomerForm").modal('show');
-    }, 3000);
-}
 
 // generating prodct Size according to the Category main form
-function getP_SizeByPCategory() {
+document.getElementById("cmbproductCategory").addEventListener('change',() =>{
     cmbproductSize.disabled = false;
     productSizebyPCategory = getServiceRequest("/productsize/getByPCategory/" + JSON.parse(cmbproductCategory.value).id);
     fillSelectFeild(cmbproductSize, "Add sizes", productSizebyPCategory, "name", "");
     cmbproductSize.style.borderBottom = "1px solid green";
 
-}
+})
 
 // txtPaperHeight.value = "";
 // txtPaperWidth.value = "";
@@ -923,3 +957,42 @@ function getP_SizeByPCategory() {
 
 //block - show
 //none - hide
+
+//------------------------- Total Bill Generation -------------------------------------------------------------------------------------
+const generateTotalPrice = () => {
+
+
+    let product_total = 0.00;
+    let profit_percentage = 0.00;
+    let production_cost = 0.00;
+
+    if (product.product_category_id) {
+        profit_percentage = parseFloat(product.product_category_id.profit_rate);
+        production_cost = parseFloat(product.product_category_id.production_cost);
+    }else{
+        return;
+    }
+
+    if(product.productHasMaterialList && product.productHasMaterialList.length>0){
+        product.productHasMaterialList.forEach(element => {
+            product_total = parseFloat(product_total) + (parseFloat(element.quantity)*parseFloat(element.unit_cost));
+        });
+        product_total = parseFloat(product_total)+parseFloat(product_total*profit_percentage/100);
+        if (product_total > 0) {
+            product_total = parseFloat(product_total) + parseFloat(production_cost);
+            txtTotalPrice.value = parseFloat(product_total).toFixed(2);
+            product.price = parseFloat(product_total).toFixed(2);
+            txtTotalPrice.style.borderBottom  =  "2px solid green";
+        } else {
+            product_total.value = '';
+            product.price = null;
+            txtTotalPrice.style.borderBottom  =  "2px solid red";
+        }
+    }else{
+        txtTotalPrice.value = parseFloat(product_total).toFixed(2);
+        product.price = null;
+        txtTotalPrice.style.borderBottom  =  "2px solid #cacfe7";
+    }
+
+}
+//------------------------- Total Bill Generation Ends ----------------------------------------------------------------------------------

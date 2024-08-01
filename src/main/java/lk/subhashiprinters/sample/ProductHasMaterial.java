@@ -31,7 +31,7 @@ public class ProductHasMaterial {
     private Material material_id;
 
     @Column(name = "quantity")
-    private  Integer quantity;
+    private  BigDecimal quantity;
 
     @Column(name = "unit_cost")
     private BigDecimal unit_cost;

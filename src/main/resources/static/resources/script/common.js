@@ -344,9 +344,10 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
                     td.appendChild(tdp);
                 }
             } else if(displayDTList[pro] == 'decimal'){
-                if(data == null) {
+                if((data == null)|| (data == "")){
                     td.innerText = "-";
                 }else {
+
                     td.innerText=parseFloat(data).toFixed(2)
                 }
             }
@@ -677,13 +678,14 @@ const showModal = (modalId) => {/*
 }
 const buttonCloseModal = (modalId, refreshForm)=> {
 
-    let userConfirm = window.confirm("Are you sure to close the Modal...?");
+    // let userConfirm = window.confirm("Are you sure to close the Modal...?");
 
-    if (userConfirm) {
-        refreshForm();
-       // $(modalId).modal().hide();
-      //  $(".modal-backdrop").remove();
-    }
+    refreshForm();
+    // if (userConfirm) {
+    //
+    //    // $(modalId).modal().hide();
+    //   //  $(".modal-backdrop").remove();
+    // }
 }
 
 const   buttonCloseVModal = (modalId) => {

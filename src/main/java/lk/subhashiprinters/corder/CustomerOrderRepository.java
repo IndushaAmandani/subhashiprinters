@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Integer> {
 
-    @Query("select new CustomerOrder (co.id,co.order_code,co.required_date,co.total_of_lines,co.discount,co.total_amount,co.advanced_amount,co.order_balance,co.final_balanced_amount,co.production_status_id,co.order_status_id) from CustomerOrder co order by co.id desc ")
-    List<CustomerOrder> findAll();
+//    @Query("select new CustomerOrder (co.id,co.order_code,co.required_date,co.total_of_lines,co.discount,co.total_amount,co.advanced_amount,co.order_balance,co.final_balanced_amount,co.production_status_id,co.order_status_id) from CustomerOrder co order by co.id desc ")
+//    List<CustomerOrder> findAll();
 
 
     @Query(value = "SELECT concat('CO',lpad(substring(max(co.order_code),3)+1,4,'0')) FROM subhashiprinters.customer_order as co;",nativeQuery = true)

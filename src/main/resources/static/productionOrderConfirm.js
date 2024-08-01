@@ -163,7 +163,7 @@ const formRefill = (ob, rowno) => {
     console.log(allmatwithoutduplicate);
     for (let index in allmatwithoutduplicate){
         let materialid = allmatwithoutduplicate[index].material_id.id;
-        let requiredmaterials = getServiceRequest("/materialInventory/bymaterial/"+materialid);
+        let requiredmaterials = getServiceRequest("/inventory/bymaterial/"+materialid);
         allmatwithoutduplicate[index].available_quantity = requiredmaterials.avaqty;
     }
 

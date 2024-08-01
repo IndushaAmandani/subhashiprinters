@@ -27,6 +27,12 @@ public interface ReportRepository extends JpaRepository<Employee, Integer> {
       String[][] getPaymentReportAnnualy(String sdate,String edate);
 
 
-//@Query(value = "select year (s.added_date)")
-    
+// @Query("select new Product (p.id, p.product_code, p.p_name,p.price) from Product p where p.product_status_id.id=1 and p.id in(select co.product_id.id from CustomerOrderHasProduct co where co.customer_order_id.id=?1)")
+//@Query("select cohp from CustomerOrderHasProduct cohp where cohp.customer_order_id.id=?1 and cohp.product_id.id=?2")
+//@Query("select year(co.added_date),month(co.added_date),count(co.id) from  CustomerOrder co where co.id in (select cohp.customer_order_id.id,cohp.order_qty from CustomerOrderHasProduct cohp where co.customer_order_id.id))   where c.added_date between ?1 and ?2 " +
+//        "group by month(c.added_date);")
+//String[][] getCOrderbySDateEDate(String sdate,String edate);
+
+
+
 }

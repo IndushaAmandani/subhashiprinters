@@ -19,6 +19,7 @@ function loadUI() {
 
 function refreshProductCategoryTable() {
 
+
     //create array for product category
     pcategory = new Array();
     pcategory = getServiceRequest("/productCategory/list");
@@ -38,13 +39,16 @@ function refreshProductCategoryTable() {
 }
 
 function refreshProductCategoryForm() {
+    document.getElementById("productCategoryModal").style.pointerEvents = "auto";
+
     productCategory = new Object();
     oldproductCategory = null;
 
     productCategory.assignedPIT = null;
     assignedPaperInkTypes = [];
 
-    const idArray = [txtproductcategoryname, txtProfitRate, txtproductionCost];
+
+    const idArray = [txtproductcategoryname, txtProfitRate, txtproductionCost,inputPaperInkTypes];
     setIDStyle(idArray, "1px solid #ced4da");
 
     txtproductcategoryname.value = "";
@@ -65,7 +69,7 @@ function formRefill(ob) {
 
  //   console.log(ob);
     productCategory = getServiceRequest("/productCategory/getbyid/" + ob.id);
-    productCategory = getServiceRequest("/productCategory/getbyid/" + ob.id);
+    oldproductCategory = getServiceRequest("/productCategory/getbyid/" + ob.id);
 
 //console.log(refilPcat);
     txtproductcategoryname.value = productCategory.name;
@@ -75,10 +79,9 @@ function formRefill(ob) {
 //refill for the
     if(productCategory.assignedPIT.length != null){
 
-        papertInkTypeList = (productCategory.assignedPIT);
+        assignedPaperInkTypes = (productCategory.assignedPIT);
         //Adding the object to the assignedPaperInkTypes Array list
-        assignedPaperInkTypes.push(papertInkTypeList);
-        papertInkTypeList.forEach(element => {
+        assignedPaperInkTypes.forEach(element => {
 
             // Create a new button into variable
             const newButton = document.createElement("button");
@@ -226,29 +229,29 @@ const onChangePapetInkSelect = () => {
 }
 
 
-function rowView() {
+function rowView(ob) {
+    formRefill(ob);
+    document.getElementById("productCategoryModal").style.pointerEvents = "none";
+    setIDStyle(idArray, "1px solid #ced4da");
 
 }
 
-// let  checkid = document.getElementById("txtProfitRate");
-// checkid.addEventListener("keyup", () => {
-//
+let  profitRateEl = document.getElementById("txtProfitRate");
+profitRateEl.addEventListener('keyup', () => {
+    profitratevalidator();
+});
+
+
 //100.00,99.99,1.00,1.99
 function profitratevalidator() {
-    let regP = new RegExp("^(([1][0][0][.][0][0])|([0-9]{0,1}[1-9][.][0-9]{2}))$");
+    let regP = new RegExp("^(([1-9][0-9]{0,2}[.][0-9]{2})|([1-9][0-9]{0,2}))$");
 
     if (regP.test(txtProfitRate.value)) {
-        if (parseFloat(txtProfitRate.value) > 100.00) {
+        txtProfitRate.style.borderBottom = "2px solid green"
+        productCategory.profit_rate = parseFloat(txtProfitRate.value);
 
-            txtProfitRate.value = null;
-            txtProfitRate.style.borderBottom = "2px solid red";
-            productCategory.profit_rate = null;
-        } else {
-            txtProfitRate.style.borderBottom = "2px solid green"
-            productCategory.profit_rate = parseFloat(txtProfitRate.value);
-        }
     } else {
-        txtProfitRate.value = null;
+
         txtProfitRate.style.borderBottom = "2px solid red";
         productCategory.profit_rate = null;
     }
@@ -256,7 +259,6 @@ function profitratevalidator() {
 
 function buttonModalClosePCMC() {
     buttonCloseModal("#modalProductCategoryForm", refreshProductCategoryForm);
-
 }
 
 
@@ -310,6 +312,20 @@ function checkPCategoryformErrors() {
 }
 
 
+
+
+
+let cancelbtn = document.getElementById("buttonUpdate");
+cancelbtn.addEventListener('click', () => {
+    refreshProductCategoryForm();
+    $("#modalProductCategoryForm").modal("hide");
+})
+
+function buttonUpdateMC() {
+                    //(updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshUForm,modalformID)
+    updatemodal("productCategory",checkPCategoryformErrors,checkUpdate,"/productCategory",productCategory,refreshProductCategoryTable,refreshProductCategoryForm,"#divAddButtonProductCategory")
+   }
+
 function checkUpdate() {
 
     let formupddate = "";
@@ -329,18 +345,6 @@ function checkUpdate() {
     return formupddate;
 }
 
-
-
-let cancelbtn = document.getElementById("buttonUpdate");
-cancelbtn.addEventListener('click', () => {
-    refreshProductCategoryForm();
-    $("#modalProductCategoryForm").modal("hide");
-})
-
-function buttonUpdateMC() {
-                    //(updateObj,checkErrors,checkUpdate,url,obj,refreshTable,refreshUForm,modalformID)
-    updatemodal("productCategory",checkPCategoryformErrors,checkUpdate,"/productCategory",productCategory,refreshProductCategoryTable,refreshProductCategoryForm,"#divAddButtonProductCategory")
-   }
 // function buttonUpdateMC(){
 //  let errors =    checkPCategoryformErrors();
 //     if(errors != ""){
@@ -355,6 +359,7 @@ function buttonUpdateMC() {
 // }
 
 function buttonClearMC(){
+    refreshProductCategoryForm();
     buttonContainer.innerHTML = "";
 }
 

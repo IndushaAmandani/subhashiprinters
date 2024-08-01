@@ -226,7 +226,8 @@ function reFillItemForm(rowob,rowind) {
 
     fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
-    allMateialList = getServiceRequest("/item/listbysupplier/"+rowob.id);
+    //let supplyIMaterialList = getServiceRequest("/material/list");
+    allMateialList = getServiceRequest("/material/listbysupplier/"+rowob.id);
     fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
 
     fillSelectFeild(cmbSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name",newSupplier.supplier_status_id.name);

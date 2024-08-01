@@ -15,11 +15,11 @@ import java.util.List;
 public class MRNStatusController {
 
     @Autowired
-    private POrderStatusRepository porderStatusDao;
+    private MRNStatusRepository mrnStatusDao;
 
     @GetMapping(value = "/list" , produces = "application/json")
-    public List<PorderStatus> porderStatusList(){
-        return porderStatusDao.findAll();
+    public List<MRNStatus> mrnStatusList(){
+        return mrnStatusDao.findAll();
     }
 
 
