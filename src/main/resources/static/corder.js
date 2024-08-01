@@ -585,3 +585,11 @@ function buttonModalCloseMCV() {
         $("#modalViewCOrderForm").modal("hide");
     }
 }
+
+function  buttonInnerClearMC(){
+    refreshInnerFormTable();
+}
+
+function buttonClearMC(){
+    refreshCustomerOrderForm();
+}

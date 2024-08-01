@@ -93,9 +93,7 @@
 
 <footer th:replace="~{fragment::footerFragment}"></footer>
 
-
 <!---->
-
 <div class="modal" tabindex="-1" id="modalCustomerOrderForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -117,17 +115,6 @@
               </span>
                     </div>
 
-                    <!--                    &lt;!&ndash;- Order Code  &ndash;&gt;-->
-                    <!--                    <div class="row mt-2">-->
-                    <!--                        <label for="txtOrderCodeNo" class="font-weight-bold col-4 col-form-label">Order Code :-->
-                    <!--                            <span style="color: red;">*</span>-->
-                    <!--                        </label>-->
-                    <!--                        <div class="col">-->
-                    <!--                            <input type="text" readonly id="txtOrderCodeNo" class="form-control" disabled-->
-                    <!--                                   value="Order Code is auto generated">-->
-                    <!--                        </div>-->
-
-                    <!--                    </div>-->
                     <!--- Customer Name -->
                     <div class="row mt-2">
                         <label for="cmbCustomerName" class="font-weight-bold col-4 col-form-label">Customer Name:
@@ -228,15 +215,15 @@
                                             <!--- Buttons -->
                                             <div class="row mt-1">
                                                 <div class="col text-end">
-                                                    <button type="reset" style="width: 25%; border-radius: 50px;"
-                                                            class="btn bg-info btn-sm font-weight-bold"> Clear
+                                                    <button type="button" style="width: 25%; border-radius: 50px;"
+                                                            class="btn bg-info btn-sm font-weight-bold" onclick="buttonInnerClearMC()"> Clear
                                                     </button>
-                                                    <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                    <button type="button" style="width: 25%;border-radius: 50px;"
                                                             id="buttonInnerUpdate"
                                                             class="btn bg-warning font-weight-bold btn-sm"
                                                             onclick="buttonInnerUpdateMC()"> Update
                                                     </button>
-                                                    <button type="submit" style="width: 25%;border-radius: 50px;"
+                                                    <button type="button" style="width: 25%;border-radius: 50px;"
                                                             id="buttonInnerAdd"
                                                             class="btn bg-success font-weight-bold btn-sm"
                                                             onclick="buttonInnerAddMC()"> Add
@@ -385,6 +372,8 @@
     </div>
 
 </div>
+
+
 <!--View Modal-->
 <div class="modal" tabindex="-1" id="modalViewCOrderForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">

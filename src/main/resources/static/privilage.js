@@ -47,16 +47,18 @@ const refreshPrivilageForm = () => {
     checkSelect.checked = false;
     privileage.sel = false;
     lblSelect.innerText = "Select Not Granted";
-
+    lblSelect.style.color = "black"
     checkInsert.checked = false;
     privileage.ins = false;
     lblInsert.innerText = "Insert Not Granted";
-
+    lblInsert.style.color = "black"
     chekUpdate.checked = false;
     privileage.upd = false;
     lblUpdate.innerText = "Update Not Granted";
+    lblUpdate.style.color = "black"
 
     checkDelete.checked = false;
+    lblDelete.style.color = "black"
     privileage.del = false;
     lblDelete.innerText = "Delete Not Granted";
 
@@ -216,8 +218,8 @@ function buttonSubmit() {
             if (postServieResponce == "0") {
 
                 alert("Add Successfull..!");
-                refreshTable();
                 refreshPrivilageForm();
+                refreshTable()
                 $("#modalAddPrivilageForm").modal("hide");
             } else {
                 window.alert("You have following error \n" + postServieResponce);
@@ -308,3 +310,6 @@ function printRowItemMC() {
     },100000);
 }
 
+function buttonClear(){
+    refreshPrivilageForm();
+}

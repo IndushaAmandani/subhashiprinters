@@ -123,7 +123,7 @@ public class CustomerOrderController {
                 customerOrder.setAdded_date(LocalDateTime.now());
                 customerOrder.setAdded_user_id(loggedUser);
                 customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
-                customerOrder.setOrder_balance(customerOrder.getTotal_amount());
+                //customerOrder.setOrder_balance(customerOrder.getTotal_amount());
 
                //System.out.println(customerOrder);
 

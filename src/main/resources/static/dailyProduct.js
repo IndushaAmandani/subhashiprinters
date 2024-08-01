@@ -44,26 +44,38 @@ function refreshdailyProductForm(){
    fillSelectFeild( cmbCustomerOrder,"Select Customer Order",customerOrder,"order_code","")
 
     productset = getServiceRequest("/product/list")
-    fillSelectFeild2(cmbProduct,"Select Product",productset,"product_code","p_name","")
+    fillSelectFeild2(cmbProduct,"Select Product",productset,"product_code","p_name","",true)
 
-
+    txtDailyQuantity.disabled= true;
     txtTotalQuantity.disabled = true;
     txtcompletedQuantity.disabled =true;
     txtPreBalanceQuantity.disabled=true;
+    txtTotalQuantity.value="";
+    txtcompletedQuantity.value="";
+    txtPreBalanceQuantity.value="";
+    txtDailyQuantity.value="";
+    txtNewBalanceQuantity.value="";
+
     let x = 0;
    const  idArray = [cmbCustomerOrder,cmbProduct,txtTotalQuantity,txtcompletedQuantity,txtPreBalanceQuantity,txtDailyQuantity,txtNewBalanceQuantity]
     setIDStyle(idArray,"1px solid #ced4da");
     txtNewBalanceQuantity.disabled=true;
     disabledButton(true, false);
+    buttonAdd.disabled = false;
 
 }
 
-
+document.getElementById("cmbCustomerOrder").addEventListener('change',()=>{
+    getProductList();
+    getCOPQty();
+})
 
 function getProductList() {
 
     productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerOrder.value).id);
     fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", "");
+    txtDailyQuantity.value = "";
+    txtDailyQuantity.disabled= false;
 }
 
 function getCOPQty() {
@@ -255,4 +267,9 @@ const rowView = (ob,rowind) => {
     tdDQuantity.innerHTML = ob.dailyqty;
     tdNewBQuantity.innerHTML = ob.new_balance_qty;
 }
+
+function buttonClearMC(){
+    refreshdailyProductForm();
+}
+
 

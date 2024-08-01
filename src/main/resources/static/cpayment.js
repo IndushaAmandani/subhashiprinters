@@ -51,13 +51,14 @@ const refreshCPaymentForm = () => {
 
     cordersNo = getServiceRequest("customerOrder/notpaidCustomers")
     fillSelectFeild(cmbCON, "Select Customer Order", cordersNo, "order_code", "")
-
+    cmbCON.disabled = true;
     customerPaymentMethod = getServiceRequest("/cptype/list")
     fillSelectFeild(cmbPMethod, "Select Payemnt Method", customerPaymentMethod, "name", "");
 
     paymentstatus = getServiceRequest("cpstatus/list")
     fillSelectFeild(cmbPSStatus, "Select Payemnt Status", paymentstatus, "name", "Not-Complete");
     cPayment.customer_payment_status_id = JSON.parse(cmbPSStatus.value);
+    cmbPSStatus.disabled = true;
 
 
     let currentDateForMin = new Date();
@@ -80,10 +81,11 @@ const refreshCPaymentForm = () => {
     // txtAccNumber
     // txtNote
     dteTransDate = "";
-    txtPreBalanceAmount.value = "";
+    txtPreBalanceAmount.value = 0.00;
     txtPreBalanceAmount.disabled = true;
     txtTotalAmount.disabled = true;
     txtAfterBalanceAmount.disabled = true;
+    txtPaidAmount.disabled = true;
    // txtSPNo.value = "";
     txtTotalAmount.value = "";
     txtPreBalanceAmount.value = "";
@@ -101,6 +103,9 @@ const refreshCPaymentForm = () => {
 
 }
 
+document.getElementById("cmbCustomerName").addEventListener('change',()=> {
+    getCOListbyCustomers();
+})
 function getCOListbyCustomers() {
     let activeCOrders = getServiceRequest("/customerOrder/getActivePayCOrders/" + JSON.parse(cmbCustomerName.value).id);
     fillSelectFeild(cmbCON, "Select Customer Order", activeCOrders, "order_code", "");
@@ -119,24 +124,40 @@ function disabledSupButton(addbtn, updbtn) {
     }
 
 }
+document.getElementById("cmbCON").addEventListener('change',()=> {
+    cmbCustomerName.disabled = true;
+        setValue();
+    txtPaidAmount.disabled = false;
+
+
+})
 function setValue() {
 
-    txtTotalAmount.value = JSON.parse(cmbCON.value).total_amount;
+    txtTotalAmount.value = parseFloat(JSON.parse(cmbCON.value).total_amount).toFixed(2);
+   // txtTotalAmount.value = parseFloat(cPayment.customer_order_id.total_amount).toFixed(2);
     txtTotalAmount.style.borderBottom = "2px solid green";
     cPayment.total_amount = txtTotalAmount.value;
 
-    txtPreBalanceAmount.value = JSON.parse(cmbCON.value).order_balance;
+    txtPreBalanceAmount.value = parseFloat(JSON.parse(cmbCON.value).order_balance).toFixed(2);
     txtPreBalanceAmount.style.borderBottom = "2px solid green";
     cPayment.pre_balance_amount = txtPreBalanceAmount.value;
 
 }
+// document.getElementById("txtPreBalanceAmount").addEventListener('change',()=>{
+//     txtPaidAmount.value = "";
+//     txtPaidAmount.disabled = false;
+// })
 
+document.getElementById("txtPaidAmount").addEventListener('keyup',() =>{
+    checkValidPaidAmount();
+})
 function checkValidPaidAmount() {
   //parseFloat() - used to accept a string and convert it into a floating-point numbe
-  let regPattern =new RegExp("^([1-9][0-9]{0,5}[.]{1}[0-9]{2})$");
+  let regPattern =new RegExp("^([1-9][0-9]{0,7}[.][0-9]{2})$");
      if(regPattern.test(txtPaidAmount.value)){
-           if(parseFloat(txtPaidAmount.value) <= parseFloat(txtPreBalanceAmount.value)){
-               cPayment.paid_amount = txtPaidAmount.value;
+
+           if(cPayment.paid_amount <= cPayment.pre_balance_amount){
+               cPayment.paid_amount = parseFloat(txtPaidAmount.value).toFixed(2);
                txtPaidAmount.style.borderBottom = "2px solid green";
                 calculatingAfterBAmount();
            } else {
@@ -157,10 +178,20 @@ function checkValidPaidAmount() {
 
 function calculatingAfterBAmount() {
 
-    txtAfterBalanceAmount.value = (parseFloat(txtPreBalanceAmount.value) - parseFloat(txtPaidAmount.value)).toFixed(2);
+    cPayment.after_balance_amount = (parseFloat(cPayment.pre_balance_amount) - parseFloat(cPayment.paid_amount)).toFixed(2);
     txtAfterBalanceAmount.style.borderBottom = "2px solid green";
-    cPayment.after_balance_amount = txtAfterBalanceAmount.value;
+    txtAfterBalanceAmount.value =cPayment.after_balance_amount;
     buttonAdd.disabled = false;
+
+    if(cPayment.after_balance_amount = null){
+
+        fillSelectFeild(cmbPSStatus, "Select Payemnt Status", paymentstatus, "name", "Completed");
+        cPayment.customer_payment_status_id = JSON.parse(cmbPSStatus.value);
+
+    }else{
+        fillSelectFeild(cmbPSStatus, "Select Payemnt Status", paymentstatus, "name", "Completed");
+        cPayment.customer_payment_status_id = JSON.parse(cmbPSStatus.value);
+    }
 
 }
 
@@ -333,6 +364,9 @@ function buttonCloseModalMC() {
 }
 
 
+function buttonClearMC(){
+    refreshCPaymentForm();
+}
 
 
 function buttonModalCloseMCV() {

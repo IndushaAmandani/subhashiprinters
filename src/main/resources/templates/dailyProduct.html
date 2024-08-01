@@ -14,6 +14,8 @@
 <nav th:replace ="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
+<!--Use Setting Feagment-->
+<div th:replace="~{fragment :: settingmodal}"></div>
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
@@ -145,7 +147,7 @@
                             </label>
                             <input type="text" id="txtTotalQuantity"
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtTotalQuantity,'^[1-9][0-9]{0,5}$','dailyP','totalqty','olddailyP');"
+                                   onkeyup="textFeildValidtor(txtTotalQuantity,'^[1-9][0-9]{0,9}$','dailyP','totalqty','olddailyP');"
                                    placeholder="Enter Total Quantity">
 
                         </div>
@@ -293,8 +295,7 @@
 
 <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-<script src="/resources/script/common.js" type="text/javascript"></script>
-<script src="/resources/script/dashboard.js" type="text/javascript"></script>
+
 <script src="/dailyProduct.js" type="text/javascript"></script>
 
 </body>

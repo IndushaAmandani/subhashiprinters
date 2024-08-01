@@ -1,6 +1,7 @@
 package lk.subhashiprinters.employee;
 
 
+import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 //import  jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 //
@@ -28,6 +30,8 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeStatusRepository employeeStatusDao;
+    @Autowired
+    private PrivilageController privilageController;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -68,9 +72,18 @@ public class EmployeeController {
     @GetMapping(value = "/findall" , produces = "application/json")
     // create function for get all employee data
     public List<Employee> findAll(){
-            //
+        // need to check privilage
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userDao.findUserByUsername(auth.getName());
+        HashMap<String,Boolean> userPrvi = privilageController.getPrivilageByUserModule(auth.getName(), "Employee");
        // return employeeDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-        return employeeDao.findAll();
+        if(loggedUser != null && userPrvi.get("sel")){
+            //return userDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            return employeeDao.findAll();
+        }else {
+            return null;
+        }
+
     }
 
     //create post mapping function for add empoyee [/employee - POST]
