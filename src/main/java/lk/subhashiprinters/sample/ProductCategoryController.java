@@ -86,7 +86,7 @@ public class ProductCategoryController {
                 productCategoryDao.save(productCategory);
                 ProductCategory savedPC = productCategoryDao.getPCategorybyName(productCategory.getName());
                 ProductSize productSize = new ProductSize();
-                productSize.setName("Customizes Sizes");
+                productSize.setName("Customized Size");
                 productSize.setProduct_category_id(savedPC);
                 productSizeDao.save(productSize);
 
@@ -112,7 +112,7 @@ public class ProductCategoryController {
         }
 
         User loggedUser = userDao.findUserByUsername(auth.getName());
-        HashMap<String, Boolean> userPriviledge = privilegeController.getPriviledgeByUserModule(loggedUser.getUsername(), "ProductCategory");
+        HashMap<String, Boolean> userPriviledge = privilegeController.getPrivilageByUserModule(auth.getName(), "ProductCategory");
 
 
         if (userPriviledge != null && userPriviledge.get("upd")) {
@@ -129,6 +129,7 @@ public class ProductCategoryController {
             }
 
         } else {
+            System.out.println(userPriviledge);
             return "Product Category Update not completed : You don't have permission ";
         }
     }
@@ -141,7 +142,7 @@ public class ProductCategoryController {
         }
 
         User loggedUser = userDao.findUserByUsername(auth.getName());
-        HashMap<String, Boolean> userPriviledge = privilegeController.getPriviledgeByUserModule(loggedUser.getUsername(), "ProductCategory");
+        HashMap<String, Boolean> userPriviledge = privilegeController.getPrivilageByUserModule(auth.getName(), "ProductCategory");
 
 
         if (loggedUser != null && userPriviledge.get("del")) {

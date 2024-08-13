@@ -2,6 +2,8 @@ package lk.subhashiprinters.quotation;
 
 
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.purchaseorder.PurchaseOrder;
+import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequest;
 import lk.subhashiprinters.quotationrequest.QuotationRequestRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequestStatusRepository;
@@ -43,6 +45,9 @@ public class QuotationController {
     @Autowired
     private QuotationRequestStatusRepository qrStatusDao;
 
+    @Autowired
+    private PurchaseOrderRepository porderDao;
+
     //
     @GetMapping
     public ModelAndView quotationUI() {
@@ -52,20 +57,20 @@ public class QuotationController {
     }
 
     //get object by given id using path variable [ /quotation/getbyid/{id}]
-    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
-    public Quotation getByPathId(@PathVariable("id")Integer id){
+    @GetMapping(value = "/getbyid/{id}", produces = "application/json")
+    public Quotation getByPathId(@PathVariable("id") Integer id) {
         return quotationDao.getReferenceById(id);
     }
 
     //List returning list of status from repo
-    @GetMapping(value = "/listall",produces= "application/json")
-    public List<Quotation> quotationListByValid(){
+    @GetMapping(value = "/listall", produces = "application/json")
+    public List<Quotation> quotationListByValid() {
         return quotationDao.listAll();
     }
 
     //List returning list of status from repo
-    @GetMapping(value = "/listvalid/{sid}/{requireddate}",produces= "application/json")
-    public List<Quotation> quotationListByValid(@PathVariable("sid") Integer sid,@PathVariable("requireddate") String requireddate){
+    @GetMapping(value = "/listvalid/{sid}/{requireddate}", produces = "application/json")
+    public List<Quotation> quotationListByValid(@PathVariable("sid") Integer sid, @PathVariable("requireddate") String requireddate) {
         //since require date retrieve as string have to convert into date type
         return quotationDao.validList(sid, LocalDate.parse(requireddate));
     }
@@ -134,20 +139,27 @@ public class QuotationController {
         HashMap<String, Boolean> userPrive = privilegeController.getPrivilageByUserModule(authentication.getName(), "Quotation");
         if (userPrive != null && userPrive.get("upd")) {
 
+
+
+
             Quotation extQuotation = quotationDao.getReferenceById(quotation.getId());
 
-            if(extQuotation == null){
-                return "Quotation Update Not completed : Purchase order doesn't exsites..!";
+            if (extQuotation == null) {
+                return "Quotation Update Not completed : Quotation doesn't exists..!";
+            }
+            List<PurchaseOrder> porderListForQuotation = porderDao.getAllByQuatation(extQuotation.getId());
+            if(porderListForQuotation.size()>0){
+                return "Quotation Update Not completed : Purchase order do exist for this quotation..!";
             }
             try {
 
                 quotation.setUpdated_date(LocalDateTime.now());
                 quotation.setUpdateuser_id(logeduser);
 
-       if ( quotation.getQuatation_status_id().getId() == 2 || quotation.getQuatation_status_id().getId() ==3 )
-           extQuotation.getQuatation_request_id().setQuatation_req_status_id(qrStatusDao.getReferenceById(4));
+                if (quotation.getQuatation_status_id().getId() == 2 || quotation.getQuatation_status_id().getId() == 3)
+                    extQuotation.getQuatation_request_id().setQuatation_req_status_id(qrStatusDao.getReferenceById(4));
 
-           // extQuotationqrStatusDao.getReferenceById(4));
+                // extQuotationqrStatusDao.getReferenceById(4));
 
                 for (QuotationHasMaterial qhm : quotation.getQuotationHasMaterialList()) {
                     qhm.setQuatation_id(quotation);
@@ -176,7 +188,7 @@ public class QuotationController {
 
             Quotation extQuotation = quotationDao.getReferenceById(porder.getId());
 
-            if(extQuotation == null){
+            if (extQuotation == null) {
                 return "Quotation Delete Not completed : Purchase order doesn't exsits..!";
             }
             try {

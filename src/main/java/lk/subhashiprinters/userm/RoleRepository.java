@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
+    @Query("select r from  Role r where r.id<>1")
+    List<Role> findall();
+
     @Query("select r from Role r where r.id in (select uhr.role_id.id from UserHasRole uhr where uhr.user_id.id=?1)")
     List<Role> getRoleByUser(Integer userid);
 }

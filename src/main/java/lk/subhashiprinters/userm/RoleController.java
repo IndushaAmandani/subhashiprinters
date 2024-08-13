@@ -18,7 +18,7 @@ public class RoleController {
     // get mapping for get all roles in database table [/role/list]
     @GetMapping(value = "/list" , produces = "application/json")
     public List<Role> roleList(){
-        return roleDao.findAll();
+        return roleDao.findall();
     }
 
     //

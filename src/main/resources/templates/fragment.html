@@ -1,9 +1,9 @@
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
 <div th:fragment="sideBarFragment"
-     class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
+     class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow ">
     <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
-                                      href="dashboard.html">
+                                      href="/dashboard">
 
         <!--        <p class="m-1 text-white" id="hUsername"></p>-->
         <!--        <p class="m-1  text-white" id="spnRole"></p>-->
@@ -28,7 +28,6 @@
                                                                                             data-i18n="">Order Registration</span></a>
                 <ul class="menu-content ">
                     <li><a class="menu-item " href="/customer">Customer</a></li>
-                    <li><a class="menu-item " href="/product">Product</a></li>
                     <li><a class="menu-item" href="/customerOrder">Customer Order </a></li>
                     <li><a class="menu-item" href="/cpayment">Customer Payment </a></li>
                 </ul>
@@ -37,6 +36,7 @@
                 <i class="fa-solid fa-print"></i><span class="menu-title"
                                                        data-i18n="">Production</span></a>
                 <ul class="menu-content">
+                    <li><a class="menu-item " href="/product">Product</a></li>
                     <li><a class="menu-item" href="/productoinOrderConfirm">Production Confirmation </a></li>
                     <li><a class="menu-item" href="/dailyProduct">Daily Product</a></li>
 
@@ -47,13 +47,14 @@
                 <a href="/"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
                                                                            data-i18n="">Supplier</span></a>
                 <ul class="menu-content">
+                    <li><a class="menu-item" href="/material">Material</a></li>
                     <li><a class="menu-item" href="/supplier">Supplier</a></li>
                     <li><a class="menu-item" href="/quotationrequest">Quotation Request</a></li>
                     <li><a class="menu-item" href="/quotation">Quotation </a></li>
                     <li><a class="menu-item" href="/purchaseorder">Purchase Order </a></li>
                     <li><a class="menu-item" href="/mrn">MRN </a></li>
                     <li><a class="menu-item" href="/supplierpayment">Supplier Payment </a></li>
-                    <li><a class="menu-item" href="/material">Material</a></li>
+
                 </ul>
             </li>
             <!--fa-tasks-->
@@ -71,8 +72,8 @@
             <li class=" nav-item"><a href="/"><i class="fa-solid fa-list-check"></i><span class="menu-title"
                                                                                           data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/mateialListStatusReport">Report 1</a></li>
-                    <li><a class="menu-item" href="/customerPaymentreport">Report 2</a></li>
+                    <li><a class="menu-item" href="/mateialListStatusReport">Paper Material Report</a></li>
+                    <li><a class="menu-item" href="/customerPaymentreport"> Customer Payment Report</a></li>
                     <li><a class="menu-item" href="/samplechart">Report 3</a></li>
                 </ul>
             </li>
@@ -108,6 +109,7 @@
     <!-- END MODERN CSS-->
 
     <link rel="stylesheet" type="text/css" href="/app-assets/assets/css/style.css">
+
 
     <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
     <!-- END Custom CSS-->
@@ -205,25 +207,25 @@
                                     <!--  Photo-->
                                     <div class=" row mt-2">
                                         <div class="col-4">
-                                            <label for="empFilePhoto" class="form-label font-weight-bold">Employee Photo
+                                            <label for="userFilePhoto" class="form-label font-weight-bold">Employee Photo
                                                 : </label>
                                             <img src="resources/images/user_photo/user.png"
-                                                 style="width: 65px; height: 75px" id="employeeImage"
+                                                 style="width: 65px; height: 75px" id="uImage"
                                                  alt="employee.png">
-                                            <input type="text" disabled class="mt-1 form-control" id="txtempPhoto">
+                                            <input type="text" disabled class="mt-1 form-control" id="txtuPhoto">
                                         </div>
                                         <div class="col-5">
-                                            <button type="button" id="btnSelectImage"
+                                            <button type="button" id="btnUSelectImage"
                                                     class="btn bg-success font-weight-bold btn-sm"
-                                                    onclick="empFilePhoto.click()"> Select Image
+                                                    onclick="userFilePhoto.click()"> Select Image
                                             </button>
 
-                                            <button type="button" id="btnClearImage"
+                                            <button type="button" id="btnUClearImage"
                                                     class="btn bg-info btn-sm font-weight-bold"> Clear Image
                                             </button>
 
-                                            <input class="form-control d-none" type="file" id="empFilePhoto"
-                                                   onchange="fileValidator(empFilePhoto,'currentLoggedUser','userphoto','','oldcurrentLoggedUser',employeeImage,txtempPhoto)">
+                                            <input class="form-control d-none" type="file" id="userFilePhoto"
+                                                   onchange="fileValidator(userFilePhoto,'currentLoggedUser','userphoto','','oldcurrentLoggedUser',uImage,txtuPhoto)">
                                         </div>
                                     </div>
 
@@ -238,9 +240,8 @@
                                         <label class="form-label font-weight-bold col-4"> User Name :
                                             <span class="text-danger"> * </span></label>
                                         <div class="col-8">
-                                            <input type="text" id="textUserName"
-                                                   onkeyup="textFeildValidtor(textUserName,'^(([A-Z][a-z]{3,20}[ ])+([A-Za-z]{3,20}){1}|([A-Za-z]{3,20}))$','currentLoggedUser','username','oldcurrentLoggedUser')"
-                                                   data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                            <input type="text" id="textUName" autocomplete="off"
+                                                   onkeyup="textFeildValidtor(textUName,'^(([A-Z][a-z]{3,20}[ ])+([A-Za-z]{3,20}){1}|([A-Za-z]{3,20}))$','currentLoggedUser','username','oldcurrentLoggedUser')"
                                                    placeholder="Enter Username" class="form-control" required>
                                         </div>
                                     </div>
@@ -250,9 +251,9 @@
                                         <label class="form-label font-weight-bold col-4"> Password :
                                             <span class="text-danger"> * </span></label>
                                         <div class="col-8">
-                                            <input type="password" id="textPassword" placeholder="Enter Password"
+                                            <input type="password" id="txtPassword" autocomplete="off" placeholder="Enter Password"
                                                    class="form-control"
-                                                   onkeyup="textFeildValidtor(textPassword,'^[A-Za-z0-9@#*]{5,15}$','currentLoggedUser','password','oldcurrentLoggedUser')">
+                                                   onkeyup="textFeildValidtor(txtPassword,'^[A-Za-z0-9@#*]{5,15}$','currentLoggedUser','password','oldcurrentLoggedUser')">
                                         </div>
                                     </div>
 
@@ -261,7 +262,7 @@
                                         <label class="form-label font-weight-bold col-4"> Re-Type Password :
                                             <span class="text-danger"> * </span></label>
                                         <div class="col-8">
-                                            <input type="password" id="textReTypePassword"
+                                            <input type="password" id="txtReTypePassword" autocomplete="off"
                                                    onkeyup="textReTypePasswordValidator()"
                                                    placeholder="Enter Re-Type Password" class="form-control">
                                         </div>
@@ -301,6 +302,7 @@
             </div>
         </div>
     </div>
+    <script src="/userModelSetting.js" type="text/javascript"></script></script>
 </div>
 <!--User Change mOddel-->
 
@@ -312,11 +314,12 @@
           <script>
             document.write(new Date().getFullYear());
           </script>
-          All rights reserved. </span
-        ><span class="float-md-right d-block d-md-inline-blockd-none d-lg-block"
-    >Hand-crafted & Made with <i class="ft-heart pink"></i
-    ></span>
+          All rights reserved. Indusha Amandani </span
+        >
     </p>
+
     <script src="/resources/script/common.js" type="text/javascript"></script>
+
     <script src="/resources/script/dashboard.js" type="text/javascript"></script>
+
 </footer>

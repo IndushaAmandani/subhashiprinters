@@ -20,9 +20,9 @@ const refreshTable = () => {
     console.log(materials);
 
     //create display proporty list
-    let displayPropertyList = [ 'code','name','measuring_count'];
+    let displayPropertyList = [ 'code','name','height','width'];
     // creat display property data type list
-    let displayDatatypeList = ['text','text', 'text', 'object'];
+    let displayDatatypeList = ['text','text', getHeight, getWidth];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableMaterial,materials, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, false, lggeduserprivilage);
 
@@ -32,6 +32,12 @@ const refreshTable = () => {
 const rowView = () => {
 }
 
+function getHeight(ob){
+   return parseFloat(ob.height).toFixed(2)  + " cm" ;
+}
+function getWidth(ob){
+   return parseFloat(ob.width).toFixed(2)  + " cm" ;
+}
 
 
 //form refill function

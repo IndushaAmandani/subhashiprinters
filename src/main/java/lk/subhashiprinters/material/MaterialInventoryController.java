@@ -61,6 +61,20 @@ public class MaterialInventoryController {
     }
 
 
+
+    //Inventory Chart
+    @GetMapping(value = "/availbleQtyofMaterials",produces = "application/json")
+    public List<MaterialInventory> getAvailableMaterialQty(){
+        return materialInventoryDao.getAvailbleMaterialQty();}
+
+
+    @GetMapping(value ="/bymaterial/{matid}",produces = "application/json")
+    public MaterialInventory getMaterialInventoryByMaterial(@PathVariable("matid")Integer matid){
+        return materialInventoryDao.getByMaterial(matid);
+    };
+
+
+
     // get mapping for get material selected columns details [/material/findall]
     @GetMapping(value = "/list", produces = "application/json")
     public List<MaterialInventory> materialInventoryList(){
@@ -83,10 +97,7 @@ public class MaterialInventoryController {
     }
 
 
-@GetMapping(value ="/bymaterial/{matid}",produces = "application/json")
-public MaterialInventory getMaterialInventoryByMaterial(@PathVariable("matid")Integer matid){
-        return materialInventoryDao.getByMaterial(matid);
-    };
+
 
 
 

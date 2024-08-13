@@ -87,7 +87,7 @@
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-<footer th:replace="~{fragment::footerFragment}"></footer>
+
 
 
 <div class="modal" id="modalProductForm" data-backdrop="static" data-keyboard="false">
@@ -261,7 +261,7 @@
                             <label for="cmbproductSize" class="form-label font-weight-bold">Product Size : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbproductSize" class="form-control" required
-                                    onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct'); showCustomizedproductSize();">
+                                    onchange="selectValidator(cmbproductSize,'','product','product_size_id','oldproduct');">
                             </select>
                         </div>
                     </div>
@@ -274,8 +274,8 @@
                                 <label for="txtHeight" class="form-label font-weight-bold">
                                     Customized Height : <span style="color: red;">*</span>
                                 </label>
-                                <input type="text" id="txtHeight" placeholder="Ex: 2 " required name="txtHeight"
-                                       onkeyup="textFeildValidtor(txtHeight,'^(([1-9][0-9]{0,1}[.][0-9])|([1-9]|[1-9][0-9]{0,1}))$','product','height','oldproduct')"
+                                <input type="text" id="txtHeight" placeholder="Ex: 2 " required
+                                       name="txtHeight"  onkeyup="textFeildValidtor(txtHeight,'^(([1-9][0-9]{0,1}[.][0-9])|([1-9]|[1-9][0-9]{0,1}))$','product','height','oldproduct')"
                                        class="form-control">
                                 <div class="form-text"> Ex: 99.9/99cm</div>
                             </div>
@@ -284,7 +284,7 @@
                                 <label for="txtWidth" class="form-label font-weight-bold">
                                     Customized Width: <span style="color: red;">*</span>
                                 </label>
-                                <input type="text" id="txtWidth" placeholder="Ex: 2 " required name="txtWidth"
+                                <input type="text" id="txtWidth" name="txtWidth" placeholder="Ex: 2 " required
                                        onkeyup="textFeildValidtor(txtWidth,'^(([1-6][0-9]{0,1}[.][0-9])|([1-9]|[1-6][0-9]{0,1}))$','product','width','oldproduct')"
                                        class="form-control">
                                 <div class="form-text"> Ex: 69.9/69/9cm</div>
@@ -538,6 +538,7 @@
 <!-- END MODERN JS-->
 <!-- BEGIN PAGE LEVEL JS-->
 <!-- END PAGE LEVEL JS-->
+<footer th:replace="~{fragment::footerFragment}"></footer>
 </body>
 
 </html>

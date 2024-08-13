@@ -226,9 +226,9 @@ function reFillItemForm(rowob,rowind) {
 
     fillSelectFeild(selectSelectedItem,"" , newSupplier.materialList ,"name","");
 
-    //let supplyIMaterialList = getServiceRequest("/material/list");
-    allMateialList = getServiceRequest("/material/listbysupplier/"+rowob.id);
-    fillSelectFeild(selectMaterial,"" , allMateialList ,"name","");
+
+    mateialListNotinList = getServiceRequest("/material/notlistbysupplier/"+rowob.id);
+    fillSelectFeild(selectMaterial,"" , mateialListNotinList ,"name","");
 
     fillSelectFeild(cmbSupplierStatus,"Select Supplier Status" , supplierStatuses ,"name",newSupplier.supplier_status_id.name);
 
@@ -257,7 +257,7 @@ function reFillItemForm(rowob,rowind) {
 
 
     let supplierArray = [txtSupplierName,txtSupplierAddress,txtSupplierNote,txtContactNo,txtEmailAddress,cmbSupplierStatus,txtContactPersonName,txtContactPersonMobile,txtBankName,txtBankBranchName,txtBankAccountNumber,txtBankAccountHolderName]
- setIDStyle(supplierArray,"1px dotted green");
+ setIDStyle(supplierArray,"2px dotted green");
     btnAddNew.click();
 disabledButton(false,true);
 }
@@ -274,6 +274,9 @@ const checkSupplierFormUpdates = () =>{
 
         if(newSupplier.company_contact_no != oldSupplier.company_contact_no){
             updates = updates + "Supplier Contact No is changed " + oldSupplier.company_contact_no + " into " + newSupplier.company_contact_no + "\n";
+        }
+        if(newSupplier.address != oldSupplier.address){
+            updates = updates + "Supplier Address has changed " + oldSupplier.address + " into " + newSupplier.address + "\n";
         }
 
         if(newSupplier.company_email != oldSupplier.company_email){
@@ -293,12 +296,12 @@ const checkSupplierFormUpdates = () =>{
             for( i=0; i< newSupplier.materialList.length ; i++){
                 for (let l=0; l< oldSupplier.materialList.length ; l++){
 
-                    if(newSupplier.materialList[i].id == oldSupplier.materialList[i].id ){
+                    if(newSupplier.materialList[i].id != oldSupplier.materialList[i].id ){
                         extitem = parseInt(extitem) + 1;
                     }
                 }
             }
-            if (extitem != newSupplier.materialList.length){
+            if (extitem >0){
                 updates = updates + "Supply Item is changed "+ "\n";
             }
         }
@@ -413,5 +416,8 @@ function buttonModalCloseMCSup() {
     buttonCloseVModal("#modalViewSupplierForm");
  }
 
+function  buttonClearMC(){
+    refreshSupplierForm();
+}
 
 

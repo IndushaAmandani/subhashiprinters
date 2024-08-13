@@ -403,13 +403,17 @@ const formRefill = (ob, rowno) => {
 
 
 //get customized Size values when size is selected as customized size
-function showCustomizedproductSize() {
+function showCustomizedproductSize() { //Customizes
     if (JSON.parse(cmbproductSize.value).name == "Customized Size") {
         divproductSize.style.display = "block";
     } else {
         divproductSize.style.display = "none";
     }
 }
+
+document.getElementById("cmbproductSize").addEventListener('change',()=> {
+    showCustomizedproductSize();
+})
 
 
 //photo clearing settings
@@ -747,7 +751,7 @@ const innerRowDelete = (innerob, rowind) => {
 
 
     let deleteInnerMsg = "Are you sure to delete following Product Copy Details..?" +
-        "\n Paper Type: " + innerob.papertype_id.name;
+        "\n Paper Type: " + innerob.paper_type_id.name
 
 
     let innserdeleteUserResponce = window.confirm(deleteInnerMsg);

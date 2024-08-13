@@ -54,7 +54,6 @@ public class Product {
     @Column(name = "single_or_double")
     private String single_or_double;
 
-
     @ManyToOne
     @JoinColumn(name = "added_user_id", referencedColumnName = "id")
     private User added_user_id;

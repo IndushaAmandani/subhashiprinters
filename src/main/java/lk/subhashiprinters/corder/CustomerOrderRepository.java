@@ -5,6 +5,8 @@ import lk.subhashiprinters.corder.CustomerOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Integer> {
@@ -32,5 +34,12 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Int
 
     @Query(value = "select co from CustomerOrder co where co.id=?1 and co.production_status_id.id=2")
     CustomerOrder getByProductionStatus(Integer id);
+
+
+@Query(value = "select co from CustomerOrder co where co.required_date between ?1 and ?2")
+    List<CustomerOrder> getUrgentOrders(LocalDate sdate,LocalDate edate);
+
+
+
 }
 

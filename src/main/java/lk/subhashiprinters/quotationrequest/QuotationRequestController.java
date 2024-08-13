@@ -186,12 +186,12 @@ public class QuotationRequestController {
 
             QuotationRequest extQR = quotationrequestDao.getReferenceById(quotationrequest.getId());
             if(extQR == null ){
-                return "Quotationrequest Delete Not completed : Quotationrequest not available";
+                return "Quotation Request Delete Not completed : Quotation Request not available";
             }
 
             try {
-                extQR.setQuatation_req_status_id(quotationrequestStatusDao.getReferenceById(4));
-             extQR.setDelete_date(LocalDateTime.now());
+                extQR.setQuatation_req_status_id(quotationrequestStatusDao.getReferenceById(3));
+                extQR.setDelete_date(LocalDateTime.now());
                 quotationrequestDao.save(extQR);
                 return "0";
             }catch (Exception exception){

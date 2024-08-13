@@ -93,7 +93,7 @@
 </div>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-<footer th:replace = "~{fragment::footerFragment}"></footer>
+
 
 
 <div class="modal" tabindex="-1" id="modalQuotationForm" data-backdrop="static" data-keyboard="false">
@@ -193,7 +193,7 @@
                                             Unit Price (Rs. ) : <span style="color: red;">*</span>
                                         </label>
                                         <input type="text" id="txtUnitPrice" class="form-control form-control-sm"
-                                               onkeyup="textFeildValidtor(txtUnitPrice,'^(([1-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{2}))$','quotationHasIMatrial','purchase_price','oldQuotationHasIMatrial'); getValidPurchasePrice();"
+                                               onkeyup="textFeildValidtor(txtUnitPrice,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.][0-9]{2}))$','quotationHasIMatrial','purchase_price','oldQuotationHasIMatrial'); getValidPurchasePrice();"
                                                placeholder="Enter Total Amount">
 
                                     </div>
@@ -265,10 +265,10 @@
                             <button type="button" style="width: 23%; border-radius: 50px;"
                                     class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                     class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add
                             </button>
                         </div>
@@ -293,7 +293,7 @@
 
 
 <script src="/quotation.js" type="text/javascript"></script>
-
+<footer th:replace = "~{fragment::footerFragment}"></footer>
 </body>
 
 </html>

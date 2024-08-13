@@ -1,132 +1,117 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
+
 <!--Head-->
-<head th:replace = "~{fragment :: headFragment}">
-    <title>Subhashi Printers - Employee</title>
+<head th:replace="~{fragment :: headFragment}">
+    <title> Subhashi Printers - Employee Management</title>
 </head>
-<body class="vertical-layout vertical-compact-menu 2-columns   menu-expan   ded fixed-navbar" data-open="click"
-  data-menu="vertical-compact-menu" data-col="2-columns">
+<body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+      data-menu="vertical-compact-menu" data-col="2-columns">
 
 <!-- fixed-top-->
-<nav th:replace ="~{fragment :: navBarFragment}"></nav>
-  <!-- ////////////////////////////////////////////////////////////////////////////-->
+<nav th:replace="~{fragment :: navBarFragment}"></nav>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+<!--Use Setting Feagment-->
+<div th:replace="~{fragment :: settingmodal}"></div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div th:replace ="~{fragment :: sideBarFragment}"></div>
+<div th:replace="~{fragment :: sideBarFragment}"></div>
 
-  <div class="app-content content">
+<div class="app-content content">
     <div class="content-wrapper">
-      <div class="content-header row">
-        <div class="content-header-left col-md-8 col-12 mb-2 ">
-          <h3 class="content-header-title mb-0 d-inline-block">Employee Management</h3>
-          <div class="row breadcrumbs-top d-inline-block">
-            <div class="breadcrumb-wrapper col-12">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                </li>
-                <li class="breadcrumb-item active">Employee
-                </li>
-              </ol>
-            </div>
-          </div>
-        </div>
-          <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-              <div class="btn-group float-md-right">
-                  <a class="btn-gradient-primary-add btn-sm white"
-                          data-toggle="modal" id="btnAddNew"
-                          data-target="#modalEmployeeForm">Add new Employee</a>
-              </div>
-        </div>
-      </div>
-      <div class="content-body">
-        <div id="transactions">
-          <div class="transactions-table-tbody">
-
-            <section class="card pull-up">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div class="row">
-                      <div class="col-12">
-
-                        <table class="table table-hover table-bordered" id="tableEmployee">
-                            <thead class="table-dark" style="background-color: #152650">
-                                <tr>
-                                    <th> # </th>
-                                    <th> Callingname </th>
-                                    <th> Fullname </th>
-                                    <th> NIC </th>
-                                    <th> Mobile </th>
-                                    <th> Email </th>
-                                    <th> Status </th>
-                                    <th> Modify </th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-
+        <div class="content-header row">
+            <div class="content-header-left col-md-8 col-12 mb-2 ">
+                <h3 class="content-header-title mb-0 d-inline-block">Employee Management</h3>
+                <div class="row breadcrumbs-top d-inline-block">
+                    <div class="breadcrumb-wrapper col-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">Employee
+                            </li>
+                        </ol>
                     </div>
-
-
-                    </div>
-                  </div>
                 </div>
-              </div>
-            </section>
-
-           
-          </div>
+            </div>
+            <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
+                <div class="btn-group float-md-right">
+                    <a class="btn-gradient-primary-add btn-sm white"
+                       data-toggle="modal" id="btnAddNew"
+                       data-target="#modalEmployeeForm">Add new Employee</a>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="content-body" >
+            <div id="transactions">
+                <div class="transactions-table-tbody">
+
+                    <section class="card pull-up">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                            <table class="table table-hover table-bordered" id="tableEmployee">
+                                                <thead class="table-dark" style="background-color: #152650">
+                                                <tr>
+                                                    <th> #</th>
+                                                    <th> Callingname</th>
+                                                    <th> Fullname</th>
+                                                    <th> NIC</th>
+                                                    <th> Mobile</th>
+                                                    <th> Email</th>
+                                                    <th> Status</th>
+                                                    <th> Modify</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <!-- ////////////////////////////////////////////////////////////////////////////-->
-
-
-<footer th:replace = "~{fragment::footerFragment}"></footer>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
 
-  <div class="modal" tabindex="-1" id="modalEmployeeForm">
+
+
+<div class="modal" tabindex="-1" id="modalEmployeeForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"> <i class="fas fa-user fx"></i> Employee Management</h2>
+                <h2 class="h2"><i class="fas fa-user fx"></i> Employee Management</h2>
 
-                <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-                onclick="buttonModalCloseMC()"
-                >
-                    <span aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+
                 </button>
 
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modalViewEmployeeForm">
                 <!--  Employee form -->
-                <form onsubmit="return false">
+                <form onsubmit="return false" autocomplete="off">
 
                     <!--- Required (Star mark)  -->
                     <div class="row text-end p-1">
                             <span class="fw-bold" style="font-size: 18px;"><span style="color: red;">*</span> Required
                             </span>
                     </div>
-
-<!--                    &lt;!&ndash;- Emp No  &ndash;&gt;-->
-<!--                    <div class="row mt-2">-->
-<!--                        <label for="txtEmpNo" class="font-weight-bold col-4 col-form-label">Employee No :-->
-<!--                            <span style="color: red;">*</span>-->
-<!--                        </label>-->
-<!--                        <div class="col-8">-->
-<!--                            <input type="text" readonly id="txtEmpNo" class="form-control" disabled-->
-<!--                                   value="Employee number is auto generated">-->
-<!--                        </div>-->
-
-<!--                    </div>-->
 
                     <!--- Fullname  -->
                     <div class="row mt-2">
@@ -135,49 +120,50 @@
                                     style="color: red;">*</span></label>
                             <input type="text" id="txtFullname" class="form-control"
                                    onkeyup="textFeildValidtor(txtFullname,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','employee','fullname','oldemployee')"
-                                   placeholder="Enter Fullname" required data-bs-toggle="tooltip" data-bs-placement="bottom">
-                            <div class="valid-tooltip">
-                                Looks good!
-                            </div>
+                                   placeholder="Enter Fullname" required
+                                   data-bs-placement="bottom">
+                            <div class="form-text"> Ex: Al Marks</div>
+
                         </div>
                     </div>
 
                     <!--- Employee Callingname / NIC  -->
                     <div class="row mt-2">
                         <!-- Employee Callingname -->
-                        <div class="col position-relative" >
+                        <div class="col position-relative">
                             <label for="txtCallingname" class="form-label font-weight-bold">Employee Callingname : <span
                                     style="color: red;">*</span></label>
                             <input type="text" id="txtCallingname" class="form-control"
                                    onkeyup="textFeildValidtor(txtCallingname,'^[A-Z][a-z]{3,10}$','employee','calling_name','oldemployee')"
-                                   placeholder="Enter Calling name" required data-bs-toggle="tooltip" data-bs-placement="bottom">
-                            <div class="valid-tooltip">
-                                Looks good!
-                            </div>
+                                   placeholder="Enter Calling name" required data-bs-toggle="tooltip"
+                                   data-bs-placement="bottom">
+                            <div class="form-text"> Please enter minimum name with four characters</div>
                         </div>
                         <!-- Employee NIC -->
                         <div class="col">
                             <label for="txtNIC" class="form-label font-weight-bold">
                                 Employee NIC : <span style="color: red;">*</span>
                             </label>
-                            <input type="text" id="txtNIC" placeholder="Ex: 000000000V"  required
-                                   onkeyup="textFeildValidtor(txtNIC,'^(([0-9]{9}[VvXx])|([0-9]){12})$','employee','nic','oldemployee')" class="form-control" >
-                            <div class="form-text"> Ex: 000000000V or xxxxxxxxxxxx</div>
+                            <input type="text" id="txtNIC" placeholder="Ex: 000000000V" required
+
+                                   class="form-control">
+                        <!-- onkeyup="textFeildValidtor(txtNIC,'^(([789][0-9][0-9]{7}[VvXx])|([19][0-9]){10})$','employee','nic','oldemployee')"-->
+                            <div class="form-text"> Ex: 19000000V or xxxxxxxxxxxx</div>
                         </div>
                     </div>
 
                     <!--- Employee Gender /  DOB -->
                     <div class="row mt-2">
                         <!-- Employee Gender -->
-                        <div class="col-6" >
+                        <div class="col-6">
 
                             <div class="row">
-                               
-                                <div class="col-6" >
-                                    <label  class="form-label font-weight-bold"> Gender : <span
+
+                                <div class="col-6">
+                                    <label class="form-label font-weight-bold"> Gender : <span
                                             style="color: red;">*</span></label>
                                 </div>
-                                
+
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -189,12 +175,13 @@
                                     </div>
 
                                 </div>
-                                 <div class="col">
+                                <div class="col">
                                     <div class="form-check form-check-inline">
                                         <input type="radio" name="gender" value="Female" id="radioFemale" required
                                                onchange="redioFeildValidator(radioFemale,'','employee','gender',lblRadioFemale,lblRadioMale)"
                                                class="form-check-input">
-                                        <label for="radioFemale" class="form-check-label" id="lblRadioFemale">Female</label>
+                                        <label for="radioFemale" class="form-check-label"
+                                               id="lblRadioFemale">Female</label>
 
                                     </div>
                                 </div>
@@ -207,20 +194,13 @@
                                 Employee DOB : <span style="color: red;">*</span>
                             </label>
                             <input type="date" id="dteDOB" class="form-control" disabled
-                            onchange="dateFeildValidator(dteDOB,'','employee','dob','oldemployee');">
+                                   onchange="dateFeildValidator(dteDOB,'','employee','dob','oldemployee');">
 
                         </div>
                     </div>
 
                     <!--- Employee Mobile no /  Land No / Email -->
                     <div class="row mt-2 ">
-
-                        <!-- <div class="col-4"></div>
-                        <div class="col-4 text-center"
-                             style="border: 2px solid black; border-radius:20px;
-                             margin-top: -15px;">
-                            Contact Details</div>
-                        <div class="col-4"></div> -->
 
                         <!-- Employee Mobile -->
                         <div class="col-3">
@@ -230,6 +210,7 @@
                             <input type="text" id="txtMobile" class="form-control" required
                                    placeholder="Enter Mobile No"
                                    onkeyup="textFeildValidtor(txtMobile,'^[0][7][01245678][0-9]{7}$','employee','mobile','oldemployee')">
+                            <div class="form-text"> Ex: 0776352445</div>
 
                         </div>
                         <!-- Employee Land -->
@@ -239,7 +220,8 @@
                             </label>
                             <input type="text" id="txtLand" class="form-control"
                                    placeholder="Enter Land No"
-                                   onkeyup="textFeildValidtor(txtLand,'^[0][1-9][0-9]{8}$','employee','land','oldemployee')" >
+                                   onkeyup="textFeildValidtor(txtLand,'^[0][12345689][1-9][0-9]{7}$','employee','land','oldemployee')">
+                            <div class="form-text"> Ex: 0112325652</div>
 
                         </div>
                         <!-- Employee Email -->
@@ -248,8 +230,9 @@
                                 Employee Email : <span style="color: red;">*</span>
                             </label>
                             <input type="email" id="txtEmail" class="form-control" required
-                                   onkeyup="textFeildValidtor(txtEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','employee','email','oldemployee')"
+                                   onkeyup="textFeildValidtor(txtEmail,'^[A-Za-z0-9]{5,20}[@][a-z]{2,8}[.][a-z]{2,5}$','employee','email','oldemployee')"
                                    placeholder="Enter Email No">
+                            <div class="form-text"> Ex: example@gmail.com</div>
                         </div>
                     </div>
 
@@ -258,19 +241,26 @@
                         <!-- Employee Address -->
                         <div class="col">
                             <label for="txtAddress" class="form-label font-weight-bold">Address :
-                                <span style="color: red;">*</span></label>
+                                </label>
                             <textarea id="txtAddress" class="form-control"
-                                      onkeyup="textFeildValidtor(txtAddress,'^([a-zA-Z0-9\\s\\,\'\\-\\/\.]{1,100})+([a-zA-Z0-9\\,\'\\-\\/\.]*)$','employee','address','oldemployee')"
+                                      onkeyup="textFeildValidtor(txtAddress,'^([A-Za-z0-9\\s\\/\\-]{1,20}[\\,][\\s])+[A-Za-z0-9\\s]{1,20}[.]$','employee','address','oldemployee')"
                                       required></textarea>
+                            <div>Ex : Nh-3, Makaranda Road, <Raa></Raa>paana. </div>
                         </div>
                         <!-- Employee Photo -->
                         <div class="col">
                             <label for="empFilePhoto" class="form-label font-weight-bold">Employee Photo : </label>
-                            <button type="button" id="btnSelectImage" class="btn bg-success font-weight-bold btn-sm" onclick="empFilePhoto.click()"> Select Image </button>
-                            <button type="button" id="btnClearImage"  class="btn bg-info btn-sm font-weight-bold"> Clear Image </button>
-                            <img src="resources/images/user_photo/user.png" style="width: 65px; height: 75px" id="employeeImage" alt="employee.png">
+                            <button type="button" id="btnSelectImage" class="btn bg-success font-weight-bold btn-sm"
+                                    onclick="empFilePhoto.click()"> Select Image
+                            </button>
+                            <button type="button" id="btnClearImage" class="btn bg-info btn-sm font-weight-bold"> Clear
+                                Image
+                            </button>
+                            <img src="resources/images/user_photo/user.png" style="width: 65px; height: 75px"
+                                 id="employeeImage" alt="employee.png">
                             <input type="text" disabled class="mt-1 form-control" id="txtempPhoto">
-                            <input class="form-control d-none" type="file" id="empFilePhoto" onchange="fileValidator(empFilePhoto,'employee','emp_photo','emp_photo_name','oldemployee',employeeImage,txtempPhoto)">
+                            <input class="form-control d-none" type="file" id="empFilePhoto"
+                                   onchange="fileValidator(empFilePhoto,'employee','emp_photo','emp_photo_name','oldemployee',employeeImage,txtempPhoto)">
                         </div>
                     </div>
 
@@ -281,7 +271,7 @@
                             <label for="cmbCivilStatus" class="form-label font-weight-bold">Civil Status : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbCivilStatus" class="form-control" required
-                            onchange="selectValidator(cmbCivilStatus,'','employee','civilstatus_id','oldemployee')">
+                                    onchange="selectValidator(cmbCivilStatus,'','employee','civilstatus_id','oldemployee')">
 
                             </select>
                         </div>
@@ -330,12 +320,15 @@
                     <!--- Buttons -->
                     <div class="row mt-2">
                         <div class="col text-end">
-                            <button type="reset" style="width: 23%; border-radius: 50px;"
-                                    class="btn bg-info font-weight-bold"> Clear </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
-                                    class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
-                                    class="btn bg-success font-weight-bold" onclick="buttonSubmitMC()"> Add </button>
+                            <button type="button" style="width: 23%; border-radius: 50px;"
+                                    class="btn btn-info font-weight-bold" id="buttonClear" onclick="buttonClearMC()"> Clear
+                            </button>
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                                    class="btn btn-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
+                            </button>
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                                    class="btn btn-success font-weight-bold" onclick="buttonSubmitMC()"> Add
+                            </button>
                         </div>
                     </div>
 
@@ -345,100 +338,32 @@
     </div>
 </div>
 
-<!--View Modal-->
-<div
-        class="modal"
-        tabindex="-1"
-        id="modalViewEmployeeForm"
-        data-backdrop="static"
-        data-keyboard="false"
->
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i> View Employee Details</h2>
-                <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        onclick="buttonModalCloseMCVM()"
-                >
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table
-                        class="table table-striped table-bordered"
-                        id="tablePrintEmployee"
-                >
-                    <tr>
-                        <th>Employee Fullname</th>
-                        <td id="tdfullname"></td>
-                    </tr>
-                    <tr>
-                        <th>Calling Name</th>
-                        <td id="tdCName"></td>
-                    </tr>
-                    <tr>
-                        <th>NIC </th>
-                        <td id="tdnic"></td>
-                    </tr>
-                    <tr>
-                        <th>Date of Birth</th>
-                        <td id="tddob"></td>
-                    </tr>
-                    <tr>
-                        <th>Mobile</th>
-                        <td id="tdMobile"></td>
-                    </tr>
-                    <tr>
-                        <th>Land Number </th>
-                        <td id="tdland"></td>
-                    </tr>
-                    <tr>
-                        <th>Address </th>
-                        <td id="tdaddress"></td>
-                    </tr>
-
-                </table>
-            </div>
-<!--            <div class="modal-footer">-->
-<!--                <div class="btn-group float-md-right">-->
-<!--                    <a-->
-<!--                            class="btn-gradient-primary-add btn-sm white"-->
-<!--                            onclick="printRowItemMC()"-->
-<!--                    >-->
-<!--                        Print-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-        </div>
-    </div>
-</div>
 
 
-  <!-- BEGIN VENDOR JS-->
-  <script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
-  <!-- BEGIN VENDOR JS-->
-  <!-- BEGIN PAGE VENDOR JS-->
-  <!-- END PAGE VENDOR JS-->
-  <!-- BEGIN MODERN JS-->
-  <script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
-  <script src="/app-assets/js/core/app.js" type="text/javascript"></script>
 
 
-  <script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+<!-- BEGIN VENDOR JS-->
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+<!-- BEGIN VENDOR JS-->
+<!-- BEGIN PAGE VENDOR JS-->
+<!-- END PAGE VENDOR JS-->
+<!-- BEGIN MODERN JS-->
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
 
-  <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-  <script src="/resources/script/common.js" type="text/javascript"></script>
-  <script src="/resources/commanFunction.js" type="text/javascript"></script>
-  <script src="/employee.js" type="text/javascript"></script>
-  
-  <!-- END MODERN JS-->
-  <!-- BEGIN PAGE LEVEL JS-->
-  <!-- END PAGE LEVEL JS-->
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+
+<script src="/employee.js" type="text/javascript"></script>
+
+
+<!-- END MODERN JS-->
+<!-- BEGIN PAGE LEVEL JS-->
+<!-- END PAGE LEVEL JS-->
+<footer th:replace="~{fragment::footerFragment}"></footer>
 </body>
 
 </html>

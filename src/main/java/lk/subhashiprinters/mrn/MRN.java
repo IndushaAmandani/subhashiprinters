@@ -90,11 +90,12 @@ public MRN(Integer id,String recieve_no,LocalDate recieve_date,BigDecimal net_am
     this.supplier_inovice_no =supplier_inovice_no ;
 }
 
-public MRN(Integer id,String recieve_no,LocalDate recieve_date,BigDecimal net_amount,PurchaseOrder purchase_order_id){
+public MRN(Integer id,String recieve_no,LocalDate recieve_date,BigDecimal net_amount,BigDecimal paidamount,PurchaseOrder purchase_order_id){
     this.id  =id ;
     this.recieve_no = recieve_no;
     this.recieve_date =recieve_date ;
     this.net_amount =net_amount ;
+    this.paidamount =paidamount;
     this.purchase_order_id = purchase_order_id;
 
 }

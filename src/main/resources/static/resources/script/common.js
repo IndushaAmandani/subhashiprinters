@@ -3,15 +3,16 @@ function getServiceRequest(url) {
 
     let responceDate;
 //jQuery.ajax()
-    $.ajax(url,{
+    $.ajax(url, {
         async: false,
-        dataType:'json', //DATA that you are exopecting back from the server
-        success: function (data,status, xhr){
-          //  $('#err').append("Service : " + url + "<br>");
-           // $('#err').append("data : " + JSON.parse(data) + "<br>");
+        type: 'GET',
+        dataType: 'json', //DATA that you are exopecting back from the server
+        success: function (data, status, xhr) {
+            //  $('#err').append("Service : " + url + "<br>");
+            // $('#err').append("data : " + JSON.parse(data) + "<br>");
             responceDate = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             responceDate = [];
         }
     })
@@ -19,19 +20,19 @@ function getServiceRequest(url) {
     return responceDate;
 }
 
-function getHTTPServiceRequest(url , method , data) {
+function getHTTPServiceRequest(url, method, data) {
 
     let responceDate;
 
     $.ajax(url, {
-        async : false,
-        type : method, // method delete
-        data: JSON.stringify(data) , // object
-        contentType:"application/json",
-        success: function (susResdata , susStatus , ajresob) {
+        async: false,
+        type: method, // method delete
+        data: JSON.stringify(data), // object
+        contentType: "application/json",
+        success: function (susResdata, susStatus, ajresob) {
             responceDate = susResdata;
         },
-        error: function (errRsOb , errStatus, errorMsg) {
+        error: function (errRsOb, errStatus, errorMsg) {
             responceDate = errorMsg;
         }
     });
@@ -40,17 +41,16 @@ function getHTTPServiceRequest(url , method , data) {
 }
 
 
-
 //create function for remve style
 const clearTableStyle = (tableid) => {
     for (let index = 0; index < tableEmployeeD.children[1].children.length; index++) {
         tableid.children[1].children[index].style.backgroundColor = "white";
 
-      }
+    }
 }
 
 //Files as Photos
-const fileFieldValidator = (fieldid,object,property,oldobject) => {
+const fileFieldValidator = (fieldid, object, property, oldobject) => {
     let ob = window[object];
     let oldob = window[oldobject];
 
@@ -58,36 +58,36 @@ const fileFieldValidator = (fieldid,object,property,oldobject) => {
 
     let filereader = new FileReader();
 
-    filereader.onload = function (){
+    filereader.onload = function () {
         productImage.src = filereader.result;
         ob[property] = btoa(filereader.result);
 
-        if(oldob != null &&  ob[property] != oldob[property]){
+        if (oldob != null && ob[property] != oldob[property]) {
             fieldid.style.borderBottom = "2px solid orange";
 
-        }else{
+        } else {
             fieldid.style.borderBottom = "2px solid green";
         }
 
         return;
     }
 
-filereader.readAsDataURL(fieldid.files[0]);
+    filereader.readAsDataURL(fieldid.files[0]);
 
 
 }
 
 //Validator for photo - new
-const fileValidator = (fieldid,object,property1,property2,oldobject,previewId,nameFieldId) => {
+const fileValidator = (fieldid, object, property1, property2, oldobject, previewId, nameFieldId) => {
 
-    if(fieldid.value != ""){
+    if (fieldid.value != "") {
         let file = fieldid.files[0];
-        nameFieldId.value =file['name'];
+        nameFieldId.value = file['name'];
         window[object][property2] = file['name'];
 
         let fileReader = new FileReader();
         //file object is passed for the function
-        fileReader.onload = function (e){
+        fileReader.onload = function (e) {
             previewId.src = e.target.result;
             window[object][property1] = btoa(e.target.result);
         }
@@ -99,136 +99,135 @@ const fileValidator = (fieldid,object,property1,property2,oldobject,previewId,na
 
 
 // ok
-const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
+const textFeildValidtor = (feildid, pattern, object, property, oldobject) => {
 
-     let ob = window[object];
-     let oldob = window[oldobject];
+    let ob = window[object];
+    let oldob = window[oldobject];
 
-     if(feildid.value != ""){
-             const namepattern = new RegExp(pattern);
-             if (namepattern.test(feildid.value)) {
-                 ob[property] = feildid.value; 
-             
-                 if (oldob != null && ob[property] != oldob[property]) {
-                    //updated
-                    feildid.style.borderBottom = '2px solid orange';
-                 } else {
-                    // valid
-                    feildid.style.borderBottom = '2px solid green';
-                 }
-    
-             } else {
-                 ob[property] = null; 
-                feildid.style.borderBottom = '2px solid red';
-             }
-            
-         }else{
-             ob[property] = null; 
-             if(feildid.required){
-              feildid.style.borderBottom = '2px solid red';
-             }else{
-               feildid.style.borderBottom = '2px solid rgb(118, 118, 118)';
-             }
-      
-         }
-        
- }
+    if (feildid.value != "") {
+        const namepattern = new RegExp(pattern);
+        if (namepattern.test(feildid.value)) {
+            ob[property] = feildid.value;
 
+            if (oldob != null && ob[property] != oldob[property]) {
+                //updated
+                feildid.style.borderBottom = '2px solid orange';
+            } else {
+                // valid
+                feildid.style.borderBottom = '2px solid green';
+            }
 
+        } else {
+            ob[property] = null;
+            feildid.style.borderBottom = '2px solid red';
+        }
 
- // comman validatior for radio buttons
- const redioFeildValidator = (feildid,pattern,object,property,lblid1,lblid2) => {
-     let ob = window[object];
-     if (feildid.checked) {
-         ob[property] = feildid.value;
-         lblid1.style.color = 'green';
-         lblid2.style.color = 'black';
-     } else {
-         ob[property] = null;
-         lblid1.style.color = 'red';
-         lblid2.style.color = 'red';
-     }
- }
+    } else {
+        ob[property] = null;
+        if (feildid.required) {
+            feildid.style.borderBottom = '2px solid red';
+        } else {
+            feildid.style.borderBottom = '2px solid rgb(118, 118, 118)';
+        }
+
+    }
+
+}
 
 
- // create function for date feild validate and data binding
- const dateFeildValidator = (feildid,pattern,object,property,oldobject) => {
+// comman validatior for radio buttons
+const redioFeildValidator = (feildid, pattern, object, property, lblid1, lblid2) => {
+    let ob = window[object];
+    if (feildid.checked) {
+        ob[property] = feildid.value;
+        lblid1.style.color = 'green';
+        lblid2.style.color = 'black';
+    } else {
+        ob[property] = null;
+        lblid1.style.color = 'red';
+        lblid2.style.color = 'red';
+    }
+}
+
+
+// create function for date feild validate and data binding
+const dateFeildValidator = (feildid, pattern, object, property, oldobject) => {
 
     let ob = window[object];
     let oldob = window[oldobject];
 
     //data binding for object property
-     ob[property] = feildid.value;
+    ob[property] = feildid.value;
 
-     if(oldob != null && ob[property] != oldob[property]){
-         //updated
-         feildid.style.borderBottom = "2px solid orange";
-     }else{
-         // valid
-         feildid.style.borderBottom = "2px solid green";
-     }
- }
+    if (oldob != null && ob[property] != oldob[property]) {
+        //updated
+        feildid.style.borderBottom = "2px solid orange";
+    } else {
+        // valid
+        feildid.style.borderBottom = "2px solid green";
+    }
+}
 
 
- //
- const selectValidator = (feildid,pattern,object,property,oldobject) => {
-     let ob = window[object];
-     let oldob = window[oldobject];
+//
+const selectValidator = (feildid, pattern, object, property, oldobject) => {
+    let ob = window[object];
+    let oldob = window[oldobject];
 
-     if (feildid.value != "") {
-         ob[property] = JSON.parse(feildid.value);
-         if(oldob != null && ob[property]['id'] != oldob[property]['id'] ){
-             //updqted
-             feildid.style.borderBottom = '2px solid orange';
-         }else {
-           //valid
-             feildid.style.borderBottom = '2px solid green';
-         }
-     } else {
-         ob[property] = null;
+    if (feildid.value != "") {
+        ob[property] = JSON.parse(feildid.value);
+        if (oldob != null && ob[property]['id'] != oldob[property]['id']) {
+            //updqted
+            feildid.style.borderBottom = '2px solid orange';
+        } else {
+            //valid
+            feildid.style.borderBottom = '2px solid green';
+        }
+    } else {
+        ob[property] = null;
         feildid.style.borderBottom = '2px solid red';
-     }
- }
-
- //
- const checkBoxValidator = (feildid,pattern,object, property,setTruevalue,setFalseValue,oldobject,lblid,trueMsg,falseMsg )=>{
-  let  ob = window[object];
-  let  oldob = window[oldobject];
-
-  if (feildid.checked) {
-    ob[property] = true;
-    if(trueMsg != ""){
-        lblid.value = setTruevalue;
-        lblid.innerText = trueMsg;
-        if(oldob != null && ob[property] != oldob[property]){
-            lblid.style.color = "orange";
-        }else{
-            lblid.style.color = "green";
-        }
     }
-    
-    
-  } else {
-    ob[property] = false;
-    if(falseMsg != ""){
-        lblid.value = setFalseValue;
-        lblid.innerText = falseMsg;
-        if(oldob != null && ob[property] != oldob[property]){
-            lblid.style.color = "orange";
-        }else{
-            lblid.style.color = "green";
+}
+
+//
+const checkBoxValidator = (feildid, pattern, object, property, setTruevalue, setFalseValue, oldobject, lblid, trueMsg, falseMsg) => {
+    let ob = window[object];
+    let oldob = window[oldobject];
+
+    if (feildid.checked) {
+        ob[property] = true;
+        if (trueMsg != "") {
+            lblid.value = setTruevalue;
+            lblid.innerText = trueMsg;
+            if (oldob != null && ob[property] != oldob[property]) {
+                lblid.style.color = "orange";
+            } else {
+                lblid.style.color = "green";
+            }
         }
+
+
+    } else {
+        ob[property] = false;
+        if (falseMsg != "") {
+            lblid.value = setFalseValue;
+            lblid.innerText = falseMsg;
+            if (oldob != null && ob[property] != oldob[property]) {
+                lblid.style.color = "orange";
+            } else {
+                lblid.style.color = "green";
+            }
+        }
+
     }
-    
-  }
 
 
- }
+}
 
- //function use to fill data into select element -- ok
- const fillSelectFeild = (feildid, displayMessage, dataList,displayProperty, selectedValue, visibility=false) => {
-    feildid.innerHTML = "" ;
-    if(displayMessage.value != ""){
+//function use to fill data into select element -- ok
+const fillSelectFeild = (feildid, displayMessage, dataList, displayProperty, selectedValue, visibility = false) => {
+    feildid.innerHTML = "";
+    if (displayMessage.value != "") {
         optionPlaceholder = document.createElement('option');
         optionPlaceholder.value = "";
         optionPlaceholder.selected = true;
@@ -238,11 +237,11 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
     }
 
 
-    for(index in dataList){
+    for (index in dataList) {
         optionValues = document.createElement('option');
         optionValues.value = JSON.stringify(dataList[index]);
         optionValues.innerText = dataList[index][displayProperty];
-        if(dataList[index][displayProperty] == selectedValue){
+        if (dataList[index][displayProperty] == selectedValue) {
             optionValues.selected = true;
             feildid.style.borderBottom = "2px solid green";
         }
@@ -250,13 +249,13 @@ const textFeildValidtor = (feildid,pattern,object,property,oldobject) =>{
         feildid.appendChild(optionValues);
     }
 
-    if(visibility)
-        feildid.disabled = true; 
+    if (visibility)
+        feildid.disabled = true;
     else
         feildid.disabled = false;
 }
 
-const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,displayProperty2, selectedValue, visibility=false) => {
+const fillSelectFeild2 = (feildid, displayMessage, dataList, displayProperty, displayProperty2, selectedValue, visibility = false) => {
     feildid.innerHTML = "";
     optionPlaceholder = document.createElement('option');
     optionPlaceholder.value = "";
@@ -265,12 +264,12 @@ const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,disp
     optionPlaceholder.innerText = displayMessage;
     feildid.appendChild(optionPlaceholder);
 
-    for(index in dataList){
+    for (index in dataList) {
         optionValues = document.createElement('option');
         optionValues.value = JSON.stringify(dataList[index]);
-      //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
-        optionValues.innerText =  dataList[index][displayProperty] + " --> "+ dataList[index][displayProperty2];
-        if(dataList[index][displayProperty] + " --> "+ dataList[index][displayProperty2] == selectedValue){
+        //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
+        optionValues.innerText = dataList[index][displayProperty] + " --> " + dataList[index][displayProperty2];
+        if (dataList[index][displayProperty] + " --> " + dataList[index][displayProperty2] == selectedValue) {
             optionValues.selected = true;
             feildid.style.borderBottom = "2px solid green";
         }
@@ -279,13 +278,13 @@ const fillSelectFeild2 = (feildid, displayMessage, dataList,displayProperty,disp
     }
 
 
-    if(visibility)
-        feildid.disabled = true; 
+    if (visibility)
+        feildid.disabled = true;
     else
         feildid.disabled = false;
 }
 
-const fillSelectFeild3 = (feildid, displayMessage, dataList,displayProperty,displayProperty2,displayProperty21, visibility=false) => {
+const fillSelectFeild3 = (feildid, displayMessage, dataList, displayProperty, displayProperty2, displayProperty21, visibility = false) => {
     optionPlaceholder = document.createElement('option');
     optionPlaceholder.value = "";
     optionPlaceholder.selected = true;
@@ -293,99 +292,98 @@ const fillSelectFeild3 = (feildid, displayMessage, dataList,displayProperty,disp
     optionPlaceholder.innerText = displayMessage;
     feildid.appendChild(optionPlaceholder);
 
-    for(index in dataList){
+    for (index in dataList) {
         optionValues = document.createElement('option');
         optionValues.value = JSON.stringify(dataList[index]);
-      //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
-        optionValues.innerText =  dataList[index][displayProperty2][displayProperty21] + " "+ dataList[index][displayProperty];
+        //  optionValues.innerText = getDataFromObject(dataList[index], displayPropertyList)
+        optionValues.innerText = dataList[index][displayProperty2][displayProperty21] + " " + dataList[index][displayProperty];
         feildid.appendChild(optionValues);
     }
 
 
-    if(visibility)
-        feildid.disabled = true; 
+    if (visibility)
+        feildid.disabled = true;
     else
         feildid.disabled = false;
 }
 
 // create function for fill data into given table using given parameters
-const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
-                           modifyFunction,deleteFunction,viewFunction, buttonvisibility=true,userPrivilage) => {
+const fillDataIntoTable = (tableid, dataList, propertyList, displayDTList,
+                           modifyFunction, deleteFunction, viewFunction, buttonvisibility = true, userPrivilage) => {
 
-     //
-     tbody = tableid.children[1];
-     tbody.innerHTML = "";
+    //
+    tbody = tableid.children[1];
+    tbody.innerHTML = "";
 //object wise findalla
-    for(let index in dataList){
-       
+    for (let index in dataList) {
+
         // create tr node
-        tr = document.createElement("tr"); 
+        tr = document.createElement("tr");
         //create td node
-        tdind = document.createElement("td"); 
+        tdind = document.createElement("td");
         //create automatic index to each row which SHOW IN UI
         tdind.innerText = parseInt(index) + 1;
         tr.appendChild(tdind);
 
-        for(pro in propertyList){
+        for (pro in propertyList) {
             //create td node
-             td = document.createElement("td"); 
-             tdp = document.createElement("p"); 
+            td = document.createElement("td");
+            tdp = document.createElement("p");
             let data = dataList[index][propertyList[pro]];
             //  customers[0][dispalyPropertyList[0]]
             // customer.customer_code
             // console.log(propertyList[pro]);
-          //  console.log(displayDTList[pro]);
+            //  console.log(displayDTList[pro]);
 
-            if(displayDTList[pro] == 'text'){
-                if(data == null){
+            if (displayDTList[pro] == 'text') {
+                if (data == null) {
                     td.innerText = "-";
-                }else{
+                } else {
                     tdp.innerText = data;
                     td.appendChild(tdp);
                 }
-            } else if(displayDTList[pro] == 'decimal'){
-                if((data == null)|| (data == "")){
+            } else if (displayDTList[pro] == 'decimal') {
+                if ((data == null) || (data == "")) {
                     td.innerText = "-";
-                }else {
+                } else {
 
-                    td.innerText=parseFloat(data).toFixed(2)
+                    td.innerText = parseFloat(data).toFixed(2)
                 }
-            }
-            else if(displayDTList[pro] == 'object'){
+            } else if (displayDTList[pro] == 'object') {
 
-               // console.log(propertyList[pro]);
-                tdp.innerText = getDataFromObject(dataList[index],propertyList[pro]);
+                // console.log(propertyList[pro]);
+                tdp.innerText = getDataFromObject(dataList[index], propertyList[pro]);
                 td.appendChild(tdp);
 
-            } else if(displayDTList[pro] == 'yearbydate'){
-                if(data == null){
+            } else if (displayDTList[pro] == 'yearbydate') {
+                if (data == null) {
                     td.innerText = "-";
-                }else{
+                } else {
                     td.innerText = new Date(data).getFullYear();
                 }
-            } else if(displayDTList[pro] == 'imagearray'){
+            } else if (displayDTList[pro] == 'imagearray') {
                 //create img node
-              let img = document.createElement('img'); // DOM 
-               img.style.width = '50px';
-               img.style.height = '50px';
-                if(data == null){
+                let img = document.createElement('img'); // DOM
+                img.style.width = '50px';
+                img.style.height = '50px';
+                if (data == null) {
                     img.src = "res/images/sort_asc.png";
-                }else{
+                } else {
                     img.src = atob(data);
                 }
                 td.appendChild(img);
-            }else{
-               // td.innerText = displayDTList[pro](dataList[index]);
-                tdp.innerHTML =  displayDTList[pro](dataList[index]);
+            } else {
+                // td.innerText = displayDTList[pro](dataList[index]);
+                tdp.innerHTML = displayDTList[pro](dataList[index]);
                 td.appendChild(tdp);
             }
 
-    
+
             tr.appendChild(td);
         }
-       
+
         //Create td for add modify buttons
-        tdB = document.createElement("td"); 
+        tdB = document.createElement("td");
         tdB.classList.add('modifyCol');
 
         //Create buttons 
@@ -393,10 +391,10 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
         btnEdit.style.pointerEvents = "all";
         btnEdit.classList.add('btn');
         btnEdit.classList.add('btn-sm');
-        btnEdit.onclick = function(){
-           // alert("edit");
-           let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            modifyFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+        btnEdit.onclick = function () {
+            // alert("edit");
+            let indx = this.parentNode.parentNode.firstChild.innerHTML;
+            modifyFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnDelete = document.createElement("button");
@@ -406,19 +404,19 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
 
         btnDelete.classList.add('ms-1');
         btnDelete.classList.add('me-1');
-        btnDelete.onclick = function(){
+        btnDelete.onclick = function () {
             //alert("Delete");
             let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            deleteFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+            deleteFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnView = document.createElement("button");
         btnView.classList.add('btn');
         btnView.classList.add('btn-sm');
-        btnView.onclick = function(){
-           // alert("View");
-           let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            viewFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+        btnView.onclick = function () {
+            // alert("View");
+            let indx = this.parentNode.parentNode.firstChild.innerHTML;
+            viewFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnEdit.innerHTML = "<i class='fas fa-edit'></i>";
@@ -426,21 +424,20 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
         btnView.innerHTML = "<i class='fa-solid fa-eye'></i>";
 
 
+        if (buttonvisibility) {
 
-        if(buttonvisibility){
-
-            if(userPrivilage.upd){
+            if (userPrivilage.upd) {
                 btnEdit.disabled = false;
                 btnEdit.style.cursor = "pointer";
-            }else {
+            } else {
                 btnEdit.disabled = true;
                 btnEdit.style.cursor = "not-allowed";
             }
 
-            if(userPrivilage.del){
+            if (userPrivilage.del) {
                 btnDelete.disabled = false;
                 btnDelete.style.cursor = "pointer";
-            }else {
+            } else {
                 btnDelete.disabled = true;
                 btnDelete.style.cursor = "not-allowed";
             }
@@ -457,14 +454,14 @@ const fillDataIntoTable = (tableid,dataList,propertyList,displayDTList,
     }
 }
 
-const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
-                           modifyFunction,deleteFunction,redirectFunction, buttonvisibility=true,userPrivilage) => {
+const fillDataIntoTable2 = (tableid, dataList, propertyList, displayDTList,
+                            modifyFunction, deleteFunction, redirectFunction, buttonvisibility = true, userPrivilage) => {
 
     //
     tbody = tableid.children[1];
     tbody.innerHTML = "";
 //object wise findalla
-    for(let index in dataList){
+    for (let index in dataList) {
 
         // create tr node
         tr = document.createElement("tr");
@@ -474,7 +471,7 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
         tdind.innerText = parseInt(index) + 1;
         tr.appendChild(tdind);
 
-        for(pro in propertyList){
+        for (pro in propertyList) {
             //create td node
             td = document.createElement("td");
             tdp = document.createElement("p");
@@ -484,46 +481,45 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
             // console.log(propertyList[pro]);
             //  console.log(displayDTList[pro]);
 
-            if(displayDTList[pro] == 'text'){
-                if(data == null){
+            if (displayDTList[pro] == 'text') {
+                if (data == null) {
                     td.innerText = "-";
-                }else{
+                } else {
                     tdp.innerText = data;
                     td.appendChild(tdp);
                 }
-            } else if(displayDTList[pro] == 'decimal'){
-                if(data == null) {
+            } else if (displayDTList[pro] == 'decimal') {
+                if (data == null) {
                     td.innerText = "-";
-                }else {
-                    td.innerText=parseFloat(data).toFixed(2)
+                } else {
+                    td.innerText = parseFloat(data).toFixed(2)
                 }
-            }
-            else if(displayDTList[pro] == 'object'){
+            } else if (displayDTList[pro] == 'object') {
 
                 // console.log(propertyList[pro]);
-                tdp.innerText = getDataFromObject(dataList[index],propertyList[pro]);
+                tdp.innerText = getDataFromObject(dataList[index], propertyList[pro]);
                 td.appendChild(tdp);
 
-            } else if(displayDTList[pro] == 'yearbydate'){
-                if(data == null){
+            } else if (displayDTList[pro] == 'yearbydate') {
+                if (data == null) {
                     td.innerText = "-";
-                }else{
+                } else {
                     td.innerText = new Date(data).getFullYear();
                 }
-            } else if(displayDTList[pro] == 'imagearray'){
+            } else if (displayDTList[pro] == 'imagearray') {
                 //create img node
                 let img = document.createElement('img'); // DOM
                 img.style.width = '50px';
                 img.style.height = '50px';
-                if(data == null){
+                if (data == null) {
                     img.src = "res/images/sort_asc.png";
-                }else{
+                } else {
                     img.src = atob(data);
                 }
                 td.appendChild(img);
-            }else{
+            } else {
                 // td.innerText = displayDTList[pro](dataList[index]);
-                tdp.innerHTML =  displayDTList[pro](dataList[index]);
+                tdp.innerHTML = displayDTList[pro](dataList[index]);
                 td.appendChild(tdp);
             }
 
@@ -540,10 +536,10 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
         btnEdit.style.pointerEvents = "all";
         btnEdit.classList.add('btn');
         btnEdit.classList.add('btn-sm');
-        btnEdit.onclick = function(){
+        btnEdit.onclick = function () {
             // alert("edit");
             let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            modifyFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+            modifyFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnDelete = document.createElement("button");
@@ -553,19 +549,19 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
 
         btnDelete.classList.add('ms-1');
         btnDelete.classList.add('me-1');
-        btnDelete.onclick = function(){
+        btnDelete.onclick = function () {
             //alert("Delete");
             let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            deleteFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+            deleteFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnView = document.createElement("button");
         btnView.classList.add('btn');
         btnView.classList.add('btn-sm');
-        btnView.onclick = function(){
+        btnView.onclick = function () {
             // alert("redirect");
             let indx = this.parentNode.parentNode.firstChild.innerHTML;
-            redirectFunction(dataList[parseInt(indx)-1],parseInt(indx)-1);
+            redirectFunction(dataList[parseInt(indx) - 1], parseInt(indx) - 1);
         }
 
         btnEdit.innerHTML = "<i class='fas fa-edit'></i>";
@@ -573,21 +569,20 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
         btnView.innerHTML = "<i class='fa-solid fa-arrow-right-from-file'></i>";
 
 
+        if (buttonvisibility) {
 
-        if(buttonvisibility){
-
-            if(userPrivilage.upd){
+            if (userPrivilage.upd) {
                 btnEdit.disabled = false;
                 btnEdit.style.cursor = "pointer";
-            }else {
+            } else {
                 btnEdit.disabled = true;
                 btnEdit.style.cursor = "not-allowed";
             }
 
-            if(userPrivilage.del){
+            if (userPrivilage.del) {
                 btnDelete.disabled = false;
                 btnDelete.style.cursor = "pointer";
-            }else {
+            } else {
                 btnDelete.disabled = true;
                 btnDelete.style.cursor = "not-allowed";
             }
@@ -604,67 +599,67 @@ const fillDataIntoTable2 = (tableid,dataList,propertyList,displayDTList,
     }
 }
 
-const getDataFromObject = (ob , path) => {
+const getDataFromObject = (ob, path) => {
     console.log(ob);
     console.log(path);
 
-     let getData = (modal , propPath) => {
+    let getData = (modal, propPath) => {
         let paths = propPath.split('.');
 
-        if(paths.length >1 && typeof modal[paths[0]] === "object" ){
-            return getData(modal[paths[0]],paths.slice(1).join('.'));
-        }else{
+        if (paths.length > 1 && typeof modal[paths[0]] === "object") {
+            return getData(modal[paths[0]], paths.slice(1).join('.'));
+        } else {
             return modal[paths[0]];
         }
-     }
+    }
 
-     let data = getData(ob, path);
+    let data = getData(ob, path);
 
-     return data;
+    return data;
 
 }
 
 //Get current date ;showing only
 const getCurrentDate = () => {
     let nowDate = new Date();
- // retrive 0 to 11   
+    // retrive 0 to 11
     let month = nowDate.getMonth() + 1;//return 0 jan-11
 //retrive 1-31
     let date = nowDate.getDate();//return 1-31
 //year 
     let year = nowDate.getFullYear();
 
-    if(month < 10){
-        month = "0"+ month;
+    if (month < 10) {
+        month = "0" + month;
     }
-    if(date < 10){
+    if (date < 10) {
         date = "0" + date;
     }
 
 
-    return year + "-" + month + "-" + date ;
+    return year + "-" + month + "-" + date;
 }
 
 
 //Get current date ;showing only
-const getCurrentDate2 = (format,givendate) => {
+const getCurrentDate2 = (format, givendate) => {
     let nowDate = new Date(givendate);
- // retrive 0 to 11   
+    // retrive 0 to 11
     let month = nowDate.getMonth() + 1;//return 0jan-11Dec
 //retrive 1-31
     let date = nowDate.getDate();//return 1-31
 //year 
     let year = nowDate.getFullYear();
 
-    if(month < 10){
-        month = "0"+ month;
+    if (month < 10) {
+        month = "0" + month;
     }
-    if(date < 10){
+    if (date < 10) {
         date = "0" + date;
     }
 
 
-    return year + "-" + month + "-" + date ;
+    return year + "-" + month + "-" + date;
 }
 
 const showModal = (modalId) => {/*
@@ -676,7 +671,7 @@ const showModal = (modalId) => {/*
     $(modalId).modal().show();
 
 }
-const buttonCloseModal = (modalId, refreshForm)=> {
+const buttonCloseModal = (modalId, refreshForm) => {
 
     // let userConfirm = window.confirm("Are you sure to close the Modal...?");
 
@@ -688,7 +683,7 @@ const buttonCloseModal = (modalId, refreshForm)=> {
     // }
 }
 
-const   buttonCloseVModal = (modalId) => {
+const buttonCloseVModal = (modalId) => {
     let userConfirm = window.confirm("Are you sure to close the Modal...?");
 
     if (userConfirm) {
@@ -698,50 +693,50 @@ const   buttonCloseVModal = (modalId) => {
 
 }
 
-const submitmodal = (checkErrors,submitConfirmQuestionlabel,obj,objectQsProperties,url,redirectUrl,refreshTable,refreshForm,modalID) => {
+const submitmodal = (checkErrors, submitConfirmQuestionlabel, obj, objectQsProperties, url, redirectUrl, refreshTable, refreshForm, modalID) => {
 
-  let errors = checkErrors();
+    let errors = checkErrors();
     if (errors == "") {
         let submitConfirmMsg = "Are you sure to add following... " +
-            "\n "+ submitConfirmQuestionlabel  + objectQsProperties ;
+            "\n " + submitConfirmQuestionlabel + objectQsProperties;
         let userResponce = window.confirm(submitConfirmMsg);
 
         if (userResponce) {
             let postServieResponce;
-        $.ajax(url, {
-            async: false,
-            type: "POST",
-            data: JSON.stringify(obj),
-            contentType: "application/json",
-            success: function (susResdata, susStatus, ajresob) {
-                postServieResponce = susResdata;
-            },
-            error: function (errRsOb, errStatus, errorMsg) {
-                postServieResponce = errorMsg;
+            $.ajax(url, {
+                async: false,
+                type: "POST",
+                data: JSON.stringify(obj),
+                contentType: "application/json",
+                success: function (susResdata, susStatus, ajresob) {
+                    postServieResponce = susResdata;
+                },
+                error: function (errRsOb, errStatus, errorMsg) {
+                    postServieResponce = errorMsg;
+                }
+
+            });
+
+            if (postServieResponce == "0") {
+
+                alert("Add Successfully..!");
+                window.location.replace(redirectUrl);
+                refreshTable();
+                refreshForm();
+                $(modalID).modal("hide");
+            } else {
+                window.alert("You have following error \n" + postServieResponce);
             }
 
-        });
-
-        if (postServieResponce == "0") {
-
-            alert("Add Successfully..!");
-            window.location.replace(redirectUrl);
-            refreshTable();
-            refreshForm();
-            $(modalID).modal("hide");
-        } else {
-            window.alert("You have following error \n" + postServieResponce);
         }
-
+    } else {
+        window.alert("You have following error \n" + errors);
     }
-} else {
-    window.alert("You have following error \n" + errors);
-}
 }
 
-const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,refreshForm,modalformID) =>{
+const updatemodal = (updateObjName, checkErrors, checkUpdate, url, obj, refreshTable, refreshForm, modalformID) => {
 
-    let updateResponceMsg = "Are you sure to update following "+ updateObjName +"..? \n";
+    let updateResponceMsg = "Are you sure to update following " + updateObjName + "..? \n";
     let errors = checkErrors();
     if (errors == "") {
         //
@@ -751,7 +746,7 @@ const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,
             window.alert("Nothing updated...! \n ");
         } else {
 
-            let updateResponce = window.confirm( updateResponceMsg + updates);
+            let updateResponce = window.confirm(updateResponceMsg + updates);
 
             if (updateResponce) {
                 let putResponce;
@@ -771,10 +766,9 @@ const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,
 
 
                 if (putResponce == "0") {
-                    window.alert(updateObjName +" update Successfully...!");
+                    window.alert(updateObjName + " update Successfully...!");
                     refreshTable();
                     refreshForm();
-
 
 
                 } else {
@@ -791,10 +785,11 @@ const updatemodal = (updateObjName,checkErrors,checkUpdate,url,obj,refreshTable,
 
 }
 
-const  setIDStyle = (arrayId,style) => {
+const setIDStyle = (arrayId, style) => {
     arrayId.forEach(
-        (item) =>
-    {item.style.border = style}
+        (item) => {
+            item.style.border = style
+        }
     )
 
     // txtCompanyName.style.border = style;
@@ -802,8 +797,10 @@ const  setIDStyle = (arrayId,style) => {
     //  txtCompanyEmail.style.border = style;
 }
 
-const setIDValueNull = (arrayID)=> {
-    arrayID.forEach((item)=>{item.value = "";});
+const setIDValueNull = (arrayID) => {
+    arrayID.forEach((item) => {
+        item.value = "";
+    });
 }
 
 let disabledButton = (addbtn, updbtn) => {
@@ -829,10 +826,11 @@ let disabledButton = (addbtn, updbtn) => {
     }
 }
 
-const  divInnerFormshow = (elementIdName,value,divId) => {
+const divInnerFormshow = (elementIdName, value, divId) => {
     if (JSON.parse(elementIdName.value).name == value) {
         divId.style.display = "block";
     } else {
         divId.style.display = "none";
     }
 }
+

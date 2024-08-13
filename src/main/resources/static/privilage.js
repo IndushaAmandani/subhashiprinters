@@ -28,6 +28,9 @@ const refreshTable = () => {
     let displayPropDataTypeList = ['object', 'object', getSelectPri, getInsertPri, getUpdatePri, getDeletePri];
 
     fillDataIntoTable(tablePrivilage, privileges, displayPropList, displayPropDataTypeList, refillForm, deleteRow, viewRow, true, lggeduserprivilage);
+    for(index in privileges){
+        tablePrivilage.children[1].children[index].children[7].children[1].style.display = "none";
+    }
     $("#tablePrivilage").dataTable();
 
 }
@@ -105,48 +108,53 @@ const refillForm = (ob, rowno) => {
     oldprivileage = JSON.parse(JSON.stringify(ob));
 
 
-    fillSelectFeild(cmbRoleName, "Select Role", roles, "name", privileage.role_id.name,true);
+    fillSelectFeild(cmbRoleName, "Select Role", roles, "name", privileage.role_id.name,);
     cmbRoleName.style.borderBottom = "2px solid green";
-    fillSelectFeild(cmbModuleName, "Select Modules", modules, "name", privileage.module_id.name,true);
+    fillSelectFeild(cmbModuleName, "Select Modules", modules, "name", privileage.module_id.name,);
     cmbModuleName.style.borderBottom = "2px solid green";
 
     if (privileage.sel) {
         checkSelect.checked = true;
         lblSelect.innerText = "Select Priv. Granted";
+        lblSelect.style.color = "green";
     } else {
         checkSelect.checked = false;
         lblSelect.innerText = "Select Not Granted";
+        lblSelect.style.color = "black";
     }
     if (privileage.ins) {
         checkInsert.checked = true;
         lblInsert.innerText = "Insert Priv. Granted";
+        lblInsert.style.color = "green";
     } else {
         checkInsert.checked = false;
         lblInsert.innerText = "Insert Not Granted";
+        lblInsert.style.color = "black";
     }
     if (privileage.upd) {
         chekUpdate.checked = true;
         lblUpdate.innerText = "Update Priv. Granted";
+        lblUpdate.style.color = "green";
     } else {
         chekUpdate.checked = false;
         lblUpdate.innerText = "Update Not Granted";
+        lblUpdate.style.color = "black";
     }
 
     if (privileage.del) {
         checkDelete.checked = true;
         lblDelete.innerText = "Delete Priv. Granted";
+        lblDelete.style.color = "green";
     } else {
         checkDelete.checked = false;
         lblDelete.innerText = "Delete Not Granted";
+        lblDelete.style.color = "black";
     }
-
-
-    $("#modalAddPrivilageForm").modal("show");
-
     disabledButton(false,true);
+
+    btnAddNew.click();
+
 }
-
-
 
 const deleteRow = (empob) => {
     let deleteMsg = "Are you sure want to delete following privilage details\n"

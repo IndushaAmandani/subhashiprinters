@@ -1,6 +1,8 @@
 package lk.subhashiprinters.corder;
 
 
+import lk.subhashiprinters.cpayment.CustomerPayment;
+import lk.subhashiprinters.cpayment.CustomerPaymentRepository;
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.userm.UserRepository;
 import lk.subhashiprinters.userm.User;
@@ -12,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +27,9 @@ public class CustomerOrderController {
 
     @Autowired // for create instance
     private CustomerOrderRepository CustomerOrderDao;
+
+    @Autowired // for create instance
+    private CustomerPaymentRepository customerPaymentDao;
 
     @Autowired // for create instance
     private COrderStatusRepository COrderSatatusDao;
@@ -49,6 +56,7 @@ public class CustomerOrderController {
 
     // get mapping for get customerOrder selected columns details [/customerOrder/findall]
     @GetMapping(value = "/findall", produces = "application/json")
+    @Transactional
     public List<CustomerOrder> quotationrequestFindAll() {
         //need to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -61,15 +69,62 @@ public class CustomerOrderController {
         // check privilage for add operation
         HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "CustomerOrder");
 
-        if (loggedUser != null && userPiriv.get("sel"))
-            return CustomerOrderDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-        else {
+        if (loggedUser != null && userPiriv.get("sel")) {
+
+            List<CustomerOrder> findAllCustomerOrderList = CustomerOrderDao.findAll();
+
+            for (CustomerOrder corderRecord : findAllCustomerOrderList) {
+
+                Boolean orderProductionDone = true;
+                //set COrder status check with production and payment
+                List<CustomerOrderHasProduct> productListfortheCustomerOrder = corderRecord.getCustomerOrderHasProductList();
+                for (CustomerOrderHasProduct cohproduct : productListfortheCustomerOrder) {
+                    if (cohproduct.getProduction_status_id().getId() != 4) {
+                        orderProductionDone = false;
+                        break;
+
+                    }
+                }
+                if (orderProductionDone) {
+                    corderRecord.setProduction_status_id(productionStatusRepository.getReferenceById(4));
+                }
+                for (CustomerOrderHasMaterial cohasm : corderRecord.getCustomerOrderHasMaterialList()) {
+                    cohasm.setCustomer_order_id(corderRecord);
+                }
+                for (CustomerOrderHasProduct cohasP : corderRecord.getCustomerOrderHasProductList()) {
+                    cohasP.setCustomer_order_id(corderRecord);
+                }
+
+                try {
+                    CustomerOrderDao.save(corderRecord);
+                } catch (Exception e) {
+                    System.out.println("Error : " + e.getMessage());
+                }
+
+            }
+
+            return CustomerOrderDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
+
+        } else {
             List<CustomerOrder> customerOrderList = new ArrayList<>();
             return customerOrderList;
         }
 
     }
 
+
+    @GetMapping(value = "/urgentCorders", produces = "application/json")
+    public List<CustomerOrder> geturgentCustomerOrder() {
+        LocalDate today = LocalDate.now();
+        LocalDate afterSevenDays = LocalDate.now().plusDays(9);
+        return CustomerOrderDao.getUrgentOrders(today, afterSevenDays);
+    }
+
+
+//    @GetMapping(value = "/customerList", produces = "application/json")
+//    public List<CustomerOrder> getCustomerListfromOrders() {
+//        return CustomerOrderDao.getCustomerNameList();
+//    }
 
     //get mapping for get corder details for  daily product
     @GetMapping(value = "/list", produces = "application/json")
@@ -89,7 +144,7 @@ public class CustomerOrderController {
     }
 
     @GetMapping(value = "/notpaidCustomers", produces = "application/json")
-    public List<CustomerOrder> getNotPyCustomerOrders() {
+    public List<CustomerOrder>  getNotPyCustomerOrders() {
         return CustomerOrderDao.getNotpaidList();
     }
 
@@ -119,13 +174,14 @@ public class CustomerOrderController {
             try {
                 // set auto set value
                 customerOrder.setOrder_code(CustomerOrderDao.getNextPorderNo());
-                customerOrder.setOrder_status_id(COrderSatatusDao.getReferenceById(1));
+                customerOrder.setOrder_status_id(COrderSatatusDao.getReferenceById(4));
                 customerOrder.setAdded_date(LocalDateTime.now());
                 customerOrder.setAdded_user_id(loggedUser);
                 customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
-                //customerOrder.setOrder_balance(customerOrder.getTotal_amount());
+                customerOrder.setOrder_balance(customerOrder.getTotal_amount());
 
-               //System.out.println(customerOrder);
+
+                //System.out.println(customerOrder);
 
                 for (CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()) {
                     coh.setCustomer_order_id(customerOrder);
@@ -139,6 +195,7 @@ public class CustomerOrderController {
                 }
 
                 CustomerOrderDao.save(customerOrder);
+
 
                 return "0";
             } catch (Exception ex) {

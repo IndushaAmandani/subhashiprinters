@@ -2,10 +2,12 @@ package lk.subhashiprinters.supplierpayment;
 
 
 import lk.subhashiprinters.mrn.MRN;
+import lk.subhashiprinters.mrn.MRNHasMaterial;
 import lk.subhashiprinters.mrn.MRNRepository;
 import lk.subhashiprinters.mrn.MRNStatusRepository;
 import lk.subhashiprinters.purchaseorder.POrderStatusRepository;
 import lk.subhashiprinters.purchaseorder.PurchaseOrder;
+import lk.subhashiprinters.purchaseorder.PurchaseOrderHasMaterial;
 import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequest;
 import lk.subhashiprinters.privilege.PrivilageController;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -94,8 +97,9 @@ public class SupplierPaymentController {
 
 
     //post mapping for insert item [/item - post]
+    @Transactional
     @PostMapping
-    public String insertSupplier(@RequestBody SupplierPayment supplierPayment) {
+    public String insertSupplierP(@RequestBody SupplierPayment supplierPayment) {
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
@@ -125,10 +129,20 @@ public class SupplierPaymentController {
                 } else if (supplierPayment.getSupplier_payment_status_id().getId() == 2) {
                     extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
                 }
+                //Check whether amounts are getting null if so,then assign BigDecimal Zero value to avoid nullpoint exception
+                                                   //condition true :false
                 BigDecimal paidamountMRN = extmrn.getPaidamount().add(supplierPayment.getPaid_amount());
                 extmrn.setPaidamount(paidamountMRN);
+               for(MRNHasMaterial mrnhm :extmrn.getMrnHasMaterialList()) {
+                   mrnhm.setMaterial_recieve_note_id(extmrn);
+               }
+
+               for(PurchaseOrderHasMaterial poham : extPorder.getPurchaseOrderHasMaterialList()){
+                   poham.setPurchase_order_id(extPorder);
+               }
                 porderDao.save(extPorder);
                 mrnDao.save(extmrn);
+                supplierpaymentDao.save(supplierPayment);
                 return "0";
             } catch (Exception ex) {
                 return "Supplier Payment Insert Not completed : " + ex.getMessage();

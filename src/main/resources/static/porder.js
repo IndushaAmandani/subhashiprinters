@@ -24,7 +24,9 @@ const refreshTable = () => {
 
 
     for (let index in porders) {
+
         tablePurchaseOrder.children[1].children[index].children[8].children[2].style.display = "none";
+        tablePurchaseOrder.children[1].children[index].children[8].children[0].style.display = "none";
         if ((porders[index].purchase_order_status_id.name == "Removed") || (porders[index].purchase_order_status_id.name == "Cancelled" )) {
             tablePurchaseOrder.children[1].children[index].style.backgroundColor = "#a99e9e";
             tablePurchaseOrder.children[1].children[index].children[8].children[1].disabled = true;
@@ -80,7 +82,7 @@ const refreshPOForm = () => {
 
 
     let currentDateForMin = new Date();
-    currentDateForMin.setDate(currentDateForMin.getDate() - 2);
+    currentDateForMin.setDate(currentDateForMin.getDate() + 2);
     dteRequiredDate.min = getCurrentDate2("date", currentDateForMin);
 
     let currentDateForMax = new Date();
@@ -122,23 +124,33 @@ function getUnitPrice() {
     txtUnitPrice.value = parseFloat(quotationMaterial.purchase_price).toFixed(2);
     txtUnitPrice.style.borderBottom = "2px solid  green";
     purchaseOrderHasIMatrial.purchase_price = txtUnitPrice.value;
+    txtQuantity.value = '';
+    txtQuantity.style.borderBottom = "2px solid  #ced4da";
+    purchaseOrderHasIMatrial.quantity = null;
+    txtLinePricet.value = '';
+    txtLinePricet.style.borderBottom = "2px solid  #ced4da";
+    purchaseOrderHasIMatrial.line_total = null;
+    txtQuantity.disabled = false;
 }
 
 function getLineTotal() {
 
     if (txtQuantity.value != 0) {
 
-        let regpattern = new RegExp("^[0-9]{1,4}$");
+        let regpattern = new RegExp("^[1-9][0-9]{0,3}$");
 
         if (regpattern.test(txtQuantity.value)) {
             txtLinePricet.value = (parseFloat(txtQuantity.value) * parseFloat(txtUnitPrice.value)).toFixed(2);
             txtLinePricet.style.borderBottom = "2px solid  green";
-            purchaseOrderHasIMatrial.line_total = txtLinePricet.value;
+            purchaseOrderHasIMatrial.line_total = parseFloat(txtLinePricet.value).toFixed(2);
             if(oldPurchaseOrderHasIMatrial == null)
                     buttonInnerAdd.disabled = false; else   buttonInnerUpdate.disabled = false;
         } else {
             txtQuantity.style.borderBottom = "2px solid red";
             purchaseOrderHasIMatrial.quantity = null;
+            txtLinePricet.value = '';
+            txtLinePricet.style.borderBottom = "2px solid  #ced4da";
+            purchaseOrderHasIMatrial.line_total = null;
             buttonInnerAdd.disabled = true;    buttonInnerUpdate.disabled = true;
         }
 
@@ -146,6 +158,9 @@ function getLineTotal() {
     } else {
         txtQuantity.style.borderBottom = "2px solid red";
         purchaseOrderHasIMatrial.quantity = null;
+        txtLinePricet.value = '';
+        txtLinePricet.style.borderBottom = "2px solid  #ced4da";
+        purchaseOrderHasIMatrial.line_total = null;
         buttonInnerAdd.disabled = true;    buttonInnerUpdate.disabled = true;
     }
 }
@@ -171,6 +186,7 @@ const refreshInnerFormTable = () => {
     txtUnitPrice.value = "";
     txtUnitPrice.disabled = true;
     txtQuantity.value = "";
+    txtQuantity.disabled = true;
     txtLinePricet.value = "";
     txtLinePricet.disabled = true;
 
@@ -192,6 +208,7 @@ const refreshInnerFormTable = () => {
     for (let index in purchaseorder.purchaseOrderHasMaterialList) {
         totalAmount = parseFloat(totalAmount) + parseFloat(purchaseorder.purchaseOrderHasMaterialList[index].line_total);
         tablePOMaterial.children[1].children[index].children[5].children[2].style.display = "none";
+        tablePOMaterial.children[1].children[index].children[5].children[0  ].style.display = "none";
     }
 
 
@@ -204,6 +221,10 @@ const refreshInnerFormTable = () => {
         } else {
             txtTotalAmount.style.borderBottom = "2px solid green";
         }
+    }else {
+        txtTotalAmount.value = '';
+        txtTotalAmount.style.borderBottom = "2px solid  #ced4da";
+        purchaseorder.total_amount = null;
     }
 
 }
@@ -253,13 +274,13 @@ const innreFormReFill = (innerob, rowind) => {
     txtUnitPrice.value = purchaseOrderHasIMatrial.purchase_price;
     txtUnitPrice.disabled = true;
     txtQuantity.value = purchaseOrderHasIMatrial.quantity;
+    txtLinePricet.style.border = "2px solid  green";
     txtLinePricet.value =purchaseOrderHasIMatrial.line_total;
     txtLinePricet.disabled = true;
 
     cmbMaterial.style.borderBottom = "2px solid  green";
     txtUnitPrice.style.borderBottom = "2px solid  green";
-    txtQuantity.style.borderBottom = "2px solid  green";
-    txtLinePricet.style.borderBottom = "2px solid  green";
+    txtQuantity.style.borderBderBottom = "2px solid  green";
 
     buttonInnerUpdate.disabled = true;
     buttonInnerAdd.disabled = true;
@@ -381,10 +402,10 @@ const rowDelete = (ob, rowno) => {
 
     let deleteMsg = "Are you sure to delete following Purchase order..?" +
         "\n Purchase order no : " + ob.order_no +
-        "\n Supplier : " + ob.supplier_id.req_no +
-        +"\n Quotation : " + ob.quatation_id.number
-        + "\n Required Date : " + ob.required_date
-        + "\n Total Amount : " + ob.total_amount;
+        "\n Supplier : " + ob.supplier_id.reg_no +
+        "\n Quotation : " + ob.quatation_id.number+
+        "\n Required Date : " + ob.required_date+
+        "\n Total Amount : " + ob.total_amount;
 
     let deleteUserResponce = window.confirm(deleteMsg);
 

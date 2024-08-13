@@ -1,13 +1,10 @@
 package lk.subhashiprinters.cpayment;
 
 
-import lk.subhashiprinters.corder.CustomerOrder;
-import lk.subhashiprinters.corder.CustomerOrderHasProduct;
+import lk.subhashiprinters.corder.*;
 import lk.subhashiprinters.cpayment.CustomerPayment;
 import lk.subhashiprinters.privilege.PrivilageController;
-import lk.subhashiprinters.corder.CustomerOrderRepository;
 import lk.subhashiprinters.cpayment.CustomerPaymentRepository;
-import lk.subhashiprinters.corder.ProductionStatusRepository;
 import lk.subhashiprinters.userm.UserRepository;
 import lk.subhashiprinters.userm.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class CustomerPaymentController {
     private CustomerPaymentRepository customerpaymentDao;
     @Autowired // for create instance
     private CustomerOrderRepository CustomerOrderDao;
+    @Autowired // for create instance
+    private COrderStatusRepository corderStatusDao;
     @Autowired
     private UserRepository userDao;
 
@@ -87,7 +86,7 @@ public class CustomerPaymentController {
 
     //post mapping for insert customer Pyament [/spayment - post]
     @PostMapping
-    public String insertSuppler(@RequestBody CustomerPayment customerPayment) {
+    public String insertCpayment(@RequestBody CustomerPayment customerPayment) {
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
@@ -111,18 +110,71 @@ public class CustomerPaymentController {
                 //do the requeired operation
                 customerpaymentDao.save(customerPayment);
 
-
-
+                //Set Customer Order order balance by the settled payment
                 CustomerOrder customerOrder = CustomerOrderDao.getReferenceById(customerPayment.getCustomer_order_id().getId());
 
                 BigDecimal orderBalanceforCOrder = customerOrder.getOrder_balance();
+
+                //Check whether this is the first payment made by the customer
+                BigDecimal totalamountfortheOrder = customerOrder.getTotal_amount();
+                if(orderBalanceforCOrder.compareTo(totalamountfortheOrder) ==0){
+                    //set order status of Pending into initiated status
+                   customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(1));
+                    for (CustomerOrderHasMaterial comat : customerOrder.getCustomerOrderHasMaterialList()) {
+                        comat.setCustomer_order_id(customerOrder);
+
+                    }
+                    for (CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()) {
+                        coh.setCustomer_order_id(customerOrder);
+
+                    }
+
+                    CustomerOrderDao.save(customerOrder);
+
+                }
+
+
                 BigDecimal paidamount = customerPayment.getPaid_amount();
 
-                BigDecimal newTotalamount = orderBalanceforCOrder.subtract(paidamount);
+                BigDecimal newOrderBalance = orderBalanceforCOrder.subtract(paidamount);
 
-                customerOrder.setOrder_balance(newTotalamount);
+                customerOrder.setOrder_balance(newOrderBalance);
+                System.out.println(newOrderBalance);
 
-                for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
+                Boolean orderProductionDone = true;
+                //corderhas product list
+
+                List<CustomerOrderHasProduct> productListfortheCustomerOrder = customerOrder.getCustomerOrderHasProductList();
+                for (CustomerOrderHasProduct cohproduct : productListfortheCustomerOrder) {
+                    if (cohproduct.getProduction_status_id().getId() != 4) {
+                        orderProductionDone = false;
+                        break;
+
+                    }
+                }
+                //-----new BigDecimal(0)----
+                //Payment completed check
+                if (newOrderBalance.compareTo(BigDecimal.ZERO) == 0) {
+                    if(orderProductionDone){
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(3));
+                    }else{
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(2));
+                    }
+                }
+                //Payment not completed
+                if (newOrderBalance.compareTo(BigDecimal.ZERO) > 0) {
+                    if(orderProductionDone){
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(4));
+                    }else{
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(2));
+                    }
+                }
+
+                for (CustomerOrderHasMaterial comat : customerOrder.getCustomerOrderHasMaterialList()) {
+                    comat.setCustomer_order_id(customerOrder);
+
+                }
+                for (CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()) {
                     coh.setCustomer_order_id(customerOrder);
 
                 }

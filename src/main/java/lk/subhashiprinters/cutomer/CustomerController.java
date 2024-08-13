@@ -85,11 +85,14 @@ public class CustomerController {
     public List<Customer> getCustomerbyCOStatus(){return customerDao.getCustomerbyCOStatus();}
 
     //dashboard [active customer count]
-    @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
+        @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
     public Customer getbyActiveCustomer() {
         return customerDao.activeCustomerCount();
     }
 
+
+    @GetMapping(value = "/getCustomerNamebyCorderwhenCObalanceAvailable",produces = "application/json")
+    public List<Customer> getCustomerListbyCOrderbalance(){return customerDao.getCustomerNameListwithCOrders();}
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
 
@@ -143,6 +146,8 @@ public class CustomerController {
             customer.setAdded_date(LocalDateTime.now());
 
             customer.setAdded_user_id(loggedUser);
+
+
 
 //            customer.setCustomer_type_id(customerTypeDao.getReferenceById(2));
 

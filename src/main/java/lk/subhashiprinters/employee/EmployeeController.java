@@ -55,6 +55,10 @@ public class EmployeeController {
     public List<Employee> employeeListWithoutUser(){
         return employeeDao.getEmployeeListWithoutUserAccount();
     }
+    @GetMapping(value = "/listwithuseraccount" , produces = "application/json")
+    public List<Employee> employeeListWithUser(){
+        return employeeDao.getEmployeeListWithUserAccount();
+    }
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
     @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
@@ -205,7 +209,7 @@ public class EmployeeController {
                 return "0";
 
             }catch (Exception ex){
-                return "Delete Not Completd : " + ex.getMessage();
+                return "Delete Not Completed : " + ex.getMessage();
             }
         }else {
             return "Delete Not Completed : Emplyoyee Not Avalable";

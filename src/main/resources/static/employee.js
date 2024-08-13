@@ -1,5 +1,5 @@
 //add funtion browser onload event
-window.addEventListener('load',loadUI);
+window.addEventListener('load', loadUI);
 
 //define function called loadui
 function loadUI() {
@@ -14,35 +14,34 @@ function loadUI() {
 
 //called refreshEmployeeForm function -- >
     refreshEmployeeForm();
-    let dob = document.getElementById("dteDOB")
-    dob.addEventListener("change",checkDoB())
+
 
 }
 
 //define refresh table function
-const refreshTable = () =>{
+const refreshTable = () => {
 
     // create array for stor data
     employees = new Array();
 
     employees = getServiceRequest("/employee/findall");
-   /* $.ajax('/employee/findall',{
-        async: false,
-        dataType:'json',
-        success: function (data,status, xhr){
-            employees = data;
-        },
-        error: function (rxhrdata,errorstatus,errorMessge){
-            employees = [];
-        }
-    })*/
+    /* $.ajax('/employee/findall',{
+         async: false,
+         dataType:'json',
+         success: function (data,status, xhr){
+             employees = data;
+         },
+         error: function (rxhrdata,errorstatus,errorMessge){
+             employees = [];
+         }
+     })*/
     //create display proporty list
-    let displayPropertyList = ['calling_name', 'fullname', 'nic' ,'mobile' ,'email','employeestatus_id.name'];
+    let displayPropertyList = ['calling_name', 'fullname', 'nic', 'mobile', 'email', 'employeestatus_id.name'];
     // creat display property data type list
-    let displayDatatypeList = ['text', 'text','text','text','text','object'];
+    let displayDatatypeList = ['text', 'text', 'text', 'text', 'text', 'object'];
     //called filldataintotable function for fill data
-    fillDataIntoTable(tableEmployee,employees,displayPropertyList,displayDatatypeList,formRefill , rowDelete , rowView,true,lggeduserprivilage);
-    for (let index in employees ){
+    fillDataIntoTable(tableEmployee, employees, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+    for (let index in employees) {
         if (employees[index].employeestatus_id.name == "Resign") {
             tableEmployee.children[1].children[index].style.backgroundColor = "#ad9393";
             tableEmployee.children[1].children[index].style.color = "#0f100f";
@@ -59,75 +58,60 @@ const refreshTable = () =>{
 }
 
 
-const rowView = (ob) => {
-    $("#modalViewEmployeeForm").modal("show");
-
-     //creting html form or table and name those td in following
-
-    tdfullname.innerText   = ob.fullname;
-    tdCName.innerText = ob.calling_name;
-    tdnic.innerText = ob.nic;
-    tddob.innerText = ob.dob;
-    tdMobile.innerText = ob.mobile;
-    tdland.innerText = ob.land;
-    tdaddress.innerText = ob.address;
-
-}
-
-
 //create function for refresh Form
 const refreshEmployeeForm = () => {
 
+    document.getElementById("modalViewEmployeeForm").style.pointerEvents = "auto";
     employee = new Object();
     oldemployee = null;
 
-   // civilstatuses = [{ id: 1, name: "Single" }, { id: 2, name: "Married" }];
+    // civilstatuses = [{ id: 1, name: "Single" }, { id: 2, name: "Married" }];
     civilstatuses = new Array();
-    $.ajax('/civilstatus/list',{
+    $.ajax('/civilstatus/list', {
         async: false,
-        dataType:'json',
-        success: function (data,status, xhr){
+        dataType: 'json',
+        success: function (data, status, xhr) {
             civilstatuses = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             civilstatuses = [];
         }
     })
     //
     fillSelectFeild(cmbCivilStatus, "Select Civilstatus", civilstatuses, 'name', '');
 
-  /*  designations = [{ id: 1, name: "Manager" }, { id: 2, name: "Assis-Manager" },
-        , { id: 3, name: "Cashier" }, { id: 4, name: "Stock Manager" }];*/
+    /*  designations = [{ id: 1, name: "Manager" }, { id: 2, name: "Assis-Manager" },
+          , { id: 3, name: "Cashier" }, { id: 4, name: "Stock Manager" }];*/
     designations = new Array();
-    $.ajax('/designation/list',{
+    $.ajax('/designation/list', {
         async: false,
-        dataType:'json',
-        success: function (data,status, xhr){
+        dataType: 'json',
+        success: function (data, status, xhr) {
             designations = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             designations = [];
         }
     })
     fillSelectFeild(cmbDesignation, "Select Desiganation", designations, 'name', '');
 
-   /* employeeStatuses = [{ id: 1, status: "Working" }, { id: 2, status: "Resign" },
-        { id: 3, status: "Deleted" }];*/
+    /* employeeStatuses = [{ id: 1, status: "Working" }, { id: 2, status: "Resign" },
+         { id: 3, status: "Deleted" }];*/
     employeeStatuses = new Array();
-    $.ajax('/employeestatus/list',{
+    $.ajax('/employeestatus/list', {
         async: false,
-        dataType:'json',
-        success: function (data,status, xhr){
+        dataType: 'json',
+        success: function (data, status, xhr) {
             employeeStatuses = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             employeeStatuses = [];
         }
     })
-    fillSelectFeild(cmbEmployeeStatus, "Select Status", employeeStatuses, 'name', 'Working');
-
- //Defaultly value is gained when the data is parsed here it is worki/ng
-    // employee.employeestatus_id = JSON.parse(cmbEmployeeStatus.value);
+    fillSelectFeild(cmbEmployeeStatus, "Select Status", employeeStatuses, 'name', 'Working', true);
+    cmbEmployeeStatus.style.borderBottom = "2px solid green";
+    //Defaultly value is gained when the data is parsed here it is worki/ng
+    employee.employeestatus_id = JSON.parse(cmbEmployeeStatus.value);
 
     // need to empty form element
 
@@ -140,21 +124,23 @@ const refreshEmployeeForm = () => {
     let mindate = new Date();
     let maxDate = new Date();
 
-    maxDate.setFullYear(maxDate.getFullYear()-18);
-    dteDOB.max = getCurrentDate2("date",maxDate);
+    maxDate.setFullYear(maxDate.getFullYear() - 18);
+    dteDOB.max = getCurrentDate2("date", maxDate);
 
-    mindate.setFullYear(mindate.getFullYear()-60);
-    dteDOB.min = getCurrentDate2("date",mindate);
+    mindate.setFullYear(mindate.getFullYear() - 60);
+    dteDOB.min = getCurrentDate2("date", mindate);
 
     txtMobile.value = "";
     txtDescription.value = "";
-    txtAddress.value = "";  
-    txtLand.value = "";  
-    txtEmail.value = "";  
-    lblRadioMale.style.color = "black";  
-    lblRadioFemale.style.color = "black";  
+    txtAddress.value = "";
+    txtLand.value = "";
+    txtEmail.value = "";
+    lblRadioMale.style.color = "black";
+    lblRadioFemale.style.color = "black";
     radioMale.checked = false;
     radioFemale.checked = false;
+    radioMale.disabled = true;
+    radioFemale.disabled = true;
 
     //photo reset
     employee.emp_photo = null;
@@ -167,17 +153,16 @@ const refreshEmployeeForm = () => {
     dteAssigndate.value = getCurrentDate();
 
 
-console.log(lggeduserprivilage);
-   disabledButton(true,false);
+    console.log(lggeduserprivilage);
+    disabledButton(true, false);
 
     setStyle("2px solid #cacfe7");
 }
 
 
-
 //
 const chechErrors = () => {
-  let errors = "";
+    let errors = "";
 
     if (employee.fullname == null) {
         errors = errors + "Employee Full name Not Entered.. \n";
@@ -218,43 +203,43 @@ function buttonSubmitMC() {
     console.log("Add employee")
     // need to check form errors
     let errors = chechErrors();
-    if(errors == ""){
+    if (errors == "") {
         let submitConfirmMsg = "Are you sure to add following ... " +
             "\n Employee Full Name : " + employee.fullname +
             "\n Employee nic : " + employee.nic;
         let userResponce = window.confirm(submitConfirmMsg);
 
-        if(userResponce){
-            let postServieResponce ;
+        if (userResponce) {
+            let postServieResponce;
             $.ajax("/employee", {
-                async : false,
-                type : "POST", // method delete
-                data: JSON.stringify(employee) , // object
-                contentType:"application/json",
-                success: function (susResdata , susStatus , ajresob) {
+                async: false,
+                type: "POST", // method delete
+                data: JSON.stringify(employee), // object
+                contentType: "application/json",
+                success: function (susResdata, susStatus, ajresob) {
                     postServieResponce = susResdata;
                     console.log(postServieResponce);
                 },
-                error: function (errRsOb , errStatus, errorMsg) {
+                error: function (errRsOb, errStatus, errorMsg) {
                     postServieResponce = errorMsg;
                 }
             });
 
-            if(postServieResponce == "0"){
+            if (postServieResponce == "0") {
 
                 alert("Add Successfull..!");
                 refreshTable();
                 refreshEmployeeForm();
                 $('#modalEmployeeForm').modal('hide');
                 window.location.replace("/user");
-            }else {
+            } else {
                 window.alert("You have following error \n" + postServieResponce);
             }
 
 
         }
 
-    }else {
+    } else {
 
         alert("Form have following errors \n" + errors);
     }
@@ -270,34 +255,34 @@ const formRefill = (ob, rowno) => {
     employee = new Object();
     oldemployee = new Object();
 
-    $.ajax('/employee/getbyid/'+ob.id,{
+    $.ajax('/employee/getbyid/' + ob.id, {
         async: false,
-        dataType:'json',
+        dataType: 'json',
         //responce obj -xhr
-        success: function (data,status, xhr){
+        success: function (data, status, xhr) {
             employee = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             employee = {};
         }
     })
 
-    $.ajax('/employee/getbyid?id='+ob.id,{
+    $.ajax('/employee/getbyid?id=' + ob.id, {
         async: false,
-        dataType:'json',
-        success: function (data,status, xhr){
+        dataType: 'json',
+        success: function (data, status, xhr) {
             oldemployee = data;
         },
-        error: function (rxhrdata,errorstatus,errorMessge){
+        error: function (rxhrdata, errorstatus, errorMessge) {
             oldemployee = {};
         }
     })
 
     //refill photo
-    if(employee.emp_photo == null){
+    if (employee.emp_photo == null) {
         employeeImage.src = "resources/images/user_photo/user.png";
         txtempPhoto.value = "";
-    }else{
+    } else {
         employeeImage.src = atob(employee.emp_photo);
         txtempPhoto.value = employee.emp_photo_name;
     }
@@ -312,16 +297,19 @@ const formRefill = (ob, rowno) => {
     txtAddress.value = employee.address;
     txtMobile.value = employee.mobile;
     txtLand.value = employee.land;
-    
+
 
     //Optional calue checking
-    if(employee.land != undefined )
-    txtLand.value = employee.land; else  txtLand.value ="";
+    if (employee.land != "")
+        txtLand.value = employee.land; else txtLand.value = "-";
 
-    if(employee.description != undefined)
-    txtDescription.value = employee.description ; else txtDescription.value = "";
+    if (employee.description == "") {
+        txtDescription.value = "No data";
+    } else {
+        txtDescription.value = employee.description;
+    }
 
-   //radio button value checking
+    //radio button value checking
 
     if (employee.gender == "Male") {
         radioMale.checked = true;
@@ -334,22 +322,32 @@ const formRefill = (ob, rowno) => {
     fillSelectFeild(cmbEmployeeStatus, "Select Emp Status", employeeStatuses, 'name', employee.employeestatus_id.name);
 
 
-    
     setStyle("2px dotted green");
 
-    if(employee.land == undefined )
+    if (employee.land == undefined)
         txtLand.style.borderBottom = "2px solid #ced4da";
 
     btnAddNew.click();
 
-    disabledButton(false , true);
+    disabledButton(false, true);
 
 
 }
 
-
-
+employeeArray = [txtFullname, txtCallingname, txtNIC, txtLand, txtMobile, txtDescription, txtAddress, txtEmail, dteDOB, cmbDesignation, cmbCivilStatus, cmbEmployeeStatus]
 //
+
+const rowView = (ob, rowno) => {
+
+    formRefill(ob, rowno);
+    employeeArray = [txtFullname, txtCallingname, txtNIC, txtLand, txtMobile, txtDescription, txtAddress, txtEmail, dteDOB, cmbDesignation, cmbCivilStatus, cmbEmployeeStatus]
+
+    setIDStyle(employeeArray, "2px solid #ced4da");
+    document.getElementById("modalViewEmployeeForm").style.pointerEvents = "none";
+
+
+}
+
 function setStyle(style) {
     txtFullname.style.border = style;
     txtCallingname.style.borderBottom = style;
@@ -363,12 +361,12 @@ function setStyle(style) {
 
     cmbDesignation.style.borderBottom = style;
     cmbCivilStatus.style.borderBottom = style;
-    cmbEmployeeStatus.style.borderBottom = style;
+
 
 }
 
 //photo settings
-document.getElementById("btnClearImage").addEventListener("click", ()=>{
+document.getElementById("btnClearImage").addEventListener("click", () => {
     employee.emp_photo = null;
     employee.emp_photo_name = "";
     employeeImage.src = "resources/images/user_photo/user.png";
@@ -376,6 +374,9 @@ document.getElementById("btnClearImage").addEventListener("click", ()=>{
     empFilePhoto.files = null;
 })
 
+
+// let dob = document.getElementById("dteDOB")
+// dob.addEventListener("change", checkDoB())
 ///
 const checkUpdate = () => {
     let updates = "";
@@ -384,7 +385,7 @@ const checkUpdate = () => {
 
         if (employee.calling_name != oldemployee.calling_name) {
             updates = updates + "Employee Calling is Changed " + oldemployee.calling_name
-                + " into " + employee.calling_name +" \n";
+                + " into " + employee.calling_name + " \n";
         }
 
         if (employee.fullname != oldemployee.fullname) {
@@ -406,12 +407,21 @@ const checkUpdate = () => {
         if (employee.civilstatus_id.name != oldemployee.civilstatus_id.name) {
             updates = updates + "Employee civilstatus is Changed \n";
         }
+        if (employee.designation_id.name != oldemployee.designation_id.name) {
+            updates = updates + "Employee Designation is Changed \n";
+        }
 
         if (employee.employeestatus_id.name != oldemployee.employeestatus_id.name) {
             updates = updates + "Employee status is Changed \n";
         }
 
-        if((employee.emp_photo) != (oldemployee.emp_photo)){
+        if ((employee.emp_photo) != (oldemployee.emp_photo)) {
+            updates = updates + "Employee image is Changed \n";
+        }
+        if ((employee.gender) != (oldemployee.gender)) {
+            updates = updates + "Employee image is Changed \n";
+        }
+        if ((employee.email) != (oldemployee.email)) {
             updates = updates + "Employee image is Changed \n";
         }
 
@@ -419,6 +429,7 @@ const checkUpdate = () => {
 
     return updates;
 }
+
 
 //
 function buttonUpdateMC() {
@@ -435,17 +446,17 @@ function buttonUpdateMC() {
             let updateResponce = window.confirm("Are you sure to update following empoyee..? \n" + updates);
 
             if (updateResponce) {
-                let putResponce ;
+                let putResponce;
 
                 $.ajax("/employee", {
-                    async : false,
-                    type : "PUT", // method delete
-                    data: JSON.stringify(employee) , // object
-                    contentType:"application/json",
-                    success: function (susResdata , susStatus , ajresob) {
+                    async: false,
+                    type: "PUT", // method delete
+                    data: JSON.stringify(employee), // object
+                    contentType: "application/json",
+                    success: function (susResdata, susStatus, ajresob) {
                         putResponce = susResdata;
                     },
-                    error: function (errRsOb , errStatus, errorMsg) {
+                    error: function (errRsOb, errStatus, errorMsg) {
                         putResponce = errorMsg;
                     }
                 });
@@ -477,81 +488,289 @@ function buttonUpdateMC() {
 const rowDelete = (ob) => {
 
     let deleteMsg = "Are you sure to delete following employee..? \n"
-                    + "Employee number : " + ob.number
-                    + "\n Empoloyee Callingname : " + ob.calling_name
-                    + "\n Employee Fullname : " + ob.fullname;
+        + "Employee number : " + ob.number
+        + "\n Empoloyee Callingname : " + ob.calling_name
+        + "\n Employee Fullname : " + ob.fullname;
 
     let deleteUserResponce = window.confirm(deleteMsg);
 
-    if(deleteUserResponce){
+    if (deleteUserResponce) {
         let deleteServerResponce;
 
         $.ajax("/employee", {
-            async : false,
-            type : "DELETE", // method delete
-            data: JSON.stringify(ob) , // object
-            contentType:"application/json",
-            success: function (susResdata , susStatus , ajresob) {
+            async: false,
+            type: "DELETE", // method delete
+            data: JSON.stringify(ob), // object
+            contentType: "application/json",
+            success: function (susResdata, susStatus, ajresob) {
                 deleteServerResponce = susResdata;
             },
-            error: function (errRsOb , errStatus, errorMsg) {
+            error: function (errRsOb, errStatus, errorMsg) {
                 deleteServerResponce = errorMsg;
             }
         });
 
-        if(deleteServerResponce == "0"){
+        if (deleteServerResponce == "0") {
 
             alert("Delete Successfull..!");
             refreshTable();
-        }else {
+        } else {
             window.alert("You have following error \n" + deleteServerResponce);
         }
     }
 }
 
 
-function checkDoB(){
+function checkDoB() {
     console.log(dteDOB.value);
 
     let datepattern = new RegExp("^[0-9]{4}[-][0-9]{2}[0-2]{2}$");
 
 
-    if(datepattern.test(dteDOB.value)){
+    if (datepattern.test(dteDOB.value)) {
         let empDob = new Date(dteDOB.value);
         let currentdate = new Date();
 
         let dobTime = empDob.getTime();
         let currentTime = currentdate.getTime();
-        let dobGapTime ;
-        
-        //after 1970
-        if(empDob.getFullYear()>1970)
-        dobGapTime = currentTime - dobTime;
-        else
-        //calculation before 1970
-        dobGapTime = currentTime +(-1 * dobTime);
+        let dobGapTime;
 
-        if((18*365*24*60*1000)< dobGapTime  && dobGapTime < (60*365*24*60*60*1000)){
+        //after 1970
+        if (empDob.getFullYear() > 1970)
+            dobGapTime = currentTime - dobTime;
+        else
+            //calculation before 1970
+            dobGapTime = currentTime + (-1 * dobTime);
+
+        if ((18 * 365 * 24 * 60 * 1000) < dobGapTime && dobGapTime < (60 * 365 * 24 * 60 * 60 * 1000)) {
             dteDOB.style.borderBottom = "2px solid green";
-        }else{
+        } else {
             dteDOB.style.borderBottom = "2px solid red";
         }
 
-    }else{
+    } else {
         dteDOB.style.borderBottom = "2px solid red"
     }
 }
+
 //buttonModalCloseMC( "#modalEmployeeForm",refreshEmployeeForm());
 
 
-
 function buttonModalCloseMC() {
-    buttonCloseModal("#modalEmployeeForm",refreshEmployeeForm);
+    buttonCloseModal("#modalEmployeeForm", refreshEmployeeForm);
 
 }
 
-function buttonModalCloseMCVM(){
+function buttonModalCloseMCVM() {
     buttonCloseVModal("#modalViewEmployeeForm");
 }
 
+
+function buttonClearMC() {
+    refreshEmployeeForm();
+}
+
+
+// employee.nice =convertIDtoYearDate
+
+const txtNICInputEl = document.getElementById("txtNIC");
+txtNICInputEl.addEventListener('keyup', () => {
+    if (txtNICInputEl.value != '') {
+        let regpattern = new RegExp("^(([5,6,7,8,9]{1}[0-9]{1}[0,1,2,3,5,6,7,8]{1}[0-9]{6}[v|V|x|X])|([1,2]{1}[0,9]{1}[0-9]{2}[0,1,2,3,5,6,7,8]{1}[0-9]{7}))*$");
+        if (regpattern.test(txtNICInputEl.value)) {
+            employee.nic =  txtNICInputEl.value ;
+            txtNICInputEl.style.borderBottom = "2px solid green";
+            let bdayYear = convertIDtoYearDate(txtNICInputEl.value).year;
+            let bdayMonth = (convertIDtoYearDate(txtNICInputEl.value).month);
+            let bdayDay = convertIDtoYearDate(txtNICInputEl.value).day;
+
+
+
+            let BdayTxt = bdayYear + '-' + bdayMonth.toString().padStart(2,"0") + '-' + bdayDay.toString().padStart(2,"0");
+            // console.log(BdayTxt);
+            dteDOB.value = BdayTxt;
+            dateFeildValidator(dteDOB, '', 'employee', 'dob', 'oldemployee');
+
+            let gender = (convertIDtoYearDate(txtNICInputEl.value).gender)
+            //set value into radio element
+            if (gender) {
+                radioMale.checked = true;
+                employee.gender = "Male";
+              //  radioMale.disabled = false;
+
+
+
+            } else {
+                radioFemale.checked = true;
+             //   radioFemale.disabled = false;
+                employee.gender = "Female"
+            }
+        } else {
+            txtNICInputEl.style.borderBottom = "2px solid red";
+            radioMale.disabled = true;
+            radioFemale.disabled = true;
+            dteDOB.value ="";
+            dteDOB.style.borderBottom = "2px solid red"
+        }
+    } else {
+        txtNICInputEl.style.borderBottom = "2px solid ced4da";
+        radioMale.disabled = true;
+        radioFemale.disabled = true;
+        dteDOB.style.borderBottom = "2px solid ced4da"
+    }
+
+
+});
+
+//NIC function
+
+//var NicNo = '199951003776';
+
+
+/* Convert ID into year and day Text */
+const convertIDtoYearDate = (NicNo) => {
+    if (NicNo.length == 10) {
+        year = parseInt("19" + NicNo[0] + NicNo[1]);
+        dayText = parseInt(NicNo[2] + NicNo[3] + NicNo[4]);
+        //console.log("NIC 10 digits. Year : "+year+" | day-text : "+dayText);
+    } else if (NicNo.length == 12) {
+        year = parseInt(NicNo[0] + NicNo[1] + NicNo[2] + NicNo[3]);
+        dayText = parseInt(NicNo[4] + NicNo[5] + NicNo[6]);
+        //console.log("NIC 12 digits. Year : "+year+" | day-text : "+dayText);
+    } else {
+        console.log("NIC Is Not Valid..");
+    }
+    gender = getGenderAndDayofYear(dayText);
+
+    if (isLeapYear(year)) {
+        let rLY = setDayMonthLeapYear(year, gender.dayOfYear);
+        dateOutPut = new Date(year, (rLY.month - 1), rLY.day);
+        month = rLY.month;
+        day = rLY.day;
+
+    } else {
+        if (gender.dayOfYear < 1 || gender.dayOfYear > 365) {
+            console.log("Invalid Id Number");
+        } else {
+            let rNY = setDayMonthNormalYear(gender.dayOfYear) //rNY is result of normal year funtion
+            dateOutPut = new Date(year, (rNY.month - 1), rNY.day);
+            month = rNY.month;
+            day = rNY.day;
+
+        }
+    }
+    return {
+        year: year,
+        month: month,
+        day: day,
+        dateOutPut: dateOutPut,
+        dayOfYear: gender.dayOfYear,
+        gender: gender.male
+    };
+}
+/* Convert ID into year and day Text End*/
+
+
+/* Checking For Gender  (if gender is male functions returns true)*/
+const getGenderAndDayofYear = (dayValues) => {
+    if (dayValues < 500) {
+        return {male: true, dayOfYear: dayValues};
+    } else {
+        return {male: false, dayOfYear: (dayValues - 500)};
+    }
+}
+/* Checking For Gender Ends*/
+
+
+/* Checking For Leap year or not  */
+const isLeapYear = (yearInt) => {
+    // Three conditions to find out the leap year
+    if ((0 == yearInt % 4) && (0 != yearInt % 100) || (0 == yearInt % 400)) {
+        //console.log(yearInt + ' is a leap year');
+        return true;
+    } else {
+        //console.log(yearInt + ' is not a leap year');
+        return false;
+    }
+}
+/* Checking For Leap year or not Ended */
+
+
+/* Checking Bday Months in Normal Year*/
+const setDayMonthNormalYear = (dayText) => {
+    //Month
+    if (dayText < 32) {
+        day = dayText;
+        month = "January";
+        monthDigit = 0;
+    } else if (dayText < 60) {
+        day = dayText - 31;
+        month = "Feb";
+        monthDigit = 1;
+    } else if (dayText < 91) {
+        day = dayText - 59;
+        month = "March";
+        monthDigit = 2;
+    } else if (dayText < 121) {
+        day = dayText - 90;
+        month = "April";
+        monthDigit = 3;
+    } else if (dayText < 152) {
+        day = dayText - 120;
+        month = "May";
+        monthDigit = 4;
+    } else if (dayText < 182) {
+        day = dayText - 151;
+        month = "June";
+        monthDigit = 5;
+    } else if (dayText < 213) {
+        day = dayText - 181;
+        month = "July";
+        monthDigit = 6;
+    } else if (dayText < 244) {
+        day = dayText - 212;
+        month = "August";
+        monthDigit = 7;
+    } else if (dayText < 274) {
+        day = dayText - 243;
+        month = "September";
+        monthDigit = 8;
+    } else if (dayText < 305) {
+        day = dayText - 274;
+        month = "October";
+        monthDigit = 9;
+    } else if (dayText < 335) {
+        day = dayText - 305;
+        month = "November";
+        monthDigit = 10;
+    } else {
+        day = dayText - 334;
+        month = "December";
+        monthDigit = 11;
+    }
+    return {day: day, month: (monthDigit + 1)};
+}
+/* Checking Bday Months in Normal Year End*/
+
+/* Checking Bday Months in Leap Year*/
+const setDayMonthLeapYear = (year, dayText) => {
+    let leapYearDate = new Date(year, 0);
+    if (dayText < 32) {
+        leapYearDate.setMonth(0);
+        leapYearDate.setDate(dayText);
+    } else if (dayText > 31 && dayText < 61) {
+        leapYearDate.setMonth(1);
+        leapYearDate.setDate(dayText - 31);
+    } else if (dayText > 60) {
+        leapYearDate.setDate(dayText);
+    }
+    let leapYearMonth = (leapYearDate.getMonth() + 1);
+    let leapYearDay = leapYearDate.getDate();
+
+    return {day: leapYearDay, month: leapYearMonth}
+}
+/* Checking Bday Months in Leap Year End*/
+
+
+//console.log(covertIDtoYearDate('199951003776'));
 

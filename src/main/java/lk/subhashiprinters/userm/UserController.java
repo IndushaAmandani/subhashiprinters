@@ -116,6 +116,8 @@ public class UserController {
             User extUser = userDao.getReferenceById(user.getId());
             if(extUser == null){
                 return "User Update Not Successfully : User Not available";
+
+
             }
 
             //try to save with set auto set value
@@ -129,6 +131,7 @@ public class UserController {
                 }
                 user.setUpdatedatetime(LocalDateTime.now());
                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
 
                 userDao.save(user);
                 return "0";

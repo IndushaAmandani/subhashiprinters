@@ -11,7 +11,8 @@
 <nav th:replace="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-
+<!--Use Setting Feagment-->
+<div th:replace = "~{fragment :: settingmodal}"></div>
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
 <div th:replace="~{fragment :: sideBarFragment}"></div>
@@ -86,7 +87,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-<footer th:replace="~{fragment::footerFragment}"></footer>
+
 
 
 <div class="modal" tabindex="-1" id="modalSupplierForm" data-backdrop="static" data-keyboard="false">
@@ -122,9 +123,9 @@
                                     style="color: red;">*</span></label>
                             <!--  ^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+$-->
                             <input type="text" id="txtSupplierName" class="form-control form-control-sm" required
-                                   onkeyup="textFeildValidtor(txtSupplierName,'^(([A-Za-z0-9]{3,20})|([A-Za-z0-9]{3,20}[ ]{0,1})+([A-Za-z0-9]{3,20})+))$','newSupplier','company_name','oldSupplier')"
+                                   onkeyup="textFeildValidtor(txtSupplierName,'^([A-Za-z\\s\\.]{2,20})+$','newSupplier','company_name','oldSupplier')"
                                    placeholder="Enter Supplier Name">
-                            <div class="form-text"> Ex: Abc Aency/ABC/XYo2</div>
+                            <div class="form-text"> Ex: Abc Aency/ABC.</div>
                         </div>
 
                         <!--Contact No-->
@@ -144,7 +145,7 @@
                             </label>
                             <input type="email" id="txtEmailAddress" placeholder="Enter Email Address" required
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{4,10}[.][a-z]{2,5}$','newSupplier','company_email','oldSupplier')">
+                                   onkeyup="textFeildValidtor(txtEmailAddress,'^[A-Za-z0-9]{5,20}[@][a-z]{2,10}[.][a-z]{2,5}$','newSupplier','company_email','oldSupplier')">
                             <div class="form-text"> Ex: example@gmail.com</div>
                         </div>
 
@@ -191,9 +192,9 @@
                             <label for="txtSupplierAddress" class="form-label font-weight-bold">Supplier Address : <span
                                     style="color: red;">*</span></label>
                             <textarea id="txtSupplierAddress" class="form-control form-control-sm" required
-                                      onkeyup="textFeildValidtor(txtSupplierAddress,'^.*$','newSupplier','address','oldSupplier')"
+                                      onkeyup="textFeildValidtor(txtSupplierAddress,'^([A-Za-z0-9\\s\\/\\-]{1,20}[\\,][\\s])+[A-Za-z0-9\\s]{1,20}[.]$','newSupplier','address','oldSupplier')"
                                       placeholder="Enter Supplier Address"></textarea>
-                            <div class="form-text"> Ex: no 2, Borella Rd, Maradana.</div>
+                            <div class="form-text"> Ex: 21/B, Borella Rd, Maradana.</div>
                         </div>
 
                         <!-- Note-->
@@ -225,7 +226,7 @@
                                     <label for="txtBankName" class="form-label font-weight-bold">Bank Name : <span
                                             style="color: red;"></span></label>
                                     <input type="text" id="txtBankName" class="form-control form-control-sm"
-                                           onkeyup="textFeildValidtor(txtBankName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','bank_name','oldSupplier')"
+                                           onkeyup="textFeildValidtor(txtBankName,'^([A-Za-z\\s\\.\\,]{2,20})+$','newSupplier','bank_name','oldSupplier')"
                                            placeholder="Enter Bank Name">
                                     <div class="form-text"> Ex: BOC</div>
 
@@ -236,7 +237,7 @@
                                         : <span
                                                 style="color: red;"></span></label>
                                     <input type="text" id="txtBankBranchName" class="form-control form-control-sm"
-                                           onkeyup="textFeildValidtor(txtBankBranchName,'^(([A-Z][a-z]{1,16}[ ]{0,1})+([A-Z][a-z]{1,16})+)$','newSupplier','branch_name','oldSupplier')"
+                                           onkeyup="textFeildValidtor(txtBankBranchName,'^([A-Za-z0-9\\s]{2,20})+$','newSupplier','branch_name','oldSupplier')"
                                            placeholder="Enter Bank Branch Name">
                                     <div class="form-text"> Ex: Piliyandala</div>
                                 </div>
@@ -260,7 +261,7 @@
                                                 style="color: red;"></span></label>
                                     <input type="text" id="txtBankAccountHolderName"
                                            class="form-control form-control-sm"
-                                           onkeyup="textFeildValidtor(txtBankAccountHolderName,'^(([A-Z][a-z]{0,16}[ ]{0,1})+([A-Z][a-z]{0,16})+)$','newSupplier','account_holder_name','oldSupplier')"
+                                           onkeyup="textFeildValidtor(txtBankAccountHolderName,'^([A-Za-z\\s]{2,20})+$','newSupplier','account_holder_name','oldSupplier')"
                                            placeholder="Enter Bank Account Holder Name">
                                     <div class="form-text"> Ex: APB Samapath</div>
                                 </div>
@@ -278,31 +279,31 @@
                             <div class="row mt-2">
                                 <div class="col-1"></div>
                                 <div class="col-4">
-                                    <select class="form-select  w-100 h-100  " id="selectMaterial" multiple
+                                    <select class="form-control  w-100 h-100  " id="selectMaterial" multiple
                                             aria-label="multiple select example">
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                    <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonAddByOne()"> ></button>
+                                    <div class="row col-12 text-center">
+                                        <button type="button" style="width: 50px;margin:3px" class="btn fw-bold" onclick="buttonAddByOne()"> ></button>
                                     </div>
 
-                                    <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonAddByAll()"> >>
+                                    <div class="row col-12 text-center">
+                                        <button type="button" style="width: 50px;margin:3px" class="btn fw-bold" onclick="buttonAddByAll()"> >>
                                         </button>
                                     </div>
 
-                                    <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByOne()"> <
+                                    <div class="row col-12 text-center">
+                                        <button type="button" style="width: 50px;margin:3px" class="btn fw-bold" onclick="buttonRemoveByOne()"> <
                                         </button>
                                     </div>
-                                    <div class="row">
-                                        <button type="button" class="btn fw-bold" onclick="buttonRemoveByAll()"> <<
+                                    <div class="row col-12 text-center">
+                                        <button type="button" style="width: 50px;margin:3px" class="btn fw-bold" onclick="buttonRemoveByAll()"> <<
                                         </button>
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <select class="form-select  w-100 h-100 " id="selectSelectedItem" multiple
+                                    <select class="form-control  w-100 h-100 " id="selectSelectedItem" multiple
                                             aria-label="multiple select example">
 
                                     </select>
@@ -317,13 +318,13 @@
                     <!--- Buttons -->
                     <div class="row mt-2">
                         <div class="col text-end">
-                            <button type="reset" style="width: 23%; border-radius: 50px;"
-                                    class="btn bg-info font-weight-bold"> Clear
+                            <button type="button" style="width: 23%; border-radius: 50px;"
+                                    class="btn bg-info font-weight-bold" onclick="buttonClearMC()"> Clear
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonUpdateMC()"> Update
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                     class="btn bg-success font-weight-bold" onclick="buttonSupplierSave()"> Add
                             </button>
                         </div>
@@ -397,10 +398,8 @@
 
 <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-<script src="/resources/script/common.js" type="text/javascript"></script>
-<script src="/resources/script/dashboard.js" type="text/javascript"></script>
 <script src="/supplier.js" type="text/javascript"></script>
-
+<footer th:replace="~{fragment::footerFragment}"></footer>
 </body>
 
 </html>

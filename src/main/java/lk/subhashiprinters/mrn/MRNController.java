@@ -127,6 +127,7 @@ public class MRNController {
                 mrn.setAdded_user_id(loggedUser);
                 mrn.setAdded_date(LocalDate.now());
                 mrn.setRecieve_no(mrnDao.getNextMRNno());
+                mrn.setPaidamount(BigDecimal.ZERO);
                 for (MRNHasMaterial mrnhM : mrn.getMrnHasMaterialList()) {
                     mrnhM.setMaterial_recieve_note_id(mrn);
                 }
@@ -153,6 +154,8 @@ public class MRNController {
                             extinventory.setTotalqty(extinventory.getTotalqty().add(mrnhM.getQuantity()));
                             extinventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
                             inventoryDao.save(extinventory);
+
+
                         }else{
                             MaterialInventory newInventory = new MaterialInventory();
                             newInventory.setMaterial_id(material);

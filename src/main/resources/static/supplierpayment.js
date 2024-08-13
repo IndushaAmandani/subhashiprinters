@@ -78,12 +78,12 @@ const refreshSPForm = () => {
     sptypes = getServiceRequest("/sptype/list"); //
 
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", "");
-    fillSelectFeild(cmbPMethod, "Select Method", sptypes, "name", "Cash");
+    fillSelectFeild(cmbPMethod, "Select Method", sptypes, "name", );
     fillSelectFeild(cmbMrn, "Select MRN", mrns, "recieve_no", "", true);
     fillSelectFeild(cmbSPStatus, "Select Payment Status", spstatuses, "name","",true);
 
     //newSupplierPayment.supplier_payment_status_id = JSON.parse(cmbSPStatus.value);
-    newSupplierPayment.supplier_payment_type_id = JSON.parse(cmbPMethod.value);
+  //  newSupplierPayment.supplier_payment_type_id = JSON.parse(cmbPMethod.value);
     // newSupplierPayment.supplier_payment_status_id = (cmbSPStatus.value);
     // newSupplierPayment.supplier_payment_type_id = (cmbPMethod.value);
 
@@ -137,7 +137,7 @@ setSupplierArray = [cmbSPStatus, cmbPMethod, cmbSupplier, cmbMrn, txtNetAmount, 
 const checkSPFormError = () => {
     let formerror = "";
 
-    if (newSupplierPayment.company_name == null) {
+    if (newSupplierPayment.supplier_id == null) {
         formerror = formerror + "Please Select Supplier ..! \n";
     }
 
@@ -265,8 +265,12 @@ function getTotalPayble() {
         newSupplierPayment.total_amount = txtTotalAmount.value;
         txtTotalAmount.style.borderBottom = "2px solid green";
 
+
     } else {
         txtTotalAmount.value = (parseFloat(JSON.parse(cmbSupplier.value).amount)).toFixed(2);
+        if(txtTotalAmount.value == ""){
+            txtTotalAmount.value = 0.00;
+        }
         txtTotalAmount.value = newSupplierPayment.net_amount;
         txtTotalAmount.style.borderBottom = "2px solid green";
     }
@@ -292,12 +296,15 @@ function getSPBalanceAmount() {
             txtPaidAmount.style.borderBottom = "2px solid green";
             newSupplierPayment.paid_amount = txtPaidAmount.value;
             newSupplierPayment.balance_amount = txtBalanceAmount.value;
+            newSupplierPayment.total_amount = txtTotalAmount.value;
             fillSelectFeild(cmbSPStatus, "Select Payment Status", spstatuses, "name", "Half Paid");
             cmbSPStatus.style.borderBottom = "2px solid green";
             newSupplierPayment.supplier_payment_status_id = JSON.parse(cmbSPStatus.value);
 
         } else if (parseFloat(txtPaidAmount.value) == parseFloat(txtTotalAmount.value)) {
-
+            if(txtBalanceAmount.value == ""){
+                txtBalanceAmount.value = 0.00;
+            }
             txtBalanceAmount.style.borderBottom = "2px solid green";
             txtPaidAmount.style.borderBottom = "2px solid green";
             newSupplierPayment.paid_amount = txtPaidAmount.value;

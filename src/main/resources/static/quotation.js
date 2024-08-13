@@ -25,7 +25,7 @@ const refreshTable = () => {
 
     for (let index in quotations) {
         // tableQuotation.children[1].children[index].children[7].children[2].style.display = "none";
-        if(((quotations[index].quatation_status_id.name == "Removed") || (quotations[index].quatation_status_id.name == "Valid")) && (quotations[index].valid_period < getCurrentDate())){
+        if (((quotations[index].quatation_status_id.name == "Removed") || (quotations[index].quatation_status_id.name == "Valid")) && (quotations[index].valid_period < getCurrentDate())) {
 
             // tableQuotation.children[1].children[index].style.backgroundColor = "#ad9393";
             tableQuotation.children[1].children[index].style.display = "none";
@@ -35,7 +35,7 @@ const refreshTable = () => {
             // tableQuotation.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             // tableQuotation.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
 
-        }else if(quotations[index].quatation_status_id.name == "Removed"){
+        } else if (quotations[index].quatation_status_id.name == "Removed") {
             tableQuotation.children[1].children[index].style.backgroundColor = "#ad9393";
             tableQuotation.children[1].children[index].children[7].children[1].disabled = true;
             tableQuotation.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
@@ -86,19 +86,20 @@ const refreshQForm = () => {
     txtNote.value = "";
     dteReceivedDate.value = "";
     dteValidDate.value = "";
-
+//recived date
     let currentDateForMin = new Date();
     currentDateForMin.setDate(currentDateForMin.getDate() - 4);
     dteReceivedDate.min = getCurrentDate2("date", currentDateForMin);
 
     let currentDateForMax = new Date();
     dteReceivedDate.max = getCurrentDate2("date", currentDateForMax);
-
+//valid date
     let currentDateForVDMin = new Date();
+    currentDateForVDMin.setDate(currentDateForMin.getDate() + 10)
     dteValidDate.min = getCurrentDate2("date", currentDateForVDMin);
 
     let currentDateForVDMax = new Date();
-    currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 365);
+    currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 180);
     dteValidDate.max = getCurrentDate2("date", currentDateForVDMax);
 
     setStyle("1px solid #ced4da");
@@ -133,18 +134,28 @@ function getMaterialByQR() {
     fillSelectFeild2(cmbMaterial, "Select Material", materialsByQR, "code", "name", "");
 
 }
+
 function getValidPurchasePrice() {
 
-        let regpattern = new RegExp("^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9}))$");
+    let regpattern = new RegExp("^(([0-9]{1,9}[.]{1}[0-9]{2})|([0-9]{1,9}))$");
 
-        if (regpattern.test(txtUnitPrice.value)) {
-            if(oldQuotationHasIMatrial == null)
-                buttonInnerAdd.disabled = false; else   buttonInnerUpdate.disabled = false;
-        } else {
-            buttonInnerAdd.disabled = true;    buttonInnerUpdate.disabled = true;
-        }
+    if (regpattern.test(txtUnitPrice.value)) {
+        if (oldQuotationHasIMatrial == null)
+            buttonInnerAdd.disabled = false; else buttonInnerUpdate.disabled = false;
+    } else {
+        buttonInnerAdd.disabled = true;
+        buttonInnerUpdate.disabled = true;
+    }
 
 }
+
+document.getElementById('txtUnitPrice').addEventListener('change', () => {
+    txtUnitPrice.value = parseFloat(txtUnitPrice.value).toFixed(2);
+    quotationHasIMatrial.purchase_price = parseFloat(quotationHasIMatrial.purchase_price).toFixed(2);
+});
+document.getElementById('cmbMaterial').addEventListener('change', () => {
+    txtUnitPrice.disabled = false;
+});
 
 const refreshInnerFormTable = () => {
     /* inner Form */
@@ -165,6 +176,7 @@ const refreshInnerFormTable = () => {
     }
 
     txtUnitPrice.value = "";
+    txtUnitPrice.disabled = true;
 
     cmbMaterial.style.borderBottom = "2px solid  #ced4da";
     txtUnitPrice.style.borderBottom = "2px solid  #ced4da";
@@ -179,6 +191,7 @@ const refreshInnerFormTable = () => {
 
     for (let index in quotation.quotationHasMaterialList) {
         tableQMaterial.children[1].children[index].children[3].children[2].style.display = "none";
+        tableQMaterial.children[1].children[index].children[3].children[0].style.display = "none";
     }
 }
 
@@ -220,7 +233,8 @@ const innreFormReFill = (innerob, rowind) => {
 
     materials = getServiceRequest("/material/list");
     fillSelectFeild2(cmbMaterial, "Select Material", materials, "code", "name", quotationHasIMatrial.material_id.code);
-    cmbMaterial.disabled = true;
+    cmbMaterial.disabled = false;
+
 
     txtUnitPrice.value = quotationHasIMatrial.purchase_price;
 
@@ -228,7 +242,7 @@ const innreFormReFill = (innerob, rowind) => {
     cmbMaterial.style.borderBottom = "2px solid  #ced4d";
     txtUnitPrice.style.borderBottom = "2px dotted  green";
 
-    buttonInnerUpdate.disabled = true;
+    buttonInnerUpdate.disabled = false;
     buttonInnerAdd.disabled = true;
 }
 
@@ -274,7 +288,7 @@ const innerRowView = () => {
 const checkErrors = () => {
     let errors = "";
 
-    if (cmbSupplier.value  == "") {
+    if (cmbSupplier.value == "") {
         errors = errors + "Supplier Not Selected \n";
     }
     if (quotation.quatation_request_id == null) {
@@ -382,9 +396,9 @@ const formReFill = (ob, rowno) => {
     quotationrequests = getServiceRequest("/quotationrequest/list");
     quotationstatuses = getServiceRequest("/quotationstatus/list");
 
-    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name",quotation.quatation_request_id.supplier_id.company_name);
+    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", quotation.quatation_request_id.supplier_id.company_name);
     cmbSupplier.disabled = true;
-    fillSelectFeild(cmbQRequest, "Select Quotation Request", quotationrequests, "request_number",quotation.quatation_request_id.request_number);
+    fillSelectFeild(cmbQRequest, "Select Quotation Request", quotationrequests, "request_number", quotation.quatation_request_id.request_number);
     cmbQRequest.disabled = true;
     fillSelectFeild(cmbQStatus, "Select Status", quotationstatuses, "name", quotation.quatation_status_id.name, true);
     cmbQStatus.disabled = false;
@@ -502,10 +516,10 @@ function buttonUpdateMC() {
 
 }
 
-function buttonModalCloseMC(){
-    buttonCloseModal("#modalQuotationForm",refreshQForm);
+function buttonModalCloseMC() {
+    buttonCloseModal("#modalQuotationForm", refreshQForm);
 }
 
-function  buttonMInnerClearMC(){
+function buttonMInnerClearMC() {
     refreshInnerFormTable();
 }

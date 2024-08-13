@@ -90,7 +90,7 @@
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-    <footer th:replace = "~{fragment::footerFragment}"></footer>
+
 
     <div
       class="modal"
@@ -125,17 +125,6 @@
                 </span>
               </div>
 
-              <!--                    &lt;!&ndash;-Customer No  &ndash;&gt;-->
-              <!--                    <div class="row mt-2">-->
-              <!--                        <label for="txtCustomerCode" class="font-weight-bold col-4 col-form-label"> Customer Code:-->
-              <!--                            <span style="color: red;">*</span>-->
-              <!--                        </label>-->
-              <!--                        <div class="col-8">-->
-              <!--                            <input type="text" readonly id="txtCustomerCode" class="form-control" disabled-->
-              <!--                                   value="Cusotmer Code is auto generated">-->
-              <!--                        </div>-->
-
-              <!--                    </div>-->
 
               <!--- Customer Name/Mobile  -->
               <div class="row mt-2">
@@ -186,7 +175,7 @@
                             type="text"
                             id="txtContactPName"
                             class="form-control"
-                            onkeyup="textFeildValidtor(txtContactPName,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{2,16})|([A-Z][a-z]{2,16}))$','customer','customer_name','oldcustomer')"
+                            onkeyup="textFeildValidtor(txtContactPName,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{2,16})|([A-Z][a-z]{2,16}))$','customer','contactp_name','oldcustomer')"
                             placeholder="Enter Contact Person Name"
                             required
                             data-bs-toggle="tooltip"
@@ -221,7 +210,7 @@
                             class="form-control"
                             required
                             placeholder="Enter Contact Person Email"
-                            onkeyup="textFeildValidtor(txtContactPEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','contactp_email','oldcustomer')"
+                            onkeyup="textFeildValidtor(txtContactPEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','contactp_email','oldcustomer');"
                     />
                   </div>
 
@@ -517,5 +506,6 @@
     <!-- END MODERN JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <!-- END PAGE LEVEL JS-->
+<footer th:replace = "~{fragment::footerFragment}"></footer>
   </body>
 </html>

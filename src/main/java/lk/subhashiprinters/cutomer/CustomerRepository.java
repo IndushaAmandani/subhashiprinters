@@ -35,5 +35,9 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
         @Query(value= "select new Customer(c.id,c.customer_name) from Customer c where c.id in (select co.customer_id.id from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2)")
           List <Customer> getCustomerbyCOStatus();
 
+@Query(value = "select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 and c.id in (select co.customer_id.id from CustomerOrder co where  co.order_balance<>0)")
+        List<Customer> getCustomerNameListwithCOrders();
+     //   @Query(value = "select c from Customer ")
+
 }
  

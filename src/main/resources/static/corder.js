@@ -53,8 +53,7 @@ function refreshCustomerOrderForm() {
 
 
     cOrdrStatus = getServiceRequest("/cOrderstatus/list")
-    fillSelectFeild(cmbOrderStatus, "Select Status", cOrdrStatus, "name", "Initiated", true);
-
+    fillSelectFeild(cmbOrderStatus, "Select Status", cOrdrStatus, "name", "Pending", true);
 
 
 //dteRequiredDate
@@ -65,21 +64,21 @@ function refreshCustomerOrderForm() {
     currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 90);
     dteRequiredDate.max = getCurrentDate2("date", currentDateForVDMax);
     cmbProduct.disabled = true;
-    const idArray = [cmbCustomerName,txtDiscountRatio,dteRequiredDate, txtTotalAmount, txtTAdvanceAmount, txtFBalanceAmount, txtDescription];
+    const idArray = [cmbCustomerName, txtDiscountRatio, dteRequiredDate, txtTotalAmount, txtTAdvanceAmount, txtFBalanceAmount, txtDescription];
     setIDStyle(idArray, "1px solid #ced4da");
     disabledCButton(true, false);
     refreshInnerFormTable()
-    txtTotalAmount.style.disabled = true;
+    txtTotalAmount.disabled = true;
     txtTotalAmount.value = 0.00
     txtDiscountRatio.value = 0.00
     corder.discount = parseFloat(txtDiscountRatio.value).toFixed(2);
     txtFBalanceAmount.value = 0.00;
     txtTAdvanceAmount.disabled = true;
-    txtDiscountRatio.disabled =true;
+    txtDiscountRatio.disabled = true;
 }
 
 
-document.getElementById("cmbCustomerName").addEventListener('change',() => {
+document.getElementById("cmbCustomerName").addEventListener('change', () => {
     refreshInnerFormTable();
     getProductList();
 })
@@ -94,15 +93,16 @@ function formRefill() {
 
 }
 
-document.getElementById("cmbProduct").addEventListener('change',()=>{
+document.getElementById("cmbProduct").addEventListener('change', () => {
     getProductCost();
 })
 
 function getProductCost() {
-   // productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerName.value).id);
+    // productsByCustomerOrder = getServiceRequest("/product/listbyCOrder/" + JSON.parse(cmbCustomerName.value).id);
     txtProductCost.value = JSON.parse(cmbProduct.value).price;
     txtProductCost.style.borderBottom = "2px solid  green";
-    customerOrderHasProduct.product_cost = txtProductCost.value;
+    customerOrderHasProduct.product_cost = parseFloat(txtProductCost.value).toFixed(2);
+    txtOrderedQuantity.disabled = false;
 }
 
 document.getElementById("txtOrderedQuantity").addEventListener('keyup', () => {
@@ -112,7 +112,7 @@ document.getElementById("txtOrderedQuantity").addEventListener('keyup', () => {
 function getLineTotal() {
 
     if (txtOrderedQuantity.value != 0) {
-        let regpattern = new RegExp("^([1-9][0-9]{0,5})$");
+        let regpattern = new RegExp("^(([1-9][0-9]{0,3})|([1][0]{4}))$");
         if (regpattern.test(txtOrderedQuantity.value)) {
             //toFixed -round the string to a specifioed decimls
             //parseFloat - parses a string and returns the first number:
@@ -120,13 +120,13 @@ function getLineTotal() {
             txtOrderedQuantity.style.borderBottom = "2px solid  green";
             customerOrderHasProduct.line_total = (parseFloat(customerOrderHasProduct.order_qty) * parseFloat(customerOrderHasProduct.product_cost)).toFixed(2);
             txtLinePrice.style.borderBottom = "2px solid  green";
-            txtLinePrice.value = customerOrderHasProduct.line_total;
+            txtLinePrice.value = parseFloat(customerOrderHasProduct.line_total).toFixed(2);
 
 
             if (oldcustomerOrderHasProduct == null) {
                 buttonInnerAdd.disabled = false;
             } else {
-                buttonInnerUpdate.disabled = false;
+              //  buttonInnerUpdate.disabled = false;
             }
 
         } else {
@@ -137,7 +137,7 @@ function getLineTotal() {
             txtOrderedQuantity.style.borderBottom = "2px solid red";
             customerOrderHasProduct.order_qty = null;
             buttonInnerAdd.disabled = true;
-            buttonInnerUpdate.disabled = true;
+          //  buttonInnerUpdate.disabled = true;
         }
     } else {
         txtLinePrice.value = '';
@@ -147,7 +147,7 @@ function getLineTotal() {
         txtOrderedQuantity.style.borderBottom = "2px solid #ced4da";
         customerOrderHasProduct.order_qty = null;
         buttonInnerAdd.disabled = true;
-        buttonInnerUpdate.disabled = true;
+       // buttonInnerUpdate.disabled = true;
     }
 
 
@@ -174,7 +174,7 @@ const refreshInnerFormTable = () => {
     oldcustomerOrderHasProduct = null;
 
 
-    buttonInnerUpdate.disabled = true;
+  //  buttonInnerUpdate.disabled = true;
 
 
     if (cmbCustomerName.value != "") {
@@ -188,28 +188,17 @@ const refreshInnerFormTable = () => {
     }
 
 
+    restFormInput();
     txtLineTotal.value = "";
     txtLineTotal.style.borderBottom = "2px solid  #ced4da";
-    txtProductCost.value = "";
-    cmbProduct.style.borderBottom = "2px solid  #ced4da";
-    txtProductCost.value = "";
-    txtProductCost.disabled = true;
-    txtProductCost.style.borderBottom = "2px solid  #ced4da";
-
-    txtOrderedQuantity.value = "";
-    txtOrderedQuantity.style.borderBottom = "2px solid  #ced4da";
-
-    txtLinePrice.value = "";
     txtTotalAmount.value = "";
-    txtLinePrice.disabled = true;
-    txtLinePrice.style.borderBottom = "2px solid  #ced4da";
     txtTotalAmount.style.borderBottom = "2px solid  #ced4da";
     txtDiscountRatio.value = "";
     txtDiscountRatio.style.borderBottom = "2px solid  #ced4da";
     txtTAdvanceAmount.value = "";
     txtTAdvanceAmount.style.borderBottom = "2px solid  #ced4da";
 
-    txtDiscountRatio.disabled =false;
+    txtDiscountRatio.disabled = false;
     txtDiscountRatio.style.borderBottom = "2px solid  #ced4da";
     txtDiscountRatio.value = "";
 
@@ -233,7 +222,7 @@ const refreshInnerFormTable = () => {
         //toFixed() converts a number to a string, rounded to a specified number of decimals:
         txtLineTotal.value = parseFloat(totalLineAmount).toFixed(2);
         corder.total_of_lines = txtLineTotal.value;
-        txtDiscountRatio.disabled =false;
+        txtDiscountRatio.disabled = false;
         checkValidPrice();
 
 
@@ -242,11 +231,32 @@ const refreshInnerFormTable = () => {
         } else {
             txtLineTotal.style.borderBottom = "2px solid green";
         }
-    }else {
-        txtDiscountRatio.disabled =true;
+    } else {
+        txtDiscountRatio.disabled = true;
         txtDiscountRatio.style.borderBottom = "2px solid #ced4da"
     }
 
+
+
+}
+
+const restFormInput = () => {
+    buttonInnerAdd.disabled = true;
+    cmbProduct.style.borderBottom = "2px solid  #ced4da";
+
+    txtProductCost.value = "";
+    cmbProduct.style.borderBottom = "2px solid  #ced4da";
+    txtProductCost.value = "";
+    txtProductCost.disabled = true;
+    txtProductCost.style.borderBottom = "2px solid  #ced4da";
+
+    txtOrderedQuantity.value = "";
+    txtOrderedQuantity.disabled = true;
+    txtOrderedQuantity.style.borderBottom = "2px solid  #ced4da";
+
+    txtLinePrice.value = "";
+    txtLinePrice.disabled = true;
+    txtLinePrice.style.borderBottom = "2px solid  #ced4da";
 }
 
 const rowDelete = (ob, rowno) => {
@@ -269,31 +279,6 @@ const rowDelete = (ob, rowno) => {
     }
 
 }
-const rowView = (ob, rowno) => {
-    $("#modalViewCOrderForm").modal("show");
-//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
-
-
-    printCOrder = getServiceRequest("/customerOrder/getbyid/" + ob.id)
-
-
-    tdCOCode.innerHTML = printCOrder.order_code;
-    tdCName.innerHTML = printCOrder.customer_id.customer_name;
-    tdReqDate.innerHTML = printCOrder.required_date;
-
-
-    let dispalyPropertyList = ['product_id.p_name', 'product_cost', 'order_qty', 'completedqty', 'production_status_id.name', 'line_total'];
-    //Property type list
-    let dispalyPropertyDTList = ['object', 'text', 'text', 'text', 'object', 'text'];
-
-    fillDataIntoTable(tableInnerCustomerOrderHasProducts, printCOrder.customerOrderHasProductList, dispalyPropertyList, dispalyPropertyDTList, formRefillM, rowDeleteM, rowViewM, false, lggeduserprivilage);
-    tdTotalofLines.innerHTML = printCOrder.total_of_lines
-    tdTotalAmount.innerHTML = printCOrder.total_amount;
-    tdAdvanceAmout.innerHTML = printCOrder.advanced_amount;
-    tdBalanceAmount.innerHTML = printCOrder.final_balanced_amount;
-
-
-}
 
 function formRefillM() {
 
@@ -308,23 +293,7 @@ function rowViewM() {
 }
 
 
-//
-//     tdrole.innerText = printPrivilage.role_id.name ;
-//     tdModule.innerText = printPrivilage.module_id.name ;
-//     tdSelect.innerText =getSelectPri(printPrivilage);
-//     tdIns.innerText = getInsertPri(printPrivilage);
-//     tdUpd.innerText = getUpdatePri(printPrivilage);
-//     tdDel.innerText = getDeletePri(printPrivilage);
 
-
-function printRowItemMC() {
-    let newWindow = window.open();
-    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>" + "<h2>Customer Order Details</h2>" + "<div>" + tableCOrderView.outerHTML + tableCOrderPView.outerHTML + "</div>");
-    setTimeout(function () {
-        newWindow.print();
-        newWindow.close();
-    }, 1000);
-}
 
 //Calculating Total amount
 function checkValidPrice() {
@@ -344,7 +313,7 @@ function checkValidPrice() {
             } else {
                 txtDiscountRatio.style.borderBottom = "2px solid green";
                 corder.discount = parseFloat(txtDiscountRatio.value);
-                corder.total_amount  = (parseFloat(corder.total_of_lines) - parseFloat(corder.discount)).toFixed(2);
+                corder.total_amount = (parseFloat(corder.total_of_lines) - parseFloat(corder.discount)).toFixed(2);
                 txtTotalAmount.value = corder.total_amount;
                 corder.advanced_amount = Math.round(parseFloat(corder.total_amount) * 0.25).toFixed(2);
                 txtTAdvanceAmount.value = corder.advanced_amount;
@@ -371,21 +340,21 @@ function checkValidPrice() {
 
 //onkeyup="textFeildValidtor(txtTAdvanceAmount,'^([1-9][0-9]{1,5}[.]{1}[0-9]{2})$','corder','advanced_amount','oldcorder');calculatingTotalAmount()"
 
-document.getElementById("txtTAdvanceAmount").addEventListener('keyup',()=>{
-    if (txtTAdvanceAmount.value != ''){
+document.getElementById("txtTAdvanceAmount").addEventListener('keyup', () => {
+    if (txtTAdvanceAmount.value != '') {
         let regpattern = new RegExp("^(([1-9][0-9]{0,7}[.][0-9]{2})|([1-9][0-9]{0,7}))$");
-        if(regpattern.test(txtTAdvanceAmount.value)){
+        if (regpattern.test(txtTAdvanceAmount.value)) {
             if (parseFloat(corder.total_amount) >= parseFloat(txtTAdvanceAmount.value))
-            txtTAdvanceAmount.style.borderBottom = "2px solid green";
+                txtTAdvanceAmount.style.borderBottom = "2px solid green";
             corder.advanced_amount = parseFloat(txtTAdvanceAmount.value).toFixed(2);
             calculatingTotalAmount();
-        }else{
+        } else {
             txtTAdvanceAmount.style.borderBottom = "2px solid red";
             corder.advanced_amount = null;
             calculatingTotalAmount();
         }
 
-    }else{
+    } else {
         txtTAdvanceAmount.style.borderBottom = "2px solid #ced4da";
         corder.advanced_amount = null;
         calculatingTotalAmount();
@@ -397,7 +366,7 @@ const calculatingTotalAmount = () => {
 
     if (corder.total_amount != 0) {
         if (parseFloat(corder.total_amount) >= parseFloat(corder.advanced_amount)) {
-        //round id .50 Math.round() nearest integer
+            //round id .50 Math.round() nearest integer
             corder.final_balanced_amount = (parseFloat(corder.total_amount) - parseFloat(corder.advanced_amount)).toFixed(2);
             txtFBalanceAmount.style.borderBottom = "2px solid green";
             txtFBalanceAmount.value = corder.final_balanced_amount;
@@ -446,54 +415,56 @@ const buttonInnerAddMC = () => {
 
         }
     } else {
-        alert("Product Allready ext...!")
+        alert("Product Allready ext...!");
+        getProductList();
+        restFormInput();
     }
 
 
 }
-
-function buttonInnerUpdateMC() {
-
-    if (customerOrderHasProduct.line_total != oldcustomerOrderHasProduct.line_total || customerOrderHasProduct.product_id.p_name != oldcustomerOrderHasProduct.product_id.p_name) {
-        let updateInnerMsg = "Are you sure to update following Purchase order Material..?" +
-            "\n Product : " + customerOrderHasProduct.product_id.product_code +
-            "\n Line Total : " + customerOrderHasProduct.line_total;
-
-        let innerUpdateUserResponce = window.confirm(updateInnerMsg);
-
-        if (innerUpdateUserResponce) {
-
-            corder.customerOrderHasProductList[innerRowNo] = customerOrderHasProduct;
-            alert("Update Successfully...!");
-            refreshInnerFormTable();
-
-        }
-    } else
-        alert("Nothing Updated..!");
-}
+function innerFormReFill(){}
+// function buttonInnerUpdateMC() {
+//
+//     if (customerOrderHasProduct.line_total != oldcustomerOrderHasProduct.line_total || customerOrderHasProduct.product_id.p_name != oldcustomerOrderHasProduct.product_id.p_name) {
+//         let updateInnerMsg = "Are you sure to update following Purchase order Material..?" +
+//             "\n Product : " + customerOrderHasProduct.product_id.product_code +
+//             "\n Line Total : " + customerOrderHasProduct.line_total;
+//
+//         let innerUpdateUserResponce = window.confirm(updateInnerMsg);
+//
+//         if (innerUpdateUserResponce) {
+//
+//             corder.customerOrderHasProductList[innerRowNo] = customerOrderHasProduct;
+//             alert("Update Successfully...!");
+//             refreshInnerFormTable();
+//
+//         }
+//     } else
+//         alert("Nothing Updated..!");
+// }
 
 //Inner Table modification
-const innerFormReFill = (innerob, rowind) => {
-    innerRowNo = rowind;
-    customerOrderHasProduct = JSON.parse(JSON.stringify(innerob));
-    oldcustomerOrderHasProduct = JSON.parse(JSON.stringify(innerob));
-
-    productsByCustomerOrder = getServiceRequest("/product/listbyCustomer/" + JSON.parse(cmbCustomerName.value).id);
-    fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", customerOrderHasProduct.product_id.product_code);
-    cmbProduct.disabled = true;
-
-
-    txtLinePrice.value = customerOrderHasProduct.line_total;
-    txtOrderedQuantity.value = customerOrderHasProduct.order_qty;
-    txtProductCost.value = customerOrderHasProduct.product_cost;
-    txtLinePrice.disabled = true;
-    txtLinePrice.style.borderBottom = "2px solid  orange";
-    txtOrderedQuantity.style.borderBottom = "2px solid  orange";
-    txtProductCost.style.borderBottom = "2px solid  orange";
-
-    buttonInnerAdd.disabled = true;
-    buttonInnerUpdate.disabled = false;
-}
+// const innerFormReFill = (innerob, rowind) => {
+//     innerRowNo = rowind;
+//     customerOrderHasProduct = JSON.parse(JSON.stringify(innerob));
+//     oldcustomerOrderHasProduct = JSON.parse(JSON.stringify(innerob));
+//
+//     productsByCustomerOrder = getServiceRequest("/product/listbyCustomer/" + JSON.parse(cmbCustomerName.value).id);
+//     fillSelectFeild2(cmbProduct, "Select Product", productsByCustomerOrder, "product_code", "p_name", productsByCustomerOrder.product_id.product_code);
+//     cmbProduct.disabled = true;
+//
+//
+//     txtLinePrice.value = customerOrderHasProduct.line_total;
+//     txtOrderedQuantity.value = customerOrderHasProduct.order_qty;
+//     txtProductCost.value = customerOrderHasProduct.product_cost;
+//     txtLinePrice.disabled = true;
+//     txtLinePrice.style.borderBottom = "2px solid  orange";
+//     txtOrderedQuantity.style.borderBottom = "2px solid  orange";
+//     txtProductCost.style.borderBottom = "2px solid  orange";
+//
+//     buttonInnerAdd.disabled = true;
+//     buttonInnerUpdate.disabled = false;
+// }
 const innerRowDelete = (innerob, rowind) => {
 
     let deleteMsg = "Are you sure to delete following Product..?" +
@@ -586,10 +557,104 @@ function buttonModalCloseMCV() {
     }
 }
 
-function  buttonInnerClearMC(){
+function buttonInnerClearMC() {
     refreshInnerFormTable();
 }
 
-function buttonClearMC(){
+function buttonClearMC() {
     refreshCustomerOrderForm();
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXX Print   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const rowView = (ob, rowno) => {
+
+
+    //$("#modalViewCOrderForm").modal("show");
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+
+
+    printCOrder = getServiceRequest("/customerOrder/getbyid/" + ob.id)
+
+
+    tdCOCode.innerHTML = printCOrder.order_code;
+    tdCName.innerHTML = printCOrder.customer_id.customer_name;
+    tdReqDate.innerHTML = printCOrder.required_date;
+
+
+    let dispalyPropertyList = ['product_id.p_name', 'product_cost', 'order_qty', 'completedqty', 'production_status_id.name', 'line_total'];
+    //Property type list
+    let dispalyPropertyDTList = ['object', 'text', 'text', 'text', 'object', 'text'];
+
+    fillDataIntoTable(tableInnerCustomerOrderHasProducts, printCOrder.customerOrderHasProductList, dispalyPropertyList, dispalyPropertyDTList, formRefillM, rowDeleteM, rowViewM, false, lggeduserprivilage);
+    tdTotalofLines.innerHTML = parseFloat(printCOrder.total_of_lines).toFixed(2);
+    tdTotalAmount.innerHTML = parseFloat(printCOrder.total_amount).toFixed(2);
+    tdAdvanceAmout.innerHTML = parseFloat(printCOrder.advanced_amount).toFixed(2);
+    tdBalanceAmount.innerHTML = parseFloat(printCOrder.final_balanced_amount).toFixed(2);
+
+    let modalBodyValue = document.getElementById("modalBodyCOrderForm").innerHTML;
+    let modalFooterValue = document.getElementById("modalFooterCOrderForm").innerHTML;
+    let windowHeadvalues = `
+<html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+
+
+            <link rel="apple-touch-icon" href="/app-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/ico/favicon.ico">
+    <link
+            href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
+            rel="stylesheet">
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/vendors.css">
+
+    <link rel="stylesheet" type="text/css" href="/resources/fontawesome/css/all.css">
+    <!-- END VENDOR CSS-->
+
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/cryptocoins/cryptocoins.css">
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/transactions.css">
+
+    <!-- BEGIN MODERN CSS-->
+    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+    <!-- END MODERN CSS-->
+
+    <link rel="stylesheet" type="text/css" href="/app-assets/assets/css/style.css">
+
+    <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
+    <!-- END Custom CSS-->
+
+
+
+</head>
+<body>`;
+
+    let htmlfooterlinkvalues = `
+
+<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
+<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+
+<script src="/corder.js" type="text/javascript"></script>
+
+</body>
+</html>`;
+
+    const windowFeatures = "menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes,width=900,height=600";
+    const newWindow = window.open("", "_blank", windowFeatures);
+    newWindow.document.write(windowHeadvalues+`<div class="row card" style="margin:10px;">${modalBodyValue} <br><br><div id="printButtonDiv" >${modalFooterValue}</div></div>`+htmlfooterlinkvalues);
+    newWindow.document.close();
+
+
+
+
 }

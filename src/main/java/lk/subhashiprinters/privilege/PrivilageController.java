@@ -33,8 +33,9 @@ public class PrivilageController {
     }
 
 //get privilage by logged user given module name
+    //loggeduserbyprivilege ,table privilege
     @GetMapping(value = "/bymodule/{modulename}")
-    public HashMap<String,Boolean> getPriviledgeByUserModule(@PathVariable("modulename") String modulename, String productCategory){
+    public HashMap<String,Boolean> getPriviledgeByUserModule(@PathVariable("modulename") String modulename){
         //get logged user authentication obj
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.print(authentication.getDetails());
@@ -118,8 +119,7 @@ if(extPrivilage != null){
 
     }
 
-        @DeleteMapping
-
+    @DeleteMapping
     public String deletePrivilage(@RequestBody Privilage privilage) {
         //need to check privilage for logged user
 
@@ -140,7 +140,7 @@ if(extPrivilage != null){
                 return "Delete can't be completed" + ex.getMessage();
             }
         } else {
-            return "Delete cann't be completed:Privilage not exist";
+            return "Delete can't be completed:Privilage not exist";
         }
     }
 

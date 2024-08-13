@@ -42,8 +42,6 @@ public class Material {
     private LocalDateTime deleted_date;
     @Column(name = "description")
     private String description;
-    @Column(name = "measuring_count")
-    private BigDecimal measuring_count;
     @Column(name = "width")
     private BigDecimal width;
     @Column(name = "height")
@@ -84,11 +82,10 @@ public class Material {
 
 //m.id, m.name, m.code,m.measuring_count,m.width,m.height,m.material_category_id, m.material_unit_type_id, m.material_status_id
 
-    public Material(Integer id, String name, String code, BigDecimal measuring_count,MaterialCategory material_category_id, BigDecimal width, BigDecimal height, MaterialStatus material_status_id, MaterialUnitType material_unit_type_id) {
+    public Material(Integer id, String name, String code,MaterialCategory material_category_id, BigDecimal width, BigDecimal height, MaterialStatus material_status_id, MaterialUnitType material_unit_type_id) {
         this.id = id;
         this.name = name;
         this.code = code;
-        this.measuring_count = measuring_count;
         this.material_category_id = material_category_id;
         this.width = width;
         this.height = height;

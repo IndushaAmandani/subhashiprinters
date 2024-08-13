@@ -2,21 +2,21 @@
 <html class="loading" lang="en" data-textdirection="ltr">
 
 <!--Head-->
-<head th:replace = "~{fragment :: headFragment}">
+<head th:replace="~{fragment :: headFragment}">
     <title> Subhashi Printers - Material Management</title>
 </head>
 <body class="vertical-layout vertical-compact-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
       data-menu="vertical-compact-menu" data-col="2-columns">
 
 <!-- fixed-top-->
-<nav th:replace ="~{fragment :: navBarFragment}"></nav>
+<nav th:replace="~{fragment :: navBarFragment}"></nav>
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 <!--Use Setting Feagment-->
-<div th:replace = "~{fragment :: settingmodal}"></div>
+<div th:replace="~{fragment :: settingmodal}"></div>
 
 <!--SideBar-->
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
-<div th:replace ="~{fragment :: sideBarFragment}"></div>
+<div th:replace="~{fragment :: sideBarFragment}"></div>
 
 <div class="app-content content">
     <div class="content-wrapper">
@@ -37,7 +37,8 @@
                 </div>
             </div>
             <div class="content-header-right col-md-4 col-12 d-none d-md-inline-block">
-                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white" data-toggle="modal" id="btnAddNew"
+                <div class="btn-group float-md-right"><a class="btn-gradient-primary-add btn-sm white"
+                                                         data-toggle="modal" id="btnAddNew"
                                                          data-target="#modalMaterialForm">Add
                     New Material</a></div>
             </div>
@@ -60,10 +61,10 @@
                                                     <th> #</th>
                                                     <th> Code</th>
                                                     <th> Name</th>
-<!--                                                    <th> Measuring Count(Per pack/bottle)</th>-->
+                                                    <!--                                                    <th> Measuring Count(Per pack/bottle)</th>-->
                                                     <th> Category</th>
-                                                    <th> Width</th>
-                                                    <th> Height</th>
+                                                    <th> Width(cm)</th>
+                                                    <th> Height(cm)</th>
                                                     <th> Unit Type</th>
                                                     <th> Status</th>
                                                     <th> Modify</th>
@@ -91,15 +92,15 @@
 
 
 
-<footer th:replace = "~{fragment::footerFragment}"></footer>
 
 
-<div class="modal" tabindex="-1" id="modalMaterialForm" data-backdrop="static" data-keyboard="false"    >
+<div class="modal" tabindex="-1" id="modalMaterialForm" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="h2"><i class="fas fa-user fx"></i>Edit Material  </h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
+                <h2 class="h2"><i class="fas fa-user fx"></i>Edit Material </h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        onclick="buttonModalCloseMC()"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <!--  form -->
@@ -119,12 +120,12 @@
                         <div class="col-8">
                             <input type="text" id="txtMaterialName" placeholder="Enter Material Name" required
                                    class="form-control form-control-sm"
-                                   onkeyup="textFeildValidtor(txtMaterialName,'^(([A-Za-z0-9.]{1,20})+([A-Za-z0-9]{1,20}[])+)$','material','name','oldmaterial')">
+                                   onkeyup="textFeildValidtor(txtMaterialName,'^([A-Za-z\\s\\.\\-]{2,20})+$','material','name','oldmaterial')">
                             <div class="form-text"> Ex: Abc-Abc/A.BC/XYo2</div>
                         </div>
                     </div>
 
-                <!--  Measuring Count/Category/Unit Type-->
+                    <!--  Measuring Count/Category/Unit Type-->
 
                     <div class="row mt-2">
 
@@ -133,90 +134,22 @@
                             <label for="cmbCategory" class="form-label font-weight-bold ">Category : <span
                                     style="color: red;">*</span></label>
 
-                                <select id="cmbCategory" class="form-control form-control-sm" required
-                                        onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial'),getMaterialUnitTypeByMCategory(),showPaperSize(),enbleAddPTITypeButton();refreshbuttonAddPaperType()">
-                                </select>
+                            <select id="cmbCategory" class="form-control form-control-sm" required
+                                    onchange="selectValidator(cmbCategory,'','material','material_category_id','oldmaterial')">
+                            </select>
                         </div>
                         <!--Sub Category-->
                         <div class="col-4 position-relative">
-                            <label  class="form-label font-weight-bold ">  Sub Categories: <span
+                            <label class="form-label font-weight-bold "> Sub Categories: <span
                                     style="color: red;">*</span></label>
                             <select id="cmbSubCategory" class="form-control form-control-sm" required
                                     onchange="selectValidator(cmbSubCategory,'','material','paper_ink_type_id','oldmaterial')">
                             </select>
                         </div>
-
-                        <div class="col position-relative" id="addPaperInkType" style="display: none" >
-                            <label  class="form-label font-weight-bold ">Add Sub Category : </label>
-                            <div class="row">
-                            <button type="button" style="width: 25%;border-radius: 50px;"
-                                    id="buttonMSubAdd"
-                                    class="btn bg-success font-weight-bold btn-sm"> Add
-                            </button>
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-                    <div id="divAddButtonPaperInkType" style="display: none"   ><!-- style css-->
-                        <!-- Card Start -->
-                        <div class="card p-1 m-1">
-                            <!--  bill book - Header-->
-                            <div class="row mt-1  p-1 text-start">
-                                <h3>New Paper/Ink Category : </h3>
-                            </div>
-                            <!--  - Inner form / Inner Table-->
-                            <div class="row ">
-                                <!-- ## @@ Second Inner Form @@ ##-->
-                                <div class="col">
-                                    <!-- Name-->
-                                    <div  class=" mt-1">
-                                        <label class= "form-label font-weight-bold"> Name</label>
-                                        <input type="text" id="txtPtItname"
-                                               onkeyup="textFeildValidtor(txtPtItname,'^(([A-Z][a-z]{1,16}[ ])+([A-Z][a-z]{1,16})|([A-Z][a-z]{1,16}))$','paperInkType','name','oldpaperInkType')"
-                                               class="form-control">
-                                    </div>
-                                    <!--Product Category-->
-                                    <div  class=" mt-1">
-                                        <label  class="form-label font-weight-bold">Material Category particular for the Sub Category : <span
-                                                style="color: red;">*</span></label>
-                                        <select id="cmbMaterialCategory" class="form-control" required
-                                                onchange="selectValidator(cmbMaterialCategory,'','paperInkType','material_category_id','oldpaperInkType');">
-                                        </select>
-                                    </div>
-                                    <!--- Buttons -->
-                                    <div class="row mt-1">
-                                        <div class="col text-end">
-                                            <button  class="btn bg-info btn-sm font-weight-bold" style="width: 25%; border-radius: 50px" type="button" id ="btnAddpaperTypeSubmit" >Submit</button>
-
-                                            <button  class="btn bg-success font-weight-bold btn-sm" style="width: 25%;border-radius: 50px" type="reset" id ="btnAddpaperTypeCancel" >Cancel</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--  Measuring Count/Unit Type-->
-
-                    <div class="row mt-2">
-                        <!-- Measuring Count -->
-<!--                        <div class="col-6">-->
-<!--                            <label for="txtMeasuringCount" class="form-label font-weight-bold ">Measuring Count : <span-->
-<!--                                    style="color: red;">*</span></label>-->
-<!--                            <input type="text"  id="txtMeasuringCount" class="form-control form-control-sm" placeholder="Enter Measuring Count"-->
-<!--                                   onkeyup="textFeildValidtor(txtMeasuringCount,'^([1-9][0-9]{0,2}[.][0-9]{0,3}))$','material','measuring_count','oldmaterial')"       >-->
-<!--                            <div class="form-text"> Ex:999.999/1.000 </div>-->
-<!--                        </div>-->
-
+                    <!--  Unit Type-->
                         <!-- Unit Type  -->
-                        <div class="col-6 position-relative">
-                            <label  class="form-label font-weight-bold ">Unit Type : <span
+                        <div class="col-4 position-relative">
+                            <label class="form-label font-weight-bold ">Unit Type : <span
                                     style="color: red;">*</span></label>
                             <select id="cmbUnitType" class="form-control form-control-sm" required
                                     onchange="selectValidator(cmbUnitType,'','material','material_unit_type_id','oldmaterial')">
@@ -226,7 +159,8 @@
                     </div>
                     <!--  ####### Sizes #######-->
 
-                    <div id="divPaperSize" style="display: none" >
+                    <div id="divPaperSize" style="display: none">
+                        <div> Note : Mention all dimentions in cm </div>
                         <div class="row mt-2">
                             <!-- Height-->
                             <div class="col-6">
@@ -265,8 +199,9 @@
                     <!-- Material Status -->
                     <div class="row mt-1">
 
-                        <label for="cmbMaterialStatus" class="form-label font-weight-bold col-4">Material Status : <span
-                                style="color: red;">*</span></label>
+                        <label for="cmbMaterialStatus" class="form-label font-weight-bold col-4">Material Status :
+                            <span
+                                    style="color: red;">*</span></label>
                         <div class="col-8">
                             <select id="cmbMaterialStatus" class="form-control form-control-sm" required
                                     onchange="selectValidator(cmbMaterialStatus,'','material','material_status_id','oldmaterial')">
@@ -281,10 +216,10 @@
                             <button type="button" style="width: 23%; border-radius: 50px;"
                                     class="btn bg-info font-weight-bold " onclick="buttonMClear()"> Clear
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonUpdate"
                                     class="btn bg-warning font-weight-bold" onclick="buttonMUpdate()"> Update
                             </button>
-                            <button type="submit" style="width: 23%;border-radius: 50px;" id="buttonAdd"
+                            <button type="button" style="width: 23%;border-radius: 50px;" id="buttonAdd"
                                     class="btn bg-success font-weight-bold" onclick="buttonMSave()"> Add
                             </button>
                         </div>
@@ -309,7 +244,7 @@
 
 
 <script src="/material.js" type="text/javascript"></script>
-
+<footer th:replace="~{fragment::footerFragment}"></footer>
 </body>
 
 </html>

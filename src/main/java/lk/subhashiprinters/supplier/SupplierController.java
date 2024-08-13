@@ -8,6 +8,7 @@ import lk.subhashiprinters.supplier.SupplierRepository;
 import lk.subhashiprinters.supplier.SupplierStatusRepository;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -87,7 +88,7 @@ public class SupplierController {
 
         if(loggedUser != null && userPiriv.get("sel"))
               //  return itemDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-            return supplierDao.findAll();
+            return supplierDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
         else
             return null;
     }

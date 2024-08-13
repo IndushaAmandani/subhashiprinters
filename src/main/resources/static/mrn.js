@@ -28,8 +28,8 @@ const refreshTable = () => {
 
     //start by 1 - children
     for (let index in mrns) {
-            tableMrn.children[1].children[index].children[8].children[1].style.display = "none";
-            tableMrn.children[1].children[index].children[8].children[0].style.display = "none";
+        tableMrn.children[1].children[index].children[8].children[1].style.display = "none";
+        tableMrn.children[1].children[index].children[8].children[0].style.display = "none";
         if (mrns[index].material_recieve_note_status_id.name == "Removed") {
             tableMrn.children[1].children[index].style.backgroundColor = "pink";
             tableMrn.children[1].children[index].children[8].children[1].disabled = true;
@@ -59,7 +59,7 @@ function getMaterilasName(ob) {
 // functon for refresh form
 const refreshMrnForm = () => {
 
-    document.getElementById("mrnModalBody").style.pointerEvents="auto";
+    document.getElementById("mrnModalBody").style.pointerEvents = "auto";
     //create new object with it's old object(duplicatie object)
     mrn = new Object();
     oldmrn = null;
@@ -71,9 +71,9 @@ const refreshMrnForm = () => {
     porderlist = getServiceRequest("/purchaseorder/list");
     cmbPurchaseOrder.disabled = true;
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
-    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no","",true);
-    // cmbPurchaseOrder.disabled = true;
-        mrnstatuses = getServiceRequest("/mrnstatus/list");
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no", "", true);
+
+    mrnstatuses = getServiceRequest("/mrnstatus/list");
 
     fillSelectFeild(cmbMrnStatus, "Select Status", mrnstatuses, "name", "Received", true);
     mrn.material_recieve_note_status_id = JSON.parse(cmbMrnStatus.value);
@@ -98,11 +98,14 @@ const refreshMrnForm = () => {
 
     let mrnArray = [cmbSupplier, cmbPurchaseOrder, dteReceivedDate, txtSupplierInvoiceNO, txtTotalAmount, txtDiscountRatio, txtNetAmount, txtNote];
     setIDStyle(mrnArray, "1px solid #ced4da");
+//refresh by disabling inner form materials
 
 
     disabledButton(true, false);
 
     refreshInnerFormTable();
+    cmbMaterial.disabled = true;
+    document.getElementById('mrnModalBody').style.pointerEvents = 'auto';
 }
 
 
@@ -138,9 +141,8 @@ const refreshInnerFormTable = () => {
 
     materials = getServiceRequest("/material/list");
     fillSelectFeild2(cmbMaterial, "Select Material", materials, "code", "name", "");
-    cmbMaterial.disabled = true;
 
-
+    txtQuantity.disabled = true;
     // txtUnitPrice.value = "";
     txtUnitPrice.disabled = true;
     // txtQuantity.value = "";
@@ -180,9 +182,17 @@ const refreshInnerFormTable = () => {
         } else {
             txtTotalAmount.style.borderBottom = "2px solid green";
         }
+    }else {
+        txtTotalAmount.value ='';
+        txtTotalAmount.style.borderBottom = "2px solid #ced4da"
+        mrn.total_amount = null;
     }
 
 }
+
+document.getElementById("cmbPurchaseOrder").addEventListener('change', () => {
+    getMaterialByPOrder();
+})
 
 function getMaterialByPOrder() {
     if (cmbPurchaseOrder.value != "") {
@@ -190,7 +200,6 @@ function getMaterialByPOrder() {
         materialsByPOrder = getServiceRequest("/material/listbyporder/" + JSON.parse(cmbPurchaseOrder.value).id);
         fillSelectFeild2(cmbMaterial, "Select Material", materialsByPOrder, "code", "name", "");
         cmbMaterial.disabled = false;
-        txtQuantity.disabled = false;
 
     } else {
         materials = getServiceRequest("/material/list");
@@ -206,31 +215,36 @@ function getMaterialUnitPrice() {
     txtUnitPrice.value = parseFloat(pOrderhasMaterial.purchase_price).toFixed(2);
     txtUnitPrice.style.borderBottom = "2px solid green";
     mrnHasMaterial.purchase_price = txtUnitPrice.value;
+    txtQuantity.disabled = false;
+    txtQuantity.value = parseFloat(pOrderhasMaterial.quantity);
+    txtQuantity.style.borderBottom = "2px solid green";
+    mrnHasMaterial.quantity = parseFloat(pOrderhasMaterial.quantity);
+    getLineTotal();
 
 }
 
-document.getElementById("txtQuantity").addEventListener('keyup', ()=> {
+document.getElementById("txtQuantity").addEventListener('keyup', () => {
 
     if (txtQuantity.value != 0) {
         let regpattern = new RegExp("^([1-9][0-9]{0,5})$");
 
         if (regpattern.test(txtQuantity.value)) {
             pOrderhasMaterial = getServiceRequest("/PorderHasMaterial/getMaterialbyPordr/" + JSON.parse(cmbPurchaseOrder.value).id + "/" + JSON.parse(cmbMaterial.value).id);
-           if((txtQuantity.value)> (pOrderhasMaterial.quantity)){
-               txtQuantity.style.borderBottom = "2px solid red";
-               mrnHasMaterial.quantity = null;
-               buttonInnerAdd.disabled = true;
-               buttonInnerUpdate.disabled = true;
-           }else{
-               mrnHasMaterial.quantity = parseInt(txtQuantity.value);
-               txtQuantity.style.borderBottom = "2px solid green";
-               buttonInnerAdd.disabled = false;
-               buttonInnerUpdate.disabled = false;
-               getLineTotal();
-           }
+            if ((txtQuantity.value) > (pOrderhasMaterial.quantity)) {
+                txtQuantity.style.borderBottom = "2px solid red";
+                mrnHasMaterial.quantity = null;
+                buttonInnerAdd.disabled = true;
+                buttonInnerUpdate.disabled = true;
+            } else {
+                mrnHasMaterial.quantity = parseInt(txtQuantity.value);
+                txtQuantity.style.borderBottom = "2px solid green";
+                buttonInnerAdd.disabled = false;
+                buttonInnerUpdate.disabled = false;
+                getLineTotal();
+            }
         }
 
-    }else{
+    } else {
         txtQuantity.style.borderBottom = "2px solid red";
         mrnHasMaterial.quantity = null;
         buttonInnerAdd.disabled = true;
@@ -300,8 +314,6 @@ function discountedValueFunction(field) {
         netAmountField.style.borderBottom = "2px solid green";
     }
 }
-
-
 
 
 // function getmrnAfterTaxamount(){
@@ -513,17 +525,17 @@ function buttonClearMC() {
 }
 
 
-
 //
 const rowDelete = (ob, rowno) => {
 
     let deleteMsg = "Are you sure to add following mrn details \n"
         + "\n Supplier : " + ob.purchase_order_id.supplier_id.company_name
         + "\n Quotation : " + ob.purchase_order_id.quatation_id.number
-        + "\n Required Date : " +ob.recieve_date
+        + "\n Required Date : " + ob.recieve_date
         + "\n Total Amount : " + ob.total_amount;
 
-    let deleteUserResponce = window.confirm(deleteMsg);3
+    let deleteUserResponce = window.confirm(deleteMsg);
+    3
 
     if (deleteUserResponce) {
         let serverResponce = getHTTPServiceRequest("/mrn", "DELETE", ob);
@@ -546,30 +558,30 @@ const formReFill = (ob, rowno) => {
     oldmrn = getServiceRequest("/mrn/getbyid/" + ob.id);
     // set value into feilds
 
-    if (mrn.note != null){
+    if (mrn.note != null) {
         txtNote.value = mrn.note;
-    txtNote.style.borderBottom = "2px dotted green";
-}else txtNote.value = "";
+        txtNote.style.borderBottom = "2px dotted green";
+    } else txtNote.value = "";
 
-     txtTotalAmount.value = mrn.total_amount;
+    txtTotalAmount.value = mrn.total_amount;
     // dteReceivedDate.value = mrn.recieve_date;
 
     // suppliers = getServiceRequest("/supplier/list");
     // porderlist = getServiceRequest("/purchaseorder/list");
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name", mrn.purchase_order_id.supplier_id.company_name);
-    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order",porderlist , "order_no", mrn.purchase_order_id.order_no);
+    fillSelectFeild(cmbPurchaseOrder, "Select Purchase Order", porderlist, "order_no", mrn.purchase_order_id.order_no);
     fillSelectFeild(cmbMrnStatus, "Select Status", mrnstatuses, "name", mrn.material_recieve_note_status_id, true);
     cmbSupplier.disabled = true;
     cmbPurchaseOrder.disabled = true;
     dteReceivedDate.value = mrn.recieve_date;
-        // cmbPurchaseOrder.value = mrn.purchase_order_id.order_no;
+    // cmbPurchaseOrder.value = mrn.purchase_order_id.order_no;
     txtSupplierInvoiceNO.value = mrn.supplier_inovice_no;
     txtDiscountRatio.value = mrn.discount_rate;
     txtNetAmount.value = mrn.net_amount;
 
 
-     let mrnArray = [cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus];
-    setIDStyle(mrnArray,"2px dotted green");
+    let mrnArray = [cmbSupplier, cmbPurchaseOrder, dteReceivedDate, txtSupplierInvoiceNO, txtTotalAmount, txtDiscountRatio, txtNetAmount, cmbMrnStatus];
+    setIDStyle(mrnArray, "2px dotted green");
 
 
     if (mrn.note == null)
@@ -579,6 +591,7 @@ const formReFill = (ob, rowno) => {
     btnAddNew.click();
 
     refreshInnerFormTable();
+    document.getElementById('mrnModalBody').style.pointerEvents = 'none';
 }
 
 const checkUpdates = () => {
@@ -678,11 +691,10 @@ function buttonUpdateMC() {
 
 //
 const rowView = (ob, rowno) => {
-
-    formReFill(ob,rowno);
-    let mrnArray = [cmbSupplier,cmbPurchaseOrder,dteReceivedDate,txtSupplierInvoiceNO,txtTotalAmount,txtDiscountRatio,txtNetAmount,cmbMrnStatus];
-    setIDStyle(mrnArray,"2px solid #ced4da");
-    document.getElementById("mrnModalBody").style.pointerEvents="none";
+    formReFill(ob, rowno);
+    let mrnArray = [cmbSupplier, cmbPurchaseOrder, dteReceivedDate, txtSupplierInvoiceNO, txtTotalAmount, txtDiscountRatio, txtNetAmount, cmbMrnStatus];
+    setIDStyle(mrnArray, "2px solid #ced4da");
+    document.getElementById("mrnModalBody").style.pointerEvents = "none";
 }
 
 function getValidPOrder() {
@@ -696,9 +708,10 @@ function buttonModalCloseMC() {
     buttonCloseModal("#modalMRNForm", refreshMrnForm);
 }
 
-function buttonMInnerClearMC(){
+function buttonMInnerClearMC() {
     refreshInnerFormTable();
 }
+
 /**
  * Line Number          Functions
  * 3                    loadui

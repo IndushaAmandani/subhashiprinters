@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -107,6 +108,7 @@ public class ProductionOrderConfirmController {
 //
 
     //post mapping for insert item [/item - post]
+    @Transactional
    @PostMapping
     public String insertCOrder(@RequestBody CustomerOrder customerOrder){
         // neeed to check logged user privilage
@@ -118,14 +120,14 @@ public class ProductionOrderConfirmController {
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"CustomerOrder");
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"ProductionConfirmation");
 
-        if(loggedUser != null && userPiriv.get("ins")){
+        if(loggedUser != null && userPiriv.get("upd")){
             // user has privilage for insert item
 
             CustomerOrder extCustomerOrder = customerOrderDao.getByProductionStatus(customerOrder.getId());
             if(extCustomerOrder != null){
-                return "Customer Order Confirmation Not completed : Given Customer order All ready Accepted";
+                return "Customer Order Confirmation Not completed : Given Customer order Allready Accepted";
             }
 
             try {
@@ -144,23 +146,22 @@ public class ProductionOrderConfirmController {
 
                 }
 
-
                 customerOrderDao.save(customerOrder);
 
 
 
-                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
-                    MaterialInventory materialInventory = materialInventoryRepository.getByMaterial(cohm.getMaterial_id().getId());
-
-                    if(materialInventory != null){
-                        materialInventory.setAvaqty(materialInventory.getAvaqty().subtract(cohm.getRequired_quantity()));
-                        if(materialInventory.getAvaqty().equals(BigDecimal.valueOf(0.000))){
-                            materialInventory.setInventorystatus_id(inventoryStatusRepository.getReferenceById(2));
-                        }
-                        materialInventoryRepository.save(materialInventory);
-                    }
-
-                }
+//                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
+//                    MaterialInventory materialInventory = materialInventoryRepository.getByMaterial(cohm.getMaterial_id().getId());
+//
+//                    if(materialInventory != null){
+//                        materialInventory.setAvaqty(materialInventory.getAvaqty().subtract(cohm.getRequired_quantity()));
+//                        if(materialInventory.getAvaqty().equals(BigDecimal.valueOf(0.000))){
+//                            materialInventory.setInventorystatus_id(inventoryStatusRepository.getReferenceById(2));
+//                        }
+//                        materialInventoryRepository.save(materialInventory);
+//                    }
+//
+//                }
 
                 return "0";
             }catch (Exception ex){

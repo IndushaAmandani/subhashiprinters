@@ -27,11 +27,12 @@ public class WebConfiguration {
                 antMatchers("/employee/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/user/**").hasAnyAuthority("ADMIN","MANAGER").
                 antMatchers("/privilage/**").hasAnyAuthority("ADMIN","MANAGER").
-                antMatchers("/product/**","/productCategory").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
+                antMatchers("/product/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/paperInkTypes/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER").
                 antMatchers("/material/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
                 antMatchers("/dailyProduct/**","/CustomerOrder/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","PRINTING-OFFICER","CASHIER").
-                antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","CASHIER").
+                antMatchers("/productCategory/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER").
+                antMatchers("/customer/**","/CustomerOrder/**","/cpayment/**").hasAnyAuthority("ADMIN","MANAGER","PRODUCT-MANAGER","CASHIER").
                 anyRequest().authenticated().and()
                 .csrf().disable(). //prevent cross-reference access
                 formLogin().

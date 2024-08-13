@@ -21,7 +21,7 @@
     <div class="content-wrapper">
         <div class="content-header row">
             <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-                <h3 class="content-header-title mb-0 d-inline-block">Material List Report</h3>
+                <h3 class="content-header-title mb-0 d-inline-block">Paper Materail Details</h3>
                 <div class="row breadcrumbs-top d-inline-block">
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
@@ -29,7 +29,7 @@
                             </li>
                             <li class="breadcrumb-item active">Report
                             </li>
-                            <li class="breadcrumb-item active">Usable Materials
+                            <li class="breadcrumb-item active">Paper Material Details
                         </ol>
                     </div>
                 </div>
@@ -55,8 +55,9 @@
                                                 <tr>
                                                     <th> #</th>
                                                     <th> Name</th>
-                                                    <th>Code </th>
-                                                    <th> </th>
+                                                    <th> Code </th>
+                                                    <th> Height(cm)</th>
+                                                    <th> Width(cm)</th>
 
                                                 </thead>
                                                 <tbody></tbody>
@@ -86,8 +87,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-<!--footer-->
-<footer th:replace = "~{fragment::footerFragment}"></footer>
+
 
 
 
@@ -107,6 +107,7 @@
 <script src="/resources/script/common.js" type="text/javascript"></script>
 <script src="/resources/script/dashboard.js" type="text/javascript"></script>
 <script src="/reportMaterial.js" type="text/javascript"></script>
-
+<!--footer-->
+<footer th:replace = "~{fragment::footerFragment}"></footer>
 </body>
 </html>

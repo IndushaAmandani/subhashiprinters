@@ -32,5 +32,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     //select e from Employee ---> gives objects so use constructor                                                      u.employee_id ---> employee object 
     @Query(value = "select new Employee(e.id, e.calling_name, e.number, e.email) from Employee e where e.id not in(select u.employee_id.id from User u where u.employee_id is NOT NUll)")
     List<Employee> getEmployeeListWithoutUserAccount();
+    @Query(value = "select new Employee(e.id, e.calling_name, e.number, e.email) from Employee e where e.id in(select u.employee_id.id from User u where u.employee_id is NOT NUll)")
+    List<Employee> getEmployeeListWithUserAccount();
     
 }
