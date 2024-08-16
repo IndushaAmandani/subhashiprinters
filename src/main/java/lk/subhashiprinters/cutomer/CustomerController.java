@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import lk.subhashiprinters.corder.COrderStatus;
+import lk.subhashiprinters.corder.COrderStatusRepository;
+import lk.subhashiprinters.corder.CustomerOrder;
+import lk.subhashiprinters.corder.CustomerOrderRepository;
 import lk.subhashiprinters.cutomer.Customer;
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.userm.User;
@@ -41,6 +45,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerStatusRepository customerStatusDao;
+
+@Autowired
+private CustomerOrderRepository customerOrderDao;
 
     /*-----------------------------------------------
 
@@ -81,8 +88,8 @@ public class CustomerController {
         return customerDao.listAll();
     }
 
-    @GetMapping(value = "/getCustomerbyCOSatus",produces = "application/json")
-    public List<Customer> getCustomerbyCOStatus(){return customerDao.getCustomerbyCOStatus();}
+    @GetMapping(value = "/getCustomerbyCOSatus/{cid}",produces = "application/json")
+    public List<CustomerOrder> getCustomerbyCOStatus(@PathVariable("cid") Integer cid){return customerOrderDao.getCustomerbyCOStatus(cid);}
 
     //dashboard [active customer count]
         @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
@@ -175,6 +182,11 @@ public class CustomerController {
         if (authentication instanceof AnonymousAuthenticationToken) {
             return "Customer Delete Not completed : You don't have permissing";
         }
+        List<CustomerOrder> coListByCno = customerOrderDao.getCustomerbyCOStatus(customer.getId());
+        System.out.println(coListByCno);
+        if(coListByCno.size()==0){
+            return "Customer Delete Not completed : Customer do have ongoing orders..";
+        }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
@@ -182,15 +194,17 @@ public class CustomerController {
         HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Customer");
 
         if (loggedUser != null && userPiriv.get("del")) {
-            Customer insCustomer = customerDao.getReferenceById(customer.getId());
-            if (insCustomer != null) {
+            Customer extcustomer = customerDao.getReferenceById(customer.getId());
+            if (extcustomer != null) {
+
+
 
                 try {
                     //now() is a  static type so have to call with class
-                    insCustomer.setDelete_date(LocalDateTime.now());
+                    extcustomer.setDelete_date(LocalDateTime.now());
                     //getting the whole instance by getReference
-                    insCustomer.setCustomerstatus_id(customerStatusDao.getReferenceById(2));
-                    customerDao.save(insCustomer);
+                    extcustomer.setCustomerstatus_id(customerStatusDao.getReferenceById(2));
+                    customerDao.save(extcustomer);
                     return "0";
                 } catch (Exception ex) {
                     return "";

@@ -2,16 +2,14 @@
 <!--//                <thead class="table-dark" style="background-color: #152650">-->
 <div th:fragment="sideBarFragment"
      class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow ">
-    <div class="main-menu-content"><a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
-                                      href="/dashboard">
+    <div class="main-menu-content justify-content-center ">
 
-        <!--        <p class="m-1 text-white" id="hUsername"></p>-->
-        <!--        <p class="m-1  text-white" id="spnRole"></p>-->
-        <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
-        <a class="m-1  ml-2 text-white" href="#" id="loggedUserName" >UsrName</a>
-<!--        <a class="m-1  text-white" href="#" id="loggeduserRole">Role</a>-->
-
-    </a>
+        <a class="navigation-brand d-none d-md-block d-lg-block d-xl-block"
+           href="/dashboard">
+            <img class=" rounded-circle  brand-logo" src="resources/images/user_photo/user.png" id="imgUserPhoto"/>
+                 <a class="m-1 text-white " href="#" id="loggeduserRole">Role</a>
+                <a class="m-1  text-white " href="#" id="loggedUserName">UsrName</a>
+        </a>
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" nav-item"><a href="/dashboard"><i class="fa-solid fa-chart-line"></i><span
                     class="menu-title" data-i18n="">Dashboard</span></a>
@@ -74,7 +72,7 @@
                 <ul class="menu-content">
                     <li><a class="menu-item" href="/mateialListStatusReport">Paper Material Report</a></li>
                     <li><a class="menu-item" href="/customerPaymentreport"> Customer Payment Report</a></li>
-                    <li><a class="menu-item" href="/samplechart">Report 3</a></li>
+                    <li><a class="menu-item" href="/supplierPaymentreport">Supplier Payment Report</a></li>
                 </ul>
             </li>
 
@@ -115,7 +113,6 @@
     <!-- END Custom CSS-->
 
 
-
 </head>
 
 <!--Navbar-->
@@ -127,11 +124,7 @@
                 <li class="nav-item mobile-menu d-md-none mr-auto"><a
                         class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i
                         class="ft-menu font-large-1"></i></a></li>
-                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"><img
-                        class="brand-logo d-none d-md-block" alt="CryptoDash admin logo"
-                        src="../../../app-assets/images/logo/logo.png"><img class="brand-logo d-sm-block d-md-none"
-                                                                            alt="CryptoDash admin logo sm"
-                                                                            src="../../../app-assets/images/logo/logo-sm.png"></a>
+                <li class="nav-item d-md-none"><a class="navbar-brand" href="index.html"></a>
                 </li>
                 <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
                                                   data-target="#navbar-mobile"><i class="la la-ellipsis-v"> </i></a>
@@ -173,7 +166,6 @@
                 </ul>
 
 
-
             </div>
         </div>
     </div>
@@ -207,7 +199,8 @@
                                     <!--  Photo-->
                                     <div class=" row mt-2">
                                         <div class="col-4">
-                                            <label for="userFilePhoto" class="form-label font-weight-bold">Employee Photo
+                                            <label for="userFilePhoto" class="form-label font-weight-bold">Employee
+                                                Photo
                                                 : </label>
                                             <img src="resources/images/user_photo/user.png"
                                                  style="width: 65px; height: 75px" id="uImage"
@@ -232,7 +225,8 @@
 
                                     <div class=" mt-1">
                                         <input type="file"
-                                               accept="image/*" value="1" name="image" class="form-control-file" style="display: none;">
+                                               accept="image/*" value="1" name="image" class="form-control-file"
+                                               style="display: none;">
                                     </div>
 
                                     <!-- User Name -->
@@ -251,7 +245,8 @@
                                         <label class="form-label font-weight-bold col-4"> Password :
                                             <span class="text-danger"> * </span></label>
                                         <div class="col-8">
-                                            <input type="password" id="txtPassword" autocomplete="off" placeholder="Enter Password"
+                                            <input type="password" id="txtPassword" autocomplete="off"
+                                                   placeholder="Enter Password"
                                                    class="form-control"
                                                    onkeyup="textFeildValidtor(txtPassword,'^[A-Za-z0-9@#*]{5,15}$','currentLoggedUser','password','oldcurrentLoggedUser')">
                                         </div>
@@ -302,7 +297,8 @@
             </div>
         </div>
     </div>
-    <script src="/userModelSetting.js" type="text/javascript"></script></script>
+    <script src="/userModelSetting.js" type="text/javascript"></script>
+    </script>
 </div>
 <!--User Change mOddel-->
 

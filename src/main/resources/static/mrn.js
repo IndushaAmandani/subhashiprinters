@@ -499,7 +499,8 @@ function buttonSubmitMC() {
             + "\n Supplier : " + mrn.purchase_order_id.supplier_id.company_name
             + "\n Quotation : " + mrn.purchase_order_id.quatation_id.number
             + "\n Required Date : " + mrn.recieve_date
-            + "\n Net Amount : " + mrn.net_amount;
+            + "\n Net Amount : " + mrn.net_amount +  "?"
+        +"\n ***Please Recheck ! This operation cannot be undo once added to the system** ";
         let userResponce = window.confirm(confirmMs);
         if (userResponce) {
             let serverResponce = getHTTPServiceRequest("/mrn", "POST", mrn)
@@ -681,13 +682,13 @@ function buttonUpdateMC() {
 
 }
 
-// function getPObysupplier() {
-//     quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
-//    mrn = getServiceRequest("/purchaseorder/getPObySupplierid/" + JSON.parse(cmbSupplier.value).id) ;
-// fillSelectFeild(cmbPurchaseOrder,"Select Purchase Order",mrn,"order_no");
-//     cmbPurchaseOrder.disabled = false;
-//
-// }
+function getPObysupplier() {
+   // quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);
+  // mrn = getServiceRequest("/purchaseorder/getPObySupplierid/" + JSON.parse(cmbSupplier.value).id) ;
+//fillSelectFeild(cmbPurchaseOrder,"Select Purchase Order",mrn,"order_no");
+//    cmbPurchaseOrder.disabled = false;
+
+}
 
 //
 const rowView = (ob, rowno) => {
@@ -696,7 +697,9 @@ const rowView = (ob, rowno) => {
     setIDStyle(mrnArray, "2px solid #ced4da");
     document.getElementById("mrnModalBody").style.pointerEvents = "none";
 }
-
+document.getElementById("cmbSupplier").addEventListener('change',()=>{
+    getValidPOrder()
+})
 function getValidPOrder() {
 
     poderbyrecieveddate = getServiceRequest("/purchaseorder/pOrdervalid/" + JSON.parse(cmbSupplier.value).id);

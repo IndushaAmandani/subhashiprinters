@@ -3,7 +3,9 @@ package lk.subhashiprinters.logincontroller;
 
 import lk.subhashiprinters.loggeduser.LoggedUser;
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.userm.Role;
 import lk.subhashiprinters.userm.User;
+import lk.subhashiprinters.userm.UserHasRole;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -59,13 +61,25 @@ public class LoginController {
         Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userDao.findUserByUsername(auth.getName());
         ModelAndView dashboardui = new ModelAndView();
+        dashboardui.addObject("loggedusername",auth.getName());
+//       for(Role role : loggedUser.getRoles()) {
+//           System.out.println(role.getName());
+//           if(role.getName() == "CASHIER"){
+//               dashboardui.setViewName("dashboard2.html");
+//           }else{
+//               dashboardui.setViewName("dashboard.html");
+//           }
+//       }
+
         //ModelAndView dashboardui = new ModelAndView(redirect:/dashboard);
         //add obj
-     dashboardui.addObject("loggedusername",auth.getName());
+
 //        dashboardui.addObject("loguserrole",logedUser.ge);
 //        dashboardui.addObject("loguserrole",loggedUser.getUpdatedatetime());
 //
   //     dashboardui.addObject("loggeduserphoto",loggedUser.getUserphoto());
+
+
         dashboardui.setViewName("dashboard.html");
         return dashboardui;
     }

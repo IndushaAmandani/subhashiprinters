@@ -26,7 +26,7 @@ const refreshTable = () => {
     cpayments = getServiceRequest("cpayment/findall");
 
     let displayPropList = ['customer_payment_bill_number', 'customer_id.customer_name', 'total_amount', 'after_balance_amount'];
-    let displayPropDataTypeList = ['object', 'object', 'decimal', 'decimal', 'object'];
+    let displayPropDataTypeList = ['object', 'object', 'decimal', 'decimal'];
 
     fillDataIntoTable(tableCustomerPayment, cpayments, displayPropList, displayPropDataTypeList, refillForm, deleteRow, viewRow, true, lggeduserprivilage);
     for (let index in cpayments) {
@@ -580,7 +580,7 @@ const printOrderDetailsAtCPayment = (customerOrderObject, tableBody) => {
                                 <address>
                                 <strong>Order Date :</strong><br>
                                 ${orderDate} <br>
-                                <strong>Order Date :</strong><br>
+                                <strong>Required Date :</strong><br>
                                 ${requiredDate}                                    
                                 </address>
                             </div>
@@ -637,7 +637,7 @@ const printOrderDetailsAtCPayment = (customerOrderObject, tableBody) => {
                                                 <td class="no-line"></td>
                                                 <td class="no-line"></td>
                                                 <td class="no-line text-center"><strong>Remaining Balance</strong></td>
-                                                <td class="no-line text-right">LKR - ${parseFloat(customerOrderObject.after_balance_amount).toFixed(2)}</td>
+                                                <td class="no-line text-right">LKR ${parseFloat(customerOrderObject.after_balance_amount).toFixed(2)}</td>
                                             </tr>
                                         </tbody>
                                     </table>

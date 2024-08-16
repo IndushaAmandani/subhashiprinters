@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import lk.subhashiprinters.privilege.PrivilageController;
+import lk.subhashiprinters.supplier.Supplier;
 import lk.subhashiprinters.userm.UserRepository;
 import lk.subhashiprinters.userm.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,12 +57,6 @@ public class ProductController {
            return productUi;
        }
 
-       //define findall data service['/product/findall']
-    @GetMapping(value ="/findall",produces = "application/json")
-    //create function
-    public List<Product> productfindAll(){
-        return productDao.findAll();
-    }
 
     @GetMapping(value = "/listbyCustomer/{cid}", produces = "application/json")
     public List<Product> getListByCustomer(@PathVariable("cid")Integer cid){return productDao.getListByCustomer(cid);}
@@ -96,6 +92,31 @@ public class ProductController {
 //    @GetMapping(value = "/customerOrderProduct/bycp/{qid}/{mid}" ,produces = "application/json")
 //    public QuotationHasMaterial getByQM(@PathVariable("qid") Integer qid, @PathVariable("mid") Integer mid){
 //        return quotationMaterialDao.byQidMid(qid,mid);
+
+
+    //define findall data service['/product/findall']
+    @GetMapping(value = "/findall", produces = "application/json")
+    public List<Product> ProductFindAll(){
+        //need to check logged user privilage
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken){
+            return null;
+        }
+
+        // get logged user authentication object
+        User loggedUser = userDao.findUserByUsername(authentication.getName());
+        // check privilage for add operation
+        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"Product");
+
+        if(loggedUser != null && userPiriv.get("sel"))
+            //  return itemDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            return productDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        else
+            return null;
+    }
+
+
+
     @PostMapping
     @Transactional
     public String AddProduct(@RequestBody Product product) {

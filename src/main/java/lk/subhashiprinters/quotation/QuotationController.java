@@ -10,6 +10,7 @@ import lk.subhashiprinters.quotationrequest.QuotationRequestStatusRepository;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,9 +89,30 @@ public class QuotationController {
         // check privilage for add operation
         HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Quotation");
 
-        if (loggedUser != null && userPiriv.get("sel"))
-            return quotationDao.findAll();
-        else {
+        if (loggedUser != null && userPiriv.get("sel")) {
+            List<Quotation> listofquatations = quotationDao.findAll();
+            for (Quotation oneofQuatation : listofquatations) {
+                LocalDate validdate = oneofQuatation.getValid_period();
+                String validdateStringArray = validdate.toString();
+                String[] validdateString = validdateStringArray.split("-");
+                String validdateStringvalue = validdateString[0] + validdateString[1] + validdateString[2];
+
+                LocalDate todayy = LocalDate.now();
+                String todayString = todayy.toString();
+                String[] todayStringArray = todayString.split("-");
+                String todayStringvalue = todayStringArray[0] + todayStringArray[1] + todayStringArray[2];
+                Integer todayvalue = Integer.parseInt(todayStringvalue);
+                Integer validdatevalue = Integer.parseInt(validdateStringvalue);
+                if (validdatevalue <= (todayvalue)) {
+                    oneofQuatation.setQuatation_status_id(quotationStatusDao.getReferenceById(2));
+                    for(QuotationHasMaterial qhml    :  oneofQuatation.getQuotationHasMaterialList()){
+                        qhml.setQuatation_id(oneofQuatation);
+                    }
+                    quotationDao.save(oneofQuatation);
+                }
+            }
+            return quotationDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        } else {
             List<Quotation> quotationList = new ArrayList<>();
             return quotationList;
         }
@@ -140,15 +162,13 @@ public class QuotationController {
         if (userPrive != null && userPrive.get("upd")) {
 
 
-
-
             Quotation extQuotation = quotationDao.getReferenceById(quotation.getId());
 
             if (extQuotation == null) {
                 return "Quotation Update Not completed : Quotation doesn't exists..!";
             }
             List<PurchaseOrder> porderListForQuotation = porderDao.getAllByQuatation(extQuotation.getId());
-            if(porderListForQuotation.size()>0){
+            if (porderListForQuotation.size() > 0) {
                 return "Quotation Update Not completed : Purchase order do exist for this quotation..!";
             }
             try {

@@ -28,6 +28,14 @@ public class ReportUIController {
 
     }
 
+    @GetMapping(value = "/supplierPaymentreport")
+    public ModelAndView invoiceSReport() {
+        ModelAndView invoiceSReportView = new ModelAndView();
+        invoiceSReportView.setViewName("supplierPaymentReport.html");
+        return invoiceSReportView;
+
+    }
+
     @GetMapping(value = "/samplechart")
     public ModelAndView samplechartUI() {
         ModelAndView samplechartView = new ModelAndView();

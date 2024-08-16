@@ -155,6 +155,9 @@ const checkSPFormError = () => {
     if (newSupplierPayment.balance_amount == null) {
         formerror = formerror + "Please Balance Amount..! \n";
     }
+    if (newSupplierPayment.supplier_payment_type_id == null) {
+        formerror = formerror + "Please Select Supplier Payment Type ..! \n";
+    }
 
     return formerror;
 }
@@ -179,9 +182,9 @@ function buttonSPSave() {
             //call post services
             let serverResponce = getHTTPServiceRequest("/supplierpayment", "POST", newSupplierPayment);
             if (serverResponce == "0") {
+                refreshSPForm();
                 $("#modalSupplierPaymentForm").modal("hide");
                 refreshTable();
-                refreshSPForm();
                 window.alert("Supplier Payment Insert Successfully...");
             } else {
                 window.alert("Supplier Payment Insert Not Successfully you have server error...\n" + serverResponce);

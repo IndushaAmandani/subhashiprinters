@@ -13,21 +13,27 @@ function refreshCustomerOrderTable() {
     customerOrders = getServiceRequest("/customerOrder/findall");
 
     //create display property list
-    let dispalyPropertyList = ['order_code', 'required_date', 'total_amount', 'advanced_amount', 'final_balanced_amount', 'production_status_id.name', 'order_status_id.name'];
+    let dispalyPropertyList = ['order_code', 'required_date', 'total_amount','order_balance','production_status_id.name', 'order_status_id.name'];
     //Property type list
-    let dispalyPropertyDTList = ['text', 'text', 'decimal', 'decimal', 'decimal', 'object', 'object'];
+    let dispalyPropertyDTList = ['text', 'text', 'decimal','decimal', 'object', 'object'];
 
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCOrder, customerOrders, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
     for (let index in customerOrders) {
-        tableCOrder.children[1].children[index].children[8].children[0].style.display = "none";
+        tableCOrder.children[1].children[index].children[7].children[0].style.display = "none";
 
         if (customerOrders[index].order_status_id.name == "Finished") {
             tableCOrder.children[1].children[index].style.backgroundColor = "#6c8c86";
             tableCOrder.children[1].children[index].style.color = "#0f100f";
-            tableCOrder.children[1].children[index].children[8].children[1].disabled = true;
-            tableCOrder.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
-            tableCOrder.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
+            tableCOrder.children[1].children[index].children[7].children[1].disabled = true;
+            tableCOrder.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
+            tableCOrder.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
+        }else if(customerOrders[index].order_status_id.name == "Cancel"){
+            tableCOrder.children[1].children[index].style.backgroundColor = "#be9999";
+            tableCOrder.children[1].children[index].style.color = "#0f100f";
+            tableCOrder.children[1].children[index].children[7].children[1].disabled = true;
+            tableCOrder.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
+            tableCOrder.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
         }
 
     }
@@ -577,6 +583,9 @@ const rowView = (ob, rowno) => {
     printCOrder = getServiceRequest("/customerOrder/getbyid/" + ob.id)
 
 
+    addeduserName.innerHTML  = printCOrder.added_user_id.username;
+    addeddate.innerHTML = printCOrder.added_date.split('T')[0];
+    addedtimeview.innerHTML = printCOrder.added_date.split('T')[1];
     tdCOCode.innerHTML = printCOrder.order_code;
     tdCName.innerHTML = printCOrder.customer_id.customer_name;
     tdReqDate.innerHTML = printCOrder.required_date;

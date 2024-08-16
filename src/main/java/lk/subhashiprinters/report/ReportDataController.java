@@ -5,6 +5,7 @@ package lk.subhashiprinters.report;
 import lk.subhashiprinters.corder.CustomerOrderPReport;
 import lk.subhashiprinters.cpayment.CPaymentReport;
 import lk.subhashiprinters.report.ReportRepository;
+import lk.subhashiprinters.supplierpayment.SupplierPReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,32 +56,35 @@ return paymentReportsList;
 //XXXXXXXXXXXXXXXXXXXXXXXXXX
 //getServiceRequest("customerOrderPatternReport/bysdateedate/ "+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
 
+    @GetMapping(value ="/supplierPaymentreport/bysdateedate/{sdate}/{edate}/{type}",produces ="application/json")
+    public List<SupplierPReport> getSPaymentbySDateEDate(@PathVariable("sdate") String sdate , @PathVariable("edate") String edate, @PathVariable("type")String type) {
 
-    @GetMapping(value ="customerOrderPatternReport/bysdateedate/{sdate}/{edate}/{type}",produces ="application/json")
-    public List<CustomerOrderPReport> getCOrderbySDateEDate(@PathVariable("sdate") String sdate ,@PathVariable("edate") String edate,@PathVariable("type")String type) {
-
-        String[][] reportDataList = new String[100][4];
+        String[][] reportSDataList = new String[100][4];
+        if(type.equals("Daily"))
+            reportSDataList = reportRepository.getSPaymentReportDaily(sdate, edate);
+        if(type.equals("Weekly"))
+            reportSDataList = reportRepository.getSPaymentReportWeekly(sdate, edate);
         if(type.equals("Monthly"))
-            reportDataList = reportRepository.getPaymentReportMonthly(sdate, edate);
+            reportSDataList = reportRepository.getSPaymentReportMonthly(sdate, edate);
         if(type.equals("Annualy"))
-            reportDataList = reportRepository.getPaymentReportAnnualy(sdate, edate);
-        List<CustomerOrderPReport> cOrderReportList  = new ArrayList<>();
+            reportSDataList = reportRepository.getSPaymentReportAnnualy(sdate, edate);
+        List<SupplierPReport> paymentReportsList  = new ArrayList<>();
 
-        for (int i = 0; i < reportDataList.length; i++) {
-            CustomerOrderPReport customerOrderPReport = new CustomerOrderPReport();
+        for (int i = 0; i < reportSDataList.length; i++) {
+            SupplierPReport sPaymentReport = new SupplierPReport();
             if(type.equals("Annualy"))
-                customerOrderPReport.setDate(reportDataList[i][0]);
+                sPaymentReport.setDate(reportSDataList[i][0]);
             else
-                customerOrderPReport.setDate(reportDataList[i][0] + "-" + reportDataList[i][1]);
+                sPaymentReport.setDate(reportSDataList[i][0] + "-" + reportSDataList[i][1]);
 
-            customerOrderPReport.setCpaymentcount(reportDataList[i][2]);
-            customerOrderPReport.setTotalamount(reportDataList[i][3]);
+            sPaymentReport.setSpaymentCount(reportSDataList[i][2]);
+            sPaymentReport.setTotalamount(reportSDataList[i][3]);
 
 
-            cOrderReportList.add(customerOrderPReport);
+            paymentReportsList.add(sPaymentReport);
         }
 
-        return cOrderReportList;
+        return paymentReportsList;
     }
 
 

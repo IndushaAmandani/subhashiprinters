@@ -287,12 +287,13 @@ const rowDelete = (ob, rowno) => {
         } else {
             window.alert("You have following error \n" + deleteServerResponce);
         }
-    }
+}
+
+
 }
 
 
 function showCompanyForm() {
-
 
     /* if (cmbCustomerCategory.value.toString() == "company") */
     if (JSON.parse(cmbCustomerCategory.value).name == "company") {

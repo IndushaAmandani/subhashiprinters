@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
     //  console.log(loggedUser);
     if (loggedUser != null) {
         loggedUserName.innerText = loggedUser.username;
-        // loggeduserRole.innerText = loggedUser.role;
+         loggeduserRole.innerText = loggedUser.role;
         if (loggedUser.userphoto != null) {
             imgUserPhoto.src = atob(loggedUser.userphoto);
         } else {

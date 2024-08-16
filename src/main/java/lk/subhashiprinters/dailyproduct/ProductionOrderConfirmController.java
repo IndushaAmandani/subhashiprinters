@@ -50,10 +50,9 @@ public class ProductionOrderConfirmController {
     private InventoryStatusRepository inventoryStatusRepository;
 
 
-
     //get quotationrequest UI [/quotationrequest]
     @GetMapping
-    public ModelAndView POrderCnfirmUI(){
+    public ModelAndView POrderCnfirmUI() {
         ModelAndView productionOrderConfirm = new ModelAndView();
         productionOrderConfirm.setViewName("productionOrderConfirm.html");
 
@@ -61,14 +60,14 @@ public class ProductionOrderConfirmController {
     }
 
 
-    @GetMapping(value ="/findbyStatus",produces = "application/json")
+    @GetMapping(value = "/findbyStatus", produces = "application/json")
     //create function
-    public List<CustomerOrder> findbyStatus(){
+    public List<CustomerOrder> findbyStatus() {
         return productionOrderConfirmDao.findbyStatus();
     }
 
-    @GetMapping(value ="/getbyid/{id}" ,produces = "application/json")
-    public CustomerOrder getByPathId(@PathVariable("id") Integer id){
+    @GetMapping(value = "/getbyid/{id}", produces = "application/json")
+    public CustomerOrder getByPathId(@PathVariable("id") Integer id) {
         return productionOrderConfirmDao.getReferenceById(id);
     }
 
@@ -109,39 +108,39 @@ public class ProductionOrderConfirmController {
 
     //post mapping for insert item [/item - post]
     @Transactional
-   @PostMapping
-    public String insertCOrder(@RequestBody CustomerOrder customerOrder){
+    @PostMapping
+    public String insertCOrder(@RequestBody CustomerOrder customerOrder) {
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return "Customer Order Status Insert Not completed : You don't have permission";
         }
 
         // get logged user authentication object
         User loggedUser = userDao.findUserByUsername(authentication.getName());
         // check privilage for add operation
-        HashMap<String,Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(),"ProductionConfirmation");
+        HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "ProductionConfirmation");
 
-        if(loggedUser != null && userPiriv.get("upd")){
+        if (loggedUser != null && userPiriv.get("upd")) {
             // user has privilage for insert item
 
             CustomerOrder extCustomerOrder = customerOrderDao.getByProductionStatus(customerOrder.getId());
-            if(extCustomerOrder != null){
+            if (extCustomerOrder != null) {
                 return "Customer Order Confirmation Not completed : Given Customer order Allready Accepted";
             }
 
             try {
                 // set auto set value
-             customerOrder.setConfirmdate(LocalDate.now());
-             customerOrder.setUpdate_user_id(loggedUser);
-             customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(2));
+                customerOrder.setConfirmdate(LocalDate.now());
+                customerOrder.setUpdate_user_id(loggedUser);
+                customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(2));
 
-             for(CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()){
-                 coh.setCustomer_order_id(customerOrder);
-                 coh.setProduction_status_id(productionStatusRepository.getReferenceById(2));
-             }
+                for (CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()) {
+                    coh.setCustomer_order_id(customerOrder);
+                    coh.setProduction_status_id(productionStatusRepository.getReferenceById(2));
+                }
 
-                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
+                for (CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()) {
                     cohm.setCustomer_order_id(customerOrder);
 
                 }
@@ -149,28 +148,26 @@ public class ProductionOrderConfirmController {
                 customerOrderDao.save(customerOrder);
 
 
+                for (CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()) {
+                    MaterialInventory materialInventory = materialInventoryRepository.getByMaterial(cohm.getMaterial_id().getId());
 
-//                for(CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()){
-//                    MaterialInventory materialInventory = materialInventoryRepository.getByMaterial(cohm.getMaterial_id().getId());
-//
-//                    if(materialInventory != null){
-//                        materialInventory.setAvaqty(materialInventory.getAvaqty().subtract(cohm.getRequired_quantity()));
-//                        if(materialInventory.getAvaqty().equals(BigDecimal.valueOf(0.000))){
-//                            materialInventory.setInventorystatus_id(inventoryStatusRepository.getReferenceById(2));
-//                        }
-//                        materialInventoryRepository.save(materialInventory);
-//                    }
-//
-//                }
+                    if (materialInventory != null) {
+                        materialInventory.setAvaqty(materialInventory.getAvaqty().subtract(cohm.getRequired_quantity()));
+                        if (materialInventory.getAvaqty().equals(BigDecimal.valueOf(0.000))) {
+                            materialInventory.setInventorystatus_id(inventoryStatusRepository.getReferenceById(2));
+                        }
+                        materialInventoryRepository.save(materialInventory);
+                    }
+
+                }
 
                 return "0";
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 return "Customer Order Status Insert Not completed : " + ex.getMessage();
             }
 
 
-        }
-        else {
+        } else {
             return "Customer Order Status Insert Insert Not completed : You don't have permission";
         }
 

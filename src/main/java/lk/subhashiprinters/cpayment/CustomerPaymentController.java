@@ -117,9 +117,11 @@ public class CustomerPaymentController {
 
                 //Check whether this is the first payment made by the customer
                 BigDecimal totalamountfortheOrder = customerOrder.getTotal_amount();
-                if(orderBalanceforCOrder.compareTo(totalamountfortheOrder) ==0){
+                //check value of both are equal
+                if (orderBalanceforCOrder.compareTo(totalamountfortheOrder) == 0) {
                     //set order status of Pending into initiated status
-                   customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(1));
+                    customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(1));
+                    customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
                     for (CustomerOrderHasMaterial comat : customerOrder.getCustomerOrderHasMaterialList()) {
                         comat.setCustomer_order_id(customerOrder);
 
@@ -139,13 +141,14 @@ public class CustomerPaymentController {
                 BigDecimal newOrderBalance = orderBalanceforCOrder.subtract(paidamount);
 
                 customerOrder.setOrder_balance(newOrderBalance);
-                System.out.println(newOrderBalance);
+              //  System.out.println(newOrderBalance);
 
                 Boolean orderProductionDone = true;
                 //corderhas product list
 
                 List<CustomerOrderHasProduct> productListfortheCustomerOrder = customerOrder.getCustomerOrderHasProductList();
                 for (CustomerOrderHasProduct cohproduct : productListfortheCustomerOrder) {
+                    //check production status is not equal to finish ethier one
                     if (cohproduct.getProduction_status_id().getId() != 4) {
                         orderProductionDone = false;
                         break;
@@ -155,17 +158,17 @@ public class CustomerPaymentController {
                 //-----new BigDecimal(0)----
                 //Payment completed check
                 if (newOrderBalance.compareTo(BigDecimal.ZERO) == 0) {
-                    if(orderProductionDone){
-                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(3));
-                    }else{
+                    if (orderProductionDone) {
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(5));
+                    } else {
                         customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(2));
                     }
                 }
                 //Payment not completed
                 if (newOrderBalance.compareTo(BigDecimal.ZERO) > 0) {
-                    if(orderProductionDone){
-                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(4));
-                    }else{
+                    if (orderProductionDone) {
+                        customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(3));
+                    } else {
                         customerOrder.setOrder_status_id(corderStatusDao.getReferenceById(2));
                     }
                 }

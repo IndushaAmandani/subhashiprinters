@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class CustomerOrderController {
                 }
 
                 try {
-                    CustomerOrderDao.save(corderRecord);
+                        CustomerOrderDao.save(corderRecord);
                 } catch (Exception e) {
                     System.out.println("Error : " + e.getMessage());
                 }
@@ -144,7 +145,7 @@ public class CustomerOrderController {
     }
 
     @GetMapping(value = "/notpaidCustomers", produces = "application/json")
-    public List<CustomerOrder>  getNotPyCustomerOrders() {
+    public List<CustomerOrder> getNotPyCustomerOrders() {
         return CustomerOrderDao.getNotpaidList();
     }
 
@@ -174,29 +175,33 @@ public class CustomerOrderController {
             try {
                 // set auto set value
                 customerOrder.setOrder_code(CustomerOrderDao.getNextPorderNo());
+                //set status to pending
                 customerOrder.setOrder_status_id(COrderSatatusDao.getReferenceById(4));
                 customerOrder.setAdded_date(LocalDateTime.now());
                 customerOrder.setAdded_user_id(loggedUser);
+
+
+                //Initiating Cusotomer Order Before Payment
+
+                //set production status to pending
                 customerOrder.setProduction_status_id(productionStatusRepository.getReferenceById(1));
+
+
+                //since this is where first insertion happen for a corder set order balance payment to total amount payment
                 customerOrder.setOrder_balance(customerOrder.getTotal_amount());
-
-
                 //System.out.println(customerOrder);
-
+                //set cohp list production status into pending till confirmation gets
                 for (CustomerOrderHasProduct coh : customerOrder.getCustomerOrderHasProductList()) {
                     coh.setCustomer_order_id(customerOrder);
                     coh.setCompletedqty(0);
                     coh.setProduction_status_id(productionStatusRepository.getReferenceById(1));
                 }
 
+                //save customer order id for cohm json ignore is on and can't save without id
                 for (CustomerOrderHasMaterial cohm : customerOrder.getCustomerOrderHasMaterialList()) {
                     cohm.setCustomer_order_id(customerOrder);
-
                 }
-
                 CustomerOrderDao.save(customerOrder);
-
-
                 return "0";
             } catch (Exception ex) {
                 return "Customer Order Insert Not completed : " + ex.getMessage();
@@ -268,12 +273,22 @@ public class CustomerOrderController {
             }
 
             try {
-                extCO.setOrder_status_id(COrderSatatusDao.getReferenceById(3));
+
+
+                for (CustomerOrderHasProduct coh : extCO.getCustomerOrderHasProductList()) {
+                    //check any of in the list of  cohp is not in the state of pending
+                    if(extCO.getProduction_status_id().getId() != 1){
+                        return "Customer  Order Delete Not completed : Customer Order is not in the Inprogress State";
+                    }
+
+                }
+               // extCO.setOrder_balance(BigDecimal.ZERO);
+                extCO.setOrder_status_id(COrderSatatusDao.getReferenceById(6));
                 extCO.setDeleted_date(LocalDateTime.now());
+                extCO.setDelete_user_id(loggedUser);
 
                 for (CustomerOrderHasProduct coh : extCO.getCustomerOrderHasProductList()) {
                     coh.setCustomer_order_id(extCO);
-
                 }
 
                 for (CustomerOrderHasMaterial cohm : extCO.getCustomerOrderHasMaterialList()) {

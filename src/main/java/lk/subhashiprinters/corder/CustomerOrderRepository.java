@@ -2,6 +2,7 @@ package lk.subhashiprinters.corder;
 
 
 import lk.subhashiprinters.corder.CustomerOrder;
+import lk.subhashiprinters.cutomer.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,7 +29,7 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Int
     @Query(value = "select new CustomerOrder(co.id,co.order_code,co.final_balanced_amount,co.total_amount,co.order_balance)from CustomerOrder co where co.order_status_id.id=1 or co.order_status_id.id=2")
             List <CustomerOrder> getNotpaidList();
 
-@Query(value = "select new CustomerOrder(co.id,co.order_code,co.final_balanced_amount,co.total_amount,co.order_balance)from CustomerOrder co where co.customer_id.id=?1 and co.order_balance<>0")
+@Query(value = "select new CustomerOrder(co.id,co.order_code,co.final_balanced_amount,co.total_amount,co.order_balance)from CustomerOrder co where co.customer_id.id=?1 and co.order_balance<>0 and co.order_status_id.id<>6")
     List <CustomerOrder> getNotPaidCustomers(Integer cid);
 
 
@@ -40,6 +41,7 @@ public interface CustomerOrderRepository extends JpaRepository<CustomerOrder,Int
     List<CustomerOrder> getUrgentOrders(LocalDate sdate,LocalDate edate);
 
 
-
+    @Query(value= "select co from CustomerOrder co where co.order_status_id.id<>6 and co.order_status_id.id<>5 and co.customer_id.id=?1")
+    List <CustomerOrder> getCustomerbyCOStatus(Integer cid);
 }
 

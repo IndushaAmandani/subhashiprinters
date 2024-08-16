@@ -29,7 +29,4 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
     @Query(value = "select new PurchaseOrder(po.id,po.order_no,po.supplier_id,po.quatation_id) from PurchaseOrder po where po.supplier_id.id =?1  and po.purchase_order_status_id.id=1")
     List<PurchaseOrder> getValidPobySupplier(Integer sid);
 
-
-
-
 }

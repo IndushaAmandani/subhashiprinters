@@ -9,6 +9,9 @@ import lk.subhashiprinters.purchaseorder.POrderStatusRepository;
 import lk.subhashiprinters.purchaseorder.PurchaseOrder;
 import lk.subhashiprinters.purchaseorder.PurchaseOrderHasMaterial;
 import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
+import lk.subhashiprinters.quotation.Quotation;
+import lk.subhashiprinters.quotation.QuotationRepository;
+import lk.subhashiprinters.quotation.QuotationStatusRepository;
 import lk.subhashiprinters.quotationrequest.QuotationRequest;
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.supplier.SupplierRepository;
@@ -52,6 +55,10 @@ public class SupplierPaymentController {
 
     @Autowired
     private PurchaseOrderRepository porderDao;
+    @Autowired
+    private QuotationRepository quatationDao;
+    @Autowired
+    private QuotationStatusRepository quatationStatusDao;
 
     @Autowired
     private POrderStatusRepository porderStatusDao;
@@ -123,9 +130,11 @@ public class SupplierPaymentController {
                 //do the requeired operation
                 MRN extmrn = mrnDao.getReferenceById(supplierPayment.getMaterial_recieve_note_id().getId());
                 PurchaseOrder extPorder = porderDao.getReferenceById(extmrn.getPurchase_order_id().getId());
+                Quotation extQuatation = quatationDao.getReferenceById(extmrn.getPurchase_order_id().getQuatation_id().getId());
                 if (supplierPayment.getSupplier_payment_status_id().getId() == 1) {
                     extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(2));
                     extPorder.setPurchase_order_status_id(porderStatusDao.getReferenceById(5));
+                    extQuatation.setQuatation_status_id(quatationStatusDao.getReferenceById(2));
                 } else if (supplierPayment.getSupplier_payment_status_id().getId() == 2) {
                     extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
                 }

@@ -380,7 +380,8 @@ function deleteItemRow(ob) {
 
 
 function viewItemRow(rowob) {
-
+//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
+//    printproduct = getServiceRequest("/product/getbyid/"+ob.id) ;
     $("#modalViewSupplierForm").modal("show");
     let printItem = getServiceRequest("/supplier/getbyid/"+rowob.id);
 

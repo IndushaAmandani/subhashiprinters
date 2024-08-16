@@ -10,8 +10,8 @@ import lk.subhashiprinters.sample.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Integer>{
     
-@Query(value = "select new Product(p.id,p.product_code,p.p_name,p.price,p.single_or_double,p.product_status_id,p.customer_id,p.product_category_id,p.product_size_id) from Product p order by p.id desc")
- List<Product> findAll();
+//@Query(value = "select new Product(p.id,p.product_code,p.p_name,p.price,p.single_or_double,p.product_status_id,p.customer_id,p.product_category_id,p.product_size_id) from Product p order by p.id desc")
+// List<Product> findAll();
 
  //Query for next product code
  @Query(value = "SELECT lpad(max(p.product_code)+1,8,'0') FROM subhashiprinters.product as p;" ,nativeQuery = true)

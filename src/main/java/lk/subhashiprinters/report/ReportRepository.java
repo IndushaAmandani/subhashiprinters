@@ -33,6 +33,31 @@ public interface ReportRepository extends JpaRepository<Employee, Integer> {
 //        "group by month(c.added_date);")
 //String[][] getCOrderbySDateEDate(String sdate,String edate);
 
+//Supplier
+
+      @Query(value = "select year(s.added_date),month(s.added_date),count(s.supplier_id),sum(s.paid_amount) from " +
+              "subhashiprinters.supplier_payment as s where s.added_date between ?1 and ?2 " +
+              "group by month(s.added_date);",nativeQuery = true)
+      String[][] getSPaymentReportMonthly(String sdate,String edate);
+
+      @Query(value = "select year(s.added_date),date(s.added_date),count(s.supplier_id),sum(s.paid_amount) from " +
+              "subhashiprinters.supplier_payment as s where s.added_date between ?1 and ?2 " +
+              "group by date(s.added_date);",nativeQuery = true)
+      String[][] getSPaymentReportDaily(String sdate,String edate);
+
+      @Query(value = "select year(s.added_date),weekofyear(s.added_date),count(s.supplier_id),sum(s.paid_amount) from " +
+              "subhashiprinters.supplier_payment as s where s.added_date between ?1 and ?2 " +
+              "group by week(s.added_date);",nativeQuery = true)
+      String[][] getSPaymentReportWeekly(String sdate,String edate);
+
+
+      @Query(value = "select year(s.added_date),s.description,count(s.supplier_id),sum(s.paid_amount) from " +
+              "subhashiprinters.supplier_payment as c where c.added_date between ?1 and ?2 " +
+              "group by year(c.added_date);",nativeQuery = true)
+      String[][] getSPaymentReportAnnualy(String sdate,String edate);
+
+
+
 
 
 }

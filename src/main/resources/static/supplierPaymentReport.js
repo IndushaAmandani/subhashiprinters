@@ -14,8 +14,6 @@ function loadUI() {
 //define refresh table function
 const refreshTable = () => {
 
-
-
     let currentDateForMin = new Date();
     currentDateForMin.setDate(currentDateForMin.getDate() - 730);
     dteStartDate.min = getCurrentDate2("date", currentDateForMin);
@@ -65,7 +63,7 @@ const rowDelete = (ob, rowno) => {
 function buttonPrint(){
     let newwindow = window.open();
 
-    let tablehtml = tableCustomerPaymentReport.outerHTML;
+    let tablehtml = tableSupplierPaymentReport.outerHTML;
     newwindow.document.write(
         "<link rel='stylesheet' href='resources/bootstrap/css/bootstrap.min.css'>"+
         "<div>"+ "<h3>" + "Subhashi Printers" + "</h3>" +
@@ -79,16 +77,15 @@ function buttonPrint(){
 }
 
 function  generateReport(){
-    cpaymentReport = getServiceRequest("customerPaymentreport/bysdateedate/ "+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
 
+        spaymentReport = getServiceRequest("/supplierPaymentreport/bysdateedate/"+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
+console.log(spaymentReport);
     //create display proporty list
-    let displayPropertyList = [ 'date','totalamount','cpaymentcount'];
+    let displayPropertyList = [ 'date','totalamount','spaymentCount'];
     // creat display property data type list
     let displayDatatypeList = ['text','text', 'text'];
     //called filldataintotable function for fill data
-    fillDataIntoTable(tableCustomerPaymentReport,cpaymentReport, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, false, lggeduserprivilage);
-
-
+    fillDataIntoTable(tableSupplierPaymentReport,spaymentReport, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, false, lggeduserprivilage);
 
 
 

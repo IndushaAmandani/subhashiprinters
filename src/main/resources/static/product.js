@@ -100,19 +100,19 @@ const refreshTable = () => {
 
 //define form refreshProductForm
 refreshProductForm = () => {
-
+    document.getElementById("modalProductForm").style.pointerEvents = "auto";
     product = new Object();
     oldproduct = null;
 
     product.productCopyList = new Array();
 
     product.productHasMaterialList = new Array();
-
+    refreshMQFormTable();
     // ######################Customers ##########################
     customers = getServiceRequest("/customer/list")
     fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", "");
 
-    refreshMQFormTable();
+
 // ###################productCategory#########################
     // productCategory = [{ id: 1, name: "Label" }, { id: 2, name: "Posters" }];
     productcategories = new Array();
@@ -189,6 +189,10 @@ refreshProductForm = () => {
     const productArray = [txtProductname, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
     setIDStyle(productArray, "1px solid #cacfe7")
     disabledButton(true, false);
+
+
+
+
 
 
 }
@@ -330,13 +334,16 @@ const formRefill = (ob, rowno) => {
 
     // set value into  feilds
 
-    // divAddButtonCustomerM.display = "none";
-    // divAddButtonProductCategory.display = "none";
+
+
+
+
+
+
     // txtProductname
     // cmbproductCategory
     // cmbproductSize
-    // txtHeight
-    // txtWeight
+
     // txtSideType
 
 
@@ -357,26 +364,21 @@ const formRefill = (ob, rowno) => {
         radioDouble.checked = true;
     }
     txtProductname.value = product.p_name
-    txtHeight.value = product.height
-    txtWidth.value = product.width
+
 
     txtTotalPrice.value = product.price
     txtDescription.value = product.description
     // productImage.src =atob(product.image);
 
 
-    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", product.customer_id.customer_name);
+    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", product.customer_id.customer_name,true);
 //    productCategory= getServiceRequest("/productCategory/list")
-    fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name', product.product_category_id.name);
+    fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name', product.product_category_id.name,true);
     // productStatuses = getServiceRequest("/product_Status/list")
     fillSelectFeild(cmbProductStatus, "Select Status", productStatuses, 'name', product.product_status_id.name);
     //  productSizes = getServiceRequest("productsize/list")
-    fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", product.product_size_id.name);
-    //  paperTypes = getServiceRequest("/paperTypes/list")
-    // fillSelectFeild(cmbpaperTypes, "Select Paper Type", paperTypes, "name", product.papertype_id.name);
-    //   printColors = getServiceRequest("/printColors/list")
-    // fillSelectFeild(cmbprintColors, "Select Print Colors", printColors, "name", product.printcolors_id.name);
-    //  fillSelectFeild(cmbpaperColors, "Select Paper Colors", paperColors, "name", product.papercolors_id.name);
+    fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", product.product_size_id.name,true);
+
 
 
     const idArray = [txtProductname, txtHeight, txtWidth, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
@@ -392,12 +394,36 @@ const formRefill = (ob, rowno) => {
         txtproductPhoto.value = product.product_photo_name;
     }
 
+
+
+//
+    if(product.product_size_id.name == "Customized Size") {
+        fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", "Customized Size", true);
+        divproductSize.style.display = "block";
+        txtHeight.value = product.height;
+        txtWidth.value = product.width;
+    }else{
+        fillSelectFeild(cmbproductSize, "Add sizes", productSizes, "name", product.product_size_id.name,true);
+        divproductSize.style.display = "none";
+    }
+
+
+
+
+
     btnAddNew.click();
 
 
     disabledButton(false, true);
     refreshPInnerFormTable();
     refreshMQFormTable();
+
+
+    if(product.product_category_id.id ==3){
+        document.getElementById("divInnerPCopyForm").style.display = "block";
+    }
+
+    document.getElementById("divInnerMateialForm").style.display = "block";
 
 }
 
@@ -735,14 +761,6 @@ const buttonInnerAddMC = (value) => {
 //inner form-inner tale-row button functions
 const innerFormReFill = (innerob, rowind) => {
 
-
-//     //    pCopypTbyPCategory = getServiceRequest("/paperTypes/list");
-//     fillSelectFeild(cmbPcopypaperTypes, "Select Paper Types", pCopypTbyPCategory, "name", "");
-// //    pCopypaperColors = getServiceRequest("/paperColors/list")
-//     fillSelectFeild(cmbPcopypaperColors, "Select Paper Colors", pCopypaperColors, "name", "");
-//     //  productCategory= getServiceRequest("/productCategory/list")
-//     fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name', '');
-
     buttonInnerUpdate.disabled = false;
     buttonInnerAdd.disabled = true;
 
@@ -923,24 +941,15 @@ function buttonModalCloseMMCVM() {
 }
 
 function printRowItemMC() {
-    let newWindow = window.open();
-    newWindow.document.write("<link rel='stylesheet' href= 'resources/bootstrap/css/bootstrap.min.css'>" + "<h2>Product Details</h2>" + "<div>" + tablePrintProduct.outerHTML + "</div>");
 
 }
 
 const rowView = (ob, rowind) => {
 
-    $("#modalViewProductForm").modal("show");
-//as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
-//    printproduct = getServiceRequest("/product/getbyid/"+ob.id) ;
-    printproduct = ob;
-    tdPCode.innerHTML = printproduct.product_code;
-    tdCName.innerHTML = printproduct.customer_id.customer_name;
-    tdPCategory.innerHTML = printproduct.product_category_id.name;
-
-    tdPrice.innerHTML = printproduct.price;
-    tdPSizeHeight.innerHTML = printproduct.product_size_id.height
-    tdPSizeWidth.innerHTML = printproduct.product_size_id.width;
+    formRefill(ob,rowind);
+    const productArray = [txtProductname, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
+    setIDStyle(productArray, "1px solid #ced4da")
+    document.getElementById("modalProductForm").style.pointerEvents = "none";
 
 }
 

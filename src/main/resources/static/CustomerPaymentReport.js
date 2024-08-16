@@ -79,7 +79,7 @@ newwindow.print()
 }
 
 function  generateReport(){
-  cpaymentReport = getServiceRequest("customerPaymentreport/bysdateedate/ "+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
+  cpaymentReport = getServiceRequest("/customerPaymentreport/bysdateedate/ "+dteStartDate.value+ "/"+dteEndDate.value+"/" +selectReportType.value);
 
     //create display proporty list
     let displayPropertyList = [ 'date','totalamount','cpaymentcount'];
