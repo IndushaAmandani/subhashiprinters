@@ -22,7 +22,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
         @Query(value = "SELECT concat('CUS',lpad(substring(max(c.customercode),4)+1,6,'0'))  FROM subhashiprinters.customer as c;" ,nativeQuery = true)
         String nextCustomerNumber();
 
-        @Query("select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 order by c.id DESC ")
+        @Query("select new Customer(c.id, c.customer_name,c.customer_code) from Customer c where c.customerstatus_id.id=1 order by c.id DESC ")
        List<Customer> listAll();
 
         @Query(value = "select new Customer(count(c.id)) from Customer c  where  c.customerstatus_id.id=1")
@@ -34,7 +34,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer> {
 
 
 
-@Query(value = "select new Customer(c.id, c.customer_name) from Customer c where c.customerstatus_id.id=1 and c.id in (select co.customer_id.id from CustomerOrder co where  co.order_balance<>0)")
+@Query(value = "select new Customer(c.id, c.customer_name,c.customer_code) from Customer c where c.customerstatus_id.id=1 and c.id in (select co.customer_id.id from CustomerOrder co where  co.order_balance<>0)")
         List<Customer> getCustomerNameListwithCOrders();
      //   @Query(value = "select c from Customer ")
 

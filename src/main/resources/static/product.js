@@ -100,6 +100,7 @@ const refreshTable = () => {
 
 //define form refreshProductForm
 refreshProductForm = () => {
+    document.getElementById("cmbproductCategory").style.disabled = false;
     document.getElementById("modalProductForm").style.pointerEvents = "auto";
     product = new Object();
     oldproduct = null;
@@ -110,7 +111,7 @@ refreshProductForm = () => {
     refreshMQFormTable();
     // ######################Customers ##########################
     customers = getServiceRequest("/customer/list")
-    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", "");
+    fillSelectFeild2(cmbCustomer, "Select Customer", customers, "customer_name", "customer_code","");
 
 
 // ###################productCategory#########################
@@ -186,7 +187,7 @@ refreshProductForm = () => {
 
     refreshPInnerFormTable();
     refreshMQFormTable();
-    const productArray = [txtProductname, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize]
+    const productArray = [txtProductname, txtTotalPrice, txtDescription, cmbCustomer, cmbproductCategory, cmbProductStatus, cmbproductSize,txtHeight,txtWidth]
     setIDStyle(productArray, "1px solid #cacfe7")
     disabledButton(true, false);
 
@@ -226,6 +227,8 @@ document.getElementById("txtWidth").addEventListener('keyup',()=>{
 })
 
 const buttonMInnerAddMC = (value) => {
+
+
     let productMset = false;
     let productcopy = false;
 
@@ -272,6 +275,7 @@ const buttonMInnerAddMC = (value) => {
             product.productHasMaterialList.push(productHasMaterial);
             alert("Save Succecfully...!");
             refreshMQFormTable();
+         //   document.getElementById("cmbproductCategory").style.disabled = true;
             generateTotalPrice();
 
         }
@@ -371,7 +375,7 @@ const formRefill = (ob, rowno) => {
     // productImage.src =atob(product.image);
 
 
-    fillSelectFeild(cmbCustomer, "Select Customer", customers, "customer_name", product.customer_id.customer_name,true);
+    fillSelectFeild2(cmbCustomer, "Select Customer", customers, "customer_name","customer_code", product.customer_id.customer_name+" --> "+product.customer_id.customer_code,"",true);
 //    productCategory= getServiceRequest("/productCategory/list")
     fillSelectFeild(cmbproductCategory, "Select product category", productcategories, 'name', product.product_category_id.name,true);
     // productStatuses = getServiceRequest("/product_Status/list")
@@ -850,6 +854,8 @@ function selectMaterial() {
             materialsBySC = getServiceRequest("/material/listbySubCAtegory/" + JSON.parse(cmbsubCategory.value).id);
             fillSelectFeild(cmbMaterial, "Select Material", materialsBySC, "name", "");
             cmbMaterial.style.borderBottom = "2px solid #cacfe7";
+            // document.getElementById("unittypeofM").innerText = JSON.parse(materialsBySC.material_unit_type_id.name);
+            // document.getElementById("unittypeofM").innerHTML = JSON.parse(materialsBySC.material_unit_type_id.name);
 
         } else {
         getMaterial = getServiceRequest("/material/list")

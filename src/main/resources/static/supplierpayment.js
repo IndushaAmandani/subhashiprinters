@@ -22,7 +22,7 @@ const refreshTable = () => {
     //call filldataintotablefunction
     // fillDataIntoTable(tableid , dataList,displayPropertyList , dpDataTypeList,formrefillfunctionname,
     // rowdeletefunctionname, rowviewfunctonname, buttonvisibility , buttonsprivilages)
-    let displayPropertyList = ['bill_no', 'supplier_id.company_name', 'material_recieve_note_id.recieve_no', 'net_amount', 'total_amount',
+    let displayPropertyList = ['bill_no', 'supplier_id.company_name', 'material_recieve_note_id.recieve_no', 'material_recieve_note_id.net_amount', 'total_amount',
         'paid_amount', 'balance_amount', 'added_date', 'supplier_payment_type_id.name', 'supplier_payment_status_id.name'];
     let dpDataTypeList = ['text', 'object', 'object', getNetAmount, getTotalAmount, getPaidAmount, getBalanceAmount, getAddedDatetime, 'object', 'object'];
     fillDataIntoTable(tableSupplierPayment, supplierpayments, displayPropertyList, dpDataTypeList, reFillSPForm, deleteSPRow, viewSPRow, true, lggeduserprivilage);

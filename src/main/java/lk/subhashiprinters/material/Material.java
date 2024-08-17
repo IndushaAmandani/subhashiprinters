@@ -104,5 +104,15 @@ public class Material {
         this.height = height;
 
     }
+    public Material(Integer id, String name, String code, BigDecimal unit_price, BigDecimal width, BigDecimal height,MaterialUnitType material_unit_type_id) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.unit_price = unit_price;
+        this.width = width;
+        this.height = height;
+        this.material_unit_type_id = material_unit_type_id;
+
+    }
 
 }

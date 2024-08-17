@@ -119,9 +119,10 @@ public char[] getName() {
 
 
 //Constructor for corder/cusotmer/list
-  public Customer(Integer id,String customer_name){
+  public Customer(Integer id,String customer_name,String customer_code){
     this.id = id;
     this.customer_name = customer_name;
+    this.customer_code = customer_code;
   }
 
 

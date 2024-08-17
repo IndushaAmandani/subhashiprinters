@@ -115,7 +115,7 @@
                             <label class="form-label font-weight-bold"> Customer name :
                                 <span class="text-danger"> * </span></label>
                             <select id="cmbCustomer" class="form-control" required
-                                    onchange="selectValidator(cmbCustomer,'','product','customer_id','oldproduct');"></select>
+                                    onchange="selectValidator(cmbCustomer,'','product','customer_id','customer_code','oldproduct');"></select>
                         </div>
 <!--                        <div class="col-2" style="padding: 0px">-->
 <!--                            <button id="divAddButtonCustomerM " type="button"-->
@@ -327,12 +327,13 @@
                                     <!--Quantity-->
                                     <div id="innerQuantity" class=" mt-1">
                                         <label for="txtQty" class="form-label font-weight-bold">
-                                            Quantity: <span style="color: red;">*</span>
+                                            Quantity: <span id="unitTypeofM"></span><span style="color: red;">*</span>
                                         </label>
                                         <input type="text" id="txtQty" class="form-control" disabled
-                                               onkeyup="textFeildValidtor(txtQty,'^([1-9][0-9]{0,1}[.][0-9]|[1-9]|[0-9][.][1-9]|[1-9][0-9]{0,1}|[1-9]|[0-9])$','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
+                                               onkeyup="textFeildValidtor(txtQty,'^([1-9][0-9]{0,1}[.][0-9]{1,2}|[1-9]|[0-9][.][1-9]{1,2}|[1-9][0-9]{0,1}[.][0-9]|[1-9]|[0-9][.][1-9]|[0-9][.][0-9]{0,1}[1-9]|[1-9][0-9]{0,1}|[1-9]|[0-9]|[0-9][.][1-9][0-9])$','productHasMaterial','quantity','oldproductHasMaterial');buttondisabling()"
                                                placeholder="Enter Material Quantity">
-                                        <div class="form-text">Ex:- 99.9/99/9.9</div>
+
+                                        <div class="form-text">Ex:- 99.99/99/9.9/0.01</div>
 
 
                                     </div>

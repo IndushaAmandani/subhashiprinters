@@ -21,10 +21,11 @@ function refreshCustomerOrderTable() {
     fillDataIntoTable(tableCOrder, customerOrders, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
     for (let index in customerOrders) {
         tableCOrder.children[1].children[index].children[7].children[0].style.display = "none";
+        tableCOrder.children[1].children[index].style.color = "#020202";
 
         if (customerOrders[index].order_status_id.name == "Finished") {
             tableCOrder.children[1].children[index].style.backgroundColor = "#6c8c86";
-            tableCOrder.children[1].children[index].style.color = "#0f100f";
+            tableCOrder.children[1].children[index].style.color = "#edfdfd";
             tableCOrder.children[1].children[index].children[7].children[1].disabled = true;
             tableCOrder.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             tableCOrder.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
@@ -64,6 +65,7 @@ function refreshCustomerOrderForm() {
 
 //dteRequiredDate
     let currentDateForVDMin = new Date();
+    currentDateForVDMin.setDate(currentDateForVDMin.getDate() + 3);
     dteRequiredDate.min = getCurrentDate2("date", currentDateForVDMin);
 
     let currentDateForVDMax = new Date();
