@@ -10,6 +10,16 @@ import lk.subhashiprinters.purchaseorder.PurchaseOrder;
 import lk.subhashiprinters.purchaseorder.PurchaseOrderHasMaterial;
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.purchaseorder.PurchaseOrderRepository;
+import lk.subhashiprinters.quotation.Quotation;
+import lk.subhashiprinters.quotation.QuotationHasMaterial;
+import lk.subhashiprinters.quotation.QuotationRepository;
+import lk.subhashiprinters.quotation.QuotationStatusRepository;
+import lk.subhashiprinters.quotationrequest.QuotationRequest;
+import lk.subhashiprinters.quotationrequest.QuotationRequestRepository;
+import lk.subhashiprinters.quotationrequest.QuotationRequestStatus;
+import lk.subhashiprinters.quotationrequest.QuotationRequestStatusRepository;
+import lk.subhashiprinters.sample.Product;
+import lk.subhashiprinters.sample.ProductRepository;
 import lk.subhashiprinters.userm.User;
 import lk.subhashiprinters.userm.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +58,18 @@ public class MRNController {
     private PurchaseOrderRepository pOrderDao;
 
     @Autowired
+    private QuotationRepository quatationDao;
+
+    @Autowired
+    private QuotationStatusRepository quatationStatusDao;
+
+    @Autowired
+    private QuotationRequestRepository quatationRequestDao;
+
+    @Autowired
+    private QuotationRequestStatusRepository quotationRequestStatusDao;
+
+    @Autowired
     private POrderStatusRepository porderStatusDao;
 
     @Autowired
@@ -57,8 +79,11 @@ public class MRNController {
     private UserRepository userDao;
 
     @Autowired
-    private  MaterialInventoryRepository inventoryDao;
+    private MaterialInventoryRepository inventoryDao;
 
+
+    @Autowired
+    private ProductRepository productDao;
     @Autowired
     private InventoryStatusRepository inventoryStatusDao;
 
@@ -92,7 +117,7 @@ public class MRNController {
         HashMap<String, Boolean> userPiriv = privilegeController.getPrivilageByUserModule(loggedUser.getUsername(), "Mrn");
 
         if (loggedUser != null && userPiriv.get("sel"))
-            return mrnDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
+            return mrnDao.findAll(Sort.by(Sort.Direction.DESC, "id"));
         else {
             List<MRN> mrnArrayList = new ArrayList<>();
             return mrnArrayList;
@@ -104,9 +129,10 @@ public class MRNController {
         return mrnDao.getnotpaid();
     }
 
-    @GetMapping(value ="/listbysupplier/{supid}",produces = "application/json")
-    public List<MRN> getMRNlistbySupplier(@PathVariable("supid") Integer supid){return  mrnDao.getSupplierList(supid);}
-
+    @GetMapping(value = "/listbysupplier/{supid}", produces = "application/json")
+    public List<MRN> getMRNlistbySupplier(@PathVariable("supid") Integer supid) {
+        return mrnDao.getSupplierList(supid);
+    }
 
 
     //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -132,8 +158,8 @@ public class MRNController {
                     mrnhM.setMaterial_recieve_note_id(mrn);
                 }
 
-              MRN newMrn  =  mrnDao.save(mrn);
-
+                MRN newMrn = mrnDao.save(mrn);
+                //set porder into  recieved
                 PurchaseOrder extporder = pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
                 extporder.setPurchase_order_status_id(porderStatusDao.getReferenceById(2));
 
@@ -142,6 +168,7 @@ public class MRNController {
                 }
                 pOrderDao.save(extporder);
 
+
                 //update Inventory
                 for (MRNHasMaterial mrnhM : newMrn.getMrnHasMaterialList()) {
                     Material material = daoMaterial.getReferenceById(mrnhM.getMaterial_id().getId());
@@ -149,29 +176,53 @@ public class MRNController {
                     daoMaterial.save(material);
 
                     MaterialInventory extinventory = inventoryDao.getByMaterial(material.getId());
-                        if(extinventory != null){
-                            extinventory.setAvaqty(extinventory.getAvaqty().add(mrnhM.getQuantity()));
-                            extinventory.setTotalqty(extinventory.getTotalqty().add(mrnhM.getQuantity()));
-                            extinventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
-                            inventoryDao.save(extinventory);
+                    if (extinventory != null) {
+                        extinventory.setAvaqty(extinventory.getAvaqty().add(mrnhM.getQuantity()));
+                        extinventory.setTotalqty(extinventory.getTotalqty().add(mrnhM.getQuantity()));
+                        extinventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
+                        inventoryDao.save(extinventory);
 
 
-                        }else{
-                            MaterialInventory newInventory = new MaterialInventory();
-                            newInventory.setMaterial_id(material);
-                            newInventory.setAvaqty(mrnhM.getQuantity());
-                            newInventory.setTotalqty(mrnhM.getQuantity());
-                            newInventory.setRemoveqty(BigDecimal.ZERO);
-                            newInventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
-                            inventoryDao.save(newInventory);
-                        }
-                    //change product prices
-
-
-
-
-
+                    } else {
+                        MaterialInventory newInventory = new MaterialInventory();
+                        newInventory.setMaterial_id(material);
+                        newInventory.setAvaqty(mrnhM.getQuantity());
+                        newInventory.setTotalqty(mrnhM.getQuantity());
+                        newInventory.setRemoveqty(BigDecimal.ZERO);
+                        newInventory.setInventorystatus_id(inventoryStatusDao.getReferenceById(1));
+                        inventoryDao.save(newInventory);
+                    }
                 }
+//                //change product prices
+//                for(MRNHasMaterial mrnhasM : newMrn.getMrnHasMaterialList()){
+//                    List<Product> productListwithMaterial =  productDao.getProductListByMaterial(mrnhasM.getMaterial_id().getId());
+//                    for (Product product : productListwithMaterial){
+//
+//                    }
+//                }
+                //Test Code
+//                List<Product> productsListByMatid = productDao.getProductListByMaterial(material.getId());
+//                //running for loop to do changes to those products
+//                for (Product productByMat : productsListByMatid) {
+//                    //correcting product has material records with new values from material
+//                    for (ProductHasMaterial phm : productByMat.getProductHasMaterialList()) {
+//                        //checking for material which has to be changed in the product has material table
+//                        if (phm.getMaterial_id().getId() == material.getId()) {
+//                            //setting values for product has material unit price and line price
+//                            phm.setMaterial_unit_price((material.getUnit_cost().multiply(material.getProfit_percentage().divide(new BigDecimal(100))).add(material.getUnit_cost())));
+//                            phm.setMaterial_line_price(((material.getUnit_cost().multiply(material.getProfit_percentage().divide(new BigDecimal(100))).add(material.getUnit_cost()))).multiply(phm.getReq_quantity()));
+//                        }
+//                    }
+//                    //creating a BigDecimal zero variable for product total price calculation..
+//                    BigDecimal productLineTotal = BigDecimal.ZERO;
+//                    for (ProductHasMaterial phasmat : productByMat.getProductHasMaterialList()) {
+//                        productLineTotal = productLineTotal.add(phasmat.getMaterial_line_price());
+//                        phasmat.setProduct_id(productByMat);
+//                    }
+//
+//
+//
+//                }
 
                 return "0";
 
@@ -186,18 +237,18 @@ public class MRNController {
 
 
     @PutMapping
-    public  String updteMRN(@RequestBody MRN mrn){
+    public String updteMRN(@RequestBody MRN mrn) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilegeController.getPrivilageByUserModule(auth.getName(), "MRN");
 
-        if(userPriv.get("upd")== null ){
-            return "Update not complete : You don't have Permission " ;
+        if (userPriv.get("upd") == null) {
+            return "Update not complete : You don't have Permission ";
         }
-        try{
+        try {
             mrn.setUpdate_date(LocalDate.now());
-            if(mrn.getMaterial_recieve_note_status_id().getId() == 3){
-               PurchaseOrder extPOd =  pOrderDao.getReferenceById( mrn.getPurchase_order_id().getId());
+            if (mrn.getMaterial_recieve_note_status_id().getId() == 3) {
+                PurchaseOrder extPOd = pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
                 extPOd.setPurchase_order_status_id(porderStatusDao.getReferenceById(5));
 
                 for (MRNHasMaterial mrnhM : mrn.getMrnHasMaterialList()) {
@@ -208,7 +259,7 @@ public class MRNController {
             mrnDao.save(mrn);
             return "0";
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return "Update not completed : " + e.getMessage();
         }
 
@@ -220,14 +271,14 @@ public class MRNController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userDao.findUserByUsername(auth.getName());
         HashMap<String, Boolean> userPriv = privilegeController.getPrivilageByUserModule(auth.getName(), "MRN");
-    if(userPriv == null ){
-        return "Delete not complete : You don't have permission";
-    }
+        if (userPriv == null) {
+            return "Delete not complete : You don't have permission";
+        }
 
 
         try {
             mrn.setDelete_date(LocalDate.now());
-         PurchaseOrder extPorder =  pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
+            PurchaseOrder extPorder = pOrderDao.getReferenceById(mrn.getPurchase_order_id().getId());
             extPorder.setPurchase_order_status_id(porderStatusDao.getReferenceById(4));
 
             for (MRNHasMaterial mrnhM : mrn.getMrnHasMaterialList()) {
@@ -238,7 +289,7 @@ public class MRNController {
             return "0";
 
         } catch (Exception e) {
-            return "Delete not Successful :Server has following error "+ e.getMessage();
+            return "Delete not Successful :Server has following error " + e.getMessage();
 
         }
     }

@@ -5,7 +5,29 @@ window.addEventListener("load", () => {
     //  console.log(loggedUser);
     if (loggedUser != null) {
         loggedUserName.innerText = loggedUser.username;
-         loggeduserRole.innerText = loggedUser.role;
+        loggeduserRole.innerText = loggedUser.role;
+
+        //returns who doesn't have view priviledge to any of his roles
+        let modulesbyusername = getServiceRequest("/module/listbyuser/"+ loggedUser.username);
+        //getting each module object from the list modulesbyusername where returns who doesn't have view priviledge to any of his roles
+        for (const modulesbyusernameElement of modulesbyusername) {
+            //`` is used since this class name is changing accorning to the above for modulesbyusernameElement element
+            $(`.${modulesbyusernameElement.name}`).remove();
+        }
+        if(loggedUser.role !="MANAGER"){
+            document.getElementById("reportModule").style.display = 'none';
+        }
+        if(loggedUser.role =="ADMIN"){
+            document.getElementById("reportModule").style.display = 'block';
+
+        }
+        if(loggedUser.role =="CASHIER"){
+            document.getElementById("reportModule").style.display = 'none';
+            document.getElementById('inventory').style.display = 'none';
+
+        }
+
+
         if (loggedUser.userphoto != null) {
             imgUserPhoto.src = atob(loggedUser.userphoto);
         } else {
@@ -16,10 +38,12 @@ window.addEventListener("load", () => {
     }
 
 
-
-    const refill = () => {}
-    const deleterwo = () => {}
-    const veiwrow = () => {}
+    const refill = () => {
+    }
+    const deleterwo = () => {
+    }
+    const veiwrow = () => {
+    }
     //show inventory
 
     let currentInventory = new Array();
@@ -31,18 +55,6 @@ window.addEventListener("load", () => {
     let materialname = currentInventory.map(item => item.material_id.name);
 
     let avaQty = currentInventory.map(item => item.avaqty);
-    let colorlistforChart = [];
-    const colorset = new Array();
-    let arrayIndex = 0;
-    backgroundColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'];
-
-    currentInventory.forEach((el) => {
-        let colorno = arrayIndex % (backgroundColors.length);
-        colorlistforChart = backgroundColors[colorno];
-        arrayIndex = arrayIndex + 1;
-        colorset.push(colorlistforChart)
-
-    })
 
 
     new Chart(ctx, {
@@ -52,7 +64,7 @@ window.addEventListener("load", () => {
             datasets: [{
                 label: 'available qty',
                 data: avaQty,
-                backgroundColors: colorset,
+                backgroundColors:  'rgb(32,135,180)',
                 borderWidth: 1,
 
 
@@ -69,24 +81,30 @@ window.addEventListener("load", () => {
         }
     });
 
-    urgentOrderListTable = document.getElementById("urgentOrderListTable");
+
 
     urgentCO = new Array();
     urgentCO = getServiceRequest("/customerOrder/urgentCorders");
 
 
-    displayPropList = ['order_no','order_status']
-    disPPDTypeList = ['text','object']
+    displayPropList = ['order_code', 'order_status_id.name']
+    disPPDTypeList = ['text', 'object']
     fillDataIntoTable(urgentOrderListTable, urgentCO, displayPropList, disPPDTypeList, refill, deleterwo, veiwrow, false)
+
+
 
 
 
 
     //set count of  active cutomer number to the card
     let activeCustomers = getServiceRequest("/customer/getActiveCustomerCount");
-    document.getElementById("activeCCount").innerText = parseInt(activeCustomers.id);
+    document.getElementById("activeCCount").innerText = activeCustomers.id;
+    if(urgentCO.length==0){
+        document.getElementById("urgentOrderList").style.display='none';
+    }
 
-
+    let customerOrder = getServiceRequest("/customerOrder/pendingOrders")
+    document.getElementById("pendingCOCount").innerText = customerOrder.id;
 
 
 })

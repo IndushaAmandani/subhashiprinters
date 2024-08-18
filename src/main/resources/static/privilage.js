@@ -9,7 +9,7 @@ function loadUI() {
     //lggeduserprivilage = {"sel": true , "ins":true , "upd":true , "del":true}
 
     //called refreshtable function
-    refreshTable();
+    refreshPrivilageTable();
 
 // called refreshproductForm function
     refreshPrivilageForm();
@@ -19,7 +19,7 @@ function loadUI() {
 
 
 //define refresh table function
-const refreshTable = () => {
+const refreshPrivilageTable = () => {
 
     privileges = getServiceRequest("/privilage/findall");
 
@@ -167,7 +167,7 @@ const deleteRow = (empob) => {
         let deleteServiceResponce = getHTTPServiceRequest("/privilage", "DELETE", empob);
         if (deleteServiceResponce == "0") {
             alert("Delete Successfully...!")
-            refreshTable();
+            refreshPrivilageTable();
         } else {
             alert("You have following error...!\n" + deleteServiceResponce);
         }
@@ -227,7 +227,7 @@ function buttonSubmit() {
 
                 alert("Add Successfull..!");
                 refreshPrivilageForm();
-                refreshTable()
+                refreshPrivilageTable()
                 $("#modalAddPrivilageForm").modal("hide");
             } else {
                 window.alert("You have following error \n" + postServieResponce);
@@ -294,7 +294,7 @@ function buttonUpdat() {
                 let putResponce = getHTTPServiceRequest("/privilage","PUT",privileage)
                 if(putResponce == "0"){
                     alert("Update Successfull..!");
-                    refreshTable();
+                    refreshPrivilageTable();
                     refreshPrivilageForm();
                     $("#modalAddPrivilageForm").modal("hide");
                 } else {

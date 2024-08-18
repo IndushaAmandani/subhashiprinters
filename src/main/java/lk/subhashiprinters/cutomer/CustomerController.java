@@ -32,7 +32,7 @@ public class CustomerController {
 
 
     @Autowired//link required repository 
-        private CustomerRepository customerDao;
+    private CustomerRepository customerDao;
 
 
     @Autowired//link required repository 
@@ -46,8 +46,8 @@ public class CustomerController {
     @Autowired
     private CustomerStatusRepository customerStatusDao;
 
-@Autowired
-private CustomerOrderRepository customerOrderDao;
+    @Autowired
+    private CustomerOrderRepository customerOrderDao;
 
     /*-----------------------------------------------
 
@@ -88,32 +88,43 @@ private CustomerOrderRepository customerOrderDao;
         return customerDao.listAll();
     }
 
-    @GetMapping(value = "/getCustomerbyCOSatus/{cid}",produces = "application/json")
-    public List<CustomerOrder> getCustomerbyCOStatus(@PathVariable("cid") Integer cid){return customerOrderDao.getCustomerbyCOStatus(cid);}
+    @GetMapping(value = "/getCustomerbyCOSatus/{cid}", produces = "application/json")
+    public List<CustomerOrder> getCustomerbyCOStatus(@PathVariable("cid") Integer cid) {
+        return customerOrderDao.getCustomerbyCOStatus(cid);
+    }
 
     //dashboard [active customer count]
-        @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
+    @GetMapping(value = "/getActiveCustomerCount", produces = "application/json")
     public Customer getbyActiveCustomer() {
         return customerDao.activeCustomerCount();
     }
 
 
-    @GetMapping(value = "/getCustomerNamebyCorderwhenCObalanceAvailable",produces = "application/json")
-    public List<Customer> getCustomerListbyCOrderbalance(){return customerDao.getCustomerNameListwithCOrders();}
+    @GetMapping(value = "/getCustomerNamebyCorderwhenCObalanceAvailable", produces = "application/json")
+    public List<Customer> getCustomerListbyCOrderbalance() {
+        return customerDao.getCustomerNameListwithCOrders();
+    }
+
+    @GetMapping(value = "/deletablecustomerlist")
+    public List<Customer> getCustomersDeletable(){
+        return customerDao.getListOfDeletableCustomers();
+    }
 
     //get mapping service for get employee by given path variable id [ /employee/getbyid/1]
 
     //if we use queryparam --> @GetMapping (value = "/getbyid",param={"id","",*})
     //                                             (@Requestparam)in UI /customer/ getbyid?id=1
     @GetMapping(value = "/getbyid/{id}", produces = "application/json")
-    public Customer getReferenceById(@PathVariable("id") Integer id) {return customerDao.getReferenceById(id);}
-    @GetMapping(value = "/getbyid" ,params = {"id"},produces = "application/json")
-    public Customer getEmployeeByQPId(
-            @RequestParam("id") Integer id
-    ){
+    public Customer getReferenceById(@PathVariable("id") Integer id) {
         return customerDao.getReferenceById(id);
     }
 
+    @GetMapping(value = "/getbyid", params = {"id"}, produces = "application/json")
+    public Customer getEmployeeByQPId(
+            @RequestParam("id") Integer id
+    ) {
+        return customerDao.getReferenceById(id);
+    }
 
 
     //create post mapping function for add empoyee [/employee - POST]
@@ -146,46 +157,40 @@ private CustomerOrderRepository customerOrderDao;
             }
 
 
-        try {
-            // set auto inser value
-            // employee.setNumber("00004");
-            customer.setCustomer_code(customerDao.nextCustomerNumber());
-            customer.setAdded_date(LocalDateTime.now());
+            try {
+                // set auto inser value
+                // employee.setNumber("00004");
+                customer.setCustomer_code(customerDao.nextCustomerNumber());
+                customer.setAdded_date(LocalDateTime.now());
 
-            customer.setAdded_user_id(loggedUser);
-
+                customer.setAdded_user_id(loggedUser);
 
 
 //            customer.setCustomer_type_id(customerTypeDao.getReferenceById(2));
 
-            // save operator
-            customerDao.save(customer);
+                // save operator
+                customerDao.save(customer);
 
-            // Need update dependency module
+                // Need update dependency module
 
-            return "0";
-        } catch (Exception ex) {
-            return "Customer insert not completed : " + ex.getMessage();
+                return "0";
+            } catch (Exception ex) {
+                return "Customer insert not completed : " + ex.getMessage();
+            }
+        } else {
+            return "Customer Delete Not completed : You don't have permissing";
         }
-    }else {
-        return "Customer Delete Not completed : You don't have permissing";
-    }
 
     }
 
     @DeleteMapping
     public String deleteCustomer(@RequestBody Customer customer) {
-        System.out.println(customer.getId());
+        //System.out.println(customer.getId());
         //retrieving the object from db as some of data retrun from customer
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
             return "Customer Delete Not completed : You don't have permissing";
-        }
-        List<CustomerOrder> coListByCno = customerOrderDao.getCustomerbyCOStatus(customer.getId());
-        System.out.println(coListByCno);
-        if(coListByCno.size()==0){
-            return "Customer Delete Not completed : Customer do have ongoing orders..";
         }
 
         // get logged user authentication object
@@ -196,7 +201,6 @@ private CustomerOrderRepository customerOrderDao;
         if (loggedUser != null && userPiriv.get("del")) {
             Customer extcustomer = customerDao.getReferenceById(customer.getId());
             if (extcustomer != null) {
-
 
 
                 try {
@@ -263,8 +267,6 @@ private CustomerOrderRepository customerOrderDao;
             return "Customer Update Not completed : You don't have permissing";
         }
     }
-
-
 
 
 }

@@ -70,36 +70,34 @@
 
                                                 </a>
                                             </div>
-
-
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="card">
+                                        <div class="card" id="pendingCOrderCard">
                                             <div class="card-body">
                                                 <a href="/customerOrder">
-                                                    <div class="row">
+                                                    <div class="row flex-row">
                                                         <div class="col mt-0" style="width: 320px" ;>
                                                             <h5 class="card-title">Pending Customer Orders</h5>
                                                         </div>
-
                                                         <div class="col-auto">
                                                             <div class="stat text-primary">
                                                                 <i class="align-middle" data-feather="users"></i>
                                                                 <img src="/app-assets/images/pages/In-ProgressOrders.jpeg"
-                                                                     height="220" width="245" alt="inprogressimg"
+                                                                     height="225" width="245" alt="inprogressimg"
                                                                      style="display:block ">
                                                             </div>
+                                                            <div> <h1 class="mt-1 text-dark text-md-right "id="pendingCOCount"></h1></div>
                                                         </div>
                                                     </div>
-                                                    <h1 class="mt-1 mb-3" id="pendingCOCount"></h1>
+
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6 height-150 width-40-per">
-                                        <div class="card ">
-                                            <div class="card-header text-dark Strong"> Inventory</div>
+                                        <div class="card "id="inventory">
+                                            <div class="card-header text-dark Strong"><h5>Inventory</h5> </div>
                                             <div class="card-body">
 
                                                 <canvas id="myChart"></canvas>
@@ -107,52 +105,35 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                                    <div class="col-sm-3">-->
-                                    <!--                                        <div class="card">-->
-                                    <!--                                            <div class="card-body">-->
-                                    <!--                                                <a href="/purchaseorder">-->
-                                    <!--                                                    <div class="row">-->
-                                    <!--                                                        <div class="col mt-0" style="width: 320px" ;>-->
-                                    <!--                                                            <h5 class="card-title"> Pending Purchase Orders</h5>-->
-                                    <!--                                                        </div>-->
 
-                                    <!--                                                        <div class="col-auto">-->
-                                    <!--                                                            <div class="stat text-primary">-->
-                                    <!--                                                                <i class="align-middle" data-feather="shopping-cart"></i>-->
-                                    <!--                                                                <img src="/app-assets/images/pages/purchse_ordr_mangmnt_systm.jpg"-->
-                                    <!--                                                                     height="225" width="250" alt="printMngimg"-->
-                                    <!--                                                                     style="display:block ">-->
-                                    <!--                                                            </div>-->
-                                    <!--                                                        </div>-->
-                                    <!--                                                    </div>-->
-                                    <!--                                                    <h1 class="mt-1 mb-3" id="hPendingPOCount"></h1>-->
-                                    <!--                                                </a>-->
-                                    <!--                                            </div>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <div class="card">
-                                <div class="card-header text-dark strong "> Urgent Orders for this Week</div>
-                                <div class="card-body Strong" id="urgentOrderList" >
-                                    <table style="border-collapse: collapse; border: none;" id="urgentOrderListTable">
+                            <div class="card" id="urgentOrderList">
+                                <div class="card-header text-dark strong "><h5>Urgent Orders for this Week</h5> </div>
+                                <div class="card-body Strong"  >
+                                    <table class="table" id="urgentOrderListTable">
+                                        <thead>
                                         <tr>
-                                            <td> #</td>
-                                            <td>Orders List</td>
-                                            <td>Ordere Status</td>
+                                            <th> #</th>
+                                            <th>Orders List</th>
+                                            <th>Ordere Status</th>
                                         </tr>
-                                        <tr></tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
                                     </table>
 
                                 </div>
                             </div>
 
                         </div>
-                    </div>
+
+
 
 
                 </div>

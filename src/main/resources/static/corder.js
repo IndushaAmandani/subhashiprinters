@@ -13,9 +13,9 @@ function refreshCustomerOrderTable() {
     customerOrders = getServiceRequest("/customerOrder/findall");
 
     //create display property list
-    let dispalyPropertyList = ['order_code', 'required_date', 'total_amount','order_balance','production_status_id.name', 'order_status_id.name'];
+    let dispalyPropertyList = ['order_code', 'required_date', 'total_amount', 'order_balance', 'production_status_id.name', 'order_status_id.name'];
     //Property type list
-    let dispalyPropertyDTList = ['text', 'text', 'decimal','decimal', 'object', 'object'];
+    let dispalyPropertyDTList = ['text', 'text', 'decimal', 'decimal', 'object', 'object'];
 
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCOrder, customerOrders, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
@@ -29,7 +29,7 @@ function refreshCustomerOrderTable() {
             tableCOrder.children[1].children[index].children[7].children[1].disabled = true;
             tableCOrder.children[1].children[index].children[7].children[1].style.pointerEvents = "all";
             tableCOrder.children[1].children[index].children[7].children[1].style.cursor = "not-allowed";
-        }else if(customerOrders[index].order_status_id.name == "Cancel"){
+        } else if (customerOrders[index].order_status_id.name == "Cancel") {
             tableCOrder.children[1].children[index].style.backgroundColor = "#be9999";
             tableCOrder.children[1].children[index].style.color = "#0f100f";
             tableCOrder.children[1].children[index].children[7].children[1].disabled = true;
@@ -134,7 +134,7 @@ function getLineTotal() {
             if (oldcustomerOrderHasProduct == null) {
                 buttonInnerAdd.disabled = false;
             } else {
-              //  buttonInnerUpdate.disabled = false;
+                //  buttonInnerUpdate.disabled = false;
             }
 
         } else {
@@ -145,7 +145,7 @@ function getLineTotal() {
             txtOrderedQuantity.style.borderBottom = "2px solid red";
             customerOrderHasProduct.order_qty = null;
             buttonInnerAdd.disabled = true;
-          //  buttonInnerUpdate.disabled = true;
+            //  buttonInnerUpdate.disabled = true;
         }
     } else {
         txtLinePrice.value = '';
@@ -155,7 +155,7 @@ function getLineTotal() {
         txtOrderedQuantity.style.borderBottom = "2px solid #ced4da";
         customerOrderHasProduct.order_qty = null;
         buttonInnerAdd.disabled = true;
-       // buttonInnerUpdate.disabled = true;
+        // buttonInnerUpdate.disabled = true;
     }
 
 
@@ -182,7 +182,7 @@ const refreshInnerFormTable = () => {
     oldcustomerOrderHasProduct = null;
 
 
-  //  buttonInnerUpdate.disabled = true;
+    //  buttonInnerUpdate.disabled = true;
 
 
     if (cmbCustomerName.value != "") {
@@ -245,7 +245,6 @@ const refreshInnerFormTable = () => {
     }
 
 
-
 }
 
 const restFormInput = () => {
@@ -301,8 +300,6 @@ function rowViewM() {
 }
 
 
-
-
 //Calculating Total amount
 function checkValidPrice() {
 
@@ -326,6 +323,7 @@ function checkValidPrice() {
                 corder.advanced_amount = Math.round(parseFloat(corder.total_amount) * 0.25).toFixed(2);
                 txtTAdvanceAmount.value = corder.advanced_amount;
                 calculatingTotalAmount();
+
                 txtTAdvanceAmount.style.borderBottom = "2px solid green"
                 txtTotalAmount.style.borderBottom = "2px solid  green";
             }
@@ -345,6 +343,20 @@ function checkValidPrice() {
     }
 
 }
+
+// const calTotalWithTax = () => {
+//     if(corder.total_amount && corder.total_amount!=null && corder.total_amount>0){
+//         //tax field id = txtTaxRatio
+//         const TaxField = document.getElementById("txtTaxRatio");
+//         if(TaxField.value != ''){
+//             let regpattern = new RegExp("^(([1-9])|([1-9][.][0-9]{1})|([1-4][0-9]{0,1})|([1-4][0-9]{0,1}[.][0-9]{1}))$");
+//             if(regpattern.test(TaxField.value)){
+//                 corder.total_amount = ((parseFloat(corder.total_amount)*(parseFloat(TaxField.value)/100))+parseFloat(corder.total_amount));
+//                 txtTotalAmount.value = parseFloat(corder.total_amount).toFixed(2);
+//             }
+//         }
+//     }
+// }
 
 //onkeyup="textFeildValidtor(txtTAdvanceAmount,'^([1-9][0-9]{1,5}[.]{1}[0-9]{2})$','corder','advanced_amount','oldcorder');calculatingTotalAmount()"
 
@@ -430,7 +442,10 @@ const buttonInnerAddMC = () => {
 
 
 }
-function innerFormReFill(){}
+
+function innerFormReFill() {
+}
+
 // function buttonInnerUpdateMC() {
 //
 //     if (customerOrderHasProduct.line_total != oldcustomerOrderHasProduct.line_total || customerOrderHasProduct.product_id.p_name != oldcustomerOrderHasProduct.product_id.p_name) {
@@ -582,90 +597,297 @@ const rowView = (ob, rowno) => {
 //as  here all data i pased through the ob we use same ob but if it 's like emplyee every details are not brought tot hte table and so obj.we have  to use services for bring the obj every detils.
 
 
-    printCOrder = getServiceRequest("/customerOrder/getbyid/" + ob.id)
+    printCOrder = getServiceRequest("/customerOrder/getbyid/" + ob.id);
+
+    printOrderDetailsSubhashiPrinter(printCOrder);
 
 
-    addeduserName.innerHTML  = printCOrder.added_user_id.username;
-    addeddate.innerHTML = printCOrder.added_date.split('T')[0];
-    addedtimeview.innerHTML = printCOrder.added_date.split('T')[1];
-    tdCOCode.innerHTML = printCOrder.order_code;
-    tdCName.innerHTML = printCOrder.customer_id.customer_name;
-    tdReqDate.innerHTML = printCOrder.required_date;
+}
+
+const printOrderDetailsSubhashiPrinter = (customerOrderObject) => {
 
 
-    let dispalyPropertyList = ['product_id.p_name', 'product_cost', 'order_qty', 'completedqty', 'production_status_id.name', 'line_total'];
-    //Property type list
-    let dispalyPropertyDTList = ['object', 'text', 'text', 'text', 'object', 'text'];
+    const fillDataIntoBill = (tableBodyID, dataList, displayColumnList) => {
 
-    fillDataIntoTable(tableInnerCustomerOrderHasProducts, printCOrder.customerOrderHasProductList, dispalyPropertyList, dispalyPropertyDTList, formRefillM, rowDeleteM, rowViewM, false, lggeduserprivilage);
-    tdTotalofLines.innerHTML = parseFloat(printCOrder.total_of_lines).toFixed(2);
-    tdTotalAmount.innerHTML = parseFloat(printCOrder.total_amount).toFixed(2);
-    tdAdvanceAmout.innerHTML = parseFloat(printCOrder.advanced_amount).toFixed(2);
-    tdBalanceAmount.innerHTML = parseFloat(printCOrder.final_balanced_amount).toFixed(2);
+        const tableBody = document.getElementById(tableBodyID);
+        tableBody.innerHTML = '';
 
-    let modalBodyValue = document.getElementById("modalBodyCOrderForm").innerHTML;
-    let modalFooterValue = document.getElementById("modalFooterCOrderForm").innerHTML;
-    let windowHeadvalues = `
-<html>
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        dataList.forEach((element, index) => {
+            const tr = document.createElement('tr');
 
+            const tdIndex = document.createElement('td');
+            tdIndex.innerText = index + 1;
+            tr.appendChild(tdIndex);
 
-            <link rel="apple-touch-icon" href="/app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/ico/favicon.ico">
-    <link
-            href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
-            rel="stylesheet">
-    <!-- BEGIN VENDOR CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/vendors.css">
+            displayColumnList.forEach(column => {
+                const td = document.createElement('td');
+                td.classList.add("text-end");
+                if (column.dataType == 'text') {
+                    td.innerText = element[column.propertyName];
+                }
+                if (column.dataType == 'function') {
+                    td.innerHTML = column.propertyName(element);
+                }
 
-    <link rel="stylesheet" type="text/css" href="/resources/fontawesome/css/all.css">
-    <!-- END VENDOR CSS-->
+                tr.appendChild(td);
+            });
 
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/cryptocoins/cryptocoins.css">
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/transactions.css">
+            tableBody.appendChild(tr); // table row append into table body
+        });
+    }
 
-    <!-- BEGIN MODERN CSS-->
-    <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
-    <!-- END MODERN CSS-->
-
-    <link rel="stylesheet" type="text/css" href="/app-assets/assets/css/style.css">
-
-    <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
-    <!-- END Custom CSS-->
-
-
-
-</head>
-<body>`;
-
-    let htmlfooterlinkvalues = `
-
-<script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
-
-<script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
-<script src="/app-assets/js/core/app.js" type="text/javascript"></script>
-
-
-<script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
-
-<script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    const getUnit_price = (ob) => {
+        return 'LKR ' + parseFloat(ob.product_cost).toFixed(2);
+    }
+    const getLine_price = (ob) => {
+        return 'LKR ' + parseFloat(ob.line_total).toFixed(2);
+    }
+    const getQuantity = (ob) => {
+        return parseFloat(ob.order_qty).toFixed(1);
+    }
+    const getCompletedQuantity = (ob) => {
+        return parseFloat(ob.completedqty).toFixed(1);
+    }
+    const getProductionStatus = (ob) => {
+        return (ob.production_status_id.name);
+    }
+    const getProductName = (ob) => {
+        return (ob.product_id.p_name);
+    }
+    const displayPropertyListBillTable = [
+        {dataType: 'function', propertyName: getProductName},
+        {dataType: 'function', propertyName: getUnit_price},
+        {dataType: 'function', propertyName: getQuantity},
+        {dataType: 'function', propertyName: getCompletedQuantity},
+        {dataType: 'function', propertyName: getProductionStatus},
+        {dataType: 'function', propertyName: getLine_price}
+    ]
+    fillDataIntoBill("tbodyForBill", customerOrderObject.customerOrderHasProductList, displayPropertyListBillTable);
+    const tableFillDataList = document.getElementById("tbodyForBill").innerHTML;
 
 
-<script src="/corder.js" type="text/javascript"></script>
+    let TotalofLinesBill = parseFloat(customerOrderObject.total_of_lines).toFixed(2);
+    let TotalAmountBill = parseFloat(customerOrderObject.total_amount).toFixed(2);
+    let AdvancedPayment = parseFloat(customerOrderObject.advanced_amount).toFixed(2);
+    let BalanceAmountBill = parseFloat(customerOrderObject.final_balanced_amount).toFixed(2);
 
-</body>
-</html>`;
+    let addedUsername = customerOrderObject.added_user_id.username;
+    let addedDate = customerOrderObject.added_date.split('T')[0];
+    let addedTime = customerOrderObject.added_date.split('T')[1];
+    let orderCode = customerOrderObject.order_code;
+    let customerName = customerOrderObject.customer_id.customer_name;
+    let customerMobile = customerOrderObject.customer_id.mobile;
+    let requiredDate = customerOrderObject.required_date;
 
-    const windowFeatures = "menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes,width=900,height=600";
+
+    let windowButtonsContent =
+        `<div id="nonPrintableContent" style = "margin: 15px;">
+                 <button type="button" class="btn btn-outline-secondary" 
+                 onclick="printWindow()">Print</button>
+                 <script>
+                    function printWindow() {
+                        document.getElementById('nonPrintableContent').style.display = 'none';
+                        window.print()
+                        document.getElementById('nonPrintableContent').style.display = 'block';
+                    }
+                </script>
+            </div>`
+
+    const billHTMLString =
+        `<!DOCTYPE html>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Order Detail Print</title>
+
+                            <link rel="apple-touch-icon" href="/app-assets/images/ico/apple-icon-120.png">
+                                <link rel="shortcut icon" type="image/x-icon" href="/app-assets/images/ico/favicon.ico">
+                                    <link
+                                        href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i|Comfortaa:300,400,500,700"
+                                        rel="stylesheet">
+                                        <!-- BEGIN VENDOR CSS-->
+                                        <link rel="stylesheet" type="text/css" href="/app-assets/css/vendors.css">
+
+                                            <link rel="stylesheet" type="text/css" href="/resources/fontawesome/css/all.css">
+                                                <!-- END VENDOR CSS-->
+
+                                                <link rel="stylesheet" type="text/css" href="/app-assets/css/core/menu/menu-types/vertical-compact-menu.css">
+                                                    <link rel="stylesheet" type="text/css" href="/app-assets/vendors/css/cryptocoins/cryptocoins.css">
+                                                        <link rel="stylesheet" type="text/css" href="/app-assets/css/pages/transactions.css">
+
+                                                            <!-- BEGIN MODERN CSS-->
+                                                            <link rel="stylesheet" type="text/css" href="/app-assets/css/app.css">
+                                                                <!-- END MODERN CSS-->
+
+                                                                <link rel="stylesheet" type="text/css" href="/app-assets/assets/css/style.css">
+
+                                                                    <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
+
+                                    <style>
+                                        .invoice-title h2,
+                                        .invoice-title h3 {
+                                        display: inline-block;
+                                    }
+
+                                        .table>tbody>tr>.no-line {
+                                        border - top: none;
+                                    }
+
+                                        .table>thead>tr>.no-line {
+                                        border - bottom: none;
+                                    }
+
+                                        .table>tbody>tr>.thick-line {
+                                        border - top: 2px solid;
+                                    }
+                                    </style>
+
+                </head>
+
+                <body>
+                ` + windowButtonsContent + `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="invoice-title d-flex">
+                                <div class="col-8">
+                                    <h2>Subhashi Printers - Deniyaya</h2>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <h3>Order Code</h3><br>
+                                    <h4 class="pull-right">${orderCode}</h4>
+                                </div>
+                            </div>
+                            <hr>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <address>
+                                            <strong>Customer :</strong><br>
+                                            ${customerName}<br>
+                                            ${customerMobile}
+                                        </address>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                            <address>
+                                                <strong>Order Date :</strong><br>
+                                                ${addedDate}
+                                                </address>
+                                                <address>
+                                                <strong>Required Date :</strong><br>
+                                                ${requiredDate}
+                                            </address>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-8">
+                                    </div>
+                                    <div class="col-4 text-end">
+                                            <address>
+                                            <strong>Submited By :</strong><br>
+                                            ${addedUsername}<br>
+                                            @ ${addedTime}
+                                            </address>
+                                    </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><strong>Order Summary</strong></h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed">
+                                            <thead>
+                                            <tr>
+                                                <td class="text-end"><strong>#</strong></td>
+                                                <td class="text-end"><strong>Product</strong></td>
+                                                <td class="text-end"><strong>Price</strong></td>
+                                                <td class="text-end"><strong>Quantity</strong></td>
+                                                <td class="text-end"><strong>Completed</strong></td>
+                                                <td class="text-end"><strong>Production Status</strong></td>
+                                                <td class="text-end"><strong>Line Price</strong></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbodyPrintBillTable">
+                                            <!-- Calling the Table fill data -->
+                                            ` + tableFillDataList + `
+                                            <tr>
+                                                <td class="thick-line"></td>
+                                                <td class="thick-line"></td>
+                                                <td class="thick-line"></td>
+                                                <td class="thick-line"></td>
+                                                <td class="thick-line"></td>
+                                                <td class="thick-line text-end"><strong>Line Total</strong></td>
+                                                <td class="thick-line text-end">LKR
+                                                    ${TotalofLinesBill}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-end"><strong>Total Bill</strong></td>
+                                                <td class="no-line text-end">LKR
+                                                    ${TotalAmountBill}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-end"><strong>Suggested Advance</strong></td>
+                                                <td class="no-line text-end">LKR
+                                                    ${AdvancedPayment}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line"></td>
+                                                <td class="no-line text-end"><strong>Balance Amount</strong></td>
+                                                <td class="no-line text-end">LKR
+                                                    ${BalanceAmountBill}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                </div>
+                </body>
+
+                <script src="/app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
+                <script src="/app-assets/js/core/app-menu.js" type="text/javascript"></script>
+                <script src="/app-assets/js/core/app.js" type="text/javascript"></script>
+
+
+                <script src="/resources/datatable/js/datatables.min.js" type="text/javascript"></script>
+
+                <script src="/resources/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+
+                <script src="/corder.js" type="text/javascript"></script>
+
+                </html>`
+
+    const windowFeatures =
+        "menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes,width=900,height=600";
     const newWindow = window.open("", "_blank", windowFeatures);
-    newWindow.document.write(windowHeadvalues+`<div class="row card" style="margin:10px;">${modalBodyValue} <br><br><div id="printButtonDiv" >${modalFooterValue}</div></div>`+htmlfooterlinkvalues);
+    newWindow.document.write(billHTMLString);
     newWindow.document.close();
-
-
-
-
 }

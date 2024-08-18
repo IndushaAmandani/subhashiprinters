@@ -9,7 +9,7 @@ function loadUI() {
     //lggeduserprivilage = {"sel": true , "ins":true , "upd":true , "del":true}
 
     //called refreshtable function
-    refreshTable();
+    refreshProductTable();
 
 // called refreshproductForm function
     refreshProductForm();
@@ -59,7 +59,7 @@ filterPaperInkType.addEventListener( 'change', ()=>{
 })
 
 //define refresh table function
-const refreshTable = () => {
+const refreshProductTable = () => {
 
     // create array for stor data
     products = new Array();
@@ -289,22 +289,38 @@ const buttonMInnerAddMC = (value) => {
 
 
 const rowDelete = (ob, row) => {
-    let deleteMsg = "Are you surely want to delete following Product..? \n" + ob.p_name;
 
-    let serverResponce = window.confirm(deleteMsg);
-    if (serverResponce) {
-        let serverResponce;
-        serverResponce = getHTTPServiceRequest("/product", "DELETE", ob);
-        if (serverResponce == "0") {
-            alert("Delete Successfully... !");
-            refreshTable();
+    let extDeletableOB = getServiceRequest("/product/getproductfromdeletable");
+    let extProductInList = false;
 
-        } else {
-            alert("Fail to Delete,You have folowing error .. \n" + serverResponce);
+    extDeletableOB.forEach(el=>{
+        if(el.id === ob.id) {
+            extProductInList = true;
+        }
+    });
+
+    if(extProductInList){
+        let deleteMsg = "Are you surely want to delete following Product..? \n" + ob.p_name;
+
+        let userProductDelConfirm = window.confirm(deleteMsg);
+        if (userProductDelConfirm) {
+            let serverResponce;
+            serverResponce = getHTTPServiceRequest("/product", "DELETE", ob);
+            if (serverResponce == "0") {
+                alert("Delete Successfully... !");
+                refreshProductTable();
+
+            } else {
+                alert("Fail to Delete,You have folowing error .. \n" + serverResponce);
+
+            }
 
         }
-
+    }else {
+        alert("This product cannot be removed : This product is present in currently active customer order...!");
     }
+
+
 }
 
 const formRefill = (ob, rowno) => {
@@ -582,7 +598,7 @@ function buttonSubmitMC() {
             let serverResponce = getHTTPServiceRequest("/product", "POST", product)
             if (serverResponce == "0") {
                 alert("Save Succecfully...!");
-                refreshTable();
+                refreshProductTable();
                 refreshProductForm();
 
                 // need to close modal
@@ -633,7 +649,7 @@ function buttonUpdateMC() {
 
                 if (putResponce == "0") {
                     window.alert("Update Successfully...!");
-                    refreshTable();
+                    refreshProductTable();
                     refreshProductForm();
                     $("#modalProductForm").modal("hide");
 
@@ -835,7 +851,7 @@ function refreshMQFormTable() {
         tableMateiralQuantity.children[1].children[index].children[3].children[2].style.display = "none";
 
     }
-
+    document.getElementById("materialUnitType").innerHTML='';
     buttonMInnerAdd.disabled = true;
 
 }
@@ -914,6 +930,14 @@ const innerFormMReFill = (innerob, rowind) => {
 
 
 }
+
+document.getElementById("cmbMaterial").addEventListener('change',()=>{
+    if(cmbMaterial.value!=null){
+        document.getElementById("materialUnitType").innerHTML=" ( "+(JSON.parse(cmbMaterial.value).material_unit_type_id.name)+" ) ";
+    }else {
+        document.getElementById("materialUnitType").innerHTML='';
+    }
+});
 const innerMRowDelete = (innerob, rowind) => {
 
 

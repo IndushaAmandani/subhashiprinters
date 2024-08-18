@@ -32,9 +32,9 @@ const refreshInventoryTable = () => {
          }
      })*/
     //create display proporty list
-    let displayPropertyList = ['material_id.name', 'totalqty', 'avaqty', 'removeqty','inventorystatus_id.name'];
+    let displayPropertyList = ['material_id.name', 'totalqty', 'avaqty','inventorystatus_id.name'];
     // creat display property data type list
-    let displayDatatypeList = ['object', 'text', 'text', 'text', 'object'];
+    let displayDatatypeList = ['object', 'text', 'text','object'];
     //called filldataintotable function for fill data
     fillDataIntoTable(tableInventory, inventory, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, false, lggeduserprivilage);
 

@@ -83,7 +83,7 @@ public class EmployeeController {
        // return employeeDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
         if(loggedUser != null && userPrvi.get("sel")){
             //return userDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-            return employeeDao.findAll();
+            return employeeDao.findAllWithoutLoggedUser(auth.getName());
         }else {
             return null;
         }

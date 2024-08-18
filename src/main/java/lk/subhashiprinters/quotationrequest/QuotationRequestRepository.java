@@ -25,4 +25,8 @@ public interface QuotationRequestRepository extends JpaRepository<QuotationReque
 
     @Query("select new QuotationRequest(qr.id, qr.request_number,qr.supplier_id) from QuotationRequest qr")
     List<QuotationRequest> list();
+
+
+
+
 }

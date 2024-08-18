@@ -82,16 +82,18 @@ public class ProductController {
     ){
         return productDao.getReferenceById(id);
     }
-    //get object by given id using path variable [ /productCopy/getbyid/{id}]
-//    @GetMapping(value = "/getbyid/{id}" , produces = "application/json")
-//    public ProductCopy getByPathId(@PathVariable("id")Integer id){
-//        return productCopyDao.getReferenceById(id);
-//    }
+
+    //check product has ongoing co where status is not in canceled
+    @GetMapping(value = "/getproductfromdeletable")
+    public List<Product> getProductFromDeletableList(){
+           return productDao.getByProductListOFDeletable();
+    }
 
 
 //    @GetMapping(value = "/customerOrderProduct/bycp/{qid}/{mid}" ,produces = "application/json")
 //    public QuotationHasMaterial getByQM(@PathVariable("qid") Integer qid, @PathVariable("mid") Integer mid){
 //        return quotationMaterialDao.byQidMid(qid,mid);
+
 
 
     //define findall data service['/product/findall']

@@ -3,6 +3,9 @@ package lk.subhashiprinters.purchaseorder;
 
 import lk.subhashiprinters.privilege.PrivilageController;
 import lk.subhashiprinters.quotation.Quotation;
+import lk.subhashiprinters.quotation.QuotationHasMaterial;
+import lk.subhashiprinters.quotation.QuotationRepository;
+import lk.subhashiprinters.quotation.QuotationStatusRepository;
 import lk.subhashiprinters.userm.UserRepository;
 import lk.subhashiprinters.userm.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,16 @@ public class PurchaseOrderController {
     private PurchaseOrderRepository purchaseOrderDao;
 
     @Autowired
+    private QuotationRepository quotationDao;
+
+    @Autowired
     private POrderStatusRepository purchaseOrderStatusDao;
 
     @Autowired
     private PurchaseOrderHasMaterialRepository purchaseOrderHasMaterialDao;
+
+    @Autowired
+    private QuotationStatusRepository quotationStatusDao;
 
     @Autowired
     private PrivilageController privilegeController;
@@ -92,6 +101,15 @@ public class PurchaseOrderController {
                 for (PurchaseOrderHasMaterial pohi : porder.getPurchaseOrderHasMaterialList()) {
                     pohi.setPurchase_order_id(porder);
                 }
+
+            Quotation  existingQuotation = quotationDao.getReferenceById(porder.getQuatation_id().getId());
+                existingQuotation.setQuatation_status_id(quotationStatusDao.getReferenceById(2));
+
+                for(QuotationHasMaterial qhml : existingQuotation.getQuotationHasMaterialList()){
+                  qhml.setQuatation_id(existingQuotation);
+                }
+
+
                 purchaseOrderDao.save(porder);
 
                 return "0";

@@ -27,6 +27,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     @Query(value = "select new Employee(e.id,e.calling_name,e.number,e.fullname, e.nic, e.mobile, e.email,e.employeestatus_id) from Employee e order by e.id desc ")
     List<Employee> findAll();
 
+    @Query(value = "select new Employee(e.id,e.calling_name,e.number,e.fullname, e.nic, e.mobile, e.email,e.employeestatus_id) from Employee e where e.id not in (select u.employee_id.id from User u where u.username=?1 or u.username='Admin') order by e.id desc ")
+    List<Employee> findAllWithoutLoggedUser(String loggedUserName);
+
 
     // query for get employee list  whithout having user account
     //select e from Employee ---> gives objects so use constructor                                                      u.employee_id ---> employee object 

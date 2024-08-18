@@ -23,13 +23,13 @@ const refreshCustomerTable = () => {
     let dispalyPropertyDTList = ['text', 'text', 'text', 'text', 'object', 'object'];
 
     //called filldataintotable function for fill data
-    fillDataIntoTable(tableCustomer, customers, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowDelete, rowView, true, lggeduserprivilage);
+    fillDataIntoTable(tableCustomer, customers, dispalyPropertyList, dispalyPropertyDTList, formRefill, rowCustomerDelete, rowView, true, lggeduserprivilage);
 // contactp_name
 //contactp_mobile
 
 
     for (let index in customers) {
-        if (customers[index].customerstatus_id.name == "Inactive") {
+        if (customers[index].customerstatus_id.id == 2) {
             tableCustomer.children[1].children[index].style.backgroundColor = "#ad9393";
             tableCustomer.children[1].children[index].style.color = "#0f100f";
             tableCustomer.children[1].children[index].children[7].children[1].disabled = true;
@@ -253,41 +253,60 @@ function buttonUpdateMC() {
     updatemodal("customer", checkErrors, checkUpdate, "/customer", customer, refreshCustomerTable, refreshCustomerForm, "#modalCustomerForm")
 }
 
-const rowDelete = (ob, rowno) => {
+const rowCustomerDelete = (ob, rowno) => {
+    console.log("delete")
 
-    let deleteMsg = "Are you sure to delete following customer..? \n"
+    let deletableCustomerList = getServiceRequest("/customer/deletablecustomerlist");
 
-        + "\n Customer Name : " + ob.customer_name
-        + "\n Customer number : " + ob.mobile;
+    let extDeleteCustomerInList = false;
+
+    deletableCustomerList.forEach(el => {
+        if (el.id === ob.id) {
+            extDeleteCustomerInList = true;
+        }
+    });
+    if (extDeleteCustomerInList) {
+        let deleteMsg = "Are you sure to delete following customer..? \n"
+
+            + "\n Customer Name : " + ob.customer_name
+            + "\n Customer number : " + ob.mobile;
 
 
-    let deleteUserResponce = window.confirm(deleteMsg);
+        let deleteUserResponce = window.confirm(deleteMsg);
 
-    if (deleteUserResponce) {
-        let deleteServerResponce;
+        if (deleteUserResponce) {
+            let deleteServerResponce;
 
-        $.ajax("/customer", {
-            async: false,
-            type: "DELETE", // method delete
-            data: JSON.stringify(ob), // object
-            contentType: "application/json",
-            success: function (susResdata, susStatus, ajresob) {
-                deleteServerResponce = susResdata;
-            },
-            error: function (errRsOb, errStatus, errorMsg) {
-                deleteServerResponce = errorMsg;
+            $.ajax("/customer", {
+                async: false,
+                type: "DELETE", // method delete
+                data: JSON.stringify(ob), // object
+                contentType: "application/json",
+                success: function (susResdata, susStatus, ajresob) {
+                    deleteServerResponce = susResdata;
+                },
+                error: function (errRsOb, errStatus, errorMsg) {
+                    deleteServerResponce = errorMsg;
+                }
+            });
+
+            if (deleteServerResponce == "0") {
+
+                alert("Delete Successfull..!");
+                refreshCustomerTable();
+
+            } else {
+                window.alert("You have following error \n" + deleteServerResponce);
             }
-        });
-
-        if (deleteServerResponce == "0") {
-
-            alert("Delete Successfull..!");
-            refreshCustomerTable();
 
         } else {
-            window.alert("You have following error \n" + deleteServerResponce);
+            alert("This customer delete canceled...!")
         }
-}
+
+
+    }else {
+        alert("This customer cannot be removed : This customer have currently active customer order...!")
+    }
 
 
 }
@@ -305,19 +324,17 @@ function showCompanyForm() {
     }
 }
 
-document.getElementById("txtContactPEmail").addEventListener('change',()=>{
-    txtCustomerEmail.value= customer.contactp_email
-   textFeildValidtor(txtCustomerEmail,'^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$','customer','customer_email','oldcustomer')
+document.getElementById("txtContactPEmail").addEventListener('change', () => {
+        txtCustomerEmail.value = customer.contactp_email
+        textFeildValidtor(txtCustomerEmail, '^[A-Za-z0-9]{5,25}[@][a-z]{4,10}[.][a-z]{2,5}$', 'customer', 'customer_email', 'oldcustomer')
     }
 )
 
-document.getElementById("txtContactPMobile").addEventListener('change',()=>{
-    txtMobile.value = customer.contactpmobile;
-    textFeildValidtor(txtMobile,'^[0][7][01245678][0-9]{7}$','customer','mobile','oldcustomer')
+document.getElementById("txtContactPMobile").addEventListener('change', () => {
+        txtMobile.value = customer.contactpmobile;
+        textFeildValidtor(txtMobile, '^[0][7][01245678][0-9]{7}$', 'customer', 'mobile', 'oldcustomer')
     }
 )
-
-
 
 
 //divContactdetails
@@ -331,10 +348,6 @@ function buttonModalCloseMMCVM() {
     buttonCloseVModal("#modalViewCustomerForm");
 
 }
-
-
-
-
 
 
 //View

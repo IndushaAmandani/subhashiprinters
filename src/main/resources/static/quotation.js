@@ -72,7 +72,8 @@ const refreshQForm = () => {
     quotation.quotationHasMaterialList = new Array();
 
     //create arrys for get data for fill select ellement
-    suppliers = getServiceRequest("/supplier/list");
+   // suppliers = getServiceRequest("/supplier/list");
+    suppliers = getServiceRequest("/supplier/getSuppliersByValidQR");
     quotationrequests = getServiceRequest("/quotationrequest/list");
     quotationstatuses = getServiceRequest("/quotationstatus/list");
     cmbSupplier.disabled = false;
@@ -98,9 +99,15 @@ const refreshQForm = () => {
     currentDateForVDMin.setDate(currentDateForMin.getDate() + 10)
     dteValidDate.min = getCurrentDate2("date", currentDateForVDMin);
 
-    let currentDateForVDMax = new Date();
-    currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 180);
-    dteValidDate.max = getCurrentDate2("date", currentDateForVDMax);
+    // let currentDateForVDMax = new Date();
+    // currentDateForVDMax.setDate(currentDateForVDMax.getDate() + 180);
+    // dteValidDate.max = getCurrentDate2("date", currentDateForVDMax);
+
+
+    let currentDateForVDMaxvalue = new Date();
+    currentDateForVDMaxvalue.setDate(currentDateForVDMaxvalue.getDate() + 14);
+    dteValidDate.value = getCurrentDate2("date", currentDateForVDMaxvalue);
+    dteValidDate.disabled  = true;
 
     setStyle("1px solid #ced4da");
     cmbQStatus.style.borderBottom = "2px solid green";
@@ -120,6 +127,14 @@ function setStyle(style) {
 
 
 }
+
+document.getElementById("cmbSupplier").addEventListener('change',()=>{
+    let supplierObj  = JSON.parse(cmbSupplier.value);
+    refreshQForm();
+    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name",supplierObj.company_name);
+    getRQ();
+
+})
 
 function getRQ() {
     quotationRequestsBySup = getServiceRequest("/quotationrequest/listbysid/" + JSON.parse(cmbSupplier.value).id);
@@ -353,6 +368,7 @@ const rowView = (ob, rowno) => {
 
 //
 const rowDelete = (ob, rowno) => {
+
 
     let deleteMsg = "Are you sure to delete following Quotation..?" +
         "\n Quotation no : " + ob.number +

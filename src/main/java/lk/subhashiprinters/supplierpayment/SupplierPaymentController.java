@@ -134,7 +134,7 @@ public class SupplierPaymentController {
                 if (supplierPayment.getSupplier_payment_status_id().getId() == 1) {
                     extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(2));
                     extPorder.setPurchase_order_status_id(porderStatusDao.getReferenceById(5));
-                    extQuatation.setQuatation_status_id(quatationStatusDao.getReferenceById(2));
+
                 } else if (supplierPayment.getSupplier_payment_status_id().getId() == 2) {
                     extmrn.setMaterial_recieve_note_status_id(mrnstatusDao.getReferenceById(3));
                 }

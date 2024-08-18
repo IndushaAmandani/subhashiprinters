@@ -94,7 +94,7 @@ public class MaterialController {
     //List returning list of status from repo
     @GetMapping(value = "/list", produces = "application/json")
     public List<Material> materialList() {
-        return materialDao.list();
+        return materialDao.materialPricelist();
     }
 
     //get object by given id using path variable [ /material/getbyid/{id}]
@@ -185,7 +185,7 @@ public class MaterialController {
                 MaterialInventory newInventoryforMaterial = new MaterialInventory();
                 newInventoryforMaterial.setMaterial_id(material);
                 newInventoryforMaterial.setTotalqty(BigDecimal.ZERO);
-                newInventoryforMaterial.setInventorystatus_id(inventoryStatusDao.getReferenceById(3));
+                newInventoryforMaterial.setInventorystatus_id(inventoryStatusDao.getReferenceById(2));
                 newInventoryforMaterial.setRemoveqty(BigDecimal.ZERO);
                 newInventoryforMaterial.setAvaqty(BigDecimal.ZERO);
                 inventoryDao.save(newInventoryforMaterial);

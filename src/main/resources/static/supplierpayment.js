@@ -238,6 +238,7 @@ function viewSPRow(rowob, rowind) {
 }
 
 document.getElementById("cmbSupplier").addEventListener('change', () => {
+
     getMRN();
 });
 

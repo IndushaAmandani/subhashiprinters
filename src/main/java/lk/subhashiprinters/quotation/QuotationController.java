@@ -91,6 +91,7 @@ public class QuotationController {
 
         if (loggedUser != null && userPiriv.get("sel")) {
             List<Quotation> listofquatations = quotationDao.findAll();
+            //Set invalid according to date
             for (Quotation oneofQuatation : listofquatations) {
                 LocalDate validdate = oneofQuatation.getValid_period();
                 String validdateStringArray = validdate.toString();

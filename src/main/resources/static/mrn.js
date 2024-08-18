@@ -37,6 +37,14 @@ const refreshTable = () => {
             tableMrn.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
 
         }
+        if (mrns[index].material_recieve_note_status_id.name == "Completed") {
+            tableMrn.children[1].children[index].style.backgroundColor = "#6c8c86";
+            tableMrn.children[1].children[index].children[8].children[1].disabled = true;
+            tableMrn.children[1].children[index].children[8].children[1].style.pointerEvents = "all";
+            tableMrn.children[1].children[index].children[8].children[1].style.cursor = "not-allowed";
+
+        }
+
     }
 
     $('#tableMrn').dataTable();
@@ -67,7 +75,7 @@ const refreshMrnForm = () => {
     mrn.mrnHasMaterialList = new Array();
 
     //create arrys for get data for fill select ellement
-    suppliers = getServiceRequest("/supplier/list");
+    suppliers = getServiceRequest("/supplier/getSupplierLisHavePOOrdered");
     porderlist = getServiceRequest("/purchaseorder/list");
     cmbPurchaseOrder.disabled = true;
     fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name");
@@ -81,6 +89,8 @@ const refreshMrnForm = () => {
 
 
     txtTotalAmount.value = "";
+    txtNetAmount.value = "";
+    txtDiscountRatio.value = "";
     txtTotalAmount.disabled = true;
     txtNote.value = "";
     dteReceivedDate.value = "";
@@ -101,7 +111,7 @@ const refreshMrnForm = () => {
 //refresh by disabling inner form materials
 
 
-    disabledButton(true, false);
+    disabledButtonMrn(true, false);
 
     refreshInnerFormTable();
     cmbMaterial.disabled = true;
@@ -128,6 +138,14 @@ const refreshMrnForm = () => {
 //     fillSelectFeild2(cmbMaterial, "Select Material", materialsByQuotation, "code", "name", "");
 //
 // }
+
+document.getElementById("cmbSupplier").addEventListener('change',() =>{
+    let supplierValid = JSON.parse(cmbSupplier.value);
+    refreshMrnForm();
+    fillSelectFeild(cmbSupplier, "Select Supplier", suppliers, "company_name",supplierValid.company_name);
+
+
+})
 
 
 const refreshInnerFormTable = () => {
@@ -189,6 +207,8 @@ const refreshInnerFormTable = () => {
     }
 
 }
+
+
 
 document.getElementById("cmbPurchaseOrder").addEventListener('change', () => {
     getMaterialByPOrder();
@@ -456,12 +476,8 @@ const innerRowView = () => {
 const checkErrors = () => {
     let errors = "";
 
-    if (mrn.purchase_order_id.supplier_id.id == null) {
-        errors = errors + "Supplier Not Selected \n";
-
-    }
-    if (mrn.purchase_order_id.quatation_id.id == null) {
-        errors = errors + "Quotation  Not Selected \n";
+    if (mrn.purchase_order_id== null) {
+        errors = errors + "Purchase Order  Not Selected \n";
 
     }
 
@@ -588,7 +604,7 @@ const formReFill = (ob, rowno) => {
     if (mrn.note == null)
         txtNote.style.borderBottom = "2px solid rgb(118, 118, 118)";
 
-    disabledButton(false, true);
+    disabledButtonMrn(false, true);
     btnAddNew.click();
 
     refreshInnerFormTable();
@@ -648,39 +664,62 @@ const checkUpdates = () => {
     return updates;
 }
 
-//
-function buttonUpdateMC() {
-    // check errs
-    let errors = checkErrors();
-    if (errors == "") {
-        //check updates
-        let updates = checkUpdates();
-        if (updates != "") {
-            // get confirmation
-            let userConfirm = window.confirm("Are yoy sure to update following purchase order chnagers..\n " + updates);
-            if (userConfirm) {
-                //server responce
-                let updateServerResponce = getHTTPServiceRequest("/mrn", "PUT", mrn);
-                if (updateServerResponce == "0") {
-                    alert("update Successfully....!")
-                    refreshTable();
-                    refreshPOForm();
-                    $("#modalPurchaseOrderForm").modal("hide");
-                } else {
-                    alert("Update Not Compete : " + updateServerResponce);
-                }
-            }
 
-        } else {
-            alert("Nothing any changer in your form");
-        }
+let disabledButtonMrn = (addbtn, updbtn) => {
 
-
+    if (addbtn && lggeduserprivilage.ins) {
+        buttonAdd.disabled = false;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "pointer");
     } else {
-        alert("You have following error in your form... \n" + errors);
+        buttonAdd.disabled = true;
+        $("#buttonAdd").css("pointer-events", "all");
+        $("#buttonAdd").css("cursor", "not-allowed");
     }
-
+    /*
+        if(updbtn && lggeduserprivilage.upd){
+            buttonUpdate.disabled = false;
+            $("#buttonUpdate").css("pointer-events","all");
+            $("#buttonUpdate").css("cursor","pointer");
+        }else {
+            buttonUpdate.disabled = true;
+            $("#buttonUpdate").css("pointer-events","all");
+            $("#buttonUpdate").css("cursor","not-allowed");
+        }*/
 }
+//
+// function buttonUpdateMC() {
+//     // check errs
+//     let errors = checkErrors();
+//     if (errors == "") {
+//         //check updates
+//         let updates = checkUpdates();
+//         if (updates != "") {
+//             // get confirmation
+//             let userConfirm = window.confirm("Are yoy sure to update following purchase order chnagers..\n " + updates);
+//             if (userConfirm) {
+//                 //server responce
+//                 let updateServerResponce = getHTTPServiceRequest("/mrn", "PUT", mrn);
+//                 if (updateServerResponce == "0") {
+//                     alert("update Successfully....!")
+//                     refreshTable();
+//                     refreshPOForm();
+//                     $("#modalPurchaseOrderForm").modal("hide");
+//                 } else {
+//                     alert("Update Not Compete : " + updateServerResponce);
+//                 }
+//             }
+//
+//         } else {
+//             alert("Nothing any changer in your form");
+//         }
+//
+//
+//     } else {
+//         alert("You have following error in your form... \n" + errors);
+//     }
+//
+// }
 
 function getPObysupplier() {
    // quotationsBySupRequdate = getServiceRequest("/quotation/listvalid/" + JSON.parse(cmbSupplier.value).id + "/" + dteRequiredDate.value);

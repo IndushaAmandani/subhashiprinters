@@ -30,11 +30,18 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
  @Query("select new Product (p.id,p.product_code,p.p_name,p.price) from Product p where p.product_status_id.id=1")
  List<Product> list();
 
-
-
+//@Query("select new Product (p.id,p.product_code,p.p_name,p.price) from Product p where p.id=?1 in "+
+//        "(select cohp.product_id.id from CustomerOrderHasProduct cohp where cohp.customer_order_id.id in "
+//+"(select c.id from CustomerOrder c where c.order_status_id<>5 and c.order_status_id.id<>6))")
+//Product getProductbyCOStatus(Integer pid);
 // //get product
-// @Query("select p from Product p where p.product_code = ?1")
-// Product getByProductCode(String  product_code);
+
+ //SELECT p.* FROM subhashiprinters.product as p where p.id not in (SELECT cohp.product_id FROM subhashiprinters.customer_order_has_product as cohp where cohp.customer_order_id not in (SELECT co.id FROM subhashiprinters.customer_order as co where co.order_status_id<>5 and co.order_status_id<>6)) and  p.id=25;
+ @Query("select p from Product p where p.id not in (select cohasp.product_id.id from CustomerOrderHasProduct cohasp where cohasp.customer_order_id.id in (select co.id from CustomerOrder co where co.order_status_id.id<>5 and co.order_status_id.id<>6))")
+ List <Product> getByProductListOFDeletable();
+
+// @Query(value = "SELECT P FROM Product P where P.id in (SELECT phm.product_id.id FROM ProductHasMaterial phm where phm.material_id.id=?1)")
+// public List<Product> getProductListByMaterial(Integer materialId);
 
 
 

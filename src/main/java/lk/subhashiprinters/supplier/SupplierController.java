@@ -71,6 +71,30 @@ public class SupplierController {
     }
 */
 
+    //get Valid Supplier list that have valid quatataions
+    @GetMapping(value = "/getValidSupplierListwithValidQ",produces ="application/json")
+    public List<Supplier> getValidSupplierListwithValidQ(){
+        return supplierDao.getValidSupplierListwithValidQ();
+    }
+    //get Valid Supplier list that have valid quatataions
+    @GetMapping(value = "/getSuppliersByValidQR",produces ="application/json")
+    public List<Supplier> getSuppliersByValidQR(){
+        return supplierDao.getSuppliersByValidQR();
+    }
+ //get Valid Supplier list that have valid quatataions
+    @GetMapping(value = "/getSupplierListnotHaveQR",produces ="application/json")
+    public List<Supplier> getSupplierListnotHaveQR(){
+        return supplierDao.getSupplierListnotHaveQR();
+    }
+
+     @GetMapping(value = "/getSupplierLisHavePOOrdered",produces ="application/json")
+    public List<Supplier> getSupplierLisHavePOOrdered(){
+        return supplierDao.getSupplierLisHavePOOrdered();
+    }
+
+
+//@GetMapping(value = "/getSupplierbyMrnNotCompletedStatus/{sid}",produces = "application/json")
+//public List<Supplier> getSupplierListwhereMrnrCompleted(@PathVariable("sid") Integer sid){return supplierDao.getSupplierListwhereMrnrCompleted(sid);}
 
     // get mapping for get supplier selected columns details [/supplier/findall]
     @GetMapping(value = "/findall", produces = "application/json")
@@ -188,7 +212,7 @@ public class SupplierController {
         // neeed to check logged user privilage
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication instanceof AnonymousAuthenticationToken){
-            return "Supplier Delete Not completed : You don't have permissing";
+            return "Supplier Delete Not completed : You don't have permission";
         }
 
         // get logged user authentication object
@@ -202,6 +226,8 @@ public class SupplierController {
             if(extSup == null ){
                 return "Supplier Delete Not completed : Supplier not available";
             }
+
+
 
             try {
                 extSup.setSupplier_status_id(supplierStatusDao.getReferenceById(3));

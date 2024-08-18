@@ -88,8 +88,45 @@ function  generateReport(){
     //called filldataintotable function for fill data
     fillDataIntoTable(tableCustomerPaymentReport,cpaymentReport, displayPropertyList, displayDatatypeList, formRefill, rowDelete, rowView, false, lggeduserprivilage);
 
+    if(cpaymentReport.length){
+        chartofCustomerPayment();
+    }
 
 
 
+}
 
+function chartofCustomerPayment(){
+    const ctx = document.getElementById('cpaymentChart');
+
+
+
+    let daterange = cpaymentReport.map(item => item.date);
+
+    let amount = cpaymentReport.map(item => item.totalamount);
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: daterange,
+            datasets: [{
+                label: 'totalamount(Rs.)',
+                data: amount,
+                backgroundColors:  'rgb(206,174,42)',
+                borderWidth: 1,
+
+
+            }],
+
+        },
+        options: {
+            scales: {
+                y: {
+
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }

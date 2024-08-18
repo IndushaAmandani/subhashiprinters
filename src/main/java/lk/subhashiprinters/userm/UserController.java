@@ -45,7 +45,7 @@ public class UserController {
 
         if(loggedUser != null && userPrvi.get("sel")){
             //return userDao.findAll(Sort.by(Sort.Direction.DESC,"id"));
-            return userDao.findAll();
+            return userDao.findAll(auth.getName());
         }else {
             return null;
         }

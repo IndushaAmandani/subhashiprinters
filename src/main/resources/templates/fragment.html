@@ -17,26 +17,26 @@
             <li class=" nav-item"><a href="/"><i class="fa-solid fa-user-gear"></i><span class="menu-title"
                                                                                          data-i18n="">Administration</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/employee">Employee</a></li>
-                    <li><a class="menu-item" href="/user">User</a></li>
-                    <li><a class="menu-item" href="/privilage">Privilage </a></li>
+                    <li><a class="menu-item Employee" href="/employee">Employee</a></li>
+                    <li><a class="menu-item User" href="/user">User</a></li>
+                    <li><a class="menu-item Privilage" href="/privilage">Privilage </a></li>
                 </ul>
             </li>
             <li class=" nav-item "><a href="/"><i class="fa-solid fa-folder-plus"></i><span class="menu-title"
                                                                                             data-i18n="">Order Registration</span></a>
                 <ul class="menu-content ">
-                    <li><a class="menu-item " href="/customer">Customer</a></li>
-                    <li><a class="menu-item" href="/customerOrder">Customer Order </a></li>
-                    <li><a class="menu-item" href="/cpayment">Customer Payment </a></li>
+                    <li><a class="menu-item Customer" href="/customer">Customer</a></li>
+                    <li><a class="menu-item CustomerOrder" href="/customerOrder">Customer Order </a></li>
+                    <li><a class="menu-item CustomerPayment" href="/cpayment">Customer Payment </a></li>
                 </ul>
             </li>
             <li class=" nav-item"><a href="/">
                 <i class="fa-solid fa-print"></i><span class="menu-title"
                                                        data-i18n="">Production</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item " href="/product">Product</a></li>
-                    <li><a class="menu-item" href="/productoinOrderConfirm">Production Confirmation </a></li>
-                    <li><a class="menu-item" href="/dailyProduct">Daily Product</a></li>
+                    <li><a class="menu-item Product" href="/product">Product</a></li>
+                    <li><a class="menu-item ProductionConfirmation" href="/productoinOrderConfirm">Production Confirmation </a></li>
+                    <li><a class="menu-item DailyProduct" href="/dailyProduct">Daily Product</a></li>
 
 
                 </ul>
@@ -45,13 +45,13 @@
                 <a href="/"><i class="fa-solid fa-cart-shopping"></i><span class="menu-title"
                                                                            data-i18n="">Supplier</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/material">Material</a></li>
-                    <li><a class="menu-item" href="/supplier">Supplier</a></li>
-                    <li><a class="menu-item" href="/quotationrequest">Quotation Request</a></li>
-                    <li><a class="menu-item" href="/quotation">Quotation </a></li>
-                    <li><a class="menu-item" href="/purchaseorder">Purchase Order </a></li>
-                    <li><a class="menu-item" href="/mrn">MRN </a></li>
-                    <li><a class="menu-item" href="/supplierpayment">Supplier Payment </a></li>
+                    <li><a class="menu-item Material" href="/material">Material</a></li>
+                    <li><a class="menu-item Supplier" href="/supplier">Supplier</a></li>
+                    <li><a class="menu-item QuotationRequest" href="/quotationrequest">Quotation Request</a></li>
+                    <li><a class="menu-item Quotation" href="/quotation">Quotation </a></li>
+                    <li><a class="menu-item PurchaseOrder" href="/purchaseorder">Purchase Order </a></li>
+                    <li><a class="menu-item Mrn" href="/mrn">MRN </a></li>
+                    <li><a class="menu-item SupplierPayment" href="/supplierpayment">Supplier Payment </a></li>
 
                 </ul>
             </li>
@@ -61,18 +61,19 @@
                                                                    data-i18n="">Support Modules</span></a>
                 <ul class="menu-content">
 
-                    <li><a class="menu-item" href="/inventory">Inventory</a></li>
-                    <li><a class="menu-item" href="/productCategory">Product Category</a></li>
+                    <li><a class="menu-item Inventory" href="/inventory">Inventory</a></li>
+                    <li><a class="menu-item ProductCategory" href="/productCategory">Product Category</a></li>
 
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="/"><i class="fa-solid fa-list-check"></i><span class="menu-title"
+            <li class="nav-item" id="reportModule"><a href="/"><i class="fa-solid fa-list-check"></i><span class="menu-title"
                                                                                           data-i18n="">Report</span></a>
                 <ul class="menu-content">
-                    <li><a class="menu-item" href="/mateialListStatusReport">Paper Material Report</a></li>
                     <li><a class="menu-item" href="/customerPaymentreport"> Customer Payment Report</a></li>
                     <li><a class="menu-item" href="/supplierPaymentreport">Supplier Payment Report</a></li>
+                    <li><a class="menu-item" href="/mateialListStatusReport">Paper Material Report</a></li>
+                    <li><a class="menu-item" href="/currentPurchasePriceofmaterials">Purchase Price of Materials</a></li>
                 </ul>
             </li>
 
@@ -110,6 +111,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="/resources/datatable/css/datatables.min.css">
+
     <!-- END Custom CSS-->
 
 
@@ -313,6 +315,7 @@
           All rights reserved. Indusha Amandani </span
         >
     </p>
+
 
     <script src="/resources/script/common.js" type="text/javascript"></script>
 

@@ -65,7 +65,7 @@ const refreshQRForm = ()=> {
     oldQuotationRequest  = null;
 
     // need to fill data into dropdown element
-    suppliers = getServiceRequest("/supplier/list"); //
+    suppliers = getServiceRequest("/supplier/getSupplierListnotHaveQR"); //
     qrStatuses = getServiceRequest("/qrstatus/list"); //
 
     fillSelectFeild(cmbSupplier,"Select Supplier" , suppliers ,"company_name","");
@@ -256,24 +256,32 @@ function buttonQRSave() {
 
 //create function for delete row
 function deleteItemRow(ob) {
-    // get uesr confirmation
-    let deleteConfirmMSG = "Are you sure to delete follwing Quotation Request..? \n" +
-        " QR Number : " + ob.request_number +
-        " Supplier Name : " + ob.supplier_id.company_name +
-        "\n Required Date : " + ob.required_date;
 
-    let userResponce =  window.confirm(deleteConfirmMSG);
+    if(ob.quatation_req_status_id.name == "Requested"){
 
-    if(userResponce){
-        let deleteServieResponce = getHTTPServiceRequest("/quotationrequest" , "DELETE" , ob);
-        if(deleteServieResponce == "0"){
-            refreshTable();
-            window.alert("Quotation Request Delete Successfully...");
-        }else {
-            window.alert("Quotation Request Delete Not Successfully you have server error...\n" + deleteServieResponce);
+        // get uesr confirmation
+        let deleteConfirmMSG = "Are you sure to delete follwing Quotation Request..? \n" +
+            " QR Number : " + ob.request_number +
+            " Supplier Name : " + ob.supplier_id.company_name +
+            "\n Required Date : " + ob.required_date;
+
+        let userResponce =  window.confirm(deleteConfirmMSG);
+
+        if(userResponce){
+            let deleteServieResponce = getHTTPServiceRequest("/quotationrequest" , "DELETE" , ob);
+            if(deleteServieResponce == "0"){
+                refreshTable();
+                window.alert("Quotation Request Delete Successfully...");
+            }else {
+                window.alert("Quotation Request Delete Not Successfully you have server error...\n" + deleteServieResponce);
+            }
+
         }
 
+    }else{
+        window.alert("Quotation Request Delete Not Successful : This quotation is not in the requessted state!");
     }
+
 
 }
 

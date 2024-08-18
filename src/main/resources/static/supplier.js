@@ -358,6 +358,8 @@ supBankdetails.addEventListener("click", () =>{
 
 //create function for delete row
 function deleteItemRow(ob) {
+
+
     // get uesr confirmation
     let deleteConfirmMSG = "Are you sure to delete follwing supplier..? \n" +
         " Supplier Name : " + ob.company_name +

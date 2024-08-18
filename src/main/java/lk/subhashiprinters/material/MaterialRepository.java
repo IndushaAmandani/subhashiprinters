@@ -14,8 +14,8 @@ package lk.subhashiprinters.material;
      List<Material> getallmaterialset();
 
 
-//     @Query("select new Material (m.id, m.name, m.code,m.measuring_count) from Material m where m.material_status_id.id=1")
-//     List<Material> list();
+     @Query("select m from Material m where m.material_status_id.id=1")
+     List<Material> materialPricelist();
 
      // //Query for get material by given code
      @Query("select m from Material m where m.code =?1")
@@ -43,7 +43,7 @@ package lk.subhashiprinters.material;
              "(select phm.material_id.id from PurchaseOrderHasMaterial phm where phm.purchase_order_id.id=?1) ")
      List<Material> getListByPOrder(Integer poid);
 
-  @Query("select new Material(m.id, m.name, m.code,m.unit_price,m.width,m.height) from Material m where m.material_status_id.id=1 and m.id in " +
+  @Query("select new Material(m.id, m.name, m.code,m.unit_price,m.width,m.height,m.material_unit_type_id) from Material m where m.material_status_id.id=1 and m.id in " +
           "(select qhm.material_id.id from QuotationHasMaterial qhm where qhm.quatation_id.id=?1) ")
      List<Material> getListByQuotation(Integer qid);
 

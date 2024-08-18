@@ -63,11 +63,12 @@ const refreshPOForm = () => {
     purchaseorder.purchaseOrderHasMaterialList = new Array();
 
     //create arrys for get data for fill select ellement
-    supplierslist = getServiceRequest("/supplier/list");
+  //  validSupplierslist = getServiceRequest("/supplier/list");
+    validSupplierslist = getServiceRequest("/supplier/getValidSupplierListwithValidQ");
     quotationslist = getServiceRequest("/quotation/listall");
     porderstatuses = getServiceRequest("/porderstatus/list");
     cmbSupplier.disabled = false;
-    fillSelectFeild(cmbSupplier, "Select Supplier", supplierslist, "company_name");
+    fillSelectFeild(cmbSupplier, "Select Supplier", validSupplierslist, "company_name");
     fillSelectFeild(cmbQuotation, "Select Quotation", quotationslist, "number");
     cmbQuotation.disabled = true;
     fillSelectFeild(cmbPOStatus, "Select Status", porderstatuses, "name", "Ordered", true);
@@ -99,7 +100,14 @@ const refreshPOForm = () => {
 
 }
 
+document.getElementById("cmbSupplier").addEventListener('change',() =>{
+    let companyName = JSON.parse(cmbSupplier.value);
+    refreshPOForm();
+    fillSelectFeild(cmbSupplier, "Select Supplier", validSupplierslist, "company_name",companyName.company_name);
+    selectValidator(cmbSupplier,'','purchaseorder','supplier_id','oldpurchaseorder');
 
+
+})
 
 
 
@@ -116,6 +124,14 @@ function getMaterialByQuotation() {
     fillSelectFeild2(cmbMaterial, "Select Material", materialsByQuotation, "code", "name", "");
 
 }
+
+document.getElementById("cmbMaterial").addEventListener('change',()=>{
+    if(cmbMaterial.value!=null){
+        document.getElementById("materialUnitTypep").innerHTML=" ( "+(JSON.parse(cmbMaterial.value).material_unit_type_id.name)+" ) ";
+    }else {
+        document.getElementById("materialUnitTypep").innerHTML='';
+    }
+});
 
 function getUnitPrice() {
     let quotationMaterial = getServiceRequest("/quotationmaterial/byqm/" + JSON.parse(cmbQuotation.value).id + "/" + JSON.parse(cmbMaterial.value).id)
@@ -437,7 +453,7 @@ const formReFill = (ob, rowno) => {
     txtTotalAmount.value = purchaseorder.total_amount;
     dteRequiredDate.value = purchaseorder.required_date
 
-    fillSelectFeild(cmbSupplier, "Select Supplier", supplierslist, "company_name", purchaseorder.supplier_id.company_name);
+    fillSelectFeild(cmbSupplier, "Select Supplier", validSupplierslist, "company_name", purchaseorder.supplier_id.company_name);
     fillSelectFeild(cmbQuotation, "Select Quotation", quotationslist, "number", purchaseorder.quatation_id.number);
     cmbSupplier.disabled = true;
     cmbQuotation.disabled = true;

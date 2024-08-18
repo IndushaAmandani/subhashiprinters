@@ -44,6 +44,14 @@ public class ReportUIController {
 
     }
 
+    @GetMapping(value = "/currentPurchasePriceofmaterials")
+    public ModelAndView purchasePriceUI() {
+        ModelAndView samplechartView = new ModelAndView();
+        samplechartView.setViewName("curentPurchasePriceMaterialList.html");
+        return samplechartView;
+
+    }
+
 
 }
 
